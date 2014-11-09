@@ -1,0 +1,44 @@
+primary_keys:
+  - ad_key
+
+fields:
+  - name: ad_key
+    type: string
+  - name: location_key
+    type: string
+  - name: company_key
+    type: string
+  - name: category_name
+    type: string
+  - name: subcategory_name
+    type: string
+  - name: title
+    type: string
+  - name: description
+    type: string
+  - name: minutes_required
+    type: int
+  - name: minutes_booking_notice
+    type: int
+  - name: minutes_avail_interval
+    type: int
+  - name: price
+    type: decimal
+  - name: discount
+    type: float
+  - name: body
+    type: string
+  - name: flag_total
+    type: int
+  - name: flag_keys
+    type: string[]
+  - name: status
+    type: enum
+    values:
+      - Active
+      - Closed
+      - Prohibited
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

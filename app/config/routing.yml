@@ -1,0 +1,12 @@
+angry_chimps_api:
+    resource: "@AngryChimpsApiBundle/Resources/config/routing.yml"
+    prefix:   /api/v1
+
+ac_norm:
+    resource: "@ACNormBundle/Resources/config/routing.yml"
+    prefix:   /norm
+
+angry_chimps_ac:
+    resource: "@AngryChimpsAcBundle/Resources/config/routing.yml"
+    prefix:   /
+

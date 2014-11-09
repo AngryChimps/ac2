@@ -1,0 +1,39 @@
+primary_keys:
+  - company_key
+
+fields:
+  - name: company_key
+    type: string
+  - name: name
+    type: string
+  - name: description
+    type: string
+  - name: address
+    type: string
+  - name: plan
+    type: enum
+    values:
+      - Basic
+      - Premium
+  - name: rating_count
+    type: int
+  - name: rating_total
+    type: int
+  - name: rating_avg
+    type: float
+  - name: flag_total
+    type: int
+  - name: administer_member_keys
+    type: string[]
+  - name: location_keys
+    type: string[]
+  - name:
+    type: enum
+    values:
+      - Active
+      - Closed
+      - Prohibited
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

@@ -1,0 +1,25 @@
+primary_keys:
+  - ad_key
+  - author_key
+
+fields:
+  - name: ad_key
+    type: string
+  - name: author_key
+    type: string
+  - name: body
+    type: string
+  - name: status
+    type: int
+  - name: created_at
+    type: DateTime
+
+foreign_keys:
+  - name: fk_location_company
+    column_name: ad_key
+    referenced_table_name: ad
+    referenced_column_name: key
+  - name: fk_location_company
+    column_name: author_key
+    referenced_table_name: member
+    referenced_column_name: key

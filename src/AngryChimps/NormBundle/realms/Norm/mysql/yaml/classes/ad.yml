@@ -1,0 +1,41 @@
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: int
+    autoincrement: true
+  - name: key
+    type: string
+  - name: location_key
+    type: string
+  - name: company_key
+    type: string
+  - name: category_id
+    type: int
+  - name: subcategory_id
+    type: int
+  - name: title
+    type: string
+  - name: description
+    type: string
+  - name: minutes_required
+    type: int
+  - name: minutes_booking_notice
+    type: int
+  - name: price
+    type: decimal
+  - name: discount
+    type: float
+  - name: description
+    type: string
+  - name: status
+    type: enum
+    values:
+      - Active
+      - Closed
+      - Prohibited
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

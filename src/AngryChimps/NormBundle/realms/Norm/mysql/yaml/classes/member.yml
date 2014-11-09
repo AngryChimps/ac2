@@ -1,0 +1,44 @@
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: int
+    autoincrement: true
+  - name: key
+    type: string
+  - name: email
+    type: string
+  - name: password
+    type: string
+  - name: name
+    type: string
+  - name: dob
+    type: Date
+  - name: photo
+    type: string
+  - name: status
+    type: enum
+    values:
+      - Active
+      - Deleted
+      - Banned
+  - name: role
+    type: enum
+    values:
+      - User
+      - Support
+      - Admin
+      - SuperAdmin
+  - name: blocked_company_keys
+    type: string[]
+  - name: managed_company_keys
+    type: string[]
+  - name: ad_flag_keys
+    type: string[]
+  - name: message_flag_keys
+    type: string[]
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

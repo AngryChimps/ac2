@@ -1,0 +1,10 @@
+ac_norm:
+    realms:
+         riak:
+             namespace: "Norm\\riak"
+             primary_datastore: "riak_ds"
+             cache_datastore: null
+         mysql:
+             namespace: "Norm\\mysql"
+             primary_datastore: "mysql_ds"
+             cache_datastore: null
