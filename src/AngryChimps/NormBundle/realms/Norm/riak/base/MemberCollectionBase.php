@@ -8,7 +8,7 @@ class MemberCollectionBase extends NormBaseCollection {
     protected static $realm = 'riak';
     protected static $tableName = 'member';
     protected static $singularClassName = 'Member';
-    protected static $primaryKeyFieldNames = array('member_key');
-    protected static $primaryKeyPropertyNames = array('memberKey');
+    protected static $primaryKeyFieldNames = array('key');
+    protected static $primaryKeyPropertyNames = array('key');
     protected static $autoIncrementFieldName = '';
 }

@@ -13,8 +13,35 @@
     <link rel="stylesheet" href="/webapp/app/bower_components/html5-boilerplate/css/main.css">
     <link rel="stylesheet" href="/webapp/app/app.css">
     <script src="/webapp/app/bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+    {#<script>#}
+
+    {#angular.module('app', ['facebook'])#}
+
+    {#.config(function(FacebookProvider) {#}
+    {#FacebookProvider.init('433847516707016');#}
+    {#})#}
+
+    {#.controller('mainCtrl', function ($scope, Facebook) {#}
+    {#$scope.login = function () {#}
+    {#Facebook.login(function(response) {#}
+    {#if (response.status == 'connected') {#}
+    {#$scope.status = 'yes';#}
+    {#} else {#}
+    {#$scope.status = 'no';#}
+    {#}#}
+    {#});#}
+    {#};#}
+    {#});#}
+
+    {#</script>#}
 </head>
 <body>
+<div id="status" ng-bind="status"></div>
+{#<fb:login-button scope="public_profile,email" onlogin="login();">#}
+{#</fb:login-button>#}
+<div  ng-controller="authenticationCtrl">
+    <button type="button" id="login" ng-click="login()">login with facebook</button>
+</div>
 <ul class="menu">
     <li><a href="#/view1">view1</a></li>
     <li><a href="#/view2">view2</a></li>
@@ -39,5 +66,6 @@
 <script src="/webapp/app/components/version/version.js"></script>
 <script src="/webapp/app/components/version/version-directive.js"></script>
 <script src="/webapp/app/components/version/interpolate-filter.js"></script>
+<script src="/webapp/app/bower_components/angular-facebook/lib/angular-facebook.js"></script>
 </body>
 </html>

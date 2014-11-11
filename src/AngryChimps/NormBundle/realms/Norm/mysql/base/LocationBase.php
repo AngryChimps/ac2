@@ -1,7 +1,7 @@
 <?php
 namespace Norm\mysql\base;
 
-use norm\core\NormBaseObject;
+use AC\NormBundle\core\NormBaseObject;
 
 class LocationBase extends NormBaseObject {
 
@@ -18,13 +18,13 @@ class LocationBase extends NormBaseObject {
     protected static $tableName = 'location';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'location_key', 'company_key', 'name', 'address', 'directions', 'lat', 'long', 'photos', 'availabilities', 'flags', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'key', 'company_key', 'name', 'address', 'directions', 'lat', 'long', 'photos', 'availabilities', 'flags', 'created_at', 'updated_at');
 
     /** @var string[] */
     protected static $fieldTypes = array('int', 'string', 'string', 'string', 'string', 'string', 'float', 'float', 'string[]', 'DateTime[]', 'AdFlag[]', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'locationKey', 'companyKey', 'name', 'address', 'directions', 'lat', 'long', 'photos', 'availabilities', 'flags', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'key', 'companyKey', 'name', 'address', 'directions', 'lat', 'long', 'photos', 'availabilities', 'flags', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -49,7 +49,7 @@ class LocationBase extends NormBaseObject {
     public $id;
 
     /** @var string */
-    public $locationKey;
+    public $key;
 
     /** @var string */
     public $companyKey;

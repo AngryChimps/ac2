@@ -1,7 +1,7 @@
 <?php
 namespace Norm\mysql\base;
 
-use norm\core\NormBaseObject;
+use AC\NormBundle\core\NormBaseObject;
 
 class AdBase extends NormBaseObject {
 
@@ -18,13 +18,13 @@ class AdBase extends NormBaseObject {
     protected static $tableName = 'ad';
 
     /** @var string[] */
-    protected static $fieldNames = array('ad_key', 'id', 'location_key', 'company_key', 'category_id', 'subcategory_id', 'title', 'description', 'minutes_required', 'minutes_booking_notice', 'price', 'discount', 'status', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'key', 'location_key', 'company_key', 'category_id', 'subcategory_id', 'title', 'description', 'minutes_required', 'minutes_booking_notice', 'price', 'discount', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'int', 'int', 'string', 'string', 'int', 'int', 'decimal', 'float', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('int', 'string', 'string', 'string', 'int', 'int', 'string', 'string', 'int', 'int', 'decimal', 'float', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('adKey', 'id', 'locationKey', 'companyKey', 'categoryId', 'subcategoryId', 'title', 'description', 'minutesRequired', 'minutesBookingNotice', 'price', 'discount', 'status', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'key', 'locationKey', 'companyKey', 'categoryId', 'subcategoryId', 'title', 'description', 'minutesRequired', 'minutesBookingNotice', 'price', 'discount', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -48,11 +48,11 @@ class AdBase extends NormBaseObject {
     const ClosedStatus = 2;
     const ProhibitedStatus = 3;
 
-    /** @var string */
-    public $adKey;
-
     /** @var int */
     public $id;
+
+    /** @var string */
+    public $key;
 
     /** @var string */
     public $locationKey;

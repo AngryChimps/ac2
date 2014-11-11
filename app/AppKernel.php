@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new AC\NormBundle\ACNormBundle(),
 //            new Test\TesterBundle\TestTesterBundle(),
             new AngryChimps\ApiBundle\AngryChimpsApiBundle(),
+            new AngryChimps\SecurityBundle\AngryChimpsSecurityBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

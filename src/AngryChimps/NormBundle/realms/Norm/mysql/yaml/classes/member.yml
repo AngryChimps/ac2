@@ -13,6 +13,16 @@ fields:
     type: string
   - name: name
     type: string
+  - name: fb_id
+    type: string
+  - name: fb_auth_token
+    type: string
+  - name: ac_token
+    type: string
+  - name: fname
+    type: string
+  - name: lname
+    type: string
   - name: dob
     type: Date
   - name: photo
@@ -22,6 +32,7 @@ fields:
     values:
       - Active
       - Deleted
+      - Locked
       - Banned
   - name: role
     type: enum

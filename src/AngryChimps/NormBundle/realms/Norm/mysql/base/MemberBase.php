@@ -1,7 +1,7 @@
 <?php
 namespace Norm\mysql\base;
 
-use norm\core\NormBaseObject;
+use AC\NormBundle\core\NormBaseObject;
 
 class MemberBase extends NormBaseObject {
 
@@ -18,13 +18,13 @@ class MemberBase extends NormBaseObject {
     protected static $tableName = 'member';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'member_key', 'email', 'password', 'first', 'last', 'dob', 'photo', 'address', 'lat', 'long', 'status', 'blocked_company_keys', 'managed_company_keys', 'ad_flag_keys', 'message_flag_keys', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'key', 'email', 'password', 'name', 'fb_id', 'fb_auth_token', 'ac_token', 'fname', 'lname', 'dob', 'photo', 'status', 'role', 'blocked_company_keys', 'managed_company_keys', 'ad_flag_keys', 'message_flag_keys', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'string', 'string', 'string', 'string', 'string', 'Date', 'string', 'sring', 'float', 'float', 'int', 'string[]', 'string[]', 'string[]', 'string[]', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('int', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'Date', 'string', 'int', 'int', 'string[]', 'string[]', 'string[]', 'string[]', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'memberKey', 'email', 'password', 'first', 'last', 'dob', 'photo', 'address', 'lat', 'long', 'status', 'blockedCompanyKeys', 'managedCompanyKeys', 'adFlagKeys', 'messageFlagKeys', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'key', 'email', 'password', 'name', 'fbId', 'fbAuthToken', 'acToken', 'fname', 'lname', 'dob', 'photo', 'status', 'role', 'blockedCompanyKeys', 'managedCompanyKeys', 'adFlagKeys', 'messageFlagKeys', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -46,13 +46,18 @@ class MemberBase extends NormBaseObject {
 
     const ActiveStatus = 1;
     const DeletedStatus = 2;
-    const BannedStatus = 3;
+    const LockedStatus = 3;
+    const BannedStatus = 4;
+    const UserRole = 1;
+    const SupportRole = 2;
+    const AdminRole = 3;
+    const SuperAdminRole = 4;
 
     /** @var int */
     public $id;
 
     /** @var string */
-    public $memberKey;
+    public $key;
 
     /** @var string */
     public $email;
@@ -61,10 +66,22 @@ class MemberBase extends NormBaseObject {
     public $password;
 
     /** @var string */
-    public $first;
+    public $name;
 
     /** @var string */
-    public $last;
+    public $fbId;
+
+    /** @var string */
+    public $fbAuthToken;
+
+    /** @var string */
+    public $acToken;
+
+    /** @var string */
+    public $fname;
+
+    /** @var string */
+    public $lname;
 
     /** @var Date */
     public $dob;
@@ -72,17 +89,11 @@ class MemberBase extends NormBaseObject {
     /** @var string */
     public $photo;
 
-    /** @var sring */
-    public $address;
-
-    /** @var float */
-    public $lat;
-
-    /** @var float */
-    public $long;
-
     /** @var int */
     public $status;
+
+    /** @var int */
+    public $role;
 
     /** @var string[] */
     public $blockedCompanyKeys;

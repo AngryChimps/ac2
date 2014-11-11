@@ -1,3 +1,7 @@
+angry_chimps_security:
+    resource: "@AngryChimpsSecurityBundle/Resources/config/routing.yml"
+    prefix:   /
+
 angry_chimps_api:
     resource: "@AngryChimpsApiBundle/Resources/config/routing.yml"
     prefix:   /api/v1

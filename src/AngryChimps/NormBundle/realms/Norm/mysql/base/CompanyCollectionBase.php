@@ -2,7 +2,7 @@
 
 namespace Norm\mysql\base;
 
-use norm\core\NormBaseCollection;
+use AC\NormBundle\core\NormBaseCollection;
 
 class CompanyCollectionBase extends NormBaseCollection {
     protected static $realm = 'mysql';

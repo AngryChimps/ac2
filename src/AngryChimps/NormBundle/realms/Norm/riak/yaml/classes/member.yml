@@ -2,16 +2,26 @@ data_store:
   riak
 
 primary_keys:
-  - member_key
+  - key
 
 fields:
-  - name: member_key
+  - name: key
     type: string
   - name: email
     type: string
   - name: password
     type: string
   - name: name
+    type: string
+  - name: fb_id
+    type: string
+  - name: fb_auth_token
+    type: string
+  - name: ac_token
+    type: string
+  - name: fname
+    type: string
+  - name: lname
     type: string
   - name: dob
     type: Date
@@ -22,6 +32,7 @@ fields:
     values:
       - Active
       - Deleted
+      - Locked
       - Banned
   - name: role
     type: enum

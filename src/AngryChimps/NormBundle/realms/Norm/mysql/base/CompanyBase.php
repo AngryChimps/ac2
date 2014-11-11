@@ -1,7 +1,7 @@
 <?php
 namespace Norm\mysql\base;
 
-use norm\core\NormBaseObject;
+use AC\NormBundle\core\NormBaseObject;
 
 class CompanyBase extends NormBaseObject {
 

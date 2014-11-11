@@ -1,0 +1,4 @@
+services:
+#    angry_chimps_security.example:
+#        class: AngryChimps\SecurityBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

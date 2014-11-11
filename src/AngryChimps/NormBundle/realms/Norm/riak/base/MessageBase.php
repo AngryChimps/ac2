@@ -44,9 +44,10 @@ class MessageBase extends NormBaseObject {
     /** @var bool */
     protected static $hasAutoIncrement = false;
 
-    const UnreadStatus = 1;
-    const ReadStatus = 2;
-    const DeletedStatus = 3;
+    const UNREAD_STATUS = 1;
+    const READ_STATUS = 2;
+    const DELETED_STATUS = 3;
+    
 
     /** @var string */
     public $messageKey;

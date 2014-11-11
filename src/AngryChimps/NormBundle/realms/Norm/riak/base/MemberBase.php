@@ -18,19 +18,19 @@ class MemberBase extends NormBaseObject {
     protected static $tableName = 'member';
 
     /** @var string[] */
-    protected static $fieldNames = array('member_key', 'email', 'password', 'name', 'dob', 'photo', 'status', 'blocked_company_keys', 'managed_company_keys', 'ad_flag_keys', 'message_flag_keys', 'created_at', 'updated_at');
+    protected static $fieldNames = array('key', 'email', 'password', 'name', 'fb_id', 'fb_auth_token', 'ac_token', 'fname', 'lname', 'dob', 'photo', 'status', 'role', 'blocked_company_keys', 'managed_company_keys', 'ad_flag_keys', 'message_flag_keys', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'Date', 'string', 'int', 'string[]', 'string[]', 'string[]', 'string[]', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'Date', 'string', 'int', 'int', 'string[]', 'string[]', 'string[]', 'string[]', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('memberKey', 'email', 'password', 'name', 'dob', 'photo', 'status', 'blockedCompanyKeys', 'managedCompanyKeys', 'adFlagKeys', 'messageFlagKeys', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('key', 'email', 'password', 'name', 'fbId', 'fbAuthToken', 'acToken', 'fname', 'lname', 'dob', 'photo', 'status', 'role', 'blockedCompanyKeys', 'managedCompanyKeys', 'adFlagKeys', 'messageFlagKeys', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('member_key');
+    protected static $primaryKeyFieldNames = array('key');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('memberKey');
+    protected static $primaryKeyPropertyNames = array('key');
 
     /** @var  string[] */
     protected static $autoIncrementFieldName = '';
@@ -44,12 +44,19 @@ class MemberBase extends NormBaseObject {
     /** @var bool */
     protected static $hasAutoIncrement = false;
 
-    const ActiveStatus = 1;
-    const DeletedStatus = 2;
-    const BannedStatus = 3;
+    const ACTIVE_STATUS = 1;
+    const DELETED_STATUS = 2;
+    const LOCKED_STATUS = 3;
+    const BANNED_STATUS = 4;
+    
+    const USER_ROLE = 1;
+    const SUPPORT_ROLE = 2;
+    const ADMIN_ROLE = 3;
+    const SUPER_ADMIN_ROLE = 4;
+    
 
     /** @var string */
-    public $memberKey;
+    public $key;
 
     /** @var string */
     public $email;
@@ -60,6 +67,21 @@ class MemberBase extends NormBaseObject {
     /** @var string */
     public $name;
 
+    /** @var string */
+    public $fbId;
+
+    /** @var string */
+    public $fbAuthToken;
+
+    /** @var string */
+    public $acToken;
+
+    /** @var string */
+    public $fname;
+
+    /** @var string */
+    public $lname;
+
     /** @var Date */
     public $dob;
 
@@ -68,6 +90,9 @@ class MemberBase extends NormBaseObject {
 
     /** @var int */
     public $status;
+
+    /** @var int */
+    public $role;
 
     /** @var string[] */
     public $blockedCompanyKeys;
