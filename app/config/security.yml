@@ -2,7 +2,8 @@ security:
     providers:
         in_memory:
             memory: ~
-
+        ac:
+          id: ac_user_provider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -10,3 +11,5 @@ security:
 
         default:
             anonymous: ~
+    encoders:
+        Norm\riak\Member: bcrypt

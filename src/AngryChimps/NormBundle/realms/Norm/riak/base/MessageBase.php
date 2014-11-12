@@ -6,7 +6,7 @@ use AC\NormBundle\core\NormBaseObject;
 class MessageBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '';
+    protected static $primaryDatastoreName = 'riak_ds';
 
     /** @var  string */
     protected static $cacheDatastoreName = '';
@@ -47,7 +47,7 @@ class MessageBase extends NormBaseObject {
     const UNREAD_STATUS = 1;
     const READ_STATUS = 2;
     const DELETED_STATUS = 3;
-    
+
 
     /** @var string */
     public $messageKey;

@@ -6,7 +6,7 @@ use AC\NormBundle\core\NormBaseObject;
 class CompanyBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '';
+    protected static $primaryDatastoreName = 'riak_ds';
 
     /** @var  string */
     protected static $cacheDatastoreName = '';
@@ -46,11 +46,11 @@ class CompanyBase extends NormBaseObject {
 
     const BASIC_PLAN = 1;
     const PREMIUM_PLAN = 2;
-    
+
     const ACTIVE_ = 1;
     const CLOSED_ = 2;
     const PROHIBITED_ = 3;
-    
+
 
     /** @var string */
     public $companyKey;

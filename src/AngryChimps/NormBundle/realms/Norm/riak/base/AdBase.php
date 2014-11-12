@@ -6,7 +6,7 @@ use AC\NormBundle\core\NormBaseObject;
 class AdBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '';
+    protected static $primaryDatastoreName = 'riak_ds';
 
     /** @var  string */
     protected static $cacheDatastoreName = '';
@@ -47,7 +47,7 @@ class AdBase extends NormBaseObject {
     const ACTIVE_STATUS = 1;
     const CLOSED_STATUS = 2;
     const PROHIBITED_STATUS = 3;
-    
+
 
     /** @var string */
     public $adKey;

@@ -3,17 +3,26 @@
 namespace Norm\riak;
 
 use AC\NormBundle\core\datastore\RiakBlobDatastore;
+use AC\NormBundle\core\datastore\DatastoreManager;
 use Norm\riak\base\MemberBase;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Member extends MemberBase implements AdvancedUserInterface, EquatableInterface {
+class Member extends MemberBase implements UserInterface, EquatableInterface {
 
-    public static function getByEmail() {
+    public static function getByEmail($email) {
+        $ds = DatastoreManager::getDatastore(static::$primaryDatastoreName);
+        $arr = $ds->readBySecondaryIndex(self::$realm, self::$tableName, 'email_bin', $email);
+
+        if($arr === null) {
+            return null;
+        }
+
         $member = new self();
-
+        $member->loadFromArray($arr);
+        return $member;
     }
 
 

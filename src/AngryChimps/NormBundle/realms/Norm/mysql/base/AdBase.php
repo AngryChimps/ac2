@@ -6,7 +6,7 @@ use AC\NormBundle\core\NormBaseObject;
 class AdBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '';
+    protected static $primaryDatastoreName = 'mysql_ds';
 
     /** @var  string */
     protected static $cacheDatastoreName = '';
@@ -44,9 +44,10 @@ class AdBase extends NormBaseObject {
     /** @var bool */
     protected static $hasAutoIncrement = false;
 
-    const ActiveStatus = 1;
-    const ClosedStatus = 2;
-    const ProhibitedStatus = 3;
+    const ACTIVE_STATUS = 1;
+    const CLOSED_STATUS = 2;
+    const PROHIBITED_STATUS = 3;
+
 
     /** @var int */
     public $id;

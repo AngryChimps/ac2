@@ -6,7 +6,7 @@ use AC\NormBundle\core\NormBaseObject;
 class MemberBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '';
+    protected static $primaryDatastoreName = 'riak_ds';
 
     /** @var  string */
     protected static $cacheDatastoreName = '';
@@ -48,12 +48,12 @@ class MemberBase extends NormBaseObject {
     const DELETED_STATUS = 2;
     const LOCKED_STATUS = 3;
     const BANNED_STATUS = 4;
-    
+
     const USER_ROLE = 1;
     const SUPPORT_ROLE = 2;
     const ADMIN_ROLE = 3;
     const SUPER_ADMIN_ROLE = 4;
-    
+
 
     /** @var string */
     public $key;

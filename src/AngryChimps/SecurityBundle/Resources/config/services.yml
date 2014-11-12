@@ -2,3 +2,9 @@ services:
 #    angry_chimps_security.example:
 #        class: AngryChimps\SecurityBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+parameters:
+    ac_user_provider.class: AngryChimps\SecurityBundle\Security\User\AcUserProvider
+
+services:
+    ac_user_provider:
+        class: "%ac_user_provider.class%"

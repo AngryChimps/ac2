@@ -6,7 +6,7 @@ use AC\NormBundle\core\NormBaseObject;
 class LocationBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '';
+    protected static $primaryDatastoreName = 'mysql_ds';
 
     /** @var  string */
     protected static $cacheDatastoreName = '';

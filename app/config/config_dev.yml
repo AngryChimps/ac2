@@ -1,6 +1,5 @@
 imports:
     - { resource: config.yml }
-    - { resource: ac_norm_dev.yml }
 
 
 framework:

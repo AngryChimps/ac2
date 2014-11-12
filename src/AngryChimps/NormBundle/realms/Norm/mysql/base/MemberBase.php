@@ -6,7 +6,7 @@ use AC\NormBundle\core\NormBaseObject;
 class MemberBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '';
+    protected static $primaryDatastoreName = 'mysql_ds';
 
     /** @var  string */
     protected static $cacheDatastoreName = '';
@@ -44,14 +44,16 @@ class MemberBase extends NormBaseObject {
     /** @var bool */
     protected static $hasAutoIncrement = false;
 
-    const ActiveStatus = 1;
-    const DeletedStatus = 2;
-    const LockedStatus = 3;
-    const BannedStatus = 4;
-    const UserRole = 1;
-    const SupportRole = 2;
-    const AdminRole = 3;
-    const SuperAdminRole = 4;
+    const ACTIVE_STATUS = 1;
+    const DELETED_STATUS = 2;
+    const LOCKED_STATUS = 3;
+    const BANNED_STATUS = 4;
+
+    const USER_ROLE = 1;
+    const SUPPORT_ROLE = 2;
+    const ADMIN_ROLE = 3;
+    const SUPER_ADMIN_ROLE = 4;
+
 
     /** @var int */
     public $id;

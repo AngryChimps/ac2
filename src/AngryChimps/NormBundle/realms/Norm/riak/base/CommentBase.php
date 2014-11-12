@@ -6,7 +6,7 @@ use AC\NormBundle\core\NormBaseObject;
 class CommentBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '';
+    protected static $primaryDatastoreName = 'riak_ds';
 
     /** @var  string */
     protected static $cacheDatastoreName = '';
