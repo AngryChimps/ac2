@@ -13,7 +13,6 @@
             "Handlebars": "vendor/angrychimps/norm-bundle/AC/NormBundle/vendor/xamin/handlebars.php/src/"
         }
     },
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.5.*",
@@ -26,10 +25,11 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "jms/serializer": "master",
+        "jms/serializer": "master@dev",
         "friendsofsymfony/rest-bundle": "~1.4",
-        "jms/serializer-bundle": "master",
-        "hwi/oauth-bundle": "0.4.*@dev"
+        "jms/serializer-bundle": "master@dev",
+        "hwi/oauth-bundle": "0.4.*@dev",
+        "friendsofsymfony/facebook-bundle": "master@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
