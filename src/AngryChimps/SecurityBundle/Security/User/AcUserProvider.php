@@ -11,6 +11,10 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 class AcUserProvider implements UserProviderInterface {
 
+    public function getUsernameForApiKey($apiKey) {
+
+    }
+
     /**
      * Loads the user for the given username.
      *

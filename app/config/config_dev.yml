@@ -36,3 +36,9 @@ assetic:
 #swiftmailer:
 #    delivery_address: me@example.com
 
+fos_facebook:
+    alias:  facebook
+    app_id: 378121139011542
+    secret: 0fefe9a9e1a36abc6db65dedafd30736
+    cookie: true
+    permissions: [email, user_birthday, user_location]

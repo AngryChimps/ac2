@@ -23,6 +23,7 @@ class AppKernel extends Kernel
 //            new Test\TesterBundle\TestTesterBundle(),
             new AngryChimps\ApiBundle\AngryChimpsApiBundle(),
             new AngryChimps\SecurityBundle\AngryChimpsSecurityBundle(),
+//            new FOS\FacebookBundle\FOSFacebookBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
