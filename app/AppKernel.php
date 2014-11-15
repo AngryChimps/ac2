@@ -22,8 +22,11 @@ class AppKernel extends Kernel
             new AC\NormBundle\ACNormBundle(),
 //            new Test\TesterBundle\TestTesterBundle(),
             new AngryChimps\ApiBundle\AngryChimpsApiBundle(),
-            new AngryChimps\SecurityBundle\AngryChimpsSecurityBundle(),
+//            new AngryChimps\SecurityBundle\AngryChimpsSecurityBundle(),
 //            new FOS\FacebookBundle\FOSFacebookBundle(),
+            new Armetiz\FacebookBundle\ArmetizFacebookBundle(),
+//            new Test\DirectoryStructureBundle\TestDirectoryStructureBundle(),
+            new AngryChimps\AdminBundle\AngryChimpsAdminBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

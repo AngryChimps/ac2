@@ -4,8 +4,56 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f146ea9504ae5611a4a2b2f1fa178a34",
+    "hash": "26135ee6877198974e6f11b6aa8b69a7",
     "packages": [
+        {
+            "name": "armetiz/facebook-bundle",
+            "version": "1.1.0",
+            "target-dir": "Armetiz/FacebookBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/armetiz/ArmetizFacebookBundle.git",
+                "reference": "a4d2d16e0bd39938335253d2f96fab375d327a86"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/armetiz/ArmetizFacebookBundle/zipball/a4d2d16e0bd39938335253d2f96fab375d327a86",
+                "reference": "a4d2d16e0bd39938335253d2f96fab375d327a86",
+                "shasum": ""
+            },
+            "require": {
+                "facebook/php-sdk": ">=3.1.1",
+                "php": ">=5.3.3",
+                "symfony/symfony": ">=2.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Armetiz\\FacebookBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Thomas Tourlourat",
+                    "email": "thomas@tourlourat.com",
+                    "homepage": "http://www.armetiz.info"
+                }
+            ],
+            "description": "A simple bundle to expose Facebook SDK",
+            "homepage": "http://www.armetiz.info",
+            "keywords": [
+                "Armetiz",
+                "facebook",
+                "sdk"
+            ],
+            "time": "2013-03-29 13:15:03"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.1",

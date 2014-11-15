@@ -1,0 +1,7 @@
+angry_chimps_admin_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: AngryChimpsAdminBundle:Default:index }
+# import routes from a controller directory
+api:
+    resource: "@AngryChimpsAdminBundle/Controller"
+    type:     annotation

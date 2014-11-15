@@ -21,7 +21,7 @@ class MemberController extends AbstractController
      * @Route("/{key}")
      * @Method({"GET"})
      */
-    public function indexGetAction($key)
+    public function indexGetAction($key, Request $request)
     {
         $data = array(
                 "screenname" => $key
@@ -50,4 +50,16 @@ class MemberController extends AbstractController
         return $this->handleView($view);
     }
 
+    /**
+     * @Route("/{key}")
+     * @Method({"DELETE"})
+     */
+    public function indexDeleteAction($key, Request $request) {
+        $member = Member::getByPk($key);
+        $member->delete();
+
+        $view = $this->getSuccessView($request);
+
+        return $this->handleView($view);
+    }
 }

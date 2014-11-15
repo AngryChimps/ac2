@@ -1,0 +1,3 @@
+test_directory_structure_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: TestDirectoryStructureBundle:Default:index }

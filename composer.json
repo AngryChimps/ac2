@@ -29,7 +29,8 @@
         "friendsofsymfony/rest-bundle": "~1.4",
         "jms/serializer-bundle": "master@dev",
         "hwi/oauth-bundle": "0.4.*@dev",
-        "friendsofsymfony/facebook-bundle": "master@dev"
+        "friendsofsymfony/facebook-bundle": "master@dev",
+        "armetiz/facebook-bundle": "*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

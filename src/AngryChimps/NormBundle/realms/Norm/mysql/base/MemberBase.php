@@ -18,19 +18,19 @@ class MemberBase extends NormBaseObject {
     protected static $tableName = 'member';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'key', 'email', 'password', 'name', 'fb_id', 'fb_auth_token', 'ac_token', 'fname', 'lname', 'dob', 'photo', 'status', 'role', 'blocked_company_keys', 'managed_company_keys', 'ad_flag_keys', 'message_flag_keys', 'created_at', 'updated_at');
+    protected static $fieldNames = array('mysql_id', 'id', 'email', 'password', 'name', 'fb_id', 'fb_auth_token', 'ac_token', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'Date', 'string', 'int', 'int', 'string[]', 'string[]', 'string[]', 'string[]', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('int', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'Date', 'string', 'int', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'key', 'email', 'password', 'name', 'fbId', 'fbAuthToken', 'acToken', 'fname', 'lname', 'dob', 'photo', 'status', 'role', 'blockedCompanyKeys', 'managedCompanyKeys', 'adFlagKeys', 'messageFlagKeys', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('mysqlId', 'id', 'email', 'password', 'name', 'fbId', 'fbAuthToken', 'acToken', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('id');
+    protected static $primaryKeyFieldNames = array('mysql_id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('id');
+    protected static $primaryKeyPropertyNames = array('mysqlId');
 
     /** @var  string[] */
     protected static $autoIncrementFieldName = '';
@@ -56,10 +56,10 @@ class MemberBase extends NormBaseObject {
 
 
     /** @var int */
-    public $id;
+    public $mysqlId;
 
     /** @var string */
-    public $key;
+    public $id;
 
     /** @var string */
     public $email;
@@ -85,6 +85,15 @@ class MemberBase extends NormBaseObject {
     /** @var string */
     public $lname;
 
+    /** @var string */
+    public $gender;
+
+    /** @var string */
+    public $locale;
+
+    /** @var int */
+    public $timezone;
+
     /** @var Date */
     public $dob;
 
@@ -96,18 +105,6 @@ class MemberBase extends NormBaseObject {
 
     /** @var int */
     public $role;
-
-    /** @var string[] */
-    public $blockedCompanyKeys;
-
-    /** @var string[] */
-    public $managedCompanyKeys;
-
-    /** @var string[] */
-    public $adFlagKeys;
-
-    /** @var string[] */
-    public $messageFlagKeys;
 
     /** @var DateTime */
     public $createdAt;

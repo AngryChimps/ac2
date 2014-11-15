@@ -1,6 +1,14 @@
-angry_chimps_security:
-    resource: "@AngryChimpsSecurityBundle/Resources/config/routing.yml"
-    prefix:   /
+angry_chimps_admin:
+    resource: "@AngryChimpsAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+#test_directory_structure:
+#    resource: "@TestDirectoryStructureBundle/Resources/config/routing.yml"
+#    prefix:   /
+
+#angry_chimps_security:
+#    resource: "@AngryChimpsSecurityBundle/Resources/config/routing.yml"
+#    prefix:   /
 
 angry_chimps_api:
     resource: "@AngryChimpsApiBundle/Resources/config/routing.yml"

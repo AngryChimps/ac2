@@ -7,11 +7,12 @@ use FOS\RestBundle\Controller\FOSRestController;
 {% if 'annotation' == format.routing -%}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 {% endif %}
 {% endblock use_statements %}
 
 {% block class_definition %}
-class {{ controller }}Controller extends FOSRestController
+class {{ controller }}Controller extends AbstractController
 {% endblock class_definition %}
 {
 {% block class_body %}
