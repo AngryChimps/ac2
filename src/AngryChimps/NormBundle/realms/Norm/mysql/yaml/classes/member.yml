@@ -7,17 +7,26 @@ fields:
     auto_increment: true
   - name: id
     type: string
+    auto_generate: true
   - name: email
     type: string
+    validations:
+        - Email: ~
   - name: password
     type: string
+    validations:
+        - Length:
+            min: 6
+            max: 25
   - name: name
     type: string
+    validations:
+        - Length:
+            min: 4
+            max: 12
   - name: fb_id
     type: string
-  - name: fb_auth_token
-    type: string
-  - name: ac_token
+  - name: fb_access_token
     type: string
   - name: fname
     type: string
@@ -31,6 +40,8 @@ fields:
     type: int
   - name: dob
     type: Date
+    validations:
+        - Date: ~
   - name: photo
     type: string
   - name: status

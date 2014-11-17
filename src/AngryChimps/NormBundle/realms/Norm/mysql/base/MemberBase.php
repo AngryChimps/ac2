@@ -18,13 +18,13 @@ class MemberBase extends NormBaseObject {
     protected static $tableName = 'member';
 
     /** @var string[] */
-    protected static $fieldNames = array('mysql_id', 'id', 'email', 'password', 'name', 'fb_id', 'fb_auth_token', 'ac_token', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'created_at', 'updated_at');
+    protected static $fieldNames = array('mysql_id', 'id', 'email', 'password', 'name', 'fb_id', 'fb_access_token', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'Date', 'string', 'int', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('int', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'Date', 'string', 'int', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('mysqlId', 'id', 'email', 'password', 'name', 'fbId', 'fbAuthToken', 'acToken', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('mysqlId', 'id', 'email', 'password', 'name', 'fbId', 'fbAccessToken', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('mysql_id');
@@ -33,16 +33,22 @@ class MemberBase extends NormBaseObject {
     protected static $primaryKeyPropertyNames = array('mysqlId');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    protected static $autoIncrementFieldName = 'mysql_id';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    protected static $autoIncrementPropertyName = 'mysqlId';
+
+    /** @var  string[] */
+    protected static $autoGenerateFieldName = 'id';
+
+    /** @var  string[] */
+    protected static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
     protected static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    protected static $hasAutoIncrement = true;
 
     const ACTIVE_STATUS = 1;
     const DELETED_STATUS = 2;
@@ -74,10 +80,7 @@ class MemberBase extends NormBaseObject {
     public $fbId;
 
     /** @var string */
-    public $fbAuthToken;
-
-    /** @var string */
-    public $acToken;
+    public $fbAccessToken;
 
     /** @var string */
     public $fname;

@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Armetiz\FacebookBundle\ArmetizFacebookBundle(),
 //            new Test\DirectoryStructureBundle\TestDirectoryStructureBundle(),
             new AngryChimps\AdminBundle\AngryChimpsAdminBundle(),
+            new AngryChimps\MailerBundle\AngryChimpsMailerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

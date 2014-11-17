@@ -38,6 +38,12 @@ class MessageFlagBase extends NormBaseObject {
     /** @var  string[] */
     protected static $autoIncrementPropertyName = '';
 
+    /** @var  string[] */
+    protected static $autoGenerateFieldName = '';
+
+    /** @var  string[] */
+    protected static $autoGeneratePropertyName = '';
+
     /** @var bool */
     protected static $hasPrimaryKey = true;
 

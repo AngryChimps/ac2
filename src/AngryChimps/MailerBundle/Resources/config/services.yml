@@ -1,0 +1,8 @@
+services:
+#    angry_chimps_mailer.example:
+#        class: AngryChimps\MailerBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+    angry_chimps_mailer.mailer:
+        class: AngryChimps\MailerBundle\Services\MailerService
+        arguments: ["@swiftmailer.mailer"]

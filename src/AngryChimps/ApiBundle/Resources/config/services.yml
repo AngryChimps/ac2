@@ -5,4 +5,7 @@ services:
 
     angry_chimps_api.auth:
         class: AngryChimps\ApiBundle\Services\AuthService
-        arguments: ["@armetiz.facebook"]
+        arguments: ["@armetiz.facebook","@angry_chimps_mailer.mailer", "@templating"]
+    angry_chimps_api.member:
+        class: AngryChimps\ApiBundle\Services\MemberService
+        arguments: ["@angry_chimps_mailer.mailer", "@templating", "@angry_chimps_api.auth", "@validator"]

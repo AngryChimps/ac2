@@ -5,16 +5,32 @@ namespace AngryChimps\ApiBundle\Services;
 
 
 //use AngryChimps\ApiBundle\Services\Armetiz\FacebookBundle\FacebookSessionPersistence;
+use AngryChimps\MailerBundle\Messages\BasicMessage;
 use \Armetiz\FacebookBundle\FacebookSessionPersistence;
 use Norm\riak\Member;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Templating\TemplateReferenceInterface;
 
 class AuthService {
+    const MINIMUM_PASSWORD_LENGTH = 6;
+
     /** @var  \Armetiz\FacebookBundle\FacebookSessionPersistence */
     protected $facebookSdk;
 
-    public function __construct(FacebookSessionPersistence $facebookSdk) {
+    /** @var  \Swift_Mailer */
+    protected $mailer;
+
+    /** @var TemplateReferenceInterface  */
+    protected $templating;
+
+    const SALT = 'ljfso8uc2098jfwojd;lfkjafpij3qcnfnhlknfz.kspfwqnjski45';
+
+    public function __construct(FacebookSessionPersistence $facebookSdk,
+                                \Swift_Mailer $mailer,
+                                TemplateReferenceInterface $templating) {
         $this->facebookSdk = $facebookSdk;
+        $this->mailer = $mailer;
+        $this->templating = $templating;
     }
 
     /**
@@ -34,6 +50,61 @@ class AuthService {
         return $userProfile;
     }
 
+    public function loginFormUser($email, $password) {
+        $user = Member::getByEmail($email);
+
+        if($user === null) {
+            return false;
+        }
+
+        if(!$this->isPasswordCorrect($user, $password)) {
+            return false;
+        }
+
+        return $user;
+    }
+
+    public function isPasswordCorrect(Member $user, $password) {
+        return $user->password === $this->hashPassword($password);
+    }
+
+    public function hashPassword($password) {
+        return substr(bcrypt($password . self::SALT), 16);
+    }
+
+    public function forgotPassword($email) {
+        $user = Member::getByEmail($email);
+
+        if($user === null) {
+            return;
+        }
+
+        $resetCode = $this->generateToken(8);
+
+        $now = new \DateTime();
+        $user->password = 'reset: ' . $now->format("Y-m-d H:i:s");
+        $user->passwordResetCode = $resetCode;
+        $user->save();
+
+        //Send password change email
+        $message = BasicMessage::newInstance()
+            ->setTo($email)
+            ->setSubject('Forgot Password Reset Notification')
+            ->setBody(
+                $this->templating->render(
+                    'ApiBundle:AuthService:resetPassword.email.txt.twig',
+                    array('reset_code' => $resetCode)
+                ), 'text/html'
+            )
+            ->addPart(
+                $this->templating->render(
+                    'ApiBundle:AuthService:resetPassword.email.html.twig',
+                    array('reset_code' => $resetCode)
+                ), 'text/plain'
+            );
+        $this->mailer->send($message);
+    }
+
     public function registerFbUser($userProfile) {
         $member = new Member();
         $member->name = $userProfile['name'];
@@ -50,5 +121,28 @@ class AuthService {
         $member->save();
 
         return $member;
+    }
+
+    public function resetPassword($email, $password) {
+        $user = Member::getByEmail($email);
+        $user->password = $this->hashPassword($password);
+        $user->passwordResetCode = null;
+        $user->save();
+    }
+
+    public function generateToken($length = 16) {
+        $bytes = openssl_random_pseudo_bytes($length);
+        $hex   = bin2hex($bytes);
+        return $hex;
+    }
+
+    public function getUserByAuthToken($authToken) {
+        $session = $this->get('session');
+
+        if($session->get('ac.auth_service.auth_token') != $authToken) {
+            return null;
+        }
+
+        return Member::getByPk($session->get('ac.auth_service.user_id'));
     }
 } 

@@ -10,5 +10,5 @@ class MemberCollectionBase extends NormBaseCollection {
     protected static $singularClassName = 'Member';
     protected static $primaryKeyFieldNames = array('mysql_id');
     protected static $primaryKeyPropertyNames = array('mysqlId');
-    protected static $autoIncrementFieldName = '';
+    protected static $autoIncrementFieldName = 'mysql_id';
 }

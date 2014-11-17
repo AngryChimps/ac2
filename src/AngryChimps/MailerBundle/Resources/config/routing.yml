@@ -1,0 +1,3 @@
+angry_chimps_mailer_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: AngryChimpsMailerBundle:Default:index }

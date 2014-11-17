@@ -7,12 +7,36 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 
 class AbstractController extends FOSRestController {
+    /** @var  \Norm\riak\Member */
+    protected $user;
 
-    protected function getContent(Request $request) {
-        return json_decode($request->getContent(), true);
+    protected $content;
+    protected $payload;
+
+    /**
+     * @param Request $request
+     */
+    public function __construct(Request $request) {
+        parent::__construct();
+
+        //Decode the data
+        $this->content = json_decode($request->getContent(), true);
+        $this->payload = $this->content['payload'];
+
+        //If there is a user authenticated, load it
+        if(!empty($request->query->get('auth_token'))) {
+            /** @var \AngryChimps\ApiBundle\Services\AuthService $auth */
+            $auth = $this->get('angry_chimps_api.auth');
+            $this->user = $auth->getUserByAuthToken($request->query->get('auth_token'));
+        }
+
+        //Make sure the user is who they say they are
+        if($this->user->id !== $request->query->get('user_id')) {
+            $this->createAccessDeniedException('Access Denied; code AbstractController.__construct.1');
+        }
     }
 
-    protected function getView(Request $request, $data, $statusCode,
+    private function getView(Request $request, $data, $statusCode,
                             array $errors = array(),
                             \Exception $ex = null)
     {
@@ -43,8 +67,36 @@ class AbstractController extends FOSRestController {
         return $view->setFormat('json');
     }
 
-    protected function getSuccessView(Request $request, $data = array()) {
-        return $this->getView($request, $data, 200, array(), null);
+    /**
+     * @param Request $request
+     * @param Array $data
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function success(Request $request, array $data = array()) {
+        $view = $this->getView($request, $data, 200, array(), null);
+        return $this->handleView($view);
     }
 
+    /**
+     * @param Request $request
+     * @param $code
+     * @param array $errors
+     * @param \Exception $ex
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function failure(Request $request, $code, array $errors, \Exception $ex = null) {
+        $view = $this->getView($request, array(), $code, $errors, $ex);
+        return $this->handleView($view);
+    }
+
+    /**, a
+     * @return \Norm\riak\base\Member|\Norm\riak\Member|null
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    public function getPayload() {
+        return $this->payload;
+    }
 } 

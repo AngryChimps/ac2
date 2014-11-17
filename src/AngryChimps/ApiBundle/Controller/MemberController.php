@@ -2,6 +2,7 @@
 
 namespace AngryChimps\ApiBundle\Controller;
 
+use AngryChimps\ApiBundle\Services\AuthService;
 use FOS\RestBundle\Controller\FOSRestController;
 use Norm\riak\Member;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -17,49 +18,101 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class MemberController extends AbstractController
 {
+    /** @var \AngryChimps\ApiBundle\Services\MemberService $memberService */
+    protected $memberService;
+
+    public function __construct() {
+        $this->memberService = $this->get('angry_chimps_api.member');
+    }
+
     /**
-     * @Route("/{key}")
+     * @Route("/{id}")
      * @Method({"GET"})
      */
-    public function indexGetAction($key, Request $request)
+    public function indexGetAction($id, Request $request)
     {
-        $data = array(
-                "screenname" => $key
-            );
+        $member = Member::getByPk($id);
+        if($this->user !== null && $member->id === $this->user->id) {
+            $memberInfo = $member->getPrivateArray();
+        }
+        else {
+            $memberInfo = $member->getPublicArray();
+        }
+        $data = array('member' => $memberInfo);
 
-        $view = $this->view($data, 200)->setFormat('json');
-
-        return $this->handleView($view);
+        return $this->success($request, $data);
     }
 
     /**
-     * @Route("/{key}")
+     * @Route("/")
      * @Method({"POST"})
      */
-    public function indexPostAction($key, Request $request) {
-        $content = $this->getContent($request);
+    public function indexPostAction(Request $request) {
+        //Note: password field is handled separately
+        $validFields = array('name', 'email', 'dob');
 
-        $member = new Member();
-        $member->loadFromArray($content);
+        $payload = $this->getPayload($request);
 
-        //Password needs to be hashed for storage
+        $errors = array();
+        if($member = $this->memberService->createMember(
+            $payload['name'], $payload['email'],
+            $payload['password'], new \DateTime($payload['dob']), $errors) === false) {
+                $error = array(
+                    'human' => 'Unable to validate Member',
+                    'code' => 'MemberController.indexPostAction.1',
+                    'debug' => $errors,
+                );
+            return $this->failure($request, 400, $error);
+        }
 
-
-        $view = $this->view($content);
-
-        return $this->handleView($view);
+        return $this->success($request, array('member'=>$member->getPrivateArray()));
     }
 
     /**
-     * @Route("/{key}")
+     * @Route("/{id}")
      * @Method({"DELETE"})
      */
-    public function indexDeleteAction($key, Request $request) {
-        $member = Member::getByPk($key);
+    public function indexDeleteAction($id, Request $request) {
+        if($this->user === null || $this->user->role != Member::SUPER_ADMIN_ROLE) {
+            $errors = array(
+                'human' => 'You must be a super_user to do this',
+                'code' => 'MemberController.indexDeleteAction.1',
+            );
+            return $this->failure($request, 400, $errors);
+        }
+
+        $member = Member::getByPk($id);
         $member->delete();
 
-        $view = $this->getSuccessView($request);
+        return $this->success($request);
+    }
 
-        return $this->handleView($view);
+    /**
+     * @Route("/{id}")
+     * @Method({"PUT"})
+     */
+    public function indexPutAction($id, Request $request) {
+        if($this->user === null || $this->user->id != $id) {
+            $errors = array(
+                'human' => 'This action can only be performed by the owner of the object',
+                'code' => 'MemberController.indexPutAction.1',
+            );
+            return $this->failure($request, 400, $errors);
+        }
+
+        $payload = $this->getPayload();
+
+        if(isset($payload['name'])) {
+            $this->user->name = $payload['name'];
+        }
+        if(isset($payload['email'])) {
+            $this->user->email = $payload['email'];
+        }
+        if(isset($payload['dob'])) {
+            $this->user->dob = new \DateTime($payload['dob']);
+        }
+        $this->user->save();
+
+        return $this->success($request, $this->user->getPrivateArray());
     }
 }

@@ -1,3 +1,7 @@
+angry_chimps_mailer:
+    resource: "@AngryChimpsMailerBundle/Resources/config/routing.yml"
+    prefix:   /
+
 angry_chimps_admin:
     resource: "@AngryChimpsAdminBundle/Resources/config/routing.yml"
     prefix:   /admin
