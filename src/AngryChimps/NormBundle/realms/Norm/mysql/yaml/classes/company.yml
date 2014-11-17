@@ -26,7 +26,7 @@ fields:
     type: float
   - name: flag_total
     type: int
-  - name: administer_member_keys
+  - name: administer_member_ids
     type: string[]
   - name: location_keys
     type: string[]

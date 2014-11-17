@@ -33,12 +33,11 @@ fields:
     type: string[]
   - name: location_keys
     type: string[]
-  - name:
+  - name: status
     type: enum
     values:
-      - Active
-      - Closed
-      - Prohibited
+      - Enabled
+      - Disabled
   - name: created_at
     type: DateTime
   - name: updated_at

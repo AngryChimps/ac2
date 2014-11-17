@@ -4,14 +4,24 @@ primary_keys:
 fields:
   - name: id
     type: int
-    autoincrement: true
+    auto_increment: true
   - name: key
     type: string
-  - name: company_key
+  - name: company_id
     type: string
   - name: name
     type: string
-  - name: address
+  - name: street1
+    type: string
+  - name: street2
+    type: string
+  - name: city
+    type: string
+  - name: state
+    type: string
+  - name: zip
+    type: string
+  - name: phone
     type: string
   - name: directions
     type: string
@@ -32,6 +42,6 @@ fields:
 
 foreign_keys:
   - name: fk_location_company
-    column_name: company_key
+    column_name: company_id
     referenced_table_name: company
-    referenced_column_name: key
+    referenced_column_name: id

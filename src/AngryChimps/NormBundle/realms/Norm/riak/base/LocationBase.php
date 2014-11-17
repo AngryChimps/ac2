@@ -18,19 +18,19 @@ class LocationBase extends NormBaseObject {
     protected static $tableName = 'location';
 
     /** @var string[] */
-    protected static $fieldNames = array('location_key', 'company_key', 'name', 'address', 'directions', 'lat', 'long', 'photos', 'availabilities', 'flags', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'company_id', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'directions', 'lat', 'long', 'status', 'photos', 'availabilities', 'flags', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'float', 'float', 'string[]', 'DateTime[]', 'AdFlag[]', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'float', 'float', 'int', 'string[]', 'DateTime[]', 'AdFlag[]', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('locationKey', 'companyKey', 'name', 'address', 'directions', 'lat', 'long', 'photos', 'availabilities', 'flags', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'companyId', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'directions', 'lat', 'long', 'status', 'photos', 'availabilities', 'flags', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('location_key');
+    protected static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('locationKey');
+    protected static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
     protected static $autoIncrementFieldName = '';
@@ -39,10 +39,10 @@ class LocationBase extends NormBaseObject {
     protected static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    protected static $autoGenerateFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    protected static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
     protected static $hasPrimaryKey = true;
@@ -50,18 +50,36 @@ class LocationBase extends NormBaseObject {
     /** @var bool */
     protected static $hasAutoIncrement = false;
 
+    const ENABLED_STATUS = 1;
+    const DISABLED_STATUS = 2;
+
 
     /** @var string */
-    public $locationKey;
+    public $id;
 
     /** @var string */
-    public $companyKey;
+    public $companyId;
 
     /** @var string */
     public $name;
 
     /** @var string */
-    public $address;
+    public $street1;
+
+    /** @var string */
+    public $street2;
+
+    /** @var string */
+    public $city;
+
+    /** @var string */
+    public $state;
+
+    /** @var string */
+    public $zip;
+
+    /** @var string */
+    public $phone;
 
     /** @var string */
     public $directions;
@@ -71,6 +89,9 @@ class LocationBase extends NormBaseObject {
 
     /** @var float */
     public $long;
+
+    /** @var int */
+    public $status;
 
     /** @var string[] */
     public $photos;
@@ -89,16 +110,16 @@ class LocationBase extends NormBaseObject {
 
 
     /** @returns Norm\riak\Company */
-    public function getCompany_() {
-        if($this->Company_ === null) {
-            $this->loadCompany_();
+    public function getCompany() {
+        if($this->Company === null) {
+            $this->loadCompany();
         }
-        return $this->Company_;
+        return $this->Company;
     }
 
 
-    protected function loadCompany_() {
-        parent::loadProperty('Company_', 'company', 'key');
+    protected function loadCompany() {
+        parent::loadProperty('Company', 'company', 'id');
     }
 
 
@@ -106,7 +127,7 @@ class LocationBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return Location
+     * @return \Norm\riak\Location
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -115,7 +136,7 @@ class LocationBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return Location
+     * @return \Norm\riak\Location
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -124,7 +145,7 @@ class LocationBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return Location
+     * @return \Norm\riak\Location
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

@@ -115,7 +115,7 @@ class CompanyController extends AbstractController
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company with that id',
-                'code' => 'CompanyController.indexPutAction.1'
+                'code' => 'CompanyController.indexDeleteAction.1'
             );
             return $this->failure($request, 404, $errors);
         }
@@ -123,12 +123,13 @@ class CompanyController extends AbstractController
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
             $errors = array(
                 'human' => 'This user is not authorized to perform this action',
-                'code' => 'CompanyController.indexPutAction.2'
+                'code' => 'CompanyController.indexDeleteAction.2'
             );
             return $this->failure($request, 401, $errors);
         }
 
-        $company->delete();
+        $company->status = Company::DISABLED_STATUS;
+        $company->save();
 
         return $this->success($request);
     }

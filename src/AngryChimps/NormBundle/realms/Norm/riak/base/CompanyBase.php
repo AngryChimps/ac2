@@ -18,19 +18,19 @@ class CompanyBase extends NormBaseObject {
     protected static $tableName = 'company';
 
     /** @var string[] */
-    protected static $fieldNames = array('company_key', 'name', 'description', 'address', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'flag_total', 'administer_member_ids', 'location_keys', '', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'address', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'flag_total', 'administer_member_ids', 'location_keys', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'int', 'int', 'int', 'float', 'int', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'string', 'int', 'int', 'int', 'float', 'int', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('companyKey', 'name', 'description', 'address', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'flagTotal', 'administerMemberIds', 'locationKeys', '', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'address', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'flagTotal', 'administerMemberIds', 'locationKeys', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('company_key');
+    protected static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('companyKey');
+    protected static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
     protected static $autoIncrementFieldName = '';
@@ -53,13 +53,15 @@ class CompanyBase extends NormBaseObject {
     const BASIC_PLAN = 1;
     const PREMIUM_PLAN = 2;
 
-    const ACTIVE_ = 1;
-    const CLOSED_ = 2;
-    const PROHIBITED_ = 3;
+    const ENABLED_STATUS = 1;
+    const DISABLED_STATUS = 2;
 
 
     /** @var string */
-    public $companyKey;
+    public $id;
+
+    /** @var int */
+    public $mysqlId;
 
     /** @var string */
     public $name;
@@ -92,7 +94,7 @@ class CompanyBase extends NormBaseObject {
     public $locationKeys;
 
     /** @var int */
-    public $;
+    public $status;
 
     /** @var DateTime */
     public $createdAt;
@@ -125,7 +127,7 @@ class CompanyBase extends NormBaseObject {
     }
 
     protected function loadLocationCollection() {
-        parent::loadPropertyCollection('Location', 'location', 'company_key', 'companyKey');
+        parent::loadPropertyCollection('Location', 'location', 'company_id', 'companyId');
     }
 
 
@@ -140,7 +142,7 @@ class CompanyBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return Company
+     * @return \Norm\riak\Company
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -149,7 +151,7 @@ class CompanyBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return Company
+     * @return \Norm\riak\Company
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

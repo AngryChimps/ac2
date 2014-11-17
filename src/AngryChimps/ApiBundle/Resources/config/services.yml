@@ -12,3 +12,6 @@ services:
     angry_chimps_api.company:
         class: AngryChimps\ApiBundle\Services\CompanyService
         arguments: ["@validator"]
+    angry_chimps_api.location:
+        class: AngryChimps\ApiBundle\Services\LocationService
+        arguments: ["@validator", "@angry_chimps_geo.geolocation"]

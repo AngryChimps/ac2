@@ -18,13 +18,13 @@ class LocationBase extends NormBaseObject {
     protected static $tableName = 'location';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'key', 'company_key', 'name', 'address', 'directions', 'lat', 'long', 'photos', 'availabilities', 'flags', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'key', 'company_key', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'directions', 'lat', 'long', 'photos', 'availabilities', 'flags', 'administer_member_ids', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'string', 'string', 'string', 'string', 'string', 'float', 'float', 'string[]', 'DateTime[]', 'AdFlag[]', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('int', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'float', 'float', 'string[]', 'DateTime[]', 'AdFlag[]', 'string[]', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'key', 'companyKey', 'name', 'address', 'directions', 'lat', 'long', 'photos', 'availabilities', 'flags', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'key', 'companyKey', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'directions', 'lat', 'long', 'photos', 'availabilities', 'flags', 'administerMemberIds', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -64,7 +64,22 @@ class LocationBase extends NormBaseObject {
     public $name;
 
     /** @var string */
-    public $address;
+    public $street1;
+
+    /** @var string */
+    public $street2;
+
+    /** @var string */
+    public $city;
+
+    /** @var string */
+    public $state;
+
+    /** @var string */
+    public $zip;
+
+    /** @var string */
+    public $phone;
 
     /** @var string */
     public $directions;
@@ -83,6 +98,9 @@ class LocationBase extends NormBaseObject {
 
     /** @var AdFlag[] */
     public $flags;
+
+    /** @var string[] */
+    public $administerMemberIds;
 
     /** @var DateTime */
     public $createdAt;

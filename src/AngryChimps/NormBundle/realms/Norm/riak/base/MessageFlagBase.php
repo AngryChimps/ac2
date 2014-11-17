@@ -97,7 +97,7 @@ class MessageFlagBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return MessageFlag
+     * @return \Norm\riak\MessageFlag
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -106,7 +106,7 @@ class MessageFlagBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return MessageFlag
+     * @return \Norm\riak\MessageFlag
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -115,7 +115,7 @@ class MessageFlagBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return MessageFlag
+     * @return \Norm\riak\MessageFlag
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

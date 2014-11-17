@@ -3,7 +3,7 @@ namespace Norm\riak\base;
 
 use AC\NormBundle\core\NormBaseObject;
 
-class MemberCompanyRatingBase extends NormBaseObject {
+class ZipcodeBase extends NormBaseObject {
 
     /** @var  string */
     protected static $primaryDatastoreName = 'riak_ds';
@@ -15,22 +15,22 @@ class MemberCompanyRatingBase extends NormBaseObject {
     protected static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'member_company_rating';
+    protected static $tableName = 'zipcode';
 
     /** @var string[] */
-    protected static $fieldNames = array('rating');
+    protected static $fieldNames = array('id', 'city', 'state', 'lat', 'long', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int');
+    protected static $fieldTypes = array('int', 'string', 'string', 'float', 'float', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('rating');
+    protected static $propertyNames = array('id', 'city', 'state', 'lat', 'long', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array();
+    protected static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array();
+    protected static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
     protected static $autoIncrementFieldName = '';
@@ -52,7 +52,25 @@ class MemberCompanyRatingBase extends NormBaseObject {
 
 
     /** @var int */
-    public $rating;
+    public $id;
+
+    /** @var string */
+    public $city;
+
+    /** @var string */
+    public $state;
+
+    /** @var float */
+    public $lat;
+
+    /** @var float */
+    public $long;
+
+    /** @var DateTime */
+    public $createdAt;
+
+    /** @var DateTime */
+    public $updatedAt;
 
 
 
@@ -61,7 +79,7 @@ class MemberCompanyRatingBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return \Norm\riak\MemberCompanyRating
+     * @return \Norm\riak\Zipcode
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -70,7 +88,7 @@ class MemberCompanyRatingBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return \Norm\riak\MemberCompanyRating
+     * @return \Norm\riak\Zipcode
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -79,7 +97,7 @@ class MemberCompanyRatingBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return \Norm\riak\MemberCompanyRating
+     * @return \Norm\riak\Zipcode
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

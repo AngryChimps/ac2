@@ -80,7 +80,7 @@ class AuthController extends AbstractController
 
         //Invalid request (doesn't specify email or fb_id)
         $error = array('code' => 'AuthController.loginAction.3',
-                        'human' => 'Invalid request.  You must specify either email or fb_id');
+                       'human' => 'Invalid request.  You must specify either email or fb_id');
         return $this->failure($request, 400, $error);
     }
 

@@ -28,6 +28,7 @@ class AppKernel extends Kernel
 //            new Test\DirectoryStructureBundle\TestDirectoryStructureBundle(),
             new AngryChimps\AdminBundle\AngryChimpsAdminBundle(),
             new AngryChimps\MailerBundle\AngryChimpsMailerBundle(),
+            new AngryChimps\GeoBundle\AngryChimpsGeoBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

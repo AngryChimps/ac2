@@ -18,13 +18,13 @@ class MemberBase extends NormBaseObject {
     protected static $tableName = 'member';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'mysql_id', 'email', 'password', 'name', 'fb_id', 'fb_access_token', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'blocked_company_keys', 'managed_company_keys', 'ad_flag_keys', 'message_flag_keys', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'mysql_id', 'email', 'password', 'name', 'fb_id', 'fb_access_token', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'administer_member_ids', 'blocked_company_keys', 'managed_company_keys', 'ad_flag_keys', 'message_flag_keys', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'Date', 'string', 'int', 'int', 'string[]', 'string[]', 'string[]', 'string[]', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'Date', 'string', 'int', 'int', 'string[]', 'string[]', 'string[]', 'string[]', 'string[]', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'mysqlId', 'email', 'password', 'name', 'fbId', 'fbAccessToken', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'blockedCompanyKeys', 'managedCompanyKeys', 'adFlagKeys', 'messageFlagKeys', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'mysqlId', 'email', 'password', 'name', 'fbId', 'fbAccessToken', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'administerMemberIds', 'blockedCompanyKeys', 'managedCompanyKeys', 'adFlagKeys', 'messageFlagKeys', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -110,6 +110,9 @@ class MemberBase extends NormBaseObject {
     public $role;
 
     /** @var string[] */
+    public $administerMemberIds;
+
+    /** @var string[] */
     public $blockedCompanyKeys;
 
     /** @var string[] */
@@ -182,7 +185,7 @@ class MemberBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return Member
+     * @return \Norm\riak\Member
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -191,7 +194,7 @@ class MemberBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return Member
+     * @return \Norm\riak\Member
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -200,7 +203,7 @@ class MemberBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return Member
+     * @return \Norm\riak\Member
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

@@ -60,6 +60,8 @@ fields:
       - Support
       - Admin
       - SuperAdmin
+  - name: administer_member_ids
+    type: string[]
   - name: blocked_company_keys
     type: string[]
   - name: managed_company_keys

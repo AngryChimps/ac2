@@ -100,7 +100,7 @@ class CommentBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return Comment
+     * @return \Norm\riak\Comment
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -109,7 +109,7 @@ class CommentBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return Comment
+     * @return \Norm\riak\Comment
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -118,7 +118,7 @@ class CommentBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return Comment
+     * @return \Norm\riak\Comment
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);
