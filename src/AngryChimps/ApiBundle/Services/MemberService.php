@@ -4,11 +4,7 @@
 namespace AngryChimps\ApiBundle\Services;
 
 
-//use AngryChimps\ApiBundle\Services\Armetiz\FacebookBundle\FacebookSessionPersistence;
-use AngryChimps\MailerBundle\Messages\BasicMessage;
-use \Armetiz\FacebookBundle\FacebookSessionPersistence;
 use Norm\riak\Member;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 

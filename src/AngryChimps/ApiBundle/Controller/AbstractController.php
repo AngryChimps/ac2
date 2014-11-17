@@ -4,6 +4,8 @@
 namespace AngryChimps\ApiBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use Norm\riak\Member;
+use NormTests\mysql\Person;
 use Symfony\Component\HttpFoundation\Request;
 
 class AbstractController extends FOSRestController {
@@ -98,5 +100,36 @@ class AbstractController extends FOSRestController {
 
     public function getPayload() {
         return $this->payload;
+    }
+
+    public function isAuthorizedSelf($user_ids) {
+        if(!is_array($user_ids)) {
+            $user_ids = array($user_ids);
+        }
+
+        if($this->user === null) {
+            return false;
+        }
+        elseif($this->user->role === Member::SUPER_ADMIN_ROLE) {
+            return true;
+        }
+        elseif(!in_array($this->user->id, $user_ids)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public function isAuthorizedAdmin() {
+        if($this->user === null) {
+            return false;
+        }
+        elseif($this->user->role === Member::SUPER_ADMIN_ROLE) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 } 

@@ -1,11 +1,17 @@
 primary_keys:
-  - company_key
+  - id
 
 fields:
-  - name: company_key
+  - name: id
     type: string
+  - name: mysql_id
+    type: int
   - name: name
     type: string
+    validations:
+        Length:
+            min: 4
+            max: 25
   - name: description
     type: string
   - name: address
@@ -23,7 +29,7 @@ fields:
     type: float
   - name: flag_total
     type: int
-  - name: administer_member_keys
+  - name: administer_member_ids
     type: string[]
   - name: location_keys
     type: string[]

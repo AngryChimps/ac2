@@ -18,13 +18,13 @@ class CompanyBase extends NormBaseObject {
     protected static $tableName = 'company';
 
     /** @var string[] */
-    protected static $fieldNames = array('company_key', 'name', 'description', 'address', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'flag_total', 'administer_member_keys', 'location_keys', '', 'created_at', 'updated_at');
+    protected static $fieldNames = array('company_key', 'name', 'description', 'address', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'flag_total', 'administer_member_ids', 'location_keys', '', 'created_at', 'updated_at');
 
     /** @var string[] */
     protected static $fieldTypes = array('string', 'string', 'string', 'string', 'int', 'int', 'int', 'float', 'int', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('companyKey', 'name', 'description', 'address', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'flagTotal', 'administerMemberKeys', 'locationKeys', '', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('companyKey', 'name', 'description', 'address', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'flagTotal', 'administerMemberIds', 'locationKeys', '', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('company_key');
@@ -86,7 +86,7 @@ class CompanyBase extends NormBaseObject {
     public $flagTotal;
 
     /** @var string[] */
-    public $administerMemberKeys;
+    public $administerMemberIds;
 
     /** @var string[] */
     public $locationKeys;
@@ -131,7 +131,7 @@ class CompanyBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return Company
+     * @return \Norm\riak\Company
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);

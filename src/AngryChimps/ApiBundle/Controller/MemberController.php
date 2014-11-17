@@ -3,7 +3,6 @@
 namespace AngryChimps\ApiBundle\Controller;
 
 use AngryChimps\ApiBundle\Services\AuthService;
-use FOS\RestBundle\Controller\FOSRestController;
 use Norm\riak\Member;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -32,6 +31,15 @@ class MemberController extends AbstractController
     public function indexGetAction($id, Request $request)
     {
         $member = Member::getByPk($id);
+
+        if($member === null) {
+            $errors = array(
+                'human' => 'Unable to find the requested member',
+                'code' => 'MemberController.indexGetAction.1'
+            );
+            return $this->failure($request, 404, $errors);
+        }
+
         if($this->user !== null && $member->id === $this->user->id) {
             $memberInfo = $member->getPrivateArray();
         }
@@ -78,7 +86,7 @@ class MemberController extends AbstractController
                 'human' => 'You must be a super_user to do this',
                 'code' => 'MemberController.indexDeleteAction.1',
             );
-            return $this->failure($request, 400, $errors);
+            return $this->failure($request, 401, $errors);
         }
 
         $member = Member::getByPk($id);
@@ -97,7 +105,7 @@ class MemberController extends AbstractController
                 'human' => 'This action can only be performed by the owner of the object',
                 'code' => 'MemberController.indexPutAction.1',
             );
-            return $this->failure($request, 400, $errors);
+            return $this->failure($request, 401, $errors);
         }
 
         $payload = $this->getPayload();

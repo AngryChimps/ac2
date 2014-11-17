@@ -9,3 +9,6 @@ services:
     angry_chimps_api.member:
         class: AngryChimps\ApiBundle\Services\MemberService
         arguments: ["@angry_chimps_mailer.mailer", "@templating", "@angry_chimps_api.auth", "@validator"]
+    angry_chimps_api.company:
+        class: AngryChimps\ApiBundle\Services\CompanyService
+        arguments: ["@validator"]
