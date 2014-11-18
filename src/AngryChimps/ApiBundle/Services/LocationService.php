@@ -46,7 +46,7 @@ class LocationService {
         return $location;
     }
 
-    public function updateLocation($location, $name, $street1, $street2, $zip, $phone, &$errors) {
+    public function updateLocation($location, $company, $name, $street1, $street2, $zip, $phone, &$errors) {
         $address = $this->geo->lookupAddress($street1, $street2, $zip);
 
         $location->name = $name;

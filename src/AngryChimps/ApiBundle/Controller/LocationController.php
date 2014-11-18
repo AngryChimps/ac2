@@ -17,34 +17,38 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class LocationController extends AbstractController
 {
-    /** @var  \AngryChimps\ApiBundle\Services\LocationService */
-    protected $locationService;
-
-    public function __construct() {
-        $this->locationService = $this->get('angry_chimps_api.location');
-    }
-
     /**
      * @Route("/{id}")
      * @Method({"GET"})
      */
-    public function indexGetAction($id, Request $request)
+    public function indexGetAction($id)
     {
         $location = Location::getByPk($id);
+
+        $company = Company::getByPk($location->companyId);
+
+        if($company === null) {
+            $errors = array(
+                'human' => 'Unable to find a company which corresponds to that location',
+                'code' => 'LocationController.indexPutAction.2'
+            );
+            return $this->failure(400, $errors);
+        }
 
         if($location === null) {
             $errors = array(
                 'human' => 'Unable to find a location with that id',
                 'code' => 'LocationController.indexGetAction.1'
             );
-            return $this->failure($request, 404, $errors);
+            return $this->failure(404, $errors);
         }
 
-        if($this->user !== null && in_array($this->user->id, $location->administerMemberIds)) {
-            return $this->success($request, array('location' => $location->getPrivateArray()));
+        $user = $this->getUser();
+        if($user !== null && in_array($user->id, $company->administerMemberIds)) {
+            return $this->success(array('location' => $location->getPrivateArray()));
         }
         else {
-            return $this->success($request, array('location' => $location->getPublicArray()));
+            return $this->success(array('location' => $location->getPublicArray()));
         }
     }
 
@@ -52,7 +56,7 @@ class LocationController extends AbstractController
      * @Route("/")
      * @Method({"POST"})
      */
-    public function indexPostAction(Request $request)
+    public function indexPostAction()
     {
         $payload = $this->getPayload();
         $name = $payload['name'];
@@ -66,29 +70,29 @@ class LocationController extends AbstractController
 
         if($company === null) {
             $errors = array(
-                'human' => 'Unable to find acompany  with that id',
-                'code' => 'CompanyController.indexPutAction.1'
+                'human' => 'Unable to find a company  with that id',
+                'code' => 'CompanyController.indexPostAction.1'
             );
-            return $this->failure($request, 404, $errors);
+            return $this->failure(404, $errors);
         }
 
         $errors = array();
-        if($location = $this->locationService->createLocation($name, $street1, $street2, $zip, $phone, $company, $this->user, $errors) === false) {
+        if($location = $this->getLocationService()->createLocation($name, $street1, $street2, $zip, $phone, $company, $this->user, $errors) === false) {
             $errors = array(
                 'human' => 'Error validating location fields',
                 'code' => 'LocationController.indexPostAction.1'
             );
-            return $this->failure($request, 400, $errors);
+            return $this->failure(400, $errors);
         }
 
-        return $this->success($request, array('company' => $location->getPrivateArray()));
+        return $this->success(array('company' => $location->getPrivateArray()));
     }
 
     /**
      * @Route("/{id}")
      * @Method({"PUT"})
      */
-    public function indexPutAction($id, Request $request)
+    public function indexPutAction($id)
     {
         $location = Location::getByPk($id);
 
@@ -97,7 +101,7 @@ class LocationController extends AbstractController
                 'human' => 'Unable to find a location with that id',
                 'code' => 'LocationController.indexPutAction.1'
             );
-            return $this->failure($request, 404, $errors);
+            return $this->failure(404, $errors);
         }
 
         $company = Company::getByPk($location->companyId);
@@ -107,7 +111,7 @@ class LocationController extends AbstractController
                 'human' => 'Unable to find a company which corresponds to that location',
                 'code' => 'LocationController.indexPutAction.2'
             );
-            return $this->failure($request, 400, $errors);
+            return $this->failure(400, $errors);
         }
 
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
@@ -115,7 +119,7 @@ class LocationController extends AbstractController
                 'human' => 'This user is not authorized to perform this action',
                 'code' => 'CompanyController.indexPutAction.3'
             );
-            return $this->failure($request, 401, $errors);
+            return $this->failure(401, $errors);
         }
 
         $payload = $this->getPayload();
@@ -126,22 +130,22 @@ class LocationController extends AbstractController
         $phone = $payload['phone'];
 
         $errors = array();
-        if($company = $this->locationService->updateLocation($location, $name, $street1, $street2, $zip, $phone, $errors) === false) {
+        if($company = $this->getLocationService()->updateLocation($location, $company, $name, $street1, $street2, $zip, $phone, $errors) === false) {
             $errors = array(
                 'human' => 'Unable to validate location inputs',
                 'code' => 'CompanyController.indexPutAction.4',
             );
-            return $this->failure($request, 400, $errors);
+            return $this->failure(400, $errors);
         }
 
-        return $this->success($request, array('company' => $company));
+        return $this->success(array('company' => $company));
     }
 
     /**
      * @Route("/{id}")
      * @Method({"DELETE"})
      */
-    public function indexDeleteAction($id, Request $request)
+    public function indexDeleteAction($id)
     {
         $location = Location::getByPk($id);
 
@@ -150,7 +154,7 @@ class LocationController extends AbstractController
                 'human' => 'Unable to find a location with that id',
                 'code' => 'LocationController.indexDeleteAction.1'
             );
-            return $this->failure($request, 404, $errors);
+            return $this->failure(404, $errors);
         }
 
         $company = Company::getByPk($location->companyId);
@@ -158,23 +162,23 @@ class LocationController extends AbstractController
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company which corresponds to that location',
-                'code' => 'LocationController.indexPutAction.2'
+                'code' => 'LocationController.indexDeleteAction.2'
             );
-            return $this->failure($request, 400, $errors);
+            return $this->failure(400, $errors);
         }
 
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
             $errors = array(
                 'human' => 'This user is not authorized to perform this action',
-                'code' => 'CompanyController.indexPutAction.3'
+                'code' => 'CompanyController.indexDeleteAction.3'
             );
-            return $this->failure($request, 401, $errors);
+            return $this->failure(401, $errors);
         }
 
         $location->status = Location::DISABLED_STATUS;
         $location->save();
 
-        return $this->success($request);
+        return $this->success();
     }
 
 }

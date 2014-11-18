@@ -18,13 +18,13 @@ class LocationBase extends NormBaseObject {
     protected static $tableName = 'location';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'company_id', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'directions', 'lat', 'long', 'status', 'photos', 'availabilities', 'flags', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'company_id', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'lat', 'long', 'status', 'photos', 'availabilities', 'flags', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'float', 'float', 'int', 'string[]', 'DateTime[]', 'AdFlag[]', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'float', 'float', 'int', 'string[]', 'DateTime[]', 'AdFlag[]', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'companyId', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'directions', 'lat', 'long', 'status', 'photos', 'availabilities', 'flags', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'companyId', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'lat', 'long', 'status', 'photos', 'availabilities', 'flags', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -80,9 +80,6 @@ class LocationBase extends NormBaseObject {
 
     /** @var string */
     public $phone;
-
-    /** @var string */
-    public $directions;
 
     /** @var float */
     public $lat;

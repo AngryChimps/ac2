@@ -58,8 +58,7 @@ class Member extends MemberBase implements UserInterface, EquatableInterface {
         $mysqlMember->password = $this->password;
         $mysqlMember->name = $this->name;
         $mysqlMember->fbId = $this->fbId;
-        $mysqlMember->fbAuthToken = $this->fbAuthToken;
-        $mysqlMember->acToken = $this->acToken;
+        $mysqlMember->fbAccessToken = $this->fbAccessToken;
         $mysqlMember->fname = $this->fname;
         $mysqlMember->lname = $this->lname;
         $mysqlMember->gender = $this->gender;
@@ -77,16 +76,6 @@ class Member extends MemberBase implements UserInterface, EquatableInterface {
         $fieldData['mysql_id'] = $this->mysqlId;
 
         return parent::createHook($realm, $tableName, $fieldData, $primaryKeys, $autoIncrementFieldName);
-
-//        $bucket = $this->db->getBucket($realm, $tableName);
-//        $key = $this->db->getKeyName($primaryKeys);
-//        $data = json_encode($fieldData);
-//
-//        $obj = new \Riak\Object($key);
-//        $obj->setContent($data);
-//        $obj->addIndex('email_bin', $this->email);
-//
-//        $bucket->put($obj);
     }
 
     protected function deleteHook($realm, $tableName, $primaryKeys)
@@ -95,6 +84,23 @@ class Member extends MemberBase implements UserInterface, EquatableInterface {
         $mysqlMember->delete();
 
         return parent::deleteHook($realm, $tableName, $primaryKeys);
+    }
+
+    protected function updateHook($realm, $tableName, $primaryKeys, $fieldDataWithoutPrimaryKeys) {
+        $mysqlMember = \Norm\mysql\Member::getByPk($this->mysqlId);
+
+        $changed = $this->getChangedFields();
+print_r($changed);
+        if(count($changed) > 0) {
+            foreach ($changed as $propertyName => $value) {
+echo "setting $propertyName\n";
+                $mysqlMember->$propertyName = $value;
+            }
+
+            $mysqlMember->save();
+        }
+
+        parent::updateHook($realm, $tableName, $primaryKeys, $fieldDataWithoutPrimaryKeys);
     }
 
 

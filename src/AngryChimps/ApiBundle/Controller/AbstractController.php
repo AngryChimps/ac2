@@ -5,40 +5,34 @@ namespace AngryChimps\ApiBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Norm\riak\Member;
-use NormTests\mysql\Person;
 use Symfony\Component\HttpFoundation\Request;
 
 class AbstractController extends FOSRestController {
     /** @var  \Norm\riak\Member */
-    protected $user;
+    private $user;
 
-    protected $content;
-    protected $payload;
+    private $content;
+    private $payload;
+    private $request;
 
     /**
-     * @param Request $request
+     * @return Request
      */
-    public function __construct(Request $request) {
-        parent::__construct();
-
-        //Decode the data
-        $this->content = json_decode($request->getContent(), true);
-        $this->payload = $this->content['payload'];
-
-        //If there is a user authenticated, load it
-        if(!empty($request->query->get('auth_token'))) {
-            /** @var \AngryChimps\ApiBundle\Services\AuthService $auth */
-            $auth = $this->get('angry_chimps_api.auth');
-            $this->user = $auth->getUserByAuthToken($request->query->get('auth_token'));
+    public function getRequest() {
+        if($this->request === null) {
+            $this->request = $this->container->get('request_stack')->getCurrentRequest();
         }
-
-        //Make sure the user is who they say they are
-        if($this->user->id !== $request->query->get('user_id')) {
-            $this->createAccessDeniedException('Access Denied; code AbstractController.__construct.1');
+        return $this->request;
+    }
+    protected function getPayload() {
+        if($this->payload === null) {
+            $this->content = json_decode($this->getRequest()->getContent(), true);
+            $this->payload = $this->content['payload'];
         }
+        return $this->payload;
     }
 
-    private function getView(Request $request, $data, $statusCode,
+    private function getView($data, $statusCode,
                             array $errors = array(),
                             \Exception $ex = null)
     {
@@ -59,10 +53,10 @@ class AbstractController extends FOSRestController {
             'errors' => $errors,
             'exception' => $exArr,
             'request' => array(
-                            'uri' => $request->getUri(),
-                            'method' => $request->getMethod(),
-                            'payload' => $this->getContent($request),
-            ),
+                            'uri' => $this->getRequest()->getUri(),
+                            'method' => $this->getRequest()->getMethod(),
+                            'payload' => $this->getPayload(),
+            )
        );
         
         $view = parent::view($return, $statusCode);
@@ -70,36 +64,49 @@ class AbstractController extends FOSRestController {
     }
 
     /**
-     * @param Request $request
      * @param Array $data
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function success(Request $request, array $data = array()) {
-        $view = $this->getView($request, $data, 200, array(), null);
+    protected function success(array $data = array()) {
+        $view = $this->getView($data, 200, array(), null);
         return $this->handleView($view);
     }
 
     /**
-     * @param Request $request
      * @param $code
      * @param array $errors
      * @param \Exception $ex
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function failure(Request $request, $code, array $errors, \Exception $ex = null) {
-        $view = $this->getView($request, array(), $code, $errors, $ex);
+    protected function failure($code, array $errors, \Exception $ex = null) {
+        $view = $this->getView(array(), $code, $errors, $ex);
         return $this->handleView($view);
     }
 
-    /**, a
+    /**
      * @return \Norm\riak\base\Member|\Norm\riak\Member|null
      */
     public function getUser() {
-        return $this->user;
-    }
+        $request = $this->getRequest();
+        //If there is a user authenticated, load it
+        $authToken = $request->query->get('auth_token');
+        if(!empty($authToken)) {
+            /** @var \AngryChimps\ApiBundle\Services\AuthService $auth */
+            $auth = $this->get('angry_chimps_api.auth');
+            $this->user = $auth->getUserByAuthToken($authToken);
 
-    public function getPayload() {
-        return $this->payload;
+            //If there's an auth token there should be a user
+            if($this->user === null) {
+                $this->createAccessDeniedException('Access Denied; code AbstractController.getUser.1');
+            }
+
+            //Make sure the user is who they say they are
+            if($this->user->id != $request->query->get('user_id')) {
+                $this->createAccessDeniedException('Access Denied; code AbstractController.getUser.2');
+            }
+        }
+
+        return $this->user;
     }
 
     public function isAuthorizedSelf($user_ids) {
@@ -107,13 +114,14 @@ class AbstractController extends FOSRestController {
             $user_ids = array($user_ids);
         }
 
-        if($this->user === null) {
+        $user = $this->getUser($this->getRequest());
+        if($user === null) {
             return false;
         }
-        elseif($this->user->role === Member::SUPER_ADMIN_ROLE) {
+        elseif($user->role === Member::SUPER_ADMIN_ROLE) {
             return true;
         }
-        elseif(!in_array($this->user->id, $user_ids)) {
+        elseif(!in_array($user->id, $user_ids)) {
             return false;
         }
         else {
@@ -122,14 +130,46 @@ class AbstractController extends FOSRestController {
     }
 
     public function isAuthorizedAdmin() {
-        if($this->user === null) {
+        $user = $this->getUser($this->getRequest());
+        if($user === null) {
             return false;
         }
-        elseif($this->user->role === Member::SUPER_ADMIN_ROLE) {
+        elseif($user->role === Member::SUPER_ADMIN_ROLE) {
             return true;
         }
         else {
             return false;
         }
     }
-} 
+
+    /**
+     * @return \AngryChimps\ApiBundle\Services\AuthService
+     */
+    public function getAuthService() {
+        return $this->container->get('angry_chimps_api.auth');
+    }
+    /**
+     * @return \AngryChimps\ApiBundle\Services\CategoriesService
+     */
+    public function getCategoriesService() {
+        return $this->container->get('angry_chimps_api.categories');
+    }
+    /**
+     * @return \AngryChimps\ApiBundle\Services\CompanyService
+     */
+    public function getCompanyService() {
+        return $this->container->get('angry_chimps_api.company');
+    }
+    /**
+     * @return \AngryChimps\ApiBundle\Services\LocationService
+     */
+    public function getLocationService() {
+        return $this->container->get('angry_chimps_api.location');
+    }
+    /**
+     * @return \AngryChimps\ApiBundle\Services\MemberService
+     */
+    public function getMemberService() {
+        return $this->container->get('angry_chimps_api.member');
+    }
+}

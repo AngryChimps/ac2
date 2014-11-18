@@ -4,10 +4,11 @@
 namespace AngryChimps\ApiBundle\Services;
 
 
-//use AngryChimps\ApiBundle\Services\Armetiz\FacebookBundle\FacebookSessionPersistence;
 use AngryChimps\MailerBundle\Messages\BasicMessage;
-use \Armetiz\FacebookBundle\FacebookSessionPersistence;
+use AngryChimps\MailerBundle\Services\MailerService;
+use Armetiz\FacebookBundle\FacebookSessionPersistence;
 use Norm\riak\Member;
+use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 
@@ -17,17 +18,17 @@ class AuthService {
     /** @var  \Armetiz\FacebookBundle\FacebookSessionPersistence */
     protected $facebookSdk;
 
-    /** @var  \Swift_Mailer */
+    /** @var  MailerService */
     protected $mailer;
 
-    /** @var TemplateReferenceInterface  */
+    /** @var TimedTwigEngine  */
     protected $templating;
 
     const SALT = 'ljfso8uc2098jfwojd;lfkjafpij3qcnfnhlknfz.kspfwqnjski45';
 
     public function __construct(FacebookSessionPersistence $facebookSdk,
-                                \Swift_Mailer $mailer,
-                                TemplateReferenceInterface $templating) {
+                                MailerService $mailer,
+                                TimedTwigEngine $templating) {
         $this->facebookSdk = $facebookSdk;
         $this->mailer = $mailer;
         $this->templating = $templating;

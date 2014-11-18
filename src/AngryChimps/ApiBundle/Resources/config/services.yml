@@ -15,3 +15,7 @@ services:
     angry_chimps_api.location:
         class: AngryChimps\ApiBundle\Services\LocationService
         arguments: ["@validator", "@angry_chimps_geo.geolocation"]
+    angry_chimps_api.service:
+        class: AngryChimps\ApiBundle\Services\ServiceService
+        arguments: ["@validator"]
+

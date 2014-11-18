@@ -41,8 +41,6 @@ fields:
         - Length:
             min: 10
             max: 25
-  - name: directions
-    type: string
   - name: lat
     type: float
   - name: long

@@ -39,10 +39,10 @@ class MemberBase extends NormBaseObject {
     protected static $autoIncrementPropertyName = 'mysqlId';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = 'id';
+    protected static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = 'id';
+    protected static $autoGeneratePropertyName = '';
 
     /** @var bool */
     protected static $hasPrimaryKey = true;
@@ -122,7 +122,7 @@ class MemberBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return Member
+     * @return \Norm\mysql\Member
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -131,7 +131,7 @@ class MemberBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return Member
+     * @return \Norm\mysql\Member
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -140,7 +140,7 @@ class MemberBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return Member
+     * @return \Norm\mysql\Member
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

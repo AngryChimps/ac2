@@ -19,28 +19,27 @@ class AuthController extends AbstractController
      * @Route("/login")
      * @Method({"POST"})
      */
-    public function loginAction(Request $request)
+    public function loginAction()
     {
-        $input = $this->getContent($request);
+        $input = $this->getPayload();
         $userProfile = array();
 
-        /** @var \AngryChimps\ApiBundle\Services\AuthService $auth */
-        $auth = $this->get('angry_chimps_api.auth');
+        $auth = $this->getAuthService();
 
         //FB Login
         if(isset($input['fb_id'])) {
             try {
-                $userProfile = $auth->fbAuth($input['fb_id'], $input['access_token']);
+                $userProfile = $auth->fbAuth($input['fb_id'], $input['fb_access_token']);
             }
             catch(\FacebookApiException $fbex) {
                 $error = array('code' => 'AuthController.loginAction.1',
                                'human' => 'Unable to authenticate token to Facebook');
-                return $this->failure($request, 400, $error, $fbex);
+                return $this->failure(401, $error, $fbex);
             }
             catch(\Exception $ex) {
                 $error = array('code' => 'AuthController.loginAction.2',
                     'human' => 'Unable to authenticate for unknown reasons');
-                return $this->failure($request, 400, $error, $ex);
+                return $this->failure(401, $error, $ex);
             }
 
             $user = Member::getByEmail($userProfile['email']);
@@ -56,24 +55,24 @@ class AuthController extends AbstractController
             $data = array('user' => $user->getPrivateArray(),
                           'is_new' => $is_new,
                           'php_session_id' => session_id(),
-                          'auth_token' => $auth->generateAuthToken(),
+                          'auth_token' => $auth->generateToken(),
             );
-            return $this->success($request, $data);
+            return $this->success($data);
         }
         elseif(isset($input['email'])) {
             if($user = $auth->loginFormUser($input['email'], $input['password'])) {
                 $data = array('user' => $user->getPrivateArray(),
                     'is_new' => false,
                     'php_session_id' => session_id(),
-                    'auth_token' => $auth->generateAuthToken(),
+                    'auth_token' => $auth->generateToken(),
                 );
-                return $this->success($request, $data);
+                return $this->success($data);
 
             }
             else {
                 $error = array('code' => 'AuthController.loginAction.4',
                     'human' => 'Either the email was not found or the password did not match');
-                return $this->failure($request, 400, $error);
+                return $this->failure(400, $error);
             }
         }
 
@@ -81,69 +80,69 @@ class AuthController extends AbstractController
         //Invalid request (doesn't specify email or fb_id)
         $error = array('code' => 'AuthController.loginAction.3',
                        'human' => 'Invalid request.  You must specify either email or fb_id');
-        return $this->failure($request, 400, $error);
+        return $this->failure(400, $error);
     }
 
     /**
      * @Route("/logout")
      * @Method({"GET"})
      */
-    public function logoutAction(Request $request)
+    public function logoutAction()
     {
         session_regenerate_id();
 
-        return $this->success($request);
+        return $this->success();
     }
 
     /**
      * @Route("/changePassword")
      * @Method({"POST"})
      */
-    public function changePasswordAction(Request $request)
+    public function changePasswordAction()
     {
-        /** @var \AngryChimps\ApiBundle\Services\AuthService $auth */
-        $auth = $this->get('angry_chimps_api.auth');
-        $old = $this->payload['old_password'];
-        $new = $this->payload['new_password'];
+        $auth = $this->getAuthService();
+        $payload = $this->getPayload();
+        $old = $payload['old_password'];
+        $new = $payload['new_password'];
+        $user = $this->getUser();
 
         //Check old password make sure it is correct
-        if(!$auth->isPasswordCorrect($this->user, $old)) {
+        if(!$auth->isPasswordCorrect($user, $old)) {
             $error = array('code' => 'AuthController.loginAction.3',
                 'human' => 'Invalid request.  You must specify either email or fb_id');
-            return $this->failure($request, 400, $error);
+            return $this->failure(400, $error);
         }
 
-        $this->user->password = $auth->hashPassword($new);
+        $user->password = $auth->hashPassword($new);
 
-        return $this->success($request);
+        return $this->success();
     }
 
     /**
      * @Route("/forgotPassword")
      * @Method({"POST"})
      */
-    public function forgotPasswordAction(Request $request)
+    public function forgotPasswordAction()
     {
-        /** @var \AngryChimps\ApiBundle\Services\AuthService $auth */
-        $auth = $this->get('angry_chimps_api.auth');
-        $email = $this->payload['email'];
+        $auth = $this->getAuthService();
+        $payload = $this->getPayload();
+        $email = $payload['email'];
 
         $auth->forgotPassword($email);
 
-        return $this->success($request);
+        return $this->success();
     }
 
     /**
      * @Route("/forgotPasswordReset")
      * @Method({"POST"})
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function forgotPasswordReset(Request $request) {
-        /** @var \AngryChimps\ApiBundle\Services\AuthService $auth */
-        $auth = $this->get('angry_chimps_api.auth');
-        $email = $this->payload['email'];
-        $password = $this->payload['password'];
+    public function forgotPasswordReset() {
+        $auth = $this->getAuthService();
+        $payload = $this->getPayload();
+        $email = $payload['email'];
+        $password = $payload['password'];
 
         if(strlen($password) < $auth::MINIMUM_PASSWORD_LENGTH) {
             $errors = array(
@@ -151,11 +150,11 @@ class AuthController extends AbstractController
                             . ' characters long',
                 'code' => 'AuthController.forgotPasswordReset.1'
             );
-            return $this->failure($request, 400, $errors);
+            return $this->failure(400, $errors);
         }
 
         $auth->resetPassword($email, $password);
 
-        return $this->success($request);
+        return $this->success();
     }
 }

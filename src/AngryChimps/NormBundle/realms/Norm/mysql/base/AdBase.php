@@ -107,7 +107,7 @@ class AdBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return Ad
+     * @return \Norm\mysql\Ad
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -116,7 +116,7 @@ class AdBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return Ad
+     * @return \Norm\mysql\Ad
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -125,7 +125,7 @@ class AdBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return Ad
+     * @return \Norm\mysql\Ad
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

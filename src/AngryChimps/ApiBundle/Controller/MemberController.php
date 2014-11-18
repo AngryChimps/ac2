@@ -17,18 +17,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class MemberController extends AbstractController
 {
-    /** @var \AngryChimps\ApiBundle\Services\MemberService $memberService */
-    protected $memberService;
-
-    public function __construct() {
-        $this->memberService = $this->get('angry_chimps_api.member');
-    }
-
     /**
      * @Route("/{id}")
      * @Method({"GET"})
      */
-    public function indexGetAction($id, Request $request)
+    public function indexGetAction($id)
     {
         $member = Member::getByPk($id);
 
@@ -37,10 +30,11 @@ class MemberController extends AbstractController
                 'human' => 'Unable to find the requested member',
                 'code' => 'MemberController.indexGetAction.1'
             );
-            return $this->failure($request, 404, $errors);
+            return $this->failure(404, $errors);
         }
 
-        if($this->user !== null && $member->id === $this->user->id) {
+        $user = $this->getUser();
+        if($user !== null && $member->id === $user->id) {
             $memberInfo = $member->getPrivateArray();
         }
         else {
@@ -48,21 +42,21 @@ class MemberController extends AbstractController
         }
         $data = array('member' => $memberInfo);
 
-        return $this->success($request, $data);
+        return $this->success($data);
     }
 
     /**
      * @Route("/")
      * @Method({"POST"})
      */
-    public function indexPostAction(Request $request) {
+    public function indexPostAction() {
         //Note: password field is handled separately
         $validFields = array('name', 'email', 'dob');
 
-        $payload = $this->getPayload($request);
+        $payload = $this->getPayload();
 
         $errors = array();
-        if($member = $this->memberService->createMember(
+        if($member = $this->getMemberService()->createMember(
             $payload['name'], $payload['email'],
             $payload['password'], new \DateTime($payload['dob']), $errors) === false) {
                 $error = array(
@@ -70,57 +64,69 @@ class MemberController extends AbstractController
                     'code' => 'MemberController.indexPostAction.1',
                     'debug' => $errors,
                 );
-            return $this->failure($request, 400, $error);
+            return $this->failure(400, $error);
         }
 
-        return $this->success($request, array('member'=>$member->getPrivateArray()));
+        return $this->success(array('member'=>$member->getPrivateArray()));
     }
 
     /**
      * @Route("/{id}")
      * @Method({"DELETE"})
      */
-    public function indexDeleteAction($id, Request $request) {
-        if($this->user === null || $this->user->role != Member::SUPER_ADMIN_ROLE) {
+    public function indexDeleteAction($id) {
+        if($this->isAuthorizedSelf($id)) {
             $errors = array(
                 'human' => 'You must be a super_user to do this',
                 'code' => 'MemberController.indexDeleteAction.1',
             );
-            return $this->failure($request, 401, $errors);
+            return $this->failure(401, $errors);
         }
 
         $member = Member::getByPk($id);
-        $member->delete();
 
-        return $this->success($request);
+        if($member === null) {
+            $errors = array(
+                'human' => 'Unable to find the requested member',
+                'code' => 'MemberController.indexDeleteAction.2'
+            );
+            return $this->failure(404, $errors);
+        }
+
+        $member->status = Member::DELETED_STATUS;
+        $member->save();
+
+        return $this->success();
     }
 
     /**
      * @Route("/{id}")
      * @Method({"PUT"})
      */
-    public function indexPutAction($id, Request $request) {
-        if($this->user === null || $this->user->id != $id) {
+    public function indexPutAction($id) {
+        $user = $this->getUser();
+
+        if($this->isAuthorizedSelf($id)) {
             $errors = array(
                 'human' => 'This action can only be performed by the owner of the object',
                 'code' => 'MemberController.indexPutAction.1',
             );
-            return $this->failure($request, 401, $errors);
+            return $this->failure(401, $errors);
         }
 
         $payload = $this->getPayload();
 
         if(isset($payload['name'])) {
-            $this->user->name = $payload['name'];
+            $user->name = $payload['name'];
         }
         if(isset($payload['email'])) {
-            $this->user->email = $payload['email'];
+            $user->email = $payload['email'];
         }
         if(isset($payload['dob'])) {
-            $this->user->dob = new \DateTime($payload['dob']);
+            $user->dob = new \DateTime($payload['dob']);
         }
-        $this->user->save();
+        $user->save();
 
-        return $this->success($request, $this->user->getPrivateArray());
+        return $this->success($user->getPrivateArray());
     }
 }

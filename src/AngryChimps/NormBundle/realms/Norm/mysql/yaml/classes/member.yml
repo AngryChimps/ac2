@@ -7,7 +7,6 @@ fields:
     auto_increment: true
   - name: id
     type: string
-    auto_generate: true
   - name: email
     type: string
   - name: password
