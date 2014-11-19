@@ -121,6 +121,14 @@ class CompanyBase extends NormBaseObject {
         return $this->Location;
     }
 
+    /** @returns Norm\riak\Service */
+    public function getServiceCollection() {
+        if($this->Service === null) {
+            $this->loadService();
+        }
+        return $this->Service;
+    }
+
 
     protected function loadCommentCollection() {
         parent::loadPropertyCollection('Comment', 'comment', 'company_key', 'companyKey');
@@ -128,6 +136,10 @@ class CompanyBase extends NormBaseObject {
 
     protected function loadLocationCollection() {
         parent::loadPropertyCollection('Location', 'location', 'company_id', 'companyId');
+    }
+
+    protected function loadServiceCollection() {
+        parent::loadPropertyCollection('Service', 'service', 'company_id', 'companyId');
     }
 
 

@@ -1,0 +1,35 @@
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: company_id
+    type: string
+  - name: name
+    type: string
+  - name: discounted_price
+    type: float
+  - name: original_price
+    type: float
+  - name: mins_for_service
+    type: int
+  - name: mins_notice
+    type: int
+  - name: category
+    type: int
+  - name: status
+    type: enum
+    values:
+        - Enabled
+        - Disabled
+  - name: created_at
+    type: DateTime
+
+foreign_keys:
+  - name: fk_service_company
+    column_name: company_id
+    referenced_table_name: company
+    referenced_column_name: id
+

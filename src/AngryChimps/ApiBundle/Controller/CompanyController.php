@@ -27,7 +27,7 @@ class CompanyController extends AbstractController
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company with that id',
-                'code' => 'CompanyController.indexGetAction.1'
+                'code' => 'Api.CompanyController.indexGetAction.1'
             );
             return $this->failure(404, $errors);
         }
@@ -54,7 +54,7 @@ class CompanyController extends AbstractController
         if($company = $this->getCompanyService()->createCompany($payload['name'], $user, $errors) === false) {
             $errors = array(
                 'human' => 'Error validating company fields',
-                'code' => 'CompanyController.indexPostAction.1'
+                'code' => 'Api.CompanyController.indexPostAction.1'
             );
             return $this->failure(400, $errors);
         }
@@ -73,7 +73,7 @@ class CompanyController extends AbstractController
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company with that id',
-                'code' => 'CompanyController.indexPutAction.1'
+                'code' => 'Api.CompanyController.indexPutAction.1'
             );
             return $this->failure(404, $errors);
         }
@@ -81,7 +81,7 @@ class CompanyController extends AbstractController
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
             $errors = array(
                 'human' => 'This user is not authorized to perform this action',
-                'code' => 'CompanyController.indexPutAction.2'
+                'code' => 'Api.CompanyController.indexPutAction.2'
             );
             return $this->failure(401, $errors);
         }
@@ -92,7 +92,7 @@ class CompanyController extends AbstractController
         if($company = $this->getCompanyService()->createCompany($payload['name'], $user, $errors) === false) {
             $errors = array(
                 'human' => 'Unable to validate company inputs',
-                'code' => 'CompanyController.indexPutAction.3',
+                'code' => 'Api.CompanyController.indexPutAction.3',
             );
             return $this->failure(400, $errors);
         }
@@ -111,7 +111,7 @@ class CompanyController extends AbstractController
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company with that id',
-                'code' => 'CompanyController.indexDeleteAction.1'
+                'code' => 'Api.CompanyController.indexDeleteAction.1'
             );
             return $this->failure(404, $errors);
         }
@@ -119,7 +119,7 @@ class CompanyController extends AbstractController
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
             $errors = array(
                 'human' => 'This user is not authorized to perform this action',
-                'code' => 'CompanyController.indexDeleteAction.2'
+                'code' => 'Api.CompanyController.indexDeleteAction.2'
             );
             return $this->failure(401, $errors);
         }

@@ -18,4 +18,7 @@ services:
     angry_chimps_api.service:
         class: AngryChimps\ApiBundle\Services\ServiceService
         arguments: ["@validator"]
-
+#    angry_chimps_api.guzzle:
+#        class: AngryChimps\ApiBundle\Services\GuzzleService
+#        tags:
+#            -  { name: guzzle.client }

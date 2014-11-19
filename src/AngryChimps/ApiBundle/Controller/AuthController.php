@@ -21,23 +21,21 @@ class AuthController extends AbstractController
      */
     public function loginAction()
     {
-        $input = $this->getPayload();
-        $userProfile = array();
-
+        $payload = $this->getPayload();
         $auth = $this->getAuthService();
 
         //FB Login
-        if(isset($input['fb_id'])) {
+        if(isset($payload['fb_id'])) {
             try {
-                $userProfile = $auth->fbAuth($input['fb_id'], $input['fb_access_token']);
+                $userProfile = $auth->fbAuth($payload['fb_id'], $payload['fb_access_token']);
             }
             catch(\FacebookApiException $fbex) {
-                $error = array('code' => 'AuthController.loginAction.1',
+                $error = array('code' => 'Api.AuthController.loginAction.1',
                                'human' => 'Unable to authenticate token to Facebook');
                 return $this->failure(401, $error, $fbex);
             }
             catch(\Exception $ex) {
-                $error = array('code' => 'AuthController.loginAction.2',
+                $error = array('code' => 'Api.AuthController.loginAction.2',
                     'human' => 'Unable to authenticate for unknown reasons');
                 return $this->failure(401, $error, $ex);
             }
@@ -54,7 +52,6 @@ class AuthController extends AbstractController
 
             $data = array('user' => $user->getPrivateArray(),
                           'is_new' => $is_new,
-                          'php_session_id' => session_id(),
                           'auth_token' => $auth->generateToken(),
             );
             return $this->success($data);
@@ -62,15 +59,14 @@ class AuthController extends AbstractController
         elseif(isset($input['email'])) {
             if($user = $auth->loginFormUser($input['email'], $input['password'])) {
                 $data = array('user' => $user->getPrivateArray(),
-                    'is_new' => false,
-                    'php_session_id' => session_id(),
-                    'auth_token' => $auth->generateToken(),
+                              'is_new' => false,
+                              'auth_token' => $auth->generateToken(),
                 );
                 return $this->success($data);
 
             }
             else {
-                $error = array('code' => 'AuthController.loginAction.4',
+                $error = array('code' => 'Api.AuthController.loginAction.3',
                     'human' => 'Either the email was not found or the password did not match');
                 return $this->failure(400, $error);
             }
@@ -78,7 +74,7 @@ class AuthController extends AbstractController
 
 
         //Invalid request (doesn't specify email or fb_id)
-        $error = array('code' => 'AuthController.loginAction.3',
+        $error = array('code' => 'Api.AuthController.loginAction.4',
                        'human' => 'Invalid request.  You must specify either email or fb_id');
         return $this->failure(400, $error);
     }
@@ -108,7 +104,7 @@ class AuthController extends AbstractController
 
         //Check old password make sure it is correct
         if(!$auth->isPasswordCorrect($user, $old)) {
-            $error = array('code' => 'AuthController.loginAction.3',
+            $error = array('code' => 'Api.AuthController.changePasswordAction.1',
                 'human' => 'Invalid request.  You must specify either email or fb_id');
             return $this->failure(400, $error);
         }
@@ -148,7 +144,7 @@ class AuthController extends AbstractController
             $errors = array(
                 'human' => 'Password must be at least ' . $auth::MINIMUM_PASSWORD_LENGTH
                             . ' characters long',
-                'code' => 'AuthController.forgotPasswordReset.1'
+                'code' => 'Api.AuthController.forgotPasswordReset.1'
             );
             return $this->failure(400, $errors);
         }

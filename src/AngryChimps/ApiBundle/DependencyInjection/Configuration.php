@@ -20,9 +20,12 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('angry_chimps_api');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+            ->scalarNode('base_url')->end()
+            ->scalarNode('auth_header_name')->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

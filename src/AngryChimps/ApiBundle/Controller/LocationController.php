@@ -30,7 +30,7 @@ class LocationController extends AbstractController
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company which corresponds to that location',
-                'code' => 'LocationController.indexPutAction.2'
+                'code' => 'Api.LocationController.indexGetAction.1'
             );
             return $this->failure(400, $errors);
         }
@@ -38,7 +38,7 @@ class LocationController extends AbstractController
         if($location === null) {
             $errors = array(
                 'human' => 'Unable to find a location with that id',
-                'code' => 'LocationController.indexGetAction.1'
+                'code' => 'Api.LocationController.indexGetAction.2'
             );
             return $this->failure(404, $errors);
         }
@@ -71,7 +71,7 @@ class LocationController extends AbstractController
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company  with that id',
-                'code' => 'CompanyController.indexPostAction.1'
+                'code' => 'Api.LocationController.indexPostAction.1'
             );
             return $this->failure(404, $errors);
         }
@@ -80,7 +80,7 @@ class LocationController extends AbstractController
         if($location = $this->getLocationService()->createLocation($name, $street1, $street2, $zip, $phone, $company, $this->user, $errors) === false) {
             $errors = array(
                 'human' => 'Error validating location fields',
-                'code' => 'LocationController.indexPostAction.1'
+                'code' => 'Api.LocationController.indexPostAction.1'
             );
             return $this->failure(400, $errors);
         }
@@ -99,7 +99,7 @@ class LocationController extends AbstractController
         if($location === null) {
             $errors = array(
                 'human' => 'Unable to find a location with that id',
-                'code' => 'LocationController.indexPutAction.1'
+                'code' => 'Api.LocationController.indexPutAction.1'
             );
             return $this->failure(404, $errors);
         }
@@ -109,7 +109,7 @@ class LocationController extends AbstractController
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company which corresponds to that location',
-                'code' => 'LocationController.indexPutAction.2'
+                'code' => 'Api.LocationController.indexPutAction.2'
             );
             return $this->failure(400, $errors);
         }
@@ -117,7 +117,7 @@ class LocationController extends AbstractController
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
             $errors = array(
                 'human' => 'This user is not authorized to perform this action',
-                'code' => 'CompanyController.indexPutAction.3'
+                'code' => 'Api.LocationController.indexPutAction.3'
             );
             return $this->failure(401, $errors);
         }
@@ -133,7 +133,7 @@ class LocationController extends AbstractController
         if($company = $this->getLocationService()->updateLocation($location, $company, $name, $street1, $street2, $zip, $phone, $errors) === false) {
             $errors = array(
                 'human' => 'Unable to validate location inputs',
-                'code' => 'CompanyController.indexPutAction.4',
+                'code' => 'Api.LocationController.indexPutAction.4',
             );
             return $this->failure(400, $errors);
         }
@@ -152,7 +152,7 @@ class LocationController extends AbstractController
         if($location === null) {
             $errors = array(
                 'human' => 'Unable to find a location with that id',
-                'code' => 'LocationController.indexDeleteAction.1'
+                'code' => 'Api.LocationController.indexDeleteAction.1'
             );
             return $this->failure(404, $errors);
         }
@@ -162,7 +162,7 @@ class LocationController extends AbstractController
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company which corresponds to that location',
-                'code' => 'LocationController.indexDeleteAction.2'
+                'code' => 'Api.LocationController.indexDeleteAction.2'
             );
             return $this->failure(400, $errors);
         }
@@ -170,7 +170,7 @@ class LocationController extends AbstractController
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
             $errors = array(
                 'human' => 'This user is not authorized to perform this action',
-                'code' => 'CompanyController.indexDeleteAction.3'
+                'code' => 'Api.LocationController.indexDeleteAction.3'
             );
             return $this->failure(401, $errors);
         }

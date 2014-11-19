@@ -28,7 +28,7 @@ class MemberController extends AbstractController
         if($member === null) {
             $errors = array(
                 'human' => 'Unable to find the requested member',
-                'code' => 'MemberController.indexGetAction.1'
+                'code' => 'Api.MemberController.indexGetAction.1'
             );
             return $this->failure(404, $errors);
         }
@@ -47,6 +47,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/")
+     * @Route("")
      * @Method({"POST"})
      */
     public function indexPostAction() {
@@ -56,12 +57,13 @@ class MemberController extends AbstractController
         $payload = $this->getPayload();
 
         $errors = array();
-        if($member = $this->getMemberService()->createMember(
+        $member = $this->getMemberService()->createMember(
             $payload['name'], $payload['email'],
-            $payload['password'], new \DateTime($payload['dob']), $errors) === false) {
+            $payload['password'], new \DateTime($payload['dob']), $errors);
+        if($member === false) {
                 $error = array(
                     'human' => 'Unable to validate Member',
-                    'code' => 'MemberController.indexPostAction.1',
+                    'code' => 'Api.MemberController.indexPostAction.1',
                     'debug' => $errors,
                 );
             return $this->failure(400, $error);
@@ -78,7 +80,7 @@ class MemberController extends AbstractController
         if($this->isAuthorizedSelf($id)) {
             $errors = array(
                 'human' => 'You must be a super_user to do this',
-                'code' => 'MemberController.indexDeleteAction.1',
+                'code' => 'Api.MemberController.indexDeleteAction.1',
             );
             return $this->failure(401, $errors);
         }
@@ -88,7 +90,7 @@ class MemberController extends AbstractController
         if($member === null) {
             $errors = array(
                 'human' => 'Unable to find the requested member',
-                'code' => 'MemberController.indexDeleteAction.2'
+                'code' => 'Api.MemberController.indexDeleteAction.2'
             );
             return $this->failure(404, $errors);
         }
@@ -109,7 +111,7 @@ class MemberController extends AbstractController
         if($this->isAuthorizedSelf($id)) {
             $errors = array(
                 'human' => 'This action can only be performed by the owner of the object',
-                'code' => 'MemberController.indexPutAction.1',
+                'code' => 'Api.MemberController.indexPutAction.1',
             );
             return $this->failure(401, $errors);
         }

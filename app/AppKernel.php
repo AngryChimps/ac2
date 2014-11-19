@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new AngryChimps\AdminBundle\AngryChimpsAdminBundle(),
             new AngryChimps\MailerBundle\AngryChimpsMailerBundle(),
             new AngryChimps\GeoBundle\AngryChimpsGeoBundle(),
+            new Misd\GuzzleBundle\MisdGuzzleBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

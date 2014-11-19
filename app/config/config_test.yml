@@ -1,6 +1,5 @@
 imports:
     - { resource: config_dev.yml }
-    - { resource: ac_norm_test.yml }
 
 framework:
     test: ~
@@ -15,3 +14,16 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+armetiz_facebook:
+    enabled: true
+    sdk:
+        ac_login:
+            app_id: 378121139011542
+            secret: 0fefe9a9e1a36abc6db65dedafd30736
+            enabled: true
+            default: true
+
+angry_chimps_api:
+    base_url: http://devvy.angrychimps.com/api/v1
+    auth_header_name: angrychimps-api-auth-token

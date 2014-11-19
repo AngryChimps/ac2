@@ -24,8 +24,6 @@ class AuthService {
     /** @var TimedTwigEngine  */
     protected $templating;
 
-    const SALT = 'ljfso8uc2098jfwojd;lfkjafpij3qcnfnhlknfz.kspfwqnjski45';
-
     public function __construct(FacebookSessionPersistence $facebookSdk,
                                 MailerService $mailer,
                                 TimedTwigEngine $templating) {
@@ -70,7 +68,10 @@ class AuthService {
     }
 
     public function hashPassword($password) {
-        return substr(bcrypt($password . self::SALT), 16);
+        $options = [
+            'cost' => 12,
+        ];
+        return password_hash($password, PASSWORD_BCRYPT, $options);
     }
 
     public function forgotPassword($email) {

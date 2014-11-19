@@ -1,0 +1,11 @@
+default:
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                env: behat
+                debug: true
+
+    suites:
+        api:
+            type: symfony_bundle
+            bundle: AngryChimpsApiBundle

@@ -30,7 +30,9 @@
         "jms/serializer-bundle": "master@dev",
         "hwi/oauth-bundle": "0.4.*@dev",
         "friendsofsymfony/facebook-bundle": "master@dev",
-        "armetiz/facebook-bundle": "*"
+        "armetiz/facebook-bundle": "*",
+        "behat/symfony2-extension": "~2.0@dev",
+        "misd/guzzle-bundle": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

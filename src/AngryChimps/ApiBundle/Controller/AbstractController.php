@@ -49,7 +49,8 @@ class AbstractController extends FOSRestController {
         }
 
         $return = array(
-            'data' => $data,
+            'payload' => $data,
+            'php_session_id' => session_id(),
             'errors' => $errors,
             'exception' => $exArr,
             'request' => array(
@@ -89,7 +90,7 @@ class AbstractController extends FOSRestController {
     public function getUser() {
         $request = $this->getRequest();
         //If there is a user authenticated, load it
-        $authToken = $request->query->get('auth_token');
+        $authToken = $request->headers->get($this->container->getParameter('auth_header_name'));
         if(!empty($authToken)) {
             /** @var \AngryChimps\ApiBundle\Services\AuthService $auth */
             $auth = $this->get('angry_chimps_api.auth');
@@ -171,5 +172,11 @@ class AbstractController extends FOSRestController {
      */
     public function getMemberService() {
         return $this->container->get('angry_chimps_api.member');
+    }
+    /**
+     * @return \AngryChimps\ApiBundle\Services\ServiceService
+     */
+    public function getServiceService() {
+        return $this->container->get('angry_chimps_api.service');
     }
 }

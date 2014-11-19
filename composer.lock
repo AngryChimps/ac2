@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "26135ee6877198974e6f11b6aa8b69a7",
+    "hash": "2739a0244b26caeea71fdc20c1e88ac8",
     "packages": [
         {
             "name": "armetiz/facebook-bundle",
@@ -53,6 +53,245 @@
                 "sdk"
             ],
             "time": "2013-03-29 13:15:03"
+        },
+        {
+            "name": "behat/behat",
+            "version": "v3.0.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Behat.git",
+                "reference": "3f097cd577feed73e681fa56cd4e4e1dda9c115d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/3f097cd577feed73e681fa56cd4e4e1dda9c115d",
+                "reference": "3f097cd577feed73e681fa56cd4e4e1dda9c115d",
+                "shasum": ""
+            },
+            "require": {
+                "behat/gherkin": "~4.3",
+                "behat/transliterator": "~1.0",
+                "ext-mbstring": "*",
+                "php": ">=5.3.3",
+                "symfony/class-loader": "~2.1",
+                "symfony/config": "~2.3",
+                "symfony/console": "~2.1",
+                "symfony/dependency-injection": "~2.1",
+                "symfony/event-dispatcher": "~2.1",
+                "symfony/translation": "~2.1",
+                "symfony/yaml": "~2.1"
+            },
+            "require-dev": {
+                "phpspec/prophecy-phpunit": "~1.0",
+                "phpunit/phpunit": "~4.0.7",
+                "symfony/process": "~2.1"
+            },
+            "suggest": {
+                "behat/mink-extension": "for integration with Mink testing framework",
+                "behat/symfony2-extension": "for integration with Symfony2 web framework",
+                "behat/yii-extension": "for integration with Yii web framework"
+            },
+            "bin": [
+                "bin/behat"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Behat": "src/",
+                    "Behat\\Testwork": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com",
+                    "homepage": "http://everzet.com"
+                }
+            ],
+            "description": "Scenario-oriented BDD framework for PHP 5.3",
+            "homepage": "http://behat.org/",
+            "keywords": [
+                "Agile",
+                "BDD",
+                "ScenarioBDD",
+                "Scrum",
+                "StoryBDD",
+                "User story",
+                "business",
+                "development",
+                "documentation",
+                "examples",
+                "symfony",
+                "testing"
+            ],
+            "time": "2014-09-23 10:47:14"
+        },
+        {
+            "name": "behat/gherkin",
+            "version": "v4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Gherkin.git",
+                "reference": "43777c51058b77bcd84a8775b7a6ad05e986b5db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Behat/Gherkin/zipball/43777c51058b77bcd84a8775b7a6ad05e986b5db",
+                "reference": "43777c51058b77bcd84a8775b7a6ad05e986b5db",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "symfony/yaml": "~2.1"
+            },
+            "suggest": {
+                "symfony/yaml": "If you want to parse features, represented in YAML files"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Gherkin": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com",
+                    "homepage": "http://everzet.com"
+                }
+            ],
+            "description": "Gherkin DSL parser for PHP 5.3",
+            "homepage": "http://behat.org/",
+            "keywords": [
+                "BDD",
+                "Behat",
+                "Cucumber",
+                "DSL",
+                "gherkin",
+                "parser"
+            ],
+            "time": "2014-06-06 01:24:32"
+        },
+        {
+            "name": "behat/symfony2-extension",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Symfony2Extension.git",
+                "reference": "3a7b26908a7a21665d0918edbaa99c5e8e125ed5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Behat/Symfony2Extension/zipball/3a7b26908a7a21665d0918edbaa99c5e8e125ed5",
+                "reference": "3a7b26908a7a21665d0918edbaa99c5e8e125ed5",
+                "shasum": ""
+            },
+            "require": {
+                "behat/behat": "~3.0,>=3.0.4",
+                "php": ">=5.3.3",
+                "symfony/framework-bundle": "~2.0"
+            },
+            "require-dev": {
+                "behat/mink-browserkit-driver": "~1.0",
+                "behat/mink-extension": "~2.0@dev",
+                "phpspec/phpspec": "~2.0",
+                "phpunit/phpunit": "~4.0",
+                "symfony/symfony": "~2.1"
+            },
+            "type": "behat-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Symfony2Extension": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christophe Coevoet",
+                    "email": "stof@notk.org"
+                },
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com"
+                }
+            ],
+            "description": "Symfony2 framework extension for Behat",
+            "homepage": "http://behat.org",
+            "keywords": [
+                "BDD",
+                "framework",
+                "symfony"
+            ],
+            "time": "2014-10-17 15:23:13"
+        },
+        {
+            "name": "behat/transliterator",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Transliterator.git",
+                "reference": "c93521d3462a554332d1ef5bb0e9b5b8ca4106c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Behat/Transliterator/zipball/c93521d3462a554332d1ef5bb0e9b5b8ca4106c4",
+                "reference": "c93521d3462a554332d1ef5bb0e9b5b8ca4106c4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Transliterator": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Artistic-1.0"
+            ],
+            "description": "String transliterator",
+            "keywords": [
+                "i18n",
+                "slug",
+                "transliterator"
+            ],
+            "time": "2014-05-15 22:08:22"
         },
         {
             "name": "doctrine/annotations",
@@ -849,6 +1088,98 @@
             "time": "2014-08-15 12:18:54"
         },
         {
+            "name": "guzzle/guzzle",
+            "version": "v3.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "54991459675c1a2924122afbb0e5609ade581155"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/54991459675c1a2924122afbb0e5609ade581155",
+                "reference": "54991459675c1a2924122afbb0e5609ade581155",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.3",
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "replace": {
+                "guzzle/batch": "self.version",
+                "guzzle/cache": "self.version",
+                "guzzle/common": "self.version",
+                "guzzle/http": "self.version",
+                "guzzle/inflection": "self.version",
+                "guzzle/iterator": "self.version",
+                "guzzle/log": "self.version",
+                "guzzle/parser": "self.version",
+                "guzzle/plugin": "self.version",
+                "guzzle/plugin-async": "self.version",
+                "guzzle/plugin-backoff": "self.version",
+                "guzzle/plugin-cache": "self.version",
+                "guzzle/plugin-cookie": "self.version",
+                "guzzle/plugin-curlauth": "self.version",
+                "guzzle/plugin-error-response": "self.version",
+                "guzzle/plugin-history": "self.version",
+                "guzzle/plugin-log": "self.version",
+                "guzzle/plugin-md5": "self.version",
+                "guzzle/plugin-mock": "self.version",
+                "guzzle/plugin-oauth": "self.version",
+                "guzzle/service": "self.version",
+                "guzzle/stream": "self.version"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.3",
+                "monolog/monolog": "~1.0",
+                "phpunit/phpunit": "3.7.*",
+                "psr/log": "~1.0",
+                "symfony/class-loader": "~2.1",
+                "zendframework/zend-cache": "2.*,<2.3",
+                "zendframework/zend-log": "2.*,<2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Guzzle": "src/",
+                    "Guzzle\\Tests": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Guzzle Community",
+                    "homepage": "https://github.com/guzzle/guzzle/contributors"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2014-08-11 04:32:36"
+        },
+        {
             "name": "hwi/oauth-bundle",
             "version": "dev-master",
             "target-dir": "HWI/Bundle/OAuthBundle",
@@ -1407,6 +1738,80 @@
                 "http client"
             ],
             "time": "2014-09-15 12:42:36"
+        },
+        {
+            "name": "misd/guzzle-bundle",
+            "version": "v1.1.4",
+            "target-dir": "Misd/GuzzleBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/misd-service-development/guzzle-bundle.git",
+                "reference": "42fca1c6b09f50b0f540e3055dc98a2b37f04aa1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/misd-service-development/guzzle-bundle/zipball/42fca1c6b09f50b0f540e3055dc98a2b37f04aa1",
+                "reference": "42fca1c6b09f50b0f540e3055dc98a2b37f04aa1",
+                "shasum": ""
+            },
+            "require": {
+                "guzzle/guzzle": "~3.0",
+                "php": ">=5.3.3",
+                "symfony/framework-bundle": "~2.2"
+            },
+            "conflict": {
+                "jms/serializer-bundle": "<0.11-dev",
+                "sensio/framework-extra-bundle": ">=4.0-dev"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.0",
+                "jms/serializer-bundle": "~0.11",
+                "phpunit/phpunit": "~3.7",
+                "sensio/framework-extra-bundle": "~2.2",
+                "symfony/form": "~2.2",
+                "symfony/monolog-bundle": "~2.2",
+                "symfony/yaml": "~2.2"
+            },
+            "suggest": {
+                "jms/serializer-bundle": "Serialize/deserialize objects to/from XML, JSON and YAML",
+                "sensio/framework-extra-bundle": "Provides a parameter converter",
+                "symfony/monolog-bundle": "Log requests"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Misd\\GuzzleBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Wilkinson",
+                    "email": "chris.wilkinson@admin.cam.ac.uk"
+                }
+            ],
+            "description": "Integrates Guzzle into your Symfony2 application",
+            "homepage": "https://github.com/misd-service-development/guzzle-bundle",
+            "keywords": [
+                "Guzzle",
+                "api",
+                "bundle",
+                "client",
+                "curl",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2014-02-17 11:27:29"
         },
         {
             "name": "monolog/monolog",
@@ -2410,6 +2815,7 @@
         "jms/serializer-bundle": 20,
         "hwi/oauth-bundle": 20,
         "friendsofsymfony/facebook-bundle": 20,
+        "behat/symfony2-extension": 20,
         "bach-pedersen/php-riak-stubs": 20
     },
     "prefer-stable": false,

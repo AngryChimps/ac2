@@ -1,0 +1,12 @@
+datastores:
+    riak_ds:
+        driver: "riak_blob"
+        host: "localhost"
+        port: 8087
+    mysql_ds:
+        driver: "mysql"
+        db_name: "ac"
+        host: "localhost"
+        port: 3379
+        user: "root"
+        password: ""

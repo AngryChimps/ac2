@@ -7,12 +7,15 @@ namespace AngryChimps\ApiBundle\Services;
 use Norm\riak\Member;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use AngryChimps\MailerBundle\Messages\BasicMessage;
+use AngryChimps\MailerBundle\Services\MailerService;
+use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
 
 class MemberService {
-    /** @var  \Swift_Mailer */
+    /** @var  MailerService */
     protected $mailer;
 
-    /** @var TemplateReferenceInterface  */
+    /** @var TimedTwigEngine  */
     protected $templating;
 
     /** @var \AngryChimps\ApiBundle\Services\AuthService */
@@ -21,8 +24,8 @@ class MemberService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
     protected $validator;
 
-    public function __construct(\Swift_Mailer $mailer,
-                                TemplateReferenceInterface $templating,
+    public function __construct(MailerService $mailer,
+                                TimedTwigEngine $templating,
                                 AuthService $auth,
                                 ValidatorInterface $validator) {
         $this->mailer = $mailer;
@@ -37,6 +40,8 @@ class MemberService {
         $member->email = $email;
         $member->password = $this->auth->hashPassword($password);
         $member->dob = $dob;
+        $member->status = Member::ACTIVE_STATUS;
+        $member->role = Member::USER_ROLE;
 
         $errors = $this->validator->validate($member);
 
@@ -45,6 +50,7 @@ class MemberService {
         }
 
         $member->save();
+
         return $member;
     }
 }
