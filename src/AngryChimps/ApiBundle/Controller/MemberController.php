@@ -24,7 +24,7 @@ use Psr\Log\LoggerInterface;
 class MemberController extends AbstractController
 {
     /** @var  MemberService */
-    private $memberService;
+    protected $memberService;
 
     /** @var  AuthService */
     private $authService;
@@ -63,40 +63,6 @@ class MemberController extends AbstractController
         $data = array('member' => $memberInfo);
 
         return $this->responseService->success($data);
-    }
-
-    /**
-     * @Route("/")
-     * @Route("")
-     * @Method({"POST"})
-     */
-    public function indexPostAction() {
-        $payload = $this->getPayload();
-
-        $member = Member::getByEmailEnabled($payload['email']);
-        if($member !== null) {
-            $error = array(
-                'human' => 'Active member found with that email',
-                'code' => 'Api.MemberController.indexPostAction.1',
-            );
-            return $this->responseService->failure(400, $error);
-        }
-
-        $errors = array();
-        $member = $this->memberService->createMember(
-            $payload['name'], $payload['email'],
-            $payload['password'], new \DateTime($payload['dob']), $errors);
-        if($member === false) {
-                $error = array(
-                    'human' => 'Unable to validate Member',
-                    'code' => 'Api.MemberController.indexPostAction.2',
-                    'debug' => (string) $errors,
-                );
-            return $this->responseService->failure(400, $error);
-        }
-
-        return $this->responseService->success(array('member'=>$member->getPrivateArray(),
-                                    'auth_token' => $this->authService->generateToken()));
     }
 
     /**

@@ -7,6 +7,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use \Norm\riak\Member;
+use AngryChimps\ApiBundle\Services\ResponseService;
+use Symfony\Component\HttpFoundation\RequestStack;
+use AngryChimps\ApiBundle\Services\SessionService;
+use AngryChimps\ApiBundle\Services\AuthService;
 
 /**
  * Class AuthController
@@ -15,6 +19,44 @@ use \Norm\riak\Member;
  */
 class AuthController extends AbstractController
 {
+    protected $authService;
+
+    public function __construct(RequestStack $requestStack, SessionService $sessionService,
+                                ResponseService $responseService, AuthService $authService)
+    {
+        parent::__construct($requestStack, $sessionService, $responseService);
+        $this->authService = $authService;
+    }
+
+    public function registerAction() {
+        $payload = $this->getPayload();
+
+        $member = Member::getByEmailEnabled($payload['email']);
+        if($member !== null) {
+            $error = array(
+                'human' => 'Active member found with that email',
+                'code' => 'Api.MemberController.indexPostAction.1',
+            );
+            return $this->responseService->failure(400, $error);
+        }
+
+        $errors = array();
+        $member = $this->authService->register(
+            $payload['name'], $payload['email'],
+            $payload['password'], new \DateTime($payload['dob']), $errors);
+        if($member === false) {
+            $error = array(
+                'human' => 'Unable to validate Member',
+                'code' => 'Api.MemberController.indexPostAction.2',
+                'debug' => (string) $errors,
+            );
+            return $this->responseService->failure(400, $error);
+        }
+
+        return $this->responseService->success(array('member'=>$member->getPrivateArray(),
+            'auth_token' => $this->authService->generateToken()));
+    }
+
     /**
      * @Route("/login")
      * @Method({"POST"})
@@ -22,7 +64,7 @@ class AuthController extends AbstractController
     public function loginAction()
     {
         $payload = $this->getPayload();
-        $auth = $this->getAuthService();
+        $auth = $this->authService;
 
         //FB Login
         if(isset($payload['fb_id'])) {
@@ -32,12 +74,12 @@ class AuthController extends AbstractController
             catch(\FacebookApiException $fbex) {
                 $error = array('code' => 'Api.AuthController.loginAction.1',
                                'human' => 'Unable to authenticate token to Facebook');
-                return $this->failure(401, $error, $fbex);
+                return $this->responseService->failure(401, $error, $fbex);
             }
             catch(\Exception $ex) {
                 $error = array('code' => 'Api.AuthController.loginAction.2',
                     'human' => 'Unable to authenticate for unknown reasons');
-                return $this->failure(401, $error, $ex);
+                return $this->responseService->failure(401, $error, $ex);
             }
 
             $user = Member::getByEmail($userProfile['email']);
@@ -54,7 +96,7 @@ class AuthController extends AbstractController
                           'is_new' => $is_new,
                           'auth_token' => $auth->generateToken(),
             );
-            return $this->success($data);
+            return $this->responseService->success($data);
         }
         elseif(isset($payload['email'])) {
             $user = $auth->loginFormUser($payload['email'], $payload['password']);
@@ -63,13 +105,13 @@ class AuthController extends AbstractController
                               'is_new' => false,
                               'auth_token' => $auth->generateToken(),
                 );
-                return $this->success($data);
+                return $this->responseService->success($data);
 
             }
             else {
                 $error = array('code' => 'Api.AuthController.loginAction.3',
                     'human' => 'Either the email was not found or the password did not match');
-                return $this->failure(400, $error);
+                return $this->responseService->failure(400, $error);
             }
         }
 
@@ -77,7 +119,7 @@ class AuthController extends AbstractController
         //Invalid request (doesn't specify email or fb_id)
         $error = array('code' => 'Api.AuthController.loginAction.4',
                        'human' => 'Invalid request.  You must specify either email or fb_id');
-        return $this->failure(400, $error);
+        return $this->responseService->failure(400, $error);
     }
 
     /**
@@ -86,9 +128,9 @@ class AuthController extends AbstractController
      */
     public function logoutAction()
     {
-        session_regenerate_id();
+        $this->getSessionService()->logoutUser();
 
-        return $this->success();
+        return $this->responseService->success();
     }
 
     /**
@@ -97,22 +139,22 @@ class AuthController extends AbstractController
      */
     public function changePasswordAction()
     {
-        $auth = $this->getAuthService();
+        $auth = $this->authService;
         $payload = $this->getPayload();
         $old = $payload['old_password'];
         $new = $payload['new_password'];
-        $user = $this->getUser();
+        $user = $this->getAuthenticatedUser();
 
         //Check old password make sure it is correct
         if(!$auth->isPasswordCorrect($user, $old)) {
             $error = array('code' => 'Api.AuthController.changePasswordAction.1',
                 'human' => 'Invalid request.  You must specify either email or fb_id');
-            return $this->failure(400, $error);
+            return $this->responseService->failure(400, $error);
         }
 
         $user->password = $auth->hashPassword($new);
 
-        return $this->success();
+        return $this->responseService->success();
     }
 
     /**
@@ -121,13 +163,13 @@ class AuthController extends AbstractController
      */
     public function forgotPasswordAction()
     {
-        $auth = $this->getAuthService();
+        $auth = $this->authService;
         $payload = $this->getPayload();
         $email = $payload['email'];
 
         $auth->forgotPassword($email);
 
-        return $this->success();
+        return $this->responseService->success();
     }
 
     /**
@@ -136,7 +178,7 @@ class AuthController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function forgotPasswordReset() {
-        $auth = $this->getAuthService();
+        $auth = $this->authService;
         $payload = $this->getPayload();
         $email = $payload['email'];
         $password = $payload['password'];
@@ -147,20 +189,11 @@ class AuthController extends AbstractController
                             . ' characters long',
                 'code' => 'Api.AuthController.forgotPasswordReset.1'
             );
-            return $this->failure(400, $errors);
+            return $this->responseService->failure(400, $errors);
         }
 
         $auth->resetPassword($email, $password);
 
-        return $this->success();
-    }
-
-    /**
-     * @Route("/getNewSession")
-     * @Method({"GET"})
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function getNewSession() {
-        return $this->success(array('session_id' => $this->getAuthService()->getNewSessionToken()));
+        return $this->responseService->success();
     }
 }

@@ -12,6 +12,7 @@ use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Templating\TemplateReferenceInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AuthService {
     const MINIMUM_PASSWORD_LENGTH = 6;
@@ -25,12 +26,40 @@ class AuthService {
     /** @var TimedTwigEngine  */
     protected $templating;
 
+    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
+    protected $validator;
+
     public function __construct(FacebookSessionPersistence $facebookSdk,
                                 MailerService $mailer,
-                                TimedTwigEngine $templating) {
+                                TimedTwigEngine $templating,
+                                ValidatorInterface $validator)
+    {
         $this->facebookSdk = $facebookSdk;
         $this->mailer = $mailer;
         $this->templating = $templating;
+    }
+
+    public function register($name, $email, $password, \DateTime $dob, array &$errors) {
+        $member = new Member();
+        $member->name = $name;
+        $member->email = $email;
+        $member->password = $password;
+        $member->dob = $dob;
+        $member->status = Member::ACTIVE_STATUS;
+        $member->role = Member::USER_ROLE;
+
+        $errors = $this->validator->validate($member);
+
+        //Hash password
+        $member->password = $this->hashPassword($password);
+
+        if(count($errors) > 0) {
+            return false;
+        }
+
+        $member->save();
+
+        return $member;
     }
 
     /**

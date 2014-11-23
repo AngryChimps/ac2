@@ -78,6 +78,7 @@ class ResponseService {
             'error' => $errors,
             'exception' => $exArr,
             'request' => array(
+                'session_id' => $this->request->headers->get('angrychimps-api-session-token'),
                 'uri' => $this->request->getUri(),
                 'method' => $this->request->getMethod(),
                 'payload' => $this->getPayload(),

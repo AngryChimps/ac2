@@ -5,6 +5,7 @@ Feature: auth-registration-form
 
   Scenario: Register a valid user using form authentication
     Given I have a valid new user array
+    And I get a new session token
     When I register a new user
     Then I get a status code "200"
     And I get back a valid json object
@@ -18,6 +19,7 @@ Feature: auth-registration-form
 
   Scenario: Attempt registration of a new member with the email of an active member
     Given I have a valid new user array
+    And I get a new session token
     When I register a new user
     And I register a new user
     Then I get a status code "400"
@@ -26,6 +28,7 @@ Feature: auth-registration-form
 
   Scenario: Attempt registration of a new member with invalid data
     Given I have a valid new user array
+    And I get a new session token
     And I change the "payload.name" field's value of the request object to "a"
     When I register a new user
     Then I get a status code "400"

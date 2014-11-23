@@ -33,7 +33,7 @@ class AbstractFeatureContext {
     protected $response;
 
     protected $authToken;
-    protected $phpSessionId;
+    protected $sessionId;
     protected $userId;
     protected $rand;
 
@@ -165,11 +165,25 @@ class AbstractFeatureContext {
         }
     }
 
+    protected function getData($url) {
+        try {
+            $request = $this->guzzle->get($url, array('content-type' => 'application/json'),
+                null, array('exceptions' => false));
+            $request->setHeader('angrychimps-api-session-token', $this->sessionId);
+
+            $this->response = $request->send();
+        }
+        catch(ClientException $ex) {
+            //Ignore this exception, we'll test the return status separately
+        }
+    }
+
     protected function postData($url) {
         try {
             $request = $this->guzzle->post($url, array('content-type' => 'application/json'),
                 null, array('exceptions' => false));
             $request->setBody(json_encode($this->requestArray));
+            $request->setHeader('angrychimps-api-session-token', $this->sessionId);
 
 
             $this->response = $request->send();

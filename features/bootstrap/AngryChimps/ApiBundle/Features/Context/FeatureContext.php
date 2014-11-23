@@ -11,6 +11,7 @@ use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Norm\riak\Member;
 use Guzzle\Http\Message\Response;
+use Norm\riak\Session;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Guzzle\Http\Exception\ClientException;
@@ -155,6 +156,19 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->cleanUpObjects();
     }
 
+    /**
+     * @When I get a new session token
+     */
+    public function iGetANewSessionToken()
+    {
+        $this->getData('session');
+
+        //Set sessionId for future calls
+        $this->sessionId = $this->getResponseFieldValue('payload.session_id');
+
+        //Add to objects so it gets cleaned up
+        $this->addObject(Session::getByPk($this->sessionId));
+    }
 
 }
 

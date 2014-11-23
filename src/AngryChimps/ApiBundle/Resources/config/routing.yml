@@ -19,6 +19,15 @@ angry_chimps_api_member_delete:
     path:     /member/{id}
     methods: ["DELETE"]
     defaults: { _controller: angry_chimps_api.member.controller:indexDeleteAction }
+angry_chimps_api_auth_login:
+    path:     /auth/login
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.auth.controller:loginAction }
+angry_chimps_api_auth_register:
+    path:     /auth/register
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.auth.controller:registerAction }
+
 api:
     resource: "@AngryChimpsApiBundle/Controller"
     type:     annotation

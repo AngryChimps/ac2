@@ -1,7 +1,9 @@
 parameters:
     angry_chimps_api.session_header_name: angrychimps-api-session-token
+
     angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
     angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
+    angry_chimps_api.controller.auth.class: AngryChimps\ApiBundle\Controller\AuthController
 
 services:
     kernel.listener.angry_chimps_api_exception_listener:
@@ -14,7 +16,7 @@ services:
 ##############################################################
     angry_chimps_api.auth:
         class: AngryChimps\ApiBundle\Services\AuthService
-        arguments: ["@armetiz.facebook","@angry_chimps_mailer.mailer", "@templating"]
+        arguments: ["@armetiz.facebook","@angry_chimps_mailer.mailer", "@templating", "@validator"]
     angry_chimps_api.member:
         class: AngryChimps\ApiBundle\Services\MemberService
         arguments: ["@angry_chimps_mailer.mailer", "@templating", "@angry_chimps_api.auth", "@validator"]
@@ -48,3 +50,7 @@ services:
     angry_chimps_api.member.controller:
             class:     "%angry_chimps_api.controller.member.class%"
             arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.member", "@angry_chimps_api.auth"]
+
+    angry_chimps_api.auth.controller:
+            class:     "%angry_chimps_api.controller.auth.class%"
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.auth"]

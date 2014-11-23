@@ -5,6 +5,7 @@ Feature: auth-login-form
 
   Scenario: Log in a valid user using form authentication
     Given I have a test user
+    And I get a new session token
     And I have a valid form login array
     When I log in
     Then I get a status code "200"
@@ -17,18 +18,20 @@ Feature: auth-login-form
     And The string length of the "payload.auth_token" field is "32"
     And Finally, I clean up my objects
 
-#  Scenario: Attempt registration of a new member with the email of an active member
-#    Given I have a valid new user object
-#    When I register a new user
-#    And I register a new user
-#    Then I get a status code "400"
-#    And The value of the "error.code" field returned is of type "string"
-#    And The value of the "error.code" field is "Api.MemberController.indexPostAction.1"
-#
-#  Scenario: Attempt registration of a new member with invalid data
-#    Given I have a valid new user object
-#    And I change the "payload.name" field's value of the request object to "a"
-#    When I register a new user
-#    Then I get a status code "400"
-#    And The value of the "error.code" field returned is of type "string"
-#    And The value of the "error.code" field is "Api.MemberController.indexPostAction.2"
+  Scenario: Attempt registration of a new member with the email of an active member
+    Given I have a valid new user array
+    And I get a new session token
+    When I register a new user
+    And I register a new user
+    Then I get a status code "400"
+    And The value of the "error.code" field returned is of type "string"
+    And The value of the "error.code" field is "Api.MemberController.indexPostAction.1"
+
+  Scenario: Attempt registration of a new member with invalid data
+    Given I have a valid new user array
+    And I get a new session token
+    And I change the "payload.name" field's value of the request object to "a"
+    When I register a new user
+    Then I get a status code "400"
+    And The value of the "error.code" field returned is of type "string"
+    And The value of the "error.code" field is "Api.MemberController.indexPostAction.2"

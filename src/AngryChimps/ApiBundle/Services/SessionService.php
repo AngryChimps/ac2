@@ -71,4 +71,12 @@ class SessionService {
         $user = Member::getByPk($session->userId);
         return $user;
     }
+
+    public function logoutUser() {
+        $sessionToken = $this->request->headers->get($this->sessionHeaderName);
+
+        $session = Session::getByPk($sessionToken);
+        $session->userId = null;
+        $session->sessionBag = array();
+    }
 } 
