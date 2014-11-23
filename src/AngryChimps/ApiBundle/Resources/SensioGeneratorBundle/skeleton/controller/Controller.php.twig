@@ -4,11 +4,15 @@ namespace {{ namespace }}\Controller;
 
 {% block use_statements %}
 use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\HttpFoundation\RequestStack;
+use FOS\RestBundle\View\ViewHandler;
+use AngryChimps\ApiBundle\Services\SessionService;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 {% if 'annotation' == format.routing -%}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
 {% endif %}
 {% endblock use_statements %}
 

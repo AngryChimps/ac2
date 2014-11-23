@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+#    - { resource: "../../src/AngryChimps/NormBundle/realms/Norm/riak/validations/validations.yml" }
 #    - { resource: "@AngryChimpsSecurityBundle/Resources/config/services.yml" }
 
 framework:
@@ -11,8 +12,8 @@ framework:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
     form:            ~
-    csrf_protection: ~
-#    validation:      { enable_annotations: true }
+#    csrf_protection: ~
+    validation:      { enable_annotations: false, enabled: true }
     templating:
         engines: ['twig']
         #assets_version: SomeVersionScheme

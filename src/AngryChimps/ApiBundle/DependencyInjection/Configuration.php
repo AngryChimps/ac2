@@ -23,7 +23,6 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
             ->scalarNode('base_url')->end()
-            ->scalarNode('auth_header_name')->end()
             ->end()
         ;
 

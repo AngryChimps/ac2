@@ -26,4 +26,3 @@ armetiz_facebook:
 
 angry_chimps_api:
     base_url: http://devvy.angrychimps.com/api/v1
-    auth_header_name: angrychimps-api-auth-token

@@ -24,7 +24,6 @@ class AngryChimpsApiExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('angry_chimps_api.base_url', $config['base_url']);
-        $container->setParameter('angry_chimps_api.auth_header_name', $config['auth_header_name']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

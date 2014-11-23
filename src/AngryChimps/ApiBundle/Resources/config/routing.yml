@@ -1,8 +1,24 @@
-angry_chimps_api_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: AngryChimpsApiBundle:Default:index }
-
-# import routes from a controller directory
+angry_chimps_api_session:
+    path:     /session
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.session.controller:indexGetAction }
+angry_chimps_api_member_get:
+    path:     /member/{id}
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.member.controller:indexGetAction }
+angry_chimps_api_member_post:
+    path:     /member
+    path:     /member/
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.member.controller:indexPostAction }
+angry_chimps_api_member_put:
+    path:     /member/{id}
+    methods: ["PUT"]
+    defaults: { _controller: angry_chimps_api.member.controller:indexPutAction }
+angry_chimps_api_member_delete:
+    path:     /member/{id}
+    methods: ["DELETE"]
+    defaults: { _controller: angry_chimps_api.member.controller:indexDeleteAction }
 api:
     resource: "@AngryChimpsApiBundle/Controller"
     type:     annotation

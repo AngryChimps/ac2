@@ -10,6 +10,7 @@ use Armetiz\FacebookBundle\FacebookSessionPersistence;
 use Norm\riak\Member;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 
 class AuthService {
@@ -50,7 +51,7 @@ class AuthService {
     }
 
     public function loginFormUser($email, $password) {
-        $user = Member::getByEmail($email);
+        $user = Member::getByEmailEnabled($email);
 
         if($user === null) {
             return false;
@@ -64,7 +65,7 @@ class AuthService {
     }
 
     public function isPasswordCorrect(Member $user, $password) {
-        return $user->password === $this->hashPassword($password);
+        return password_verify($password, $user->password);
     }
 
     public function hashPassword($password) {
@@ -139,6 +140,7 @@ class AuthService {
     }
 
     public function getUserByAuthToken($authToken) {
+
         $session = $this->get('session');
 
         if($session->get('ac.auth_service.auth_token') != $authToken) {
@@ -147,4 +149,4 @@ class AuthService {
 
         return Member::getByPk($session->get('ac.auth_service.user_id'));
     }
-} 
+}

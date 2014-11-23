@@ -3,11 +3,17 @@
 namespace AngryChimps\ApiBundle\Controller;
 
 use AngryChimps\ApiBundle\Services\AuthService;
+use AngryChimps\ApiBundle\Services\MemberService;
+use AngryChimps\ApiBundle\Services\ResponseService;
 use Norm\riak\Member;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use FOS\RestBundle\View\ViewHandler;
+use AngryChimps\ApiBundle\Services\SessionService;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class MemberController
@@ -17,6 +23,20 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class MemberController extends AbstractController
 {
+    /** @var  MemberService */
+    private $memberService;
+
+    /** @var  AuthService */
+    private $authService;
+
+    public function __construct(RequestStack $requestStack, SessionService $sessionService,
+                                ResponseService $responseService, MemberService $memberService, AuthService $authService)
+    {
+        parent::__construct($requestStack, $sessionService, $responseService);
+        $this->memberService = $memberService;
+        $this->authService = $authService;
+    }
+
     /**
      * @Route("/{id}")
      * @Method({"GET"})
@@ -30,10 +50,10 @@ class MemberController extends AbstractController
                 'human' => 'Unable to find the requested member',
                 'code' => 'Api.MemberController.indexGetAction.1'
             );
-            return $this->failure(404, $errors);
+            return $this->responseService->failure(404, $errors);
         }
 
-        $user = $this->getUser();
+        $user = $this->getAuthenticatedUser();
         if($user !== null && $member->id === $user->id) {
             $memberInfo = $member->getPrivateArray();
         }
@@ -42,7 +62,7 @@ class MemberController extends AbstractController
         }
         $data = array('member' => $memberInfo);
 
-        return $this->success($data);
+        return $this->responseService->success($data);
     }
 
     /**
@@ -51,25 +71,32 @@ class MemberController extends AbstractController
      * @Method({"POST"})
      */
     public function indexPostAction() {
-        //Note: password field is handled separately
-        $validFields = array('name', 'email', 'dob');
-
         $payload = $this->getPayload();
 
+        $member = Member::getByEmailEnabled($payload['email']);
+        if($member !== null) {
+            $error = array(
+                'human' => 'Active member found with that email',
+                'code' => 'Api.MemberController.indexPostAction.1',
+            );
+            return $this->responseService->failure(400, $error);
+        }
+
         $errors = array();
-        $member = $this->getMemberService()->createMember(
+        $member = $this->memberService->createMember(
             $payload['name'], $payload['email'],
             $payload['password'], new \DateTime($payload['dob']), $errors);
         if($member === false) {
                 $error = array(
                     'human' => 'Unable to validate Member',
-                    'code' => 'Api.MemberController.indexPostAction.1',
-                    'debug' => $errors,
+                    'code' => 'Api.MemberController.indexPostAction.2',
+                    'debug' => (string) $errors,
                 );
-            return $this->failure(400, $error);
+            return $this->responseService->failure(400, $error);
         }
 
-        return $this->success(array('member'=>$member->getPrivateArray()));
+        return $this->responseService->success(array('member'=>$member->getPrivateArray(),
+                                    'auth_token' => $this->authService->generateToken()));
     }
 
     /**
@@ -82,23 +109,23 @@ class MemberController extends AbstractController
                 'human' => 'You must be a super_user to do this',
                 'code' => 'Api.MemberController.indexDeleteAction.1',
             );
-            return $this->failure(401, $errors);
+            return $this->responseService->failure(401, $errors);
         }
 
-        $member = Member::getByPk($id);
+        $member = Member::getByPkEnabled($id);
 
         if($member === null) {
-            $errors = array(
+            $error = array(
                 'human' => 'Unable to find the requested member',
                 'code' => 'Api.MemberController.indexDeleteAction.2'
             );
-            return $this->failure(404, $errors);
+            return $this->responseService->failure(404, $error);
         }
 
         $member->status = Member::DELETED_STATUS;
         $member->save();
 
-        return $this->success();
+        return $this->responseService->success();
     }
 
     /**
@@ -113,7 +140,7 @@ class MemberController extends AbstractController
                 'human' => 'This action can only be performed by the owner of the object',
                 'code' => 'Api.MemberController.indexPutAction.1',
             );
-            return $this->failure(401, $errors);
+            return $this->responseService->failure(401, $errors);
         }
 
         $payload = $this->getPayload();
@@ -129,6 +156,6 @@ class MemberController extends AbstractController
         }
         $user->save();
 
-        return $this->success($user->getPrivateArray());
+        return $this->responseService->success($user->getPrivateArray());
     }
 }

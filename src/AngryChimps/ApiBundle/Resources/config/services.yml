@@ -1,8 +1,17 @@
-services:
-#    angry_chimps_api.example:
-#        class: AngryChimps\ApiBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+parameters:
+    angry_chimps_api.session_header_name: angrychimps-api-session-token
+    angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
+    angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
 
+services:
+    kernel.listener.angry_chimps_api_exception_listener:
+        class: AngryChimps\ApiBundle\EventListener\ExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+##############################################################
+###                  Services                              ###
+##############################################################
     angry_chimps_api.auth:
         class: AngryChimps\ApiBundle\Services\AuthService
         arguments: ["@armetiz.facebook","@angry_chimps_mailer.mailer", "@templating"]
@@ -18,7 +27,24 @@ services:
     angry_chimps_api.service:
         class: AngryChimps\ApiBundle\Services\ServiceService
         arguments: ["@validator"]
+    angry_chimps_api.response:
+        class: AngryChimps\ApiBundle\Services\ResponseService
+        arguments: ["@request_stack", "@logger", "@fos_rest.view_handler"]
 #    angry_chimps_api.guzzle:
 #        class: AngryChimps\ApiBundle\Services\GuzzleService
 #        tags:
 #            -  { name: guzzle.client }
+    angry_chimps_api.session:
+        class: AngryChimps\ApiBundle\Services\SessionService
+        arguments: ["@request_stack", "%angry_chimps_api.session_header_name%"]
+
+##############################################################
+###                  Controllers                           ###
+##############################################################
+    angry_chimps_api.session.controller:
+            class:     "%angry_chimps_api.controller.session.class%"
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response"]
+
+    angry_chimps_api.member.controller:
+            class:     "%angry_chimps_api.controller.member.class%"
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.member", "@angry_chimps_api.auth"]

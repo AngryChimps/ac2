@@ -12,19 +12,23 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class Member extends MemberBase implements UserInterface, EquatableInterface {
 
-    public static function getByEmail($email) {
-//        $ds = DatastoreManager::getDatastore(static::$primaryDatastoreName);
-//        $arr = $ds->readBySecondaryIndex(self::$realm, self::$tableName, 'email_bin', $email);
-//
-//        if($arr === null) {
-//            return null;
-//        }
-//
-//        $member = new self();
-//        $member->loadFromArray($arr);
-//        return $member;
+    public static function getByPkEnabled($pk) {
+        $member = self::getByPk($pk);
 
+        if($member->status !== Member::ACTIVE_STATUS) {
+            return null;
+        }
+
+        return $member;
+    }
+    public static function getByEmail($email) {
         $mysqlMember = \Norm\mysql\Member::getByEmail($email);
+
+        return self::getByPk($mysqlMember->id);
+    }
+
+    public static function getByEmailEnabled($email) {
+        $mysqlMember = \Norm\mysql\Member::getByEmailEnabled($email);
 
         return self::getByPk($mysqlMember->id);
     }
@@ -90,10 +94,9 @@ class Member extends MemberBase implements UserInterface, EquatableInterface {
         $mysqlMember = \Norm\mysql\Member::getByPk($this->mysqlId);
 
         $changed = $this->getChangedFields();
-print_r($changed);
+
         if(count($changed) > 0) {
             foreach ($changed as $propertyName => $value) {
-echo "setting $propertyName\n";
                 $mysqlMember->$propertyName = $value;
             }
 

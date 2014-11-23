@@ -1,0 +1,17 @@
+data_store:
+  riak
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+  - name: user_id
+    type: string
+  - name: browser_hash
+    type: string
+  - name: session_bag
+    type: array
+  - name: created_at
+    type: DateTime

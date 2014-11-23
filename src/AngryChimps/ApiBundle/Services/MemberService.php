@@ -38,12 +38,15 @@ class MemberService {
         $member = new Member();
         $member->name = $name;
         $member->email = $email;
-        $member->password = $this->auth->hashPassword($password);
+        $member->password = $password;
         $member->dob = $dob;
         $member->status = Member::ACTIVE_STATUS;
         $member->role = Member::USER_ROLE;
 
         $errors = $this->validator->validate($member);
+
+        //Hash password
+        $member->password = $this->auth->hashPassword($password);
 
         if(count($errors) > 0) {
             return false;

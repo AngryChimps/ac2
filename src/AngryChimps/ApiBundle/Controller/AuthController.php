@@ -56,9 +56,10 @@ class AuthController extends AbstractController
             );
             return $this->success($data);
         }
-        elseif(isset($input['email'])) {
-            if($user = $auth->loginFormUser($input['email'], $input['password'])) {
-                $data = array('user' => $user->getPrivateArray(),
+        elseif(isset($payload['email'])) {
+            $user = $auth->loginFormUser($payload['email'], $payload['password']);
+            if($user !== false && $user !== null ) {
+                $data = array('member' => $user->getPrivateArray(),
                               'is_new' => false,
                               'auth_token' => $auth->generateToken(),
                 );
@@ -152,5 +153,14 @@ class AuthController extends AbstractController
         $auth->resetPassword($email, $password);
 
         return $this->success();
+    }
+
+    /**
+     * @Route("/getNewSession")
+     * @Method({"GET"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getNewSession() {
+        return $this->success(array('session_id' => $this->getAuthService()->getNewSessionToken()));
     }
 }
