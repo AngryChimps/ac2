@@ -37,6 +37,7 @@ class AuthService {
         $this->facebookSdk = $facebookSdk;
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->validator = $validator;
     }
 
     public function register($name, $email, $password, \DateTime $dob, array &$errors) {

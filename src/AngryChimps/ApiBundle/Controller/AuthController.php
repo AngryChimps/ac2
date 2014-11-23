@@ -66,60 +66,54 @@ class AuthController extends AbstractController
         $payload = $this->getPayload();
         $auth = $this->authService;
 
-        //FB Login
-        if(isset($payload['fb_id'])) {
-            try {
-                $userProfile = $auth->fbAuth($payload['fb_id'], $payload['fb_access_token']);
-            }
-            catch(\FacebookApiException $fbex) {
-                $error = array('code' => 'Api.AuthController.loginAction.1',
-                               'human' => 'Unable to authenticate token to Facebook');
-                return $this->responseService->failure(401, $error, $fbex);
-            }
-            catch(\Exception $ex) {
-                $error = array('code' => 'Api.AuthController.loginAction.2',
-                    'human' => 'Unable to authenticate for unknown reasons');
-                return $this->responseService->failure(401, $error, $ex);
-            }
-
-            $user = Member::getByEmail($userProfile['email']);
-
-            if($user === null) {
-                $user = $auth->registerFbUser($userProfile);
-                $is_new = true;
-            }
-            else {
-                $is_new = false;
-            }
-
-            $data = array('user' => $user->getPrivateArray(),
-                          'is_new' => $is_new,
+        $user = $auth->loginFormUser($payload['email'], $payload['password']);
+        if($user !== false && $user !== null ) {
+            $data = array('member' => $user->getPrivateArray(),
                           'auth_token' => $auth->generateToken(),
             );
             return $this->responseService->success($data);
+
         }
-        elseif(isset($payload['email'])) {
-            $user = $auth->loginFormUser($payload['email'], $payload['password']);
-            if($user !== false && $user !== null ) {
-                $data = array('member' => $user->getPrivateArray(),
-                              'is_new' => false,
-                              'auth_token' => $auth->generateToken(),
-                );
-                return $this->responseService->success($data);
+        else {
+            $error = array('code' => 'Api.AuthController.loginAction.1',
+                'human' => 'Either the email was not found or the password did not match');
+            return $this->responseService->failure(400, $error);
+        }
+    }
 
-            }
-            else {
-                $error = array('code' => 'Api.AuthController.loginAction.3',
-                    'human' => 'Either the email was not found or the password did not match');
-                return $this->responseService->failure(400, $error);
-            }
+    public function fbLoginRegisterAction() {
+        $payload = $this->getPayload();
+        $auth = $this->authService;
+
+        try {
+            $userProfile = $this->authService->fbAuth($payload['fb_id'], $payload['fb_access_token']);
+        }
+        catch(\FacebookApiException $fbex) {
+            $error = array('code' => 'Api.AuthController.fbLoginRegisterAction.1',
+                'human' => 'Unable to authenticate token to Facebook');
+            return $this->responseService->failure(401, $error, $fbex);
+        }
+        catch(\Exception $ex) {
+            $error = array('code' => 'Api.AuthController.fbLoginRegisterAction.2',
+                'human' => 'Unable to authenticate for unknown reasons');
+            return $this->responseService->failure(401, $error, $ex);
         }
 
+        $user = Member::getByEmail($userProfile['email']);
 
-        //Invalid request (doesn't specify email or fb_id)
-        $error = array('code' => 'Api.AuthController.loginAction.4',
-                       'human' => 'Invalid request.  You must specify either email or fb_id');
-        return $this->responseService->failure(400, $error);
+        if($user === null) {
+            $user = $auth->registerFbUser($userProfile);
+            $is_new = true;
+        }
+        else {
+            $is_new = false;
+        }
+
+        $data = array('user' => $user->getPrivateArray(),
+            'is_new' => $is_new,
+            'auth_token' => $auth->generateToken(),
+        );
+        return $this->responseService->success($data);
     }
 
     /**
