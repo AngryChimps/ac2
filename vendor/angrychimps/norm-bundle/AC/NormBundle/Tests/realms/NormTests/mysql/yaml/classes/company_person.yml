@@ -1,0 +1,26 @@
+primary_keys:
+  - company
+  - person
+
+fields:
+  - name: company_id
+    type: int
+  - name: person_id
+    type: int
+  - name: status
+    type: enum
+    values:
+      - Employed
+      - Terminated
+      - Quit
+
+
+foreign_keys:
+  - name: fk_company_person_company
+    column_name: company_id
+    referenced_table_name: company
+    referenced_column_name: id
+  - name: fk_company_person_person
+    column_name: person_id
+    referenced_table_name: person
+    referenced_column_name: id

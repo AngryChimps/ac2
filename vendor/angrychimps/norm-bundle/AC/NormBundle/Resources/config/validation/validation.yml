@@ -1,0 +1,17 @@
+Norm\riak\Member:
+    properties:
+        email:
+            - Email: ~
+        password:
+            - NotBlank: ~
+            - Length:
+                min: 6
+                max: 25
+        name:
+            - NotBlank: ~
+            - Length:
+                min: 4
+                max: 25
+        dob:
+            - NotBlank: ~
+            - Date: ~

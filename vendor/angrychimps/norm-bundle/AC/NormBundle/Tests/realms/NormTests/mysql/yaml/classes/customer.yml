@@ -1,0 +1,8 @@
+primary_keys:
+  - person_id
+
+fields:
+  - name: person_id
+    type: int
+  - name: dob
+    type: Date

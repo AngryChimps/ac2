@@ -1,0 +1,19 @@
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: int
+    auto_increment: true
+  - name: name
+    type: string
+    length: 20
+  - name: address_id
+    type: int
+
+
+foreign_keys:
+  - name: fk_company_address
+    column_name: address_id
+    referenced_table_name: address
+    referenced_column_name: id

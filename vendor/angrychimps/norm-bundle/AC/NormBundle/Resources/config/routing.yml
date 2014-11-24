@@ -1,0 +1,3 @@
+ac_norm_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: ACNormBundle:Default:index }

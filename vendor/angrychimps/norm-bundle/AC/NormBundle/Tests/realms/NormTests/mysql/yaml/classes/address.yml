@@ -1,0 +1,20 @@
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: int
+    auto_increment: true
+  - name: street
+    type: string
+    length: 50
+  - name: city
+    type: string
+    length: 30
+  - name: state
+    type: string
+    length: 2
+  - name: zip
+    type: int
+  - name: zip4
+    type: int

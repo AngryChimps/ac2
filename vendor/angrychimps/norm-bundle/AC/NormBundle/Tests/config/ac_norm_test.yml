@@ -1,0 +1,12 @@
+datastores:
+    __norm_test_riak_ds:
+        driver: "riak_blob"
+        host: "localhost"
+        port: 8087
+    __norm_test_mysql_ds:
+        driver: "mysql"
+        db_name: "norm_test"
+        host: "localhost"
+        port: 3379
+        user: "root"
+        password: ""

@@ -1,0 +1,8 @@
+#parameters:
+#    validator.mapping.loader.yaml_files_loader.mapping_files:
+#        - validation.yml
+#
+#services:
+#    ac_norm.example:
+#        class: AC\NormBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

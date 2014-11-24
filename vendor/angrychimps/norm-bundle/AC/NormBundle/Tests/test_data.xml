@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <database name="norm_test">
+        <table_data name="address">
+            <row>
+                <field name="id">1</field>
+                <field name="street">123 Main Street</field>
+                <field name="city">Upper Marlboro</field>
+                <field name="state">MD</field>
+                <field name="zip">20772</field>
+                <field name="zip4" xsi:nil="true" />
+            </row>
+            <row>
+                <field name="id">2</field>
+                <field name="street">1 Infinite Loop</field>
+                <field name="city">Santa Clara</field>
+                <field name="state">CA</field>
+                <field name="zip">94117</field>
+                <field name="zip4">1234</field>
+            </row>
+        </table_data>
+        <table_data name="company">
+            <row>
+                <field name="id">1</field>
+                <field name="name">Acme Unlimited</field>
+                <field name="address_id">1</field>
+            </row>
+            <row>
+                <field name="id">2</field>
+                <field name="name">Apple</field>
+                <field name="address_id">2</field>
+            </row>
+        </table_data>
+        <table_data name="company_person">
+            <row>
+                <field name="company_id">1</field>
+                <field name="person_id">1</field>
+                <field name="relationship">2</field>
+            </row>
+        </table_data>
+        <table_data name="person">
+            <row>
+                <field name="id">1</field>
+                <field name="father_id" xsi:nil="true" />
+                <field name="mother_id" xsi:nil="true" />
+                <field name="address_id">1</field>
+            </row>
+            <row>
+                <field name="id">2</field>
+                <field name="father_id">1</field>
+                <field name="mother_id" xsi:nil="true" />
+                <field name="address_id">1</field>
+            </row>
+        </table_data>
+        <table_data name="types">
+            <row>
+                <field name="id">1</field>
+                <field name="t_int">1</field>
+                <field name="t_tinyint">2</field>
+                <field name="t_smallint">3</field>
+                <field name="t_long">4</field>
+                <field name="t_double">5</field>
+                <field name="t_decimal">7</field>
+                <field name="t_bigint">7</field>
+                <field name="t_float">8.32</field>
+                <field name="t_mediumint">9</field>
+                <field name="t_bool">0</field>
+                <field name="t_boolean">0</field>
+                <field name="t_varchar_16">bobby</field>
+                <field name="t_char_8">bobobobo</field>
+                <field name="t_text">long story</field>
+                <field name="t_mediumtext">longer story</field>
+                <field name="t_longtext">really long story</field>
+                <field name="t_datetime">2014-07-01 16:20:00</field>
+                <field name="t_timestamp">0000-00-00 00:00:00</field>
+                <field name="t_date">2014-07-01</field>
+            </row>
+        </table_data>
+    </database>
+</mysqldump>

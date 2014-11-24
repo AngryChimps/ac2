@@ -1,0 +1,34 @@
+primary_keys:
+  - location_key
+
+fields:
+  - name: location_key
+    type: string
+  - name: company_key
+    type: string
+  - name: name
+    type: string
+  - name: address
+    type: string
+  - name: directions
+    type: string
+  - name: lat
+    type: float
+  - name: long
+    type: float
+  - name: photos
+    type: string[]
+  - name: availabilities
+    type: DateTime[]
+  - name: flags
+    type: AdFlag[]
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime
+
+foreign_keys:
+  - name: fk_location_company
+    column_name: company_key
+    referenced_table_name: company
+    referenced_column_name: key

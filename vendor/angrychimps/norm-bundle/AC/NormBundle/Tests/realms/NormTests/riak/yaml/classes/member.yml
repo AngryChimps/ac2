@@ -1,0 +1,50 @@
+data_store:
+  riak
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: mysql_id
+    type: int
+  - name: email
+    type: string
+  - name: password
+    type: string
+  - name: first
+    type: string
+  - name: last
+    type: string
+  - name: dob
+    type: Date
+  - name: photo
+    type: string
+  - name: address
+    type: sring
+  - name: lat
+    type: float
+  - name: long
+    type: float
+  - name: status
+    type: enum
+    values:
+      - Active
+      - Deleted
+      - Banned
+  - name: password_reset_code
+    type: string
+  - name: blocked_company_keys
+    type: string[]
+  - name: managed_company_keys
+    type: string[]
+  - name: ad_flag_keys
+    type: string[]
+  - name: message_flag_keys
+    type: string[]
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime
