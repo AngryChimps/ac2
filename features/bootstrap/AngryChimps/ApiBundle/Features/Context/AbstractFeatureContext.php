@@ -136,6 +136,19 @@ class AbstractFeatureContext {
         }
     }
 
+    protected function ensureResponseDoesNotHaveField($fieldName) {
+        $parts = explode('.', $fieldName);
+
+        $arr = $this->getContentArray();
+        for($i=0; $i < count($parts) - 1; $i++) {
+            $arr = $arr[$parts[$i]];
+        }
+
+        if(array_key_exists($parts[count($parts) - 1], $arr)) {
+            throw new \Exception('Response object has the field: ' . $fieldName);
+        }
+    }
+
     protected function ensureResponseHasFieldType($field, $type) {
         $value = $this->getResponseFieldValue($field);
 

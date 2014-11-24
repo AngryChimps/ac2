@@ -6,7 +6,7 @@ datastores:
     mysql_ds:
         driver: "mysql"
         db_name: "ac"
-        host: "localhost"
-        port: 3379
+        host: "acdb.ckqkc6zyc9bn.us-east-1.rds.amazonaws.com:3306"
+        port: 3306
         user: "root"
-        password: ""
+        password: "zBkt4oHIcFci"

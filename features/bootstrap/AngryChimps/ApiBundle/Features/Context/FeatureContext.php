@@ -41,7 +41,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iRegisterANewUser()
     {
-        $this->postData('member');
+        $this->postData('auth/register');
 
         //Lookup member and add it to the objects array to be deleted after we're done
         if(isset($this->getContentArray()['payload']['member'])) {
@@ -125,6 +125,9 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $member->role = Member::USER_ROLE;
         $member->save();
 
+        //Save the user_id for future use
+        $this->userId = $member->id;
+
         //Add it to the objects array so it gets cleaned up
         $this->addObject($member);
     }
@@ -168,6 +171,24 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
         //Add to objects so it gets cleaned up
         $this->addObject(Session::getByPk($this->sessionId));
+    }
+
+    /**
+     * @When I get the member data for myself
+     */
+    public function iGetTheMemberDataForMyself()
+    {
+        $this->getData('member');
+
+        $this->addObject(Member::getByPk($this->userId));
+    }
+
+    /**
+     * @Then The response does not contain a field named :arg1
+     */
+    public function theResponseDoesNotContainAFieldNamed($arg1)
+    {
+        $this->ensureResponseDoesNotHaveField($arg1);
     }
 
 }
