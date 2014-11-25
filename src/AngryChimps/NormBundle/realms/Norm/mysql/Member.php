@@ -27,7 +27,7 @@ class Member extends MemberBase {
      * @return \Norm\mysql\Member
      */
     public static function getByEmailEnabled($email) {
-        return self::getByWhere('email = :email AND status = ' . self::ACTIVE_STATUS, array(':email' => $email));
+        return self::getByWhere('email = :email AND status = :status', array(':email' => $email, ':status' =>  self::ACTIVE_STATUS));
     }
 
     protected function updateHook($realm, $tableName, $primaryKeys, $fieldDataWithoutPrimaryKeys)

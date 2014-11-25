@@ -19,6 +19,8 @@ class ExceptionListener {
         // You get the exception object from the received event
         $exception = $event->getException();
 
+        $response = null;
+
         switch(get_class($exception)) {
             case 'AngryChimps\\ApiBundle\\Exceptions\\InvalidSessionException':
                 $error = array(

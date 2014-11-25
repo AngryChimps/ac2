@@ -29,12 +29,12 @@ class AuthService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
     protected $validator;
 
-    public function __construct(FacebookSessionPersistence $facebookSdk,
+    public function __construct(/*FacebookSessionPersistence $facebookSdk,*/
                                 MailerService $mailer,
                                 TimedTwigEngine $templating,
                                 ValidatorInterface $validator)
     {
-        $this->facebookSdk = $facebookSdk;
+//        $this->facebookSdk = $facebookSdk;
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->validator = $validator;
@@ -51,12 +51,12 @@ class AuthService {
 
         $errors = $this->validator->validate($member);
 
-        //Hash password
-        $member->password = $this->hashPassword($password);
-
         if(count($errors) > 0) {
             return false;
         }
+
+        //Hash password
+        $member->password = $this->hashPassword($password);
 
         $member->save();
 
@@ -84,7 +84,7 @@ class AuthService {
         $user = Member::getByEmailEnabled($email);
 
         if($user === null) {
-            return false;
+            return null;
         }
 
         if(!$this->isPasswordCorrect($user, $password)) {

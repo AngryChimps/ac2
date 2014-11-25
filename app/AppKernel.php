@@ -24,7 +24,7 @@ class AppKernel extends Kernel
             new AngryChimps\ApiBundle\AngryChimpsApiBundle(),
 //            new AngryChimps\SecurityBundle\AngryChimpsSecurityBundle(),
 //            new FOS\FacebookBundle\FOSFacebookBundle(),
-            new Armetiz\FacebookBundle\ArmetizFacebookBundle(),
+//            new Armetiz\FacebookBundle\ArmetizFacebookBundle(),
 //            new Test\DirectoryStructureBundle\TestDirectoryStructureBundle(),
             new AngryChimps\AdminBundle\AngryChimpsAdminBundle(),
             new AngryChimps\MailerBundle\AngryChimpsMailerBundle(),

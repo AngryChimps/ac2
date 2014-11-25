@@ -39,10 +39,6 @@ class AbstractFeatureContext {
 
     private $objects = array();
 
-    public function __construct() {
-        $this->rand = rand(1,99999999999999999999999999);
-    }
-
     protected function addObject($obj) {
         $this->objects[] = $obj;
     }

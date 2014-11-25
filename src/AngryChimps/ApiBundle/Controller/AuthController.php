@@ -20,12 +20,15 @@ use AngryChimps\ApiBundle\Services\AuthService;
 class AuthController extends AbstractController
 {
     protected $authService;
+    protected $debugStatus;
 
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
-                                ResponseService $responseService, AuthService $authService)
+                                ResponseService $responseService, AuthService $authService,
+                                $debugStatus)
     {
         parent::__construct($requestStack, $sessionService, $responseService);
         $this->authService = $authService;
+        $this->debugStatus = $debugStatus;
     }
 
     public function registerAction() {
@@ -68,15 +71,23 @@ class AuthController extends AbstractController
 
         $user = $auth->loginFormUser($payload['email'], $payload['password']);
         if($user !== false && $user !== null ) {
-            $data = array('member' => $user->getPrivateArray(),
-                          'auth_token' => $auth->generateToken(),
-            );
+            $data = array('member' => $user->getPrivateArray());
             return $this->responseService->success($data);
 
         }
         else {
             $error = array('code' => 'Api.AuthController.loginAction.1',
                 'human' => 'Either the email was not found or the password did not match');
+
+            if($this->debugStatus) {
+                if($user === null) {
+                    $error['debug'] = 'User was not found';
+                }
+                else {
+                    $error['debug'] = 'Password did not match';
+                }
+            }
+
             return $this->responseService->failure(400, $error);
         }
     }

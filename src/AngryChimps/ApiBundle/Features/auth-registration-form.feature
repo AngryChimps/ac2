@@ -25,6 +25,7 @@ Feature: auth-registration-form
     Then I get a status code "400"
     And The value of the "error.code" field returned is of type "string"
     And The value of the "error.code" field is "Api.MemberController.indexPostAction.1"
+    And Finally, I clean up my objects
 
   Scenario: Attempt registration of a new member with invalid data
     Given I have a valid new user array
@@ -34,3 +35,4 @@ Feature: auth-registration-form
     Then I get a status code "400"
     And The value of the "error.code" field returned is of type "string"
     And The value of the "error.code" field is "Api.MemberController.indexPostAction.2"
+    And Finally, I clean up my objects

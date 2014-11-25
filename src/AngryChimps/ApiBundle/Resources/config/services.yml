@@ -12,7 +12,7 @@ services:
 ##############################################################
     angry_chimps_api.auth:
         class: AngryChimps\ApiBundle\Services\AuthService
-        arguments: ["@armetiz.facebook","@angry_chimps_mailer.mailer", "@templating", "@validator"]
+        arguments: ["@angry_chimps_mailer.mailer", "@templating", "@validator"]
     angry_chimps_api.member:
         class: AngryChimps\ApiBundle\Services\MemberService
         arguments: ["@angry_chimps_mailer.mailer", "@templating", "@angry_chimps_api.auth", "@validator"]
@@ -49,7 +49,7 @@ services:
 
     angry_chimps_api.auth.controller:
             class:     "%angry_chimps_api.controller.auth.class%"
-            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.auth"]
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.auth", "%kernel.debug%"]
 
     kernel.listener.angry_chimps_api_exception_listener:
         class: AngryChimps\ApiBundle\EventListener\ExceptionListener

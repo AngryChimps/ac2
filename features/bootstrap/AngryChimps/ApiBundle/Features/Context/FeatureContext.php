@@ -27,6 +27,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iHaveAValidNewUserArray()
     {
+        $this->rand = rand(1,99999999999);
+
         $member = array();
         $member['name'] = "Joe " . $this->rand;
         $member['email'] = 'trash' . $this->rand .'@seangallavan.com';
@@ -116,20 +118,32 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iHaveATestUser()
     {
-        $member = new Member();
-        $member->email = 'trash' . $this->rand . '@seangallavan.com';
-        $member->name = 'Trasy ' . $this->rand;
-        $member->dob = new \DateTime('1950-01-01');
-        $member->password = $this->getAuthService()->hashPassword('abcdabcd');
-        $member->status = Member::ACTIVE_STATUS;
-        $member->role = Member::USER_ROLE;
-        $member->save();
+        try {
+            $this->rand = rand(1, 99999999999);
 
-        //Save the user_id for future use
-        $this->userId = $member->id;
+            $member = new Member();
+            $member->email = 'trash' . $this->rand . '@seangallavan.com';
+            $member->name = 'Trashy ' . $this->rand;
+            $member->dob = new \DateTime('1950-01-01');
+            $member->password = $this->getAuthService()->hashPassword('abcdabcd');
+            $member->status = Member::ACTIVE_STATUS;
+            $member->role = Member::USER_ROLE;
+            $member->save();
 
-        //Add it to the objects array so it gets cleaned up
-        $this->addObject($member);
+            //Save the user_id for future use
+            $this->userId = $member->id;
+
+            //Add it to the objects array so it gets cleaned up
+            $this->addObject($member);
+        }
+        catch(\Exception $ex) {
+            echo 'message: ' . $ex->getMessage() . "\n";
+            echo 'file: ' . $ex->getFile() . "\n";
+            echo 'line: ' . $ex->getLine() . "\n";
+            echo 'stack: ' . $ex->getTraceAsString() . "\n";
+
+            throw($ex);
+        }
     }
 
     /**
@@ -178,9 +192,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iGetTheMemberDataForMyself()
     {
-        $this->getData('member');
-
-        $this->addObject(Member::getByPk($this->userId));
+        $this->getData('member/' . $this->userId);
     }
 
     /**
