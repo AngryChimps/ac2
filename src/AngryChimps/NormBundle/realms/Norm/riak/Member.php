@@ -15,7 +15,7 @@ class Member extends MemberBase implements UserInterface, EquatableInterface {
     public static function getByPkEnabled($pk) {
         $member = self::getByPk($pk);
 
-        if($member->status !== Member::ACTIVE_STATUS) {
+        if($member === null || $member->status !== Member::ACTIVE_STATUS) {
             return null;
         }
 

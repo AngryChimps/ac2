@@ -43,7 +43,7 @@ class MemberController extends AbstractController
      */
     public function indexGetAction($id)
     {
-        $member = Member::getByPk($id);
+        $member = Member::getByPkEnabled($id);
 
         if($member === null) {
             $errors = array(
