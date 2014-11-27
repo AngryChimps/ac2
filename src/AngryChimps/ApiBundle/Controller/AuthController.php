@@ -71,9 +71,11 @@ class AuthController extends AbstractController
 
         $user = $auth->loginFormUser($payload['email'], $payload['password']);
         if($user !== false && $user !== null ) {
+            //Set the userId in the session
+            $this->getSessionService()->setSessionUser($user);
+
             $data = array('member' => $user->getPrivateArray());
             return $this->responseService->success($data);
-
         }
         else {
             $error = array('code' => 'Api.AuthController.loginAction.1',

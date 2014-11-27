@@ -33,4 +33,10 @@ class MemberService {
         $this->auth = $auth;
         $this->validator = $validator;
     }
+
+    public function update(Member $member, $name, $email) {
+        $member->name = $name;
+        $member->email = $email;
+        $member->save();
+    }
 }

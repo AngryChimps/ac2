@@ -99,9 +99,10 @@ class MemberController extends AbstractController
      * @Method({"PUT"})
      */
     public function indexPutAction($id) {
-        $user = $this->getUser();
+        $user = $this->getAuthenticatedUser();
+        $payload = $this->getPayload();
 
-        if($this->isAuthorizedSelf($id)) {
+        if(!$this->isAuthorizedSelf($id)) {
             $errors = array(
                 'human' => 'This action can only be performed by the owner of the object',
                 'code' => 'Api.MemberController.indexPutAction.1',
@@ -109,19 +110,17 @@ class MemberController extends AbstractController
             return $this->responseService->failure(401, $errors);
         }
 
-        $payload = $this->getPayload();
+        if(empty($payload['name']) || empty($payload['email'])) {
+            $errors = array(
+                'human' => 'The name and email are required fields',
+                'code' => 'Api.MemberController.indexPutAction.2',
+            );
+            return $this->responseService->failure(400, $errors);
+        }
 
-        if(isset($payload['name'])) {
-            $user->name = $payload['name'];
-        }
-        if(isset($payload['email'])) {
-            $user->email = $payload['email'];
-        }
-        if(isset($payload['dob'])) {
-            $user->dob = new \DateTime($payload['dob']);
-        }
-        $user->save();
 
-        return $this->responseService->success($user->getPrivateArray());
+        $this->memberService->update($user, $payload['name'], $payload['email']);
+
+        return $this->responseService->success(array('member' => $user->getPrivateArray()));
     }
 }

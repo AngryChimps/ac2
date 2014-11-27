@@ -15,20 +15,24 @@ Feature: auth-login-form
     And The string length of the "payload.member.id" field is "16"
     And Finally, I clean up my objects
 
-#  Scenario: Attempt registration of a new member with the email of an active member
-#    Given I have a valid new user array
-#    And I get a new session token
-#    When I register a new user
-#    And I register a new user
-#    Then I get a status code "400"
-#    And The value of the "error.code" field returned is of type "string"
-#    And The value of the "error.code" field is "Api.MemberController.indexPostAction.1"
-#
-#  Scenario: Attempt registration of a new member with invalid data
-#    Given I have a valid new user array
-#    And I get a new session token
-#    And I change the "payload.name" field's value of the request object to "a"
-#    When I register a new user
-#    Then I get a status code "400"
-#    And The value of the "error.code" field returned is of type "string"
-#    And The value of the "error.code" field is "Api.MemberController.indexPostAction.2"
+  Scenario: Attempt log in with invalid email
+    Given I have a test user
+    And I get a new session token
+    And I have a valid form login array
+    And I change the "payload.email" field's value of the request object to "a"
+    When I log in
+    Then I get a status code "400"
+    And The value of the "error.code" field returned is of type "string"
+    And The value of the "error.code" field is "Api.AuthController.loginAction.1"
+    And Finally, I clean up my objects
+
+  Scenario: Attempt log in with invalid password
+    Given I have a test user
+    And I get a new session token
+    And I have a valid form login array
+    And I change the "payload.password" field's value of the request object to "a"
+    When I log in
+    Then I get a status code "400"
+    And The value of the "error.code" field returned is of type "string"
+    And The value of the "error.code" field is "Api.AuthController.loginAction.1"
+    And Finally, I clean up my objects

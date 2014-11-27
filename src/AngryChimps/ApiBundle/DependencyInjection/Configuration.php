@@ -22,7 +22,9 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+            ->scalarNode('session_header_name')->end()
             ->scalarNode('base_url')->end()
+            ->scalarNode('debug')->end()
             ->end()
         ;
 

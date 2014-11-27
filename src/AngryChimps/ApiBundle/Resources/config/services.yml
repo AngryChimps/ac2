@@ -1,6 +1,4 @@
 parameters:
-    angry_chimps_api.session_header_name: angrychimps-api-session-token
-
     angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
     angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
     angry_chimps_api.controller.auth.class: AngryChimps\ApiBundle\Controller\AuthController
@@ -51,8 +49,12 @@ services:
             class:     "%angry_chimps_api.controller.auth.class%"
             arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.auth", "%kernel.debug%"]
 
+
+##############################################################
+###                  Listeners                             ###
+##############################################################
     kernel.listener.angry_chimps_api_exception_listener:
         class: AngryChimps\ApiBundle\EventListener\ExceptionListener
-        arguments: ["@angry_chimps_api.response"]
+        arguments: ["@angry_chimps_api.response", "%angry_chimps_api.debug%"]
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }

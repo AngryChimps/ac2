@@ -87,3 +87,6 @@ fos_rest:
 angry_chimps_geo:
     google_api_key: AIzaSyArupKalnQR4uprl9raMJwXSwunIHWl41o
     google_maps_api_address: https://maps.googleapis.com/maps/api/geocode/json
+
+angry_chimps_api:
+    session_header_name: angrychimps-api-session-token

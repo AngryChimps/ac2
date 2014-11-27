@@ -83,18 +83,11 @@ class AbstractController {
         }
 
         $user = $this->getAuthenticatedUser();
-        if($user === null) {
+        if($user === null || !in_array($user->id, $user_ids)) {
             return false;
         }
-        elseif($user->role === Member::SUPER_ADMIN_ROLE) {
-            return true;
-        }
-        elseif(!in_array($user->id, $user_ids)) {
-            return false;
-        }
-        else {
-            return true;
-        }
+
+        return true;
     }
 
     public function isAuthorizedAdmin() {

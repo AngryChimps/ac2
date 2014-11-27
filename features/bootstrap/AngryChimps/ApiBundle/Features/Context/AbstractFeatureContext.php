@@ -10,11 +10,13 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
+use Guzzle\Common\Event;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use Norm\riak\Member;
 use Guzzle\Http\Message\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Guzzle\Http\Exception\ClientException;
 
 class AbstractFeatureContext {
     // Setup the container using the KernelDictionary trait
@@ -23,7 +25,7 @@ class AbstractFeatureContext {
 
     protected $myKernel;
 
-    /** @var \Guzzle\Service\Client  */
+    /** @var \GuzzleHttp\Client  */
     protected $guzzle;
 
     /** @var  array */
@@ -34,8 +36,14 @@ class AbstractFeatureContext {
 
     protected $authToken;
     protected $sessionId;
-    protected $userId;
+    protected $authenticatedUserId;
     protected $rand;
+
+    /** @var  \Norm\riak\Member */
+    protected $testUser;
+
+    private $baseUrl;
+    private $sessionHeaderName;
 
     private $objects = array();
 
@@ -55,8 +63,9 @@ class AbstractFeatureContext {
     public function setKernel(KernelInterface $kernel)
     {
         $this->myKernel = $kernel;
-        $this->guzzle = $this->getContainer()->get('guzzle.client');
-        $this->guzzle->setBaseUrl($this->getContainer()->getParameter('angry_chimps_api.base_url'));
+        $this->guzzle = new Client();
+        $this->sessionHeaderName = $this->getContainer()->getParameter('angry_chimps_api.session_header_name');
+        $this->baseUrl = $this->getContainer()->getParameter('angry_chimps_api.base_url');
     }
     /**
      * Returns HttpKernel service container.
@@ -176,28 +185,71 @@ class AbstractFeatureContext {
 
     protected function getData($url) {
         try {
-            $request = $this->guzzle->get($url, array('content-type' => 'application/json'),
-                null, array('exceptions' => false));
-            $request->setHeader('angrychimps-api-session-token', $this->sessionId);
+            if($this->authenticatedUserId !== null){
+                $url = $this->baseUrl . '/' . $url . '?userId=' . $this->authenticatedUserId;
+            }
+            else {
+                $url = $this->baseUrl . '/' . $url;
+            }
 
-            $this->response = $request->send();
+            $request = $this->guzzle->createRequest('GET', $url, [
+                'headers' => [
+                    $this->sessionHeaderName => $this->sessionId,
+                    'content-type' => 'application/json',
+                ],
+                'exceptions' => false,
+                'json' => $this->requestArray,
+            ]);
+
+            $this->response = $this->guzzle->send($request);
         }
-        catch(ClientException $ex) {
+        catch(\Exception $ex) {
             //Ignore this exception, we'll test the return status separately
         }
     }
 
     protected function postData($url) {
         try {
-            $request = $this->guzzle->post($url, array('content-type' => 'application/json'),
-                null, array('exceptions' => false));
-            $request->setBody(json_encode($this->requestArray));
-            $request->setHeader('angrychimps-api-session-token', $this->sessionId);
+            if($this->authenticatedUserId !== null){
+                $url = $this->baseUrl . '/' . $url . '?userId=' . $this->authenticatedUserId;
+            }
+            else {
+                $url = $this->baseUrl . '/' . $url;
+            }
 
+            $request = $this->guzzle->createRequest('POST', $url, [
+                'headers' => [$this->sessionHeaderName => $this->sessionId,
+                    'content-type' => 'application/json'],
+                'json' => $this->requestArray,
+                'exceptions' => false,
+            ]);
 
-            $this->response = $request->send();
+            $this->response = $this->guzzle->send($request);
         }
-        catch(ClientException $ex) {
+        catch(\Exception $ex) {
+            //Ignore this exception, we'll test the return status separately
+        }
+    }
+
+    protected function putData($url) {
+        try {
+            if($this->authenticatedUserId !== null){
+                $url = $this->baseUrl . '/' . $url . '?userId=' . $this->authenticatedUserId;
+            }
+            else {
+                $url = $this->baseUrl . '/' . $url;
+            }
+
+            $request = $this->guzzle->createRequest('PUT', $url, [
+                'headers' => [$this->sessionHeaderName => $this->sessionId,
+                    'content-type' => 'application/json'],
+                'json' => $this->requestArray,
+                'exceptions' => false,
+            ]);
+
+            $this->response = $this->guzzle->send($request);
+        }
+        catch(\Exception $ex) {
             //Ignore this exception, we'll test the return status separately
         }
     }
@@ -207,6 +259,10 @@ class AbstractFeatureContext {
      */
     protected function getAuthService() {
         return $this->getContainer()->get('angry_chimps_api.auth');
+    }
+
+    public function displayError(Event $e) {
+        print_r($this->response->getBody());
     }
 
 } 

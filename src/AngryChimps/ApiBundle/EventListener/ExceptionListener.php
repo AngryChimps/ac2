@@ -10,9 +10,11 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class ExceptionListener {
     protected $responseService;
+    protected $apiDebug;
 
-    public function __construct(ResponseService $responseService) {
+    public function __construct(ResponseService $responseService, $apiDebug) {
         $this->responseService = $responseService;
+        $this->apiDebug = $apiDebug;
     }
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
@@ -27,15 +29,18 @@ class ExceptionListener {
                     'code' => 'Api.ExceptionListener.onKernelException.1',
                     'human' => 'Invalid or missing session_id'
                 );
+
+                //Only in debug do we specify why it fails
+                if($this->apiDebug) {
+                    $error['debug'] = $exception->getDebugMessage();
+                }
+
                 $response = $this->responseService->failure(403, $error, $exception);
+                $event->setResponse($response);
                 break;
             default:
                 //Do nothing
         }
 
-        if($response !== null) {
-            // Send the modified response object to the event
-            $event->setResponse($response);
-        }
     }
 } 

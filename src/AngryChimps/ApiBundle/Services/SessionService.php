@@ -45,17 +45,55 @@ class SessionService {
 
         $session = Session::getByPk($sessionToken);
         if($session === null) {
-            throw new InvalidSessionException('code: Api.SessionService.1');
+            $debug = array(
+                'code' => 'Api.SessionService.1a',
+                'human' => 'Unable to find a session with that id',
+            );
+            throw new InvalidSessionException($debug);
         }
 
-        if($session->userId !== null || $this->request->query->get('userId') !== null) {
-            if($session->userId !== $this->request->query->get('userId')) {
-                throw new InvalidSessionException('code: Api.SessionService.2');
-            }
+        // Session has user; $_GET has no userId parameter
+        if($session->userId !== null && $this->request->query->get('userId') == null) {
+            $debug = array(
+                'code' => 'Api.SessionService.1b',
+                'human' => 'Session has authenticated user, but no $_GET["userId"] parameter',
+            );
+            throw new InvalidSessionException($debug);
+        }
+
+        // Session has user; $_GET has an empty userId parameter
+        if($session->userId !== null && $this->request->query->get('userId') === '') {
+            $debug = array(
+                'code' => 'Api.SessionService.1c',
+                'human' => 'Session has authenticated user, but blank $_GET["userId"] parameter',
+            );
+            throw new InvalidSessionException($debug);
+        }
+
+        // Session has no user; $_GET has userId parameter
+        if($session->userId === null && !empty($this->request->query->get('userId'))) {
+            $debug = array(
+                'code' => 'Api.SessionService.1d',
+                'human' => 'Session has no authenticated user, but $_GET["userId"] parameter does',
+            );
+            throw new InvalidSessionException($debug);
+        }
+
+        if($session->userId !== null && $this->request->query->get('userId') !== null
+            && $session->userId != $this->request->query->get('userId'))  {
+            $debug = array(
+                'code' => 'Api.SessionService.1e',
+                'human' => 'Session and $_GET userIds do not match',
+            );
+            throw new InvalidSessionException($debug);
         }
 
         if($session->browserHash !== $this->getBrowserHash()) {
-            throw new InvalidSessionException('code: Api.SessionService.3');
+            $debug = array(
+                'code' => 'Api.SessionService.1f',
+                'human' => 'Session browser hash does not match',
+            );
+            throw new InvalidSessionException($debug);
         }
     }
 
@@ -70,6 +108,14 @@ class SessionService {
 
         $user = Member::getByPk($session->userId);
         return $user;
+    }
+
+    public function setSessionUser(Member $user) {
+        $sessionToken = $this->request->headers->get($this->sessionHeaderName);
+
+        $session = Session::getByPk($sessionToken);
+        $session->userId = $user->id;
+        $session->save();
     }
 
     public function logoutUser() {

@@ -46,4 +46,5 @@ assetic:
 #            default: true
 
 angry_chimps_api:
+    debug: true
     base_url: http://devvy.angrychimps.com/api/v1

@@ -131,7 +131,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
             $member->save();
 
             //Save the user_id for future use
-            $this->userId = $member->id;
+            $this->testUser = $member;
 
             //Add it to the objects array so it gets cleaned up
             $this->addObject($member);
@@ -163,6 +163,10 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iLogIn()
     {
         $this->postData("auth/login");
+
+        if($this->response->getStatusCode() == 200) {
+            $this->authenticatedUserId = $this->getResponseFieldValue('payload.member.id');
+        }
     }
 
     /**
@@ -192,7 +196,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iGetTheMemberDataForMyself()
     {
-        $this->getData('member/' . $this->userId);
+        $this->getData('member/' . $this->testUser->id);
     }
 
     /**
@@ -203,5 +207,52 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->ensureResponseDoesNotHaveField($arg1);
     }
 
+    /**
+     * @Then The string length of the :arg1 field greater than zero
+     */
+    public function theStringLengthOfTheFieldGreaterThanZero($arg1)
+    {
+        $value = $this->getResponseFieldValue($arg1);
+
+        if(strlen($value) === 0) {
+            throw new \Exception('The ' . $arg1 . ' field has a string length of zero');
+        }
+    }
+
+    /**
+     * @Given I have an authenticated user
+     */
+    public function iHaveAnAuthenticatedUser()
+    {
+        $this->iHaveATestUser();
+        $this->iGetANewSessionToken();
+        $this->iHaveAValidFormLoginArray();
+        $this->iLogIn();
+    }
+
+    /**
+     * @When I get the member data for an invalid user
+     */
+    public function iGetTheMemberDataForAnInvalidUser()
+    {
+        $this->getData('member/a');
+    }
+
+    /**
+     * @Given I change the authenticated users :arg1 field to :arg2
+     */
+    public function iChangeTheAuthenticatedUsersFieldTo($arg1, $arg2)
+    {
+        $this->testUser->$arg1 = $arg2;
+    }
+
+    /**
+     * @When I save changes to the authenticated user
+     */
+    public function iSaveChangesToTheAuthenticatedUser()
+    {
+        $this->requestArray = array('payload' => $this->testUser->getPrivateArray());
+        $this->putData('member/' . $this->testUser->id);
+    }
 }
 

@@ -22,15 +22,27 @@ class BehatApiTestCommand extends Command
                 'What command would you like to execute?',
                 'test'
             )
+            ->addArgument(
+                'behat_feature',
+                InputArgument::OPTIONAL,
+                'What feature would you like to test?'
+            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $command = $input->getArgument('behat_command');
+        $feature = $input->getArgument('behat_feature');
+
         switch($command) {
             case 'test':
-                system("/usr/bin/php vendor/behat/behat/bin/behat --suite api");
+                if($feature) {
+                    system("/usr/bin/php vendor/behat/behat/bin/behat --suite api --name $feature");
+                }
+                else {
+                    system("/usr/bin/php vendor/behat/behat/bin/behat --suite api");
+                }
                 break;
             case 'init':
                 system("/usr/bin/php vendor/behat/behat/bin/behat --init --suite api");
