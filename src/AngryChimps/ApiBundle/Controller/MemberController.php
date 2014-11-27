@@ -70,9 +70,9 @@ class MemberController extends AbstractController
      * @Method({"DELETE"})
      */
     public function indexDeleteAction($id) {
-        if($this->isAuthorizedSelf($id)) {
+        if(!$this->isAuthorizedSelf($id)) {
             $errors = array(
-                'human' => 'You must be a super_user to do this',
+                'human' => 'Only the authenticated user may delete his or her object',
                 'code' => 'Api.MemberController.indexDeleteAction.1',
             );
             return $this->responseService->failure(401, $errors);

@@ -198,7 +198,6 @@ class AbstractFeatureContext {
                     'content-type' => 'application/json',
                 ],
                 'exceptions' => false,
-                'json' => $this->requestArray,
             ]);
 
             $this->response = $this->guzzle->send($request);
@@ -244,6 +243,28 @@ class AbstractFeatureContext {
                 'headers' => [$this->sessionHeaderName => $this->sessionId,
                     'content-type' => 'application/json'],
                 'json' => $this->requestArray,
+                'exceptions' => false,
+            ]);
+
+            $this->response = $this->guzzle->send($request);
+        }
+        catch(\Exception $ex) {
+            //Ignore this exception, we'll test the return status separately
+        }
+    }
+
+    protected function deleteData($url) {
+        try {
+            if($this->authenticatedUserId !== null){
+                $url = $this->baseUrl . '/' . $url . '?userId=' . $this->authenticatedUserId;
+            }
+            else {
+                $url = $this->baseUrl . '/' . $url;
+            }
+
+            $request = $this->guzzle->createRequest('DELETE', $url, [
+                'headers' => [$this->sessionHeaderName => $this->sessionId,
+                    'content-type' => 'application/json'],
                 'exceptions' => false,
             ]);
 

@@ -254,5 +254,27 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->requestArray = array('payload' => $this->testUser->getPrivateArray());
         $this->putData('member/' . $this->testUser->id);
     }
+
+    /**
+     * @When I delete the authenticated user
+     */
+    public function iDeleteTheAuthenticatedUser()
+    {
+        $this->deleteData('member/' . $this->authenticatedUserId);
+    }
+
+    /**
+     * @Then The authenticated user's :arg1 field is :arg2
+     */
+    public function theAuthenticatedUserSFieldIs($arg1, $arg2)
+    {
+        $this->testUser->invalidate();
+        $this->testUser = Member::getByPk($this->authenticatedUserId);
+
+        if($this->testUser->$arg1 != $arg2) {
+            throw new \Exception('The authenticated users ' . $arg1 . ' field is not ' . $arg2);
+        }
+    }
+
 }
 
