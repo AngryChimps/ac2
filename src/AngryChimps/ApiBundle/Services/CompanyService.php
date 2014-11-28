@@ -23,11 +23,11 @@ class CompanyService {
         $company->administerMemberIds = array($owner->id);
 
 
-        $errors = $this->validator->validate($company);
-
-        if(count($errors) > 0) {
-            return false;
-        }
+//        $errors = $this->validator->validate($company);
+//
+//        if(count($errors) > 0) {
+//            return false;
+//        }
 
         $company->save();
 

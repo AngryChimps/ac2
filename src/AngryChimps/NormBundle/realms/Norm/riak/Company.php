@@ -19,4 +19,18 @@ class Company extends CompanyBase {
         return $arr;
     }
 
+    /**
+     * @param $pk
+     * @return Company|null
+     */
+    public static function getByPkEnabled($pk) {
+        $company = self::getByPk($pk);
+
+        if($company === null || $company->status !== self::ENABLED_STATUS) {
+            return null;
+        }
+
+        return $company;
+    }
+
 }

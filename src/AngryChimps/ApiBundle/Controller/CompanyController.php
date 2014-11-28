@@ -115,7 +115,8 @@ class CompanyController extends AbstractController
      */
     public function indexDeleteAction($id)
     {
-        $company = Company::getByPk($id);
+        $company = Company::getByPkEnabled($id);
+
 
         if($company === null) {
             $errors = array(

@@ -12,6 +12,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class Member extends MemberBase implements UserInterface, EquatableInterface {
 
+    /**
+     * @param $pk
+     * @return Member|null
+     */
     public static function getByPkEnabled($pk) {
         $member = self::getByPk($pk);
 

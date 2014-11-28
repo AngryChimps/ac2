@@ -307,6 +307,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $company->description = "a cool company";
         $company->address = '234 Main Street, Burlington, VT 91023';
         $company->plan = Company::BASIC_PLAN;
+        $company->status = Company::ENABLED_STATUS;
         $company->administerMemberIds = [$this->authenticatedUserId];
         $company->save();
 
@@ -373,8 +374,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iSaveChangesToTheTestCompany()
     {
-        $this->requestArray = array('payload' => $this->testCompany->getPrivateArray());
-        $this->postData('company');
+        $this->testCompany->save();
     }
 
     /**
@@ -396,6 +396,47 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iCreateATestCompany()
     {
         $this->postData('company');
+    }
+
+    /**
+     * @When I delete the test company
+     */
+    public function iDeleteTheTestCompany()
+    {
+        $this->deleteData('company/' . $this->testCompany->id);
+    }
+
+    /**
+     * @When I delete a non-existent company
+     */
+    public function iDeleteANonExistentCompany()
+    {
+        $this->deleteData('company/a');
+    }
+
+    /**
+     * @Given I have a test company
+     */
+    public function iHaveATestCompany()
+    {
+        $company = new Company();
+        $company->name = 'ABC Fabrics';
+        $company->administerMemberIds = array($this->authenticatedUserId);
+        $company->status = Company::ENABLED_STATUS;
+        $company->plan = Company::BASIC_PLAN;
+        $company->save();
+
+        $this->addObject($company);
+
+        $this->testCompany = $company;
+    }
+
+    /**
+     * @Given I change the test companys :arg1 property to an empty array
+     */
+    public function iChangeTheTestCompanysPropertyToAnEmptyArray($arg1)
+    {
+        $this->testCompany->$arg1 = array();
     }
 
 }
