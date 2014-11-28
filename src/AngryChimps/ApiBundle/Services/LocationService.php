@@ -6,6 +6,7 @@ namespace AngryChimps\ApiBundle\Services;
 
 use AngryChimps\GeoBundle\Services\GeolocationService;
 use Norm\riak\Location;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LocationService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
@@ -36,10 +37,10 @@ class LocationService {
         $location->companyId = $company->id;
         $location->status = Location::ENABLED_STATUS;
 
-        $errors = $this->validator->validate($location);
-        if(count($errors) > 0) {
-            return false;
-        }
+//        $errors = $this->validator->validate($location);
+//        if(count($errors) > 0) {
+//            return false;
+//        }
 
         $location->save();
 

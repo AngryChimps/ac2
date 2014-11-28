@@ -4,7 +4,7 @@
 namespace AngryChimps\ApiBundle\Services;
 
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 
 class GuzzleService extends Client {
 

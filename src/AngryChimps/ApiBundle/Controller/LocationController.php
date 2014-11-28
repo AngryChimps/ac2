@@ -77,7 +77,12 @@ class LocationController extends AbstractController
         $name = $payload['name'];
         $companyId = $payload['company_id'];
         $street1 = $payload['street1'];
-        $street2 = $payload['street2'];
+        if(isset($payload['street2'])) {
+            $street2 = $payload['street2'];
+        }
+        else {
+            $street2 = null;
+        }
         $zip = $payload['zip'];
         $phone = $payload['phone'];
 
@@ -92,7 +97,7 @@ class LocationController extends AbstractController
         }
 
         $errors = array();
-        $location = $this->locationService->createLocation($name, $street1, $street2, $zip, $phone, $company, $this->user, $errors);
+        $location = $this->locationService->createLocation($name, $street1, $street2, $zip, $phone, $company, $this->getAuthenticatedUser(), $errors);
         if($location === false) {
             $errors = array(
                 'human' => 'Error validating location fields',
@@ -101,7 +106,7 @@ class LocationController extends AbstractController
             return $this->responseService->failure(400, $errors);
         }
 
-        return $this->responseService->success(array('company' => $location->getPrivateArray()));
+        return $this->responseService->success(array('location' => $location->getPrivateArray()));
     }
 
     /**

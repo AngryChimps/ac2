@@ -5,11 +5,18 @@ namespace AngryChimps\GeoBundle\Services;
 
 
 use AngryChimps\GeoBundle\Classes\Address;
+use AngryChimps\GuzzleBundle\Services\GuzzleService;
 use Norm\riak\Zipcode;
 
 class GeolocationService {
     protected static $googleMapsApiKey;
     protected static $googleMapsApiAddress;
+    /** @var  GuzzleService */
+    protected $guzzleService;
+
+    public function __construct(GuzzleService $guzzleService) {
+        $this->guzzleService = $guzzleService;
+    }
 
     public function lookupZipcode($zip) {
         //Check to see if we've cached the information in riak
@@ -36,11 +43,11 @@ class GeolocationService {
 
     protected function lookupZipcodeFromGoogle($zip) {
         //Make request to google
-        $ch = curl_init(self::$googleMapsApiAddress . '?address=' . $zip . '&key=' . self::$googleMapsApiKey);
-        $json = curl_exec($ch);
-        curl_close($ch);
+        $url = self::$googleMapsApiAddress . '?address=' . $zip . '&key=' . self::$googleMapsApiKey;
+        $request = $this->guzzleService->createRequest('GET', $url);
+        $response = $this->guzzleService->send($request);
 
-        $address = Address::getFromGoogleMapsJson($json);
+        $address = Address::getFromGoogleMapsJson($response);
 
         $zipcode = new Zipcode();
         $zipcode->id = $zip;
@@ -54,14 +61,14 @@ class GeolocationService {
     }
 
     protected function lookupAddressFromGoogle($street1, $street2, $zip) {
-        $addressString = str_replace(' ', '+', $street1 . ', ' . $street2 . ',  ' . $zip);
+        $addressString = $street1 . ', ' . $street2 . ',  ' . $zip;
 
         //Make request to google
-        $ch = curl_init(self::$googleMapsApiAddress . '?address=' . $addressString . '&key=' . self::$googleMapsApiKey);
-        $json = curl_exec($ch);
-        curl_close($ch);
+        $url = self::$googleMapsApiAddress . '?address=' . $addressString . '&key=' . self::$googleMapsApiKey;
+        $request = $this->guzzleService->createRequest('GET', $url);
+        $response = $this->guzzleService->send($request);
 
-        $address = Address::getFromGoogleMapsJson($json);
+        $address = Address::getFromGoogleMapsArray($response->json());
 
         return $address;
     }

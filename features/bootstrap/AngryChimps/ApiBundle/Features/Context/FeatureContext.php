@@ -10,6 +10,7 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Norm\riak\Company;
+use Norm\riak\Location;
 use Norm\riak\Member;
 use Guzzle\Http\Message\Response;
 use Norm\riak\Session;
@@ -437,6 +438,29 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iChangeTheTestCompanysPropertyToAnEmptyArray($arg1)
     {
         $this->testCompany->$arg1 = array();
+    }
+
+    /**
+     * @Given I have a valid new location array
+     */
+    public function iHaveAValidNewLocationArray()
+    {
+        $arr = array();
+        $arr['name'] = 'Main Street Location';
+        $arr['street1'] = '440 Castro Street';
+        $arr['zip'] = 94114;
+        $arr['status'] = Location::ENABLED_STATUS;
+        $arr['company_id'] = $this->testCompany->id;
+        $arr['phone'] = '555-555-5555';
+        $this->requestArray = array('payload' => $arr);
+    }
+
+    /**
+     * @When I create a test location for my test company
+     */
+    public function iCreateATestLocationForMyTestCompany()
+    {
+        $this->postData('location');
     }
 
 }

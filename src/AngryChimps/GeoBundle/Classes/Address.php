@@ -13,8 +13,7 @@ class Address {
     public $lat;
     public $long;
 
-    public static function getFromGoogleMapsJson($json) {
-        $arr = json_decode($json, true);
+    public static function getFromGoogleMapsArray($arr) {
         $firstResult = $arr['results'][0];
         $components = $firstResult['address_components'];
 
@@ -34,7 +33,7 @@ class Address {
                 $address->state = $component['short_name'];
             }
             if(in_array('postal_code', $component['types'])) {
-                $address->zip = $component->long_name;
+                $address->zip = $component['long_name'];
             }
         }
 

@@ -1,0 +1,3 @@
+angry_chimps_guzzle_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: AngryChimpsGuzzleBundle:Default:index }
