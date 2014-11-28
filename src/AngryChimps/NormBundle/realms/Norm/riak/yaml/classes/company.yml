@@ -4,6 +4,7 @@ primary_keys:
 fields:
   - name: id
     type: string
+    auto_generate: true
   - name: mysql_id
     type: int
   - name: name
@@ -13,8 +14,6 @@ fields:
             min: 4
             max: 25
   - name: description
-    type: string
-  - name: address
     type: string
   - name: plan
     type: enum

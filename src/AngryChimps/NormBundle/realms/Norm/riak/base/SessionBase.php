@@ -39,10 +39,10 @@ class SessionBase extends NormBaseObject {
     protected static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = 'id';
+    protected static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = 'id';
+    protected static $autoGeneratePropertyName = '';
 
     /** @var bool */
     protected static $hasPrimaryKey = true;

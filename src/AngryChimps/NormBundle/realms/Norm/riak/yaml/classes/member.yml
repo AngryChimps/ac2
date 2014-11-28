@@ -62,9 +62,9 @@ fields:
       - SuperAdmin
   - name: administer_member_ids
     type: string[]
-  - name: blocked_company_keys
+  - name: blocked_company_ids
     type: string[]
-  - name: managed_company_keys
+  - name: managed_company_ids
     type: string[]
   - name: ad_flag_keys
     type: string[]

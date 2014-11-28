@@ -18,6 +18,7 @@ use AC\NormBundle\core\generator\types\Table;
 use AC\NormBundle\core\generator\types\Column;
 use AC\NormBundle\core\generator\types\ForeignKey;
 use Handlebars\Handlebars;
+use Symfony\Component\Yaml\Dumper;
 
 class Generator {
     protected $_realm;
@@ -76,9 +77,22 @@ class Generator {
                 }
             }
         }
-        yaml_emit_file(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/"
-            . $this->_realm . '/validations/validations.yml', $data, YAML_UTF8_ENCODING);
+//        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+//        $yml = $serializer->serialize($data, 'yml');
+//        file_put_contents(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/"
+//            . $this->_realm . '/validations/validations.yml', $yml);
+
+//        yaml_emit_file(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/"
+//            . $this->_realm . '/validations/validations.yml', $data, YAML_UTF8_ENCODING, YAML_LN_BREAK);
+
+        $dumper = new Dumper();
+
+        $yaml = $dumper->dump($data, 5);
+
+        file_put_contents(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/"
+            . $this->_realm . '/validations/validations.yml', $yaml);
     }
+
 
     public static function setRealms($realms) {
         self::$_realms = $realms;

@@ -7,6 +7,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use AngryChimps\ApiBundle\Services\CompanyService;
+use AngryChimps\ApiBundle\Services\ResponseService;
+use Symfony\Component\HttpFoundation\RequestStack;
+use AngryChimps\ApiBundle\Services\SessionService;
 
 /**
  * Class CompanyController
@@ -16,10 +20,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CompanyController extends AbstractController
 {
-    /**
-     * @Route("/{id}")
-     * @Method({"GET"})
-     */
+    /** @var  \AngryChimps\ApiBundle\Services\CompanyService */
+    protected $companyService;
+
+    public function __construct(RequestStack $requestStack, SessionService $sessionService,
+                                ResponseService $responseService, CompanyService $companyService) {
+        parent::__construct($requestStack, $sessionService, $responseService);
+        $this->companyService = $companyService;
+    }
     public function indexGetAction($id)
     {
         $company = Company::getByPk($id);
@@ -29,15 +37,15 @@ class CompanyController extends AbstractController
                 'human' => 'Unable to find a company with that id',
                 'code' => 'Api.CompanyController.indexGetAction.1'
             );
-            return $this->failure(404, $errors);
+            return $this->responseService->failure(404, $errors);
         }
 
-        $user = $this->getUser();
+        $user = $this->getAuthenticatedUser();
         if($user !== null && in_array($user->id, $company->administerMemberIds)) {
-            return $this->success(array('company' => $company->getPrivateArray()));
+            return $this->responseService->success(array('company' => $company->getPrivateArray()));
         }
         else {
-            return $this->success(array('company' => $company->getPublicArray()));
+            return $this->responseService->success(array('company' => $company->getPublicArray()));
         }
     }
 
@@ -50,16 +58,17 @@ class CompanyController extends AbstractController
         $payload = $this->getPayload();
 
         $errors = array();
-        $user = $this->getUser();
-        if($company = $this->getCompanyService()->createCompany($payload['name'], $user, $errors) === false) {
+        $user = $this->getAuthenticatedUser();
+        $company = $this->getCompanyService()->createCompany($payload['name'], $user, $errors);
+        if($company === false) {
             $errors = array(
                 'human' => 'Error validating company fields',
                 'code' => 'Api.CompanyController.indexPostAction.1'
             );
-            return $this->failure(400, $errors);
+            return $this->responseService->failure(400, $errors);
         }
 
-        return $this->success(array('company' => $company->getPrivateArray()));
+        return $this->responseService->success(array('company' => $company->getPrivateArray()));
     }
 
     /**
@@ -75,7 +84,7 @@ class CompanyController extends AbstractController
                 'human' => 'Unable to find a company with that id',
                 'code' => 'Api.CompanyController.indexPutAction.1'
             );
-            return $this->failure(404, $errors);
+            return $this->responseService->failure(404, $errors);
         }
 
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
@@ -83,21 +92,21 @@ class CompanyController extends AbstractController
                 'human' => 'This user is not authorized to perform this action',
                 'code' => 'Api.CompanyController.indexPutAction.2'
             );
-            return $this->failure(401, $errors);
+            return $this->responseService->failure(401, $errors);
         }
 
         $payload = $this->getPayload();
         $errors = array();
-        $user = $this->getUser();
+        $user = $this->getAuthenticatedUser();
         if($company = $this->getCompanyService()->createCompany($payload['name'], $user, $errors) === false) {
             $errors = array(
                 'human' => 'Unable to validate company inputs',
                 'code' => 'Api.CompanyController.indexPutAction.3',
             );
-            return $this->failure(400, $errors);
+            return $this->responseService->failure(400, $errors);
         }
 
-        return $this->success(array('company' => $company));
+        return $this->responseService->success(array('company' => $company));
     }
 
     /**
@@ -113,7 +122,7 @@ class CompanyController extends AbstractController
                 'human' => 'Unable to find a company with that id',
                 'code' => 'Api.CompanyController.indexDeleteAction.1'
             );
-            return $this->failure(404, $errors);
+            return $this->responseService->failure(404, $errors);
         }
 
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
@@ -121,13 +130,16 @@ class CompanyController extends AbstractController
                 'human' => 'This user is not authorized to perform this action',
                 'code' => 'Api.CompanyController.indexDeleteAction.2'
             );
-            return $this->failure(401, $errors);
+            return $this->responseService->failure(403, $errors);
         }
 
         $company->status = Company::DISABLED_STATUS;
         $company->save();
 
-        return $this->success();
+        return $this->responseService->success();
     }
 
+    public function getCompanyService() {
+        return $this->companyService;
+    }
 }

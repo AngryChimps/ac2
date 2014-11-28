@@ -18,13 +18,13 @@ class CompanyBase extends NormBaseObject {
     protected static $tableName = 'company';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'address', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'flag_total', 'administer_member_ids', 'location_keys', 'status', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'flag_total', 'administer_member_ids', 'location_keys', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'string', 'int', 'int', 'int', 'float', 'int', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'int', 'int', 'int', 'float', 'int', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'address', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'flagTotal', 'administerMemberIds', 'locationKeys', 'status', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'flagTotal', 'administerMemberIds', 'locationKeys', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -39,10 +39,10 @@ class CompanyBase extends NormBaseObject {
     protected static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    protected static $autoGenerateFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    protected static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
     protected static $hasPrimaryKey = true;
@@ -68,9 +68,6 @@ class CompanyBase extends NormBaseObject {
 
     /** @var string */
     public $description;
-
-    /** @var string */
-    public $address;
 
     /** @var int */
     public $plan;

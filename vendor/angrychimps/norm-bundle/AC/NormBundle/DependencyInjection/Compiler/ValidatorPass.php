@@ -14,9 +14,13 @@ class ValidatorPass implements CompilerPassInterface
         $validatorBuilder = $container->getDefinition('validator.builder');
         $validatorFiles = array();
         $finder = new Finder();
+        //TODO: Fix this!
+        $realms = array('riak', 'mysql');
 
-        foreach ($finder->files()->in(__DIR__ . '/../../Resources/config/validation') as $file) {
-            $validatorFiles[] = $file->getRealPath();
+        foreach($realms as $realm) {
+            foreach ($finder->files()->in(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/$realm/validations") as $file) {
+                $validatorFiles[] = $file->getRealPath();
+            }
         }
 
         $validatorBuilder->addMethodCall('addYamlMappings', array($validatorFiles));

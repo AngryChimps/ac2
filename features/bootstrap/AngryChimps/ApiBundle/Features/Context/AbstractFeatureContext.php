@@ -42,6 +42,9 @@ class AbstractFeatureContext {
     /** @var  \Norm\riak\Member */
     protected $testUser;
 
+    /** @var  \Norm\riak\Company */
+    protected $testCompany;
+
     private $baseUrl;
     private $sessionHeaderName;
 
@@ -172,7 +175,10 @@ class AbstractFeatureContext {
                 if(is_numeric($value)) {
                     throw new \Exception('The value for the ' . $field . ' field is not of type ' . $type);
                 }
-                break;
+            case 'array':
+                if(is_array($value)) {
+                    throw new \Exception('The value for the ' . $field . ' field is not of type ' . $type);
+                }
         }
     }
 

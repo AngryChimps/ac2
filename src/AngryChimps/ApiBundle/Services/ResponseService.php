@@ -53,7 +53,7 @@ class ResponseService {
     public function failure($code, array $errors, \Exception $ex = null) {
         $viewData = $this->getViewData(array(), $errors, $ex);
 
-        $this->loggerService->info(json_encode(array('request' => $this->request->getContent())));
+        $this->loggerService->info(json_encode(array('request' => json_decode($this->request->getContent(), true))));
         $this->loggerService->info(json_encode(array('failure_response' => $viewData)));
 
         $view = $this->getView($viewData, $code);

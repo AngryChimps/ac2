@@ -9,6 +9,7 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
+use Norm\riak\Company;
 use Norm\riak\Member;
 use Guzzle\Http\Message\Response;
 use Norm\riak\Session;
@@ -274,6 +275,127 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         if($this->testUser->$arg1 != $arg2) {
             throw new \Exception('The authenticated users ' . $arg1 . ' field is not ' . $arg2);
         }
+    }
+
+    /**
+     * @When I get the company data for myself
+     */
+    public function iGetTheCompanyDataForMyself()
+    {
+        $this->getData('company/' . $this->testUser->managedCompanyIds[0]);
+    }
+
+    /**
+     * @Then Foreach of the :arg1 as :arg2 the :arg3 string length is :arg4
+     */
+    public function foreachOfTheAsTheStringLengthIs($arg1, $arg2, $arg3, $arg4)
+    {
+        foreach($this->getResponseFieldValue($arg1) as $arg2) {
+            if(strlen($arg2->$arg3) == $arg4) {
+                throw new \Exception('For each of the ' . $arg1 . ' as ' . $arg2 . ' the ' . $arg3 . ' string length is not ' . $arg4);
+            }
+        }
+    }
+
+    /**
+     * @Given The authenticated user has a company
+     */
+    public function theAuthenticatedUserHasACompany()
+    {
+        $company = new Company();
+        $company->name = 'ABC Company';
+        $company->description = "a cool company";
+        $company->address = '234 Main Street, Burlington, VT 91023';
+        $company->plan = Company::BASIC_PLAN;
+        $company->administerMemberIds = [$this->authenticatedUserId];
+        $company->save();
+
+        $this->testCompany = $company;
+
+        $this->addObject($company);
+
+        $this->testUser->managedCompanyIds = array($company->id);
+        $this->testUser->save();
+    }
+
+    /**
+     * @Given Another user has a company
+     */
+    public function anotherUserHasACompany()
+    {
+        $this->rand = rand(1, 99999999999);
+
+        $member = new Member();
+        $member->email = 'trash' . $this->rand . '@seangallavan.com';
+        $member->name = 'Trashy ' . $this->rand;
+        $member->dob = new \DateTime('1950-01-01');
+        $member->password = $this->getAuthService()->hashPassword('abcdabcd');
+        $member->status = Member::ACTIVE_STATUS;
+        $member->role = Member::USER_ROLE;
+        $member->save();
+
+        $company = new Company();
+        $company->administerMemberIds = array($member->id);
+        $company->name = 'Acme Company';
+        $company->plan = Company::BASIC_PLAN;
+        $company->status = Company::ENABLED_STATUS;
+        $company->save();
+
+        $this->testCompany = $company;
+    }
+
+    /**
+     * @When I get the company data for the company
+     */
+    public function iGetTheCompanyDataForTheCompany()
+    {
+        $this->getData('company/' . $this->testCompany->id);
+    }
+
+    /**
+     * @When I get the company data for a fake company
+     */
+    public function iGetTheCompanyDataForAFakeCompany()
+    {
+        $this->getData('company/a');
+    }
+
+    /**
+     * @Given I change the test companys :arg1 field to :arg2
+     */
+    public function iChangeTheTestCompanysFieldTo($arg1, $arg2)
+    {
+        $this->testCompany->{$arg1} = $arg2;
+    }
+
+    /**
+     * @When I save changes to the test company
+     */
+    public function iSaveChangesToTheTestCompany()
+    {
+        $this->requestArray = array('payload' => $this->testCompany->getPrivateArray());
+        $this->postData('company');
+    }
+
+    /**
+     * @Given I have a valid new company array
+     */
+    public function iHaveAValidNewCompanyArray()
+    {
+        $arr = array();
+        $arr['name'] = 'Friend Banananas, Inc.';
+        $arr['plan'] = Company::BASIC_PLAN;
+        $arr['status'] = Company::ENABLED_STATUS;
+        $arr['administerMemberIds'] = array($this->authenticatedUserId);
+        $this->requestArray = array('payload' => $arr);
+    }
+
+    /**
+     * @When I create a test company
+     */
+    public function iCreateATestCompany()
+    {
+        $this->postData('company');
     }
 
 }
