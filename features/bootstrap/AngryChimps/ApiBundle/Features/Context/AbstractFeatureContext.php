@@ -45,6 +45,9 @@ class AbstractFeatureContext {
     /** @var  \Norm\riak\Company */
     protected $testCompany;
 
+    /** @var  \Norm\riak\Location */
+    protected $testLocation;
+
     private $baseUrl;
     private $sessionHeaderName;
 

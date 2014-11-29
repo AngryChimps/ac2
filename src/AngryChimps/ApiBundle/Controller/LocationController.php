@@ -127,6 +127,7 @@ class LocationController extends AbstractController
 
         $company = Company::getByPk($location->companyId);
 
+        //This should never happen
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company which corresponds to that location',
@@ -181,6 +182,7 @@ class LocationController extends AbstractController
 
         $company = Company::getByPk($location->companyId);
 
+        //Should never happen with valid data
         if($company === null) {
             $errors = array(
                 'human' => 'Unable to find a company which corresponds to that location',

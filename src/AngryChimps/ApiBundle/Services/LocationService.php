@@ -63,10 +63,10 @@ class LocationService {
 
         $location->companyId = $company->id;
 
-        $errors = $this->validator->validate($location);
-        if(count($errors) > 0) {
-            return false;
-        }
+//        $errors = $this->validator->validate($location);
+//        if(count($errors) > 0) {
+//            return false;
+//        }
 
         $location->save();
 

@@ -380,7 +380,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iHaveAValidNewCompanyArray()
     {
         $arr = array();
-        $arr['name'] = 'Friend Banananas, Inc.';
+        $arr['name'] = 'Fried Banananas, Inc.';
         $this->requestArray = array('payload' => $arr);
     }
 
@@ -448,7 +448,6 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $arr['name'] = 'Main Street Location';
         $arr['street1'] = '440 Castro Street';
         $arr['zip'] = 94114;
-        $arr['status'] = Location::ENABLED_STATUS;
         $arr['company_id'] = $this->testCompany->id;
         $arr['phone'] = '555-555-5555';
         $this->requestArray = array('payload' => $arr);
@@ -460,6 +459,10 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iCreateATestLocationForMyTestCompany()
     {
         $this->postData('location');
+
+        if($this->response->getStatusCode() === 200) {
+            $this->testLocation = Location::getByPk($this->getResponseFieldValue('payload.location.id'));
+        }
     }
 
     /**
@@ -503,6 +506,96 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
         $this->assertEquals($this->testCompany->$arg1, $arg2,
             'The value of the ' . $arg1 . ' field of the test company is not ' . $arg2);
+    }
+
+    /**
+     * @Given I change the test locations :arg1 property to :arg2
+     */
+    public function iChangeTheTestLocationsPropertyTo($arg1, $arg2)
+    {
+        $this->testLocation->{$arg1} = $arg2;
+    }
+
+    /**
+     * @When I put changes to the test location
+     */
+    public function iPutChangesToTheTestLocation()
+    {
+        $arr = array();
+        $arr['name'] = $this->testLocation->name;
+        $arr['street1'] = $this->testLocation->street1;
+        $arr['street2'] = $this->testLocation->street2;
+        $arr['zip'] = $this->testLocation->zip;
+        $arr['companyId'] = $this->testLocation->companyId;
+        $arr['phone'] = $this->testLocation->phone;
+
+        $this->requestArray = array('payload' => $arr);
+        $this->putData('location/' . $this->testLocation->id);
+    }
+
+    /**
+     * @When I put changes to the test location with the wrong id
+     */
+    public function iPutChangesToTheTestLocationWithTheWrongId()
+    {
+        $arr = array();
+        $arr['name'] = $this->testLocation->name;
+        $arr['street1'] = $this->testLocation->street1;
+        $arr['street2'] = $this->testLocation->street2;
+        $arr['zip'] = $this->testLocation->zip;
+        $arr['companyId'] = $this->testCompany->id;
+        $arr['phone'] = $this->testLocation->phone;
+
+        $this->requestArray = array('payload' => $arr);
+        $this->putData('location/a');
+    }
+    /**
+     * @Then If I reload the test location
+     */
+    public function ifIReloadTheTestLocation()
+    {
+        $id = $this->testLocation->id;
+        $this->testLocation->invalidate();
+        $this->testLocation = Location::getByPk($id);
+    }
+
+    /**
+     * @Then The value of the :arg1 field of the test lcoation is :arg2
+     */
+    public function theValueOfTheFieldOfTheTestLcoationIs($arg1, $arg2)
+    {
+        $this->assertEquals($this->testLocation->$arg1, $arg2,
+            'The value of the ' . $arg1 . ' field of the test location is not ' . $arg2);
+    }
+
+    /**
+     * @Given The test company has a test location
+     */
+    public function theTestCompanyHasATestLocation()
+    {
+        $this->testLocation = new Location();
+        $this->testLocation->companyId = $this->testCompany->id;
+        $this->testLocation->street1 = '298 Willow Street';
+        $this->testLocation->street2 = 'APT 212';
+        $this->testLocation->zip = 94114;
+        $this->testLocation->phone = '5555551212';
+        $this->testLocation->save();
+    }
+
+    /**
+     * @When I delete the test location
+     */
+    public function iDeleteTheTestLocation()
+    {
+        $this->deleteData('location/' . $this->testLocation->id);
+    }
+
+    /**
+     * @When I delete a non-existent location
+     */
+    public function iDeleteANonExistentLocation()
+    {
+        $this->deleteData('location/c');
     }
 
 }
