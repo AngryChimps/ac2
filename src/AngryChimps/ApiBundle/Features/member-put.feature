@@ -9,6 +9,6 @@ Feature: member-put
     When I save changes to the authenticated user
     Then I get a status code "200"
     And I get back a valid json object
-    And The response contains a field named "payload.member.name"
-    And The value of the "payload.member.name" field is "Bobby Jo"
+    And If I reload the authenticated user
+    And The value of the "name" field of the authenticated user is "Bobby Jo"
     And Finally, I clean up my objects

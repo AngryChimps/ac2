@@ -106,7 +106,7 @@ class CompanyController extends AbstractController
             return $this->responseService->failure(400, $errors);
         }
 
-        return $this->responseService->success(array('company' => $company));
+        return $this->responseService->success();
     }
 
     /**

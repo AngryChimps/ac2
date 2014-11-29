@@ -58,9 +58,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iGetAStatusCode($arg1)
     {
-        if($this->response->getStatusCode() != $arg1) {
-            throw new \Exception("Status code should have been $arg1 but actually was " . $this->response->getStatusCode());
-        }
+        $this->assertEquals($this->response->getStatusCode(), $arg1,
+            "Status code should have been $arg1 but actually was " . $this->response->getStatusCode());
     }
 
     /**
@@ -110,9 +109,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function theValueOfTheFieldIs($arg1, $arg2)
     {
         $value = $this->getResponseFieldValue($arg1);
-        if($value !== $arg2) {
-            throw new \Exception('The value of the ' . $arg1 . ' should be ' . $arg2 . ' but is actually' . $value);
-        }
+        $this->assertEquals($value, $arg2,
+            'The value of the ' . $arg1 . ' should be ' . $arg2 . ' but is actually' . $value);
     }
 
     /**
@@ -216,9 +214,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     {
         $value = $this->getResponseFieldValue($arg1);
 
-        if(strlen($value) === 0) {
-            throw new \Exception('The ' . $arg1 . ' field has a string length of zero');
-        }
+        $this->assertNotEquals(strlen($value), 0, 'The ' . $arg1 . ' field has a string length of zero');
     }
 
     /**
@@ -273,9 +269,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->testUser->invalidate();
         $this->testUser = Member::getByPk($this->authenticatedUserId);
 
-        if($this->testUser->$arg1 != $arg2) {
-            throw new \Exception('The authenticated users ' . $arg1 . ' field is not ' . $arg2);
-        }
+        $this->assertEquals($this->testUser->$arg1, $arg2,
+            'The authenticated users ' . $arg1 . ' field is not ' . $arg2);
     }
 
     /**
@@ -286,17 +281,6 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->getData('company/' . $this->testUser->managedCompanyIds[0]);
     }
 
-    /**
-     * @Then Foreach of the :arg1 as :arg2 the :arg3 string length is :arg4
-     */
-    public function foreachOfTheAsTheStringLengthIs($arg1, $arg2, $arg3, $arg4)
-    {
-        foreach($this->getResponseFieldValue($arg1) as $arg2) {
-            if(strlen($arg2->$arg3) == $arg4) {
-                throw new \Exception('For each of the ' . $arg1 . ' as ' . $arg2 . ' the ' . $arg3 . ' string length is not ' . $arg4);
-            }
-        }
-    }
 
     /**
      * @Given The authenticated user has a company
@@ -461,6 +445,26 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iCreateATestLocationForMyTestCompany()
     {
         $this->postData('location');
+    }
+
+    /**
+     * @Then If I reload the authenticated user
+     */
+    public function ifIReloadTheAuthenticatedUser()
+    {
+        $user = Member::getByPk($this->authenticatedUserId);
+        $user->invalidate();
+
+        $this->testUser =  Member::getByPk($this->authenticatedUserId);
+    }
+
+    /**
+     * @Then The value of the :arg1 field of the authenticated user is :arg2
+     */
+    public function theValueOfTheFieldOfTheAuthenticatedUserIs($arg1, $arg2)
+    {
+        $this->assertEquals($this->testUser->$arg1, $arg2,
+            'The value of the ' . $arg1 . ' field of the authenticated user is not ' . $arg2);
     }
 
 }

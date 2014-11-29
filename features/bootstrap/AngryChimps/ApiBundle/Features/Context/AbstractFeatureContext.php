@@ -292,4 +292,25 @@ class AbstractFeatureContext {
         print_r($this->response->getBody());
     }
 
-} 
+    public function assertTrue($arg1, $msg) {
+        if(!$arg1) {
+            echo 'Request: ' . print_r($this->requestArray, true);
+            echo 'Response JSON: ' . $this->response->getBody(true);
+
+            try {
+                echo 'Response: ' . $this->response->json();
+            } catch (\Exception $ex) {
+                //do nothing
+            }
+
+            throw new \Exception($msg);
+        }
+    }
+
+    public function assertEquals($arg1, $arg2, $msg) {
+        $this->assertTrue($arg1 == $arg2, $msg);
+    }
+    public function assertNotEquals($arg1, $arg2, $msg) {
+        $this->assertTrue($arg1 != $arg2, $msg);
+    }
+}

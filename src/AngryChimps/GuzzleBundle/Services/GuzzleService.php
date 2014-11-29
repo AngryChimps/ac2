@@ -31,7 +31,6 @@ class GuzzleService extends Client {
         $this->loggerService->info('Guzzle request options: ' . json_encode($options));
 
         $request = parent::createRequest($method, $url, $options);
-        $this->loggerService->info('Guzzle scheme: ' . $request->getScheme());
 
         return $request;
     }

@@ -121,6 +121,6 @@ class MemberController extends AbstractController
 
         $this->memberService->update($user, $payload['name'], $payload['email']);
 
-        return $this->responseService->success(array('member' => $user->getPrivateArray()));
+        return $this->responseService->success();
     }
 }

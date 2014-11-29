@@ -151,8 +151,8 @@ class LocationController extends AbstractController
         $phone = $payload['phone'];
 
         $errors = array();
-        $company = $this->locationService->updateLocation($location, $company, $name, $street1, $street2, $zip, $phone, $errors);
-        if($company === false) {
+        $location = $this->locationService->updateLocation($location, $company, $name, $street1, $street2, $zip, $phone, $errors);
+        if($location === false) {
             $errors = array(
                 'human' => 'Unable to validate location inputs',
                 'code' => 'Api.LocationController.indexPutAction.4',
@@ -160,7 +160,7 @@ class LocationController extends AbstractController
             return $this->responseService->failure(400, $errors);
         }
 
-        return $this->responseService->success(array('company' => $company));
+        return $this->responseService->success();
     }
 
     /**
