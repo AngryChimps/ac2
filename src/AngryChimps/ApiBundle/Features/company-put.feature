@@ -10,8 +10,8 @@ Feature: company-put
     When I save changes to the test company
     Then I get a status code "200"
     And I get back a valid json object
-    And The response contains a field named "payload.company.name"
-    And The value of the "payload.company.name" field is "Killer Co."
+    And If I reload the test company
+    And The value of the "name" field of the test company is "Killer Co."
     And Finally, I clean up my objects
 
   Scenario: Attempt to modify a company object with invalid data

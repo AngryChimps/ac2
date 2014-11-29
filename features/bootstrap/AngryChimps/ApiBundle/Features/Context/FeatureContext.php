@@ -467,5 +467,24 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
             'The value of the ' . $arg1 . ' field of the authenticated user is not ' . $arg2);
     }
 
+    /**
+     * @Then If I reload the test company
+     */
+    public function ifIReloadTheTestCompany()
+    {
+        $id = $this->testCompany->id;
+        $this->testCompany->invalidate();
+        $this->testCompany = Company::getByPk($id);
+    }
+
+    /**
+     * @Then The value of the :arg1 field of the test company is :arg2
+     */
+    public function theValueOfTheFieldOfTheTestCompanyIs($arg1, $arg2)
+    {
+        $this->assertEquals($this->testCompany->$arg1, $arg2,
+            'The value of the ' . $arg1 . ' field of the test company is not ' . $arg2);
+    }
+
 }
 

@@ -9,13 +9,15 @@ use AngryChimps\GuzzleBundle\Services\GuzzleService;
 use Norm\riak\Zipcode;
 
 class GeolocationService {
-    protected static $googleMapsApiKey;
-    protected static $googleMapsApiAddress;
+    protected $googleMapsApiKey;
+    protected $googleMapsApiAddress;
     /** @var  GuzzleService */
     protected $guzzleService;
 
-    public function __construct(GuzzleService $guzzleService) {
+    public function __construct(GuzzleService $guzzleService, $googleApiKey, $googleMapsApiAddress) {
         $this->guzzleService = $guzzleService;
+        $this->googleMapsApiKey = $googleApiKey;
+        $this->googleMapsApiAddress = $googleMapsApiAddress;
     }
 
     public function lookupZipcode($zip) {
@@ -33,21 +35,13 @@ class GeolocationService {
         return $this->lookupAddressFromGoogle($street1, $street2, $zip);
     }
 
-    public static function setGoogleMapsApiKey($apiKey) {
-        self::$googleMapsApiKey = $apiKey;
-    }
-
-    public static function setGoogleMapsApiAddress($address) {
-        self::$googleMapsApiAddress = $address;
-    }
-
     protected function lookupZipcodeFromGoogle($zip) {
         //Make request to google
-        $url = self::$googleMapsApiAddress . '?address=' . $zip . '&key=' . self::$googleMapsApiKey;
+        $url = $this->googleMapsApiAddress . '?address=' . $zip . '&key=' . $this->googleMapsApiKey;
         $request = $this->guzzleService->createRequest('GET', $url);
         $response = $this->guzzleService->send($request);
 
-        $address = Address::getFromGoogleMapsJson($response);
+        $address = Address::getFromGoogleMapsArray($response->json());
 
         $zipcode = new Zipcode();
         $zipcode->id = $zip;
@@ -64,7 +58,7 @@ class GeolocationService {
         $addressString = $street1 . ', ' . $street2 . ',  ' . $zip;
 
         //Make request to google
-        $url = self::$googleMapsApiAddress . '?address=' . $addressString . '&key=' . self::$googleMapsApiKey;
+        $url = $this->googleMapsApiAddress . '?address=' . urlencode($addressString) . '&key=' . $this->googleMapsApiKey;
         $request = $this->guzzleService->createRequest('GET', $url);
         $response = $this->guzzleService->send($request);
 
