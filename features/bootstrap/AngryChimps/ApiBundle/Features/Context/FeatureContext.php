@@ -381,9 +381,6 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     {
         $arr = array();
         $arr['name'] = 'Friend Banananas, Inc.';
-        $arr['plan'] = Company::BASIC_PLAN;
-        $arr['status'] = Company::ENABLED_STATUS;
-        $arr['administerMemberIds'] = array($this->authenticatedUserId);
         $this->requestArray = array('payload' => $arr);
     }
 

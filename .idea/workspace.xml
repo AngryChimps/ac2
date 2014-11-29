@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3689bbd9-d2b9-48ad-920c-675fe0f9a3e5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CompanyController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CompanyController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CompanyService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CompanyService.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" afterPath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ResponseService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ResponseService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/company-put.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/company-put.feature" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ac.iws" />
@@ -179,14 +175,12 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="CompanyController.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="CompanyController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CompanyController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5400254" vertical-offset="1275" max-vertical-offset="2601">
-                  <caret line="100" column="83" selection-start-line="100" selection-start-column="83" selection-end-line="100" selection-end-column="83" />
-                  <folding>
-                    <element signature="e#52#74#0#PHP" expanded="true" />
-                  </folding>
+                <state vertical-scroll-proportion="-3.2692308" vertical-offset="0" max-vertical-offset="2601">
+                  <caret line="5" column="20" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="20" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -225,11 +219,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="FeatureContext.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="FeatureContext.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-4.4745765" vertical-offset="5975" max-vertical-offset="8806">
-                  <caret line="367" column="20" selection-start-line="367" selection-start-column="20" selection-end-line="367" selection-end-column="20" />
+                <state vertical-scroll-proportion="0.38372093" vertical-offset="6214" max-vertical-offset="8755">
+                  <caret line="383" column="41" selection-start-line="383" selection-start-column="41" selection-end-line="383" selection-end-column="41" />
                   <folding>
                     <element signature="e#58#107#0#PHP" expanded="true" />
                   </folding>
@@ -320,9 +314,9 @@
         <option value="$PROJECT_DIR$/src/AngryChimps/GeoBundle/Resources/config/services.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ResponseService.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CompanyService.php" />
-        <option value="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CompanyController.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/company-put.feature" />
+        <option value="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" />
       </list>
     </option>
   </component>
@@ -2046,7 +2040,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/GeoBundle/Classes/Address.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.3076925" vertical-offset="65" max-vertical-offset="850">
+        <state vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="850">
           <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
           <folding />
         </state>
@@ -2114,31 +2108,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4745765" vertical-offset="5975" max-vertical-offset="8806">
-          <caret line="367" column="20" selection-start-line="367" selection-start-column="20" selection-end-line="367" selection-end-column="20" />
-          <folding>
-            <element signature="e#58#107#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CompanyController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5400254" vertical-offset="1275" max-vertical-offset="2601">
-          <caret line="100" column="83" selection-start-line="100" selection-start-column="83" selection-end-line="100" selection-end-column="83" />
-          <folding>
-            <element signature="e#52#74#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/company-put.feature">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.63860106" vertical-offset="0" max-vertical-offset="772">
           <caret line="29" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CompanyController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.2692308" vertical-offset="0" max-vertical-offset="2601">
+          <caret line="5" column="20" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38372093" vertical-offset="6214" max-vertical-offset="8755">
+          <caret line="383" column="41" selection-start-line="383" selection-start-column="41" selection-end-line="383" selection-end-column="41" />
+          <folding>
+            <element signature="e#58#107#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
