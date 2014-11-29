@@ -579,6 +579,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->testLocation->street2 = 'APT 212';
         $this->testLocation->zip = 94114;
         $this->testLocation->phone = '5555551212';
+        $this->testLocation->lat = 37.762822;
+        $this->testLocation->long = -122.437239;
         $this->testLocation->save();
     }
 

@@ -60,6 +60,8 @@ class LocationService {
 
         $location->city = $address->city;
         $location->state = $address->state;
+        $location->lat = $address->lat;
+        $location->long = $address->long;
 
         $location->companyId = $company->id;
 
