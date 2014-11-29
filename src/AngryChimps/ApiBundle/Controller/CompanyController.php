@@ -98,7 +98,8 @@ class CompanyController extends AbstractController
         $payload = $this->getPayload();
         $errors = array();
         $user = $this->getAuthenticatedUser();
-        if($company = $this->getCompanyService()->createCompany($payload['name'], $user, $errors) === false) {
+        $valid = $this->getCompanyService()->updateCompany($company, $payload['name'], $errors);
+        if(!$valid) {
             $errors = array(
                 'human' => 'Unable to validate company inputs',
                 'code' => 'Api.CompanyController.indexPutAction.3',

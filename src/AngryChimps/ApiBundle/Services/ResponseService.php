@@ -37,7 +37,7 @@ class ResponseService {
     public function success(array $data = array()) {
         $viewData = $this->getViewData($data, array(), null);
 
-        $this->loggerService->info(json_encode(array('request' => $this->request->getContent())));
+        $this->loggerService->info(json_encode(array('request' => json_decode($this->request->getContent()))));
         $this->loggerService->info(json_encode(array('success_response' => $viewData)));
 
         $view = $this->getView($viewData, 200);

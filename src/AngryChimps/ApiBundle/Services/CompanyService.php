@@ -36,4 +36,17 @@ class CompanyService {
 
         return $company;
     }
+
+    public function updateCompany($company, $name, &$errors) {
+        $company->name = $name;
+
+//        $errors = $this->validator->validate($company);
+//
+//        if(count($errors) > 0) {
+//            return false;
+//        }
+
+        $company->save();
+        return true;
+    }
 }

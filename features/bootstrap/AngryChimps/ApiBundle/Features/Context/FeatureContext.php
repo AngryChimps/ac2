@@ -363,6 +363,18 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     }
 
     /**
+     * @When I put changes to the test company
+     */
+    public function iPutChangesToTheTestCompany()
+    {
+        $arr = array();
+        $arr['name'] = $this->testCompany->name;
+        $this->requestArray = array('payload' => $arr);
+
+        $this->putData('company/' . $this->testCompany->id);
+    }
+
+    /**
      * @Given I have a valid new company array
      */
     public function iHaveAValidNewCompanyArray()
@@ -381,6 +393,12 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iCreateATestCompany()
     {
         $this->postData('company');
+
+        if($this->response->getStatusCode() == 200) {
+            $id = $this->getResponseFieldValue('payload.company.id');
+            $this->testCompany = Company::getByPk($id);
+            $this->addObject($this->testCompany);
+        }
     }
 
     /**
@@ -482,6 +500,10 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function theValueOfTheFieldOfTheTestCompanyIs($arg1, $arg2)
     {
+        $id = $this->testCompany->id;
+        $this->testCompany->invalidate();
+        $this->testCompany = Company::getByPk($id);
+
         $this->assertEquals($this->testCompany->$arg1, $arg2,
             'The value of the ' . $arg1 . ' field of the test company is not ' . $arg2);
     }
