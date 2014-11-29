@@ -15,6 +15,8 @@ class Location extends LocationBase {
         $arr['city'] = $this->city;
         $arr['state'] = $this->state;
         $arr['zip'] = $this->zip;
+        $arr['lat'] = $this->lat;
+        $arr['long'] = $this->long;
         $arr['phone'] = $this->phone;
         $arr['photos'] = $this->photos;
         $arr['availabilities'] = $this->availabilities;
