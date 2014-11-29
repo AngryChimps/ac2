@@ -598,5 +598,21 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->deleteData('location/c');
     }
 
+    /**
+     * @When I get the location data for the test location
+     */
+    public function iGetTheLocationDataForTheTestLocation()
+    {
+        $this->getData('location/' . $this->testLocation->id);
+    }
+
+    /**
+     * @When I get the location data for a fake location
+     */
+    public function iGetTheLocationDataForAFakeLocation()
+    {
+        $this->getData('location/d');
+    }
+
 }
 
