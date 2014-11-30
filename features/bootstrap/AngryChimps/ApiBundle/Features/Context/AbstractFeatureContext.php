@@ -48,6 +48,9 @@ class AbstractFeatureContext {
     /** @var  \Norm\riak\Location */
     protected $testLocation;
 
+    /** @var  \Norm\riak\Service */
+    protected $testService;
+
     private $baseUrl;
     private $sessionHeaderName;
 
@@ -179,7 +182,7 @@ class AbstractFeatureContext {
                     throw new \Exception('The value for the ' . $field . ' field is not of type ' . $type);
                 }
             case 'array':
-                if(is_array($value)) {
+                if(!is_array($value)) {
                     throw new \Exception('The value for the ' . $field . ' field is not of type ' . $type);
                 }
         }
@@ -315,5 +318,9 @@ class AbstractFeatureContext {
     }
     public function assertNotEquals($arg1, $arg2, $msg) {
         $this->assertTrue($arg1 != $arg2, $msg);
+    }
+
+    public function assertNotEmpty($arg1, $msg) {
+        $this->assertTrue(!empty($arg1), $msg);
     }
 }

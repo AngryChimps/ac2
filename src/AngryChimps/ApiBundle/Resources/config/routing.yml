@@ -1,7 +1,10 @@
+#session
 angry_chimps_api_session:
     path:     /session
     methods: ["GET"]
     defaults: { _controller: angry_chimps_api.session.controller:indexGetAction }
+
+#member
 angry_chimps_api_member_get:
     path:     /member/{id}
     methods: ["GET"]
@@ -14,6 +17,8 @@ angry_chimps_api_member_delete:
     path:     /member/{id}
     methods: ["DELETE"]
     defaults: { _controller: angry_chimps_api.member.controller:indexDeleteAction }
+
+#auth
 angry_chimps_api_auth_login:
     path:     /auth/login
     methods: ["POST"]
@@ -22,6 +27,8 @@ angry_chimps_api_auth_register:
     path:     /auth/register
     methods: ["POST"]
     defaults: { _controller: angry_chimps_api.auth.controller:registerAction }
+
+#company
 angry_chimps_api_company_get:
     path:     /company/{id}
     methods: ["GET"]
@@ -38,6 +45,8 @@ angry_chimps_api_company_delete:
     path:     /company/{id}
     methods: ["DELETE"]
     defaults: { _controller: angry_chimps_api.company.controller:indexDeleteAction }
+
+#location
 angry_chimps_api_location_get:
     path:     /location/{id}
     methods: ["GET"]
@@ -54,6 +63,30 @@ angry_chimps_api_location_delete:
     path:     /location/{id}
     methods: ["DELETE"]
     defaults: { _controller: angry_chimps_api.location.controller:indexDeleteAction }
+
+#service
+angry_chimps_api_service_get:
+    path:     /service/{id}
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.service.controller:indexGetAction }
+angry_chimps_api_service_post:
+    path:     /service
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.service.controller:indexPostAction }
+angry_chimps_api_service_put:
+    path:     /service/{id}
+    methods: ["PUT"]
+    defaults: { _controller: angry_chimps_api.service.controller:indexPutAction }
+angry_chimps_api_service_delete:
+    path:     /service/{id}
+    methods: ["DELETE"]
+    defaults: { _controller: angry_chimps_api.service.controller:indexDeleteAction }
+
+#categories
+angry_chimps_api_categories_get:
+    path:     /categories
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.categories.controller:indexGetAction }
 
 api:
     resource: "@AngryChimpsApiBundle/Controller"

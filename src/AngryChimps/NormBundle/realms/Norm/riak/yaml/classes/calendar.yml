@@ -1,0 +1,24 @@
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: location_id
+    type: string
+  - name: name
+    type: string
+  - name: availabilities
+    type: Availability[]
+  - name: bookings
+    type: Booking[]
+  - name: status
+    type: enum
+    values:
+      - Enabled
+      - Disabed
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

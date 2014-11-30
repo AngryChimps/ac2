@@ -4,6 +4,8 @@ parameters:
     angry_chimps_api.controller.auth.class: AngryChimps\ApiBundle\Controller\AuthController
     angry_chimps_api.controller.company.class: AngryChimps\ApiBundle\Controller\CompanyController
     angry_chimps_api.controller.location.class: AngryChimps\ApiBundle\Controller\LocationController
+    angry_chimps_api.controller.service.class: AngryChimps\ApiBundle\Controller\ServiceController
+    angry_chimps_api.controller.categories.class: AngryChimps\ApiBundle\Controller\CategoriesController
 
 services:
 
@@ -35,6 +37,8 @@ services:
     angry_chimps_api.session:
         class: AngryChimps\ApiBundle\Services\SessionService
         arguments: ["@request_stack", "%angry_chimps_api.session_header_name%"]
+    angry_chimps_api.categories:
+        class: AngryChimps\ApiBundle\Services\CategoriesService
 
 ##############################################################
 ###                  Controllers                           ###
@@ -58,6 +62,14 @@ services:
     angry_chimps_api.location.controller:
             class:     "%angry_chimps_api.controller.location.class%"
             arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.location"]
+
+    angry_chimps_api.service.controller:
+            class:     "%angry_chimps_api.controller.service.class%"
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.service"]
+
+    angry_chimps_api.categories.controller:
+            class:     "%angry_chimps_api.controller.categories.class%"
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.categories"]
 
 
 ##############################################################

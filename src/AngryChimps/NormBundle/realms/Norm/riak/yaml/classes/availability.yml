@@ -1,0 +1,7 @@
+primary_keys: []
+
+fields:
+  - name: start
+    type: DateTime
+  - name: end
+    type: DateTime

@@ -13,6 +13,7 @@ use Norm\riak\Company;
 use Norm\riak\Location;
 use Norm\riak\Member;
 use Guzzle\Http\Message\Response;
+use Norm\riak\Service;
 use Norm\riak\Session;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -614,6 +615,49 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iGetTheLocationDataForAFakeLocation()
     {
         $this->getData('location/d');
+    }
+
+    /**
+     * @Given The test location has a test service
+     */
+    public function theTestLocationHasATestService()
+    {
+        $service = new Service();
+        $service->companyId = $this->testCompany->id;
+        $service->name = 'Long hair cut';
+        $service->discountedPrice = 55.99;
+        $service->originalPrice = 70;
+        $service->minsForService = 30;
+        $service->minsNotice = 60;
+        $service->category = 101;
+        $service->save();
+
+        $this->testService = $service;
+    }
+
+    /**
+     * @When I get a list of categories from the server
+     */
+    public function iGetAListOfCategoriesFromTheServer()
+    {
+        $this->getData('categories');
+    }
+
+    /**
+     * @Then The :arg1 array is not empty
+     */
+    public function theArrayIsNotEmpty($arg1)
+    {
+        $arr = $this->getResponseFieldValue($arg1);
+        $this->assertNotEmpty($arr, 'The ' . $arg1 . ' array is empty and should not be');
+    }
+
+    /**
+     * @When I get the service data for the test service
+     */
+    public function iGetTheServiceDataForTheTestService()
+    {
+        throw new PendingException();
     }
 
 }

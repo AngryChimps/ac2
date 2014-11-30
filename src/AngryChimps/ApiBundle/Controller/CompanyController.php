@@ -28,6 +28,7 @@ class CompanyController extends AbstractController
         parent::__construct($requestStack, $sessionService, $responseService);
         $this->companyService = $companyService;
     }
+
     public function indexGetAction($id)
     {
         $company = Company::getByPk($id);

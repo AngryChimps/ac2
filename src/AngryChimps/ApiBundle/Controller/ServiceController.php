@@ -2,19 +2,32 @@
 
 namespace AngryChimps\ApiBundle\Controller;
 
+use AngryChimps\ApiBundle\Services\ServiceService;
 use Norm\riak\Service;
 use Norm\riak\Company;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use AngryChimps\ApiBundle\Services\ResponseService;
+use Symfony\Component\HttpFoundation\RequestStack;
+use AngryChimps\ApiBundle\Services\SessionService;
 
 /**
- * Class SessionController
+ * Class ServiceController
  *
  * @Route("/service")
  */
 class ServiceController extends AbstractController
 {
+    /** @var  \AngryChimps\ApiBundle\Services\ServiceService */
+    protected $serviceService;
+
+    public function __construct(RequestStack $requestStack, SessionService $sessionService,
+                                ResponseService $responseService, ServiceService $serviceService) {
+        parent::__construct($requestStack, $sessionService, $responseService);
+        $this->serviceService = $serviceService;
+    }
+
     /**
      * @Route("/{id}")
      * @Method({"GET"})
@@ -28,7 +41,7 @@ class ServiceController extends AbstractController
                 'human' => 'Unable to find a service with that id',
                 'code' => 'Api.ServiceController.indexGetAction.1'
             );
-            return $this->failure(404, $errors);
+            return $this->responseService->failure(404, $errors);
         }
 
         $company = Company::getByPk($service->companyId);
@@ -38,15 +51,15 @@ class ServiceController extends AbstractController
                 'human' => 'Unable to find a company which corresponds to that service',
                 'code' => 'Api.ServiceController.indexGetAction.2'
             );
-            return $this->failure(400, $errors);
+            return $this->responseService->failure(400, $errors);
         }
 
-        $user = $this->getUser();
+        $user = $this->getAuthenticatedUser();
         if($user !== null && in_array($user->id, $company->administerMemberIds)) {
-            return $this->success(array('service' => $service->getPrivateArray()));
+            return $this->responseService->success(array('service' => $service->getPrivateArray()));
         }
         else {
-            return $this->success(array('service' => $service->getPublicArray()));
+            return $this->responseService->success(array('service' => $service->getPublicArray()));
         }
     }
 
@@ -72,7 +85,7 @@ class ServiceController extends AbstractController
                 'human' => 'Unable to find a company  with that id',
                 'code' => 'Api.ServiceController.indexPostAction.1'
             );
-            return $this->failure(400, $errors);
+            return $this->responseService->failure(400, $errors);
         }
 
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
@@ -80,21 +93,22 @@ class ServiceController extends AbstractController
                 'human' => 'This user is not authorized to perform this action',
                 'code' => 'Api.ServiceController.indexPostAction.2'
             );
-            return $this->failure(401, $errors);
+            return $this->responseService->failure(401, $errors);
         }
 
         $errors = array();
-        if($service = $this->getServiceService()->createService($name, $companyId, $discountedPrice,
-                $originalPrice, $minsForService, $minsNotice, $category, $errors) === false) {
+        $service = $this->serviceService->createService($name, $companyId, $discountedPrice,
+            $originalPrice, $minsForService, $minsNotice, $category, $errors);
+        if($service === false) {
             $errors = array(
                 'human' => 'Error validating service fields',
                 'code' => 'Api.ServiceController.indexPostAction.3',
                 'debug' => $errors,
             );
-            return $this->failure(400, $errors);
+            return $this->responseService->failure(400, $errors);
         }
 
-        return $this->success(array('service' => $service->getPrivateArray()));
+        return $this->responseService->success(array('service' => $service->getPrivateArray()));
     }
 
     /**
@@ -104,7 +118,6 @@ class ServiceController extends AbstractController
     public function indexPutAction($id)
     {
         $payload = $this->getPayload();
-        $id = $payload['id'];
         $name = $payload['name'];
         $discountedPrice = $payload['discounted_price'];
         $originalPrice = $payload['original_price'];
@@ -119,7 +132,7 @@ class ServiceController extends AbstractController
                 'human' => 'Unable to find a service  with that id',
                 'code' => 'Api.ServiceController.indexPutAction.1'
             );
-            return $this->failure(404, $errors);
+            return $this->responseService->failure(404, $errors);
         }
 
         $company = Company::getByPk($service->companyId);
@@ -129,7 +142,7 @@ class ServiceController extends AbstractController
                 'human' => 'Unable to find a company  with that id',
                 'code' => 'Api.ServiceController.indexPutAction.2'
             );
-            return $this->failure(400, $errors);
+            return $this->responseService->failure(400, $errors);
         }
 
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
@@ -137,21 +150,22 @@ class ServiceController extends AbstractController
                 'human' => 'This user is not authorized to perform this action',
                 'code' => 'Api.ServiceController.indexPutAction.3'
             );
-            return $this->failure(401, $errors);
+            return $this->responseService->failure(401, $errors);
         }
 
         $errors = array();
-        if($company = $this->getServiceService()->updateService($service, $name, $discountedPrice,
+        $company = $this->serviceService->updateService($service, $name, $discountedPrice,
             $originalPrice, $minsForService, $minsNotice, $category,
-            $errors) === false) {
+            $errors);
+        if($company === false) {
             $errors = array(
                 'human' => 'Unable to validate location inputs',
                 'code' => 'Api.ServiceController.indexPutAction.4',
             );
-            return $this->failure(400, $errors);
+            return $this->responseService->failure(400, $errors);
         }
 
-        return $this->success(array('company' => $company));
+        return $this->responseService->success();
     }
 
     /**
@@ -167,7 +181,7 @@ class ServiceController extends AbstractController
                 'human' => 'Unable to find a service  with that id',
                 'code' => 'Api.ServiceController.indexDeleteAction.1'
             );
-            return $this->failure(404, $errors);
+            return $this->responseService->failure(404, $errors);
         }
 
         $company = Company::getByPk($service->companyId);
@@ -177,7 +191,7 @@ class ServiceController extends AbstractController
                 'human' => 'Unable to find a company  with that id',
                 'code' => 'Api.ServiceController.indexDeleteAction.2'
             );
-            return $this->failure(400, $errors);
+            return $this->responseService->failure(400, $errors);
         }
 
         if(!$this->isAuthorizedSelf($company->administerMemberIds)) {
@@ -185,13 +199,13 @@ class ServiceController extends AbstractController
                 'human' => 'This user is not authorized to perform this action',
                 'code' => 'Api.ServiceController.indexDeleteAction.3'
             );
-            return $this->failure(401, $errors);
+            return $this->responseService->failure(401, $errors);
         }
 
         $service->status = Service::DISABLED_STATUS;
         $service->save();
 
-        return $this->success();
+        return $this->responseService->success();
     }
 
 }
