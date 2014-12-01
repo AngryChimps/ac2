@@ -97,4 +97,23 @@ class NormBaseCollection extends \ArrayObject {
 
         return $data;
     }
+
+    public function getJson() {
+        $arr = array();
+
+        foreach($this as $id => $obj) {
+            $arr[$id] = $obj->getJson();
+        }
+
+        return json_encode($arr);
+    }
+
+    public function loadByJson($json) {
+        $arr = json_decode($json, true);
+        foreach($arr as $id => $objJson) {
+            $obj = new static::$singularClassName();
+            $obj->loadByJson($objJson);
+            $this[$id] = $obj;
+        }
+    }
 } 

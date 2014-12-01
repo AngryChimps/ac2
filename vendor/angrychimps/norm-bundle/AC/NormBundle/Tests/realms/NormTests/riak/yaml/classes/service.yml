@@ -5,11 +5,11 @@ fields:
   - name: id
     type: string
     auto_generate: true
-  - name: company_id
-    type: string
-  - name: category_id
+  - name: mysql_id
     type: int
   - name: name
+    type: string
+  - name: description
     type: string
   - name: discounted_price
     type: float
@@ -19,17 +19,14 @@ fields:
     type: int
   - name: mins_notice
     type: int
+  - name: category_id
+    type: int
   - name: status
     type: enum
     values:
         - Enabled
         - Disabled
+  - name: updated_at
+    type: DateTime
   - name: created_at
     type: DateTime
-
-foreign_keys:
-  - name: fk_service_company
-    column_name: company_id
-    referenced_table_name: company
-    referenced_column_name: id
-

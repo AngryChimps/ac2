@@ -18,13 +18,13 @@ class CompanyBase extends NormBaseObject {
     protected static $tableName = 'company';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'flag_total', 'administer_member_ids', 'location_keys', 'status', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'administer_member_ids', 'location_ids', 'flag_ids', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'int', 'int', 'int', 'float', 'int', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'int', 'int', 'int', 'float', 'string[]', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'flagTotal', 'administerMemberIds', 'locationKeys', 'status', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'administerMemberIds', 'locationIds', 'flagIds', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -81,14 +81,14 @@ class CompanyBase extends NormBaseObject {
     /** @var float */
     public $ratingAvg;
 
-    /** @var int */
-    public $flagTotal;
-
     /** @var string[] */
     public $administerMemberIds;
 
     /** @var string[] */
-    public $locationKeys;
+    public $locationIds;
+
+    /** @var string[] */
+    public $flagIds;
 
     /** @var int */
     public $status;
@@ -102,12 +102,20 @@ class CompanyBase extends NormBaseObject {
 
 
 
-    /** @returns Norm\riak\Comment */
-    public function getCommentCollection() {
-        if($this->Comment === null) {
-            $this->loadComment();
+    /** @returns Norm\riak\Ad */
+    public function getAdCollection() {
+        if($this->Ad === null) {
+            $this->loadAd();
         }
-        return $this->Comment;
+        return $this->Ad;
+    }
+
+    /** @returns Norm\riak\AdFlag */
+    public function getAdFlagCollection() {
+        if($this->AdFlag === null) {
+            $this->loadAdFlag();
+        }
+        return $this->AdFlag;
     }
 
     /** @returns Norm\riak\Location */
@@ -118,25 +126,89 @@ class CompanyBase extends NormBaseObject {
         return $this->Location;
     }
 
-    /** @returns Norm\riak\Service */
-    public function getServiceCollection() {
-        if($this->Service === null) {
-            $this->loadService();
+    /** @returns Norm\riak\MemberCompanyRating */
+    public function getMemberCompanyRatingCollection() {
+        if($this->MemberCompanyRating === null) {
+            $this->loadMemberCompanyRating();
         }
-        return $this->Service;
+        return $this->MemberCompanyRating;
+    }
+
+    /** @returns Norm\riak\Calendar */
+    public function getCalendarCollection() {
+        if($this->Calendar === null) {
+            $this->loadCalendar();
+        }
+        return $this->Calendar;
+    }
+
+    /** @returns Norm\riak\CompanyServices */
+    public function getCompanyServicesCollection() {
+        if($this->CompanyServices === null) {
+            $this->loadCompanyServices();
+        }
+        return $this->CompanyServices;
+    }
+
+    /** @returns Norm\riak\BookingDetail */
+    public function getBookingDetailCollection() {
+        if($this->BookingDetail === null) {
+            $this->loadBookingDetail();
+        }
+        return $this->BookingDetail;
+    }
+
+    /** @returns Norm\riak\CompanyReviews */
+    public function getCompanyReviewsCollection() {
+        if($this->CompanyReviews === null) {
+            $this->loadCompanyReviews();
+        }
+        return $this->CompanyReviews;
+    }
+
+    /** @returns Norm\riak\Review */
+    public function getReviewCollection() {
+        if($this->Review === null) {
+            $this->loadReview();
+        }
+        return $this->Review;
     }
 
 
-    protected function loadCommentCollection() {
-        parent::loadPropertyCollection('Comment', 'comment', 'company_key', 'companyKey');
+    protected function loadAdCollection() {
+        parent::loadPropertyCollection('Ad', 'ad', 'company_id', 'companyId');
+    }
+
+    protected function loadAdFlagCollection() {
+        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'company_id', 'companyId');
     }
 
     protected function loadLocationCollection() {
         parent::loadPropertyCollection('Location', 'location', 'company_id', 'companyId');
     }
 
-    protected function loadServiceCollection() {
-        parent::loadPropertyCollection('Service', 'service', 'company_id', 'companyId');
+    protected function loadMemberCompanyRatingCollection() {
+        parent::loadPropertyCollection('MemberCompanyRating', 'member_company_rating', 'company_id', 'companyId');
+    }
+
+    protected function loadCalendarCollection() {
+        parent::loadPropertyCollection('Calendar', 'calendar', 'company_id', 'companyId');
+    }
+
+    protected function loadCompanyServicesCollection() {
+        parent::loadPropertyCollection('CompanyServices', 'company_services', 'company_id', 'companyId');
+    }
+
+    protected function loadBookingDetailCollection() {
+        parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'company_id', 'companyId');
+    }
+
+    protected function loadCompanyReviewsCollection() {
+        parent::loadPropertyCollection('CompanyReviews', 'company_reviews', 'company_id', 'companyId');
+    }
+
+    protected function loadReviewCollection() {
+        parent::loadPropertyCollection('Review', 'review', 'company_id', 'companyId');
     }
 
 

@@ -5,6 +5,7 @@ namespace AngryChimps\ApiBundle\Services;
 
 
 use AngryChimps\GeoBundle\Services\GeolocationService;
+use Norm\riak\Company;
 use Norm\riak\Location;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -18,6 +19,19 @@ class LocationService {
     public function __construct(ValidatorInterface $validator, GeolocationService $geo) {
         $this->validator = $validator;
         $this->geo = $geo;
+    }
+
+    public function createEmpty(Company $company) {
+        $location = new Location();
+        $location->save();
+
+        $company->locationIds[] = $location->id;
+        $company->save();
+
+        $location->companyId = $company->id;
+        $location->save();
+
+        return $location;
     }
 
 

@@ -1,14 +1,19 @@
 primary_keys:
-  - company_key
+  - id
 
 fields:
-  - name: company_key
+  - name: id
     type: string
+    auto_generate: true
+  - name: mysql_id
+    type: int
   - name: name
     type: string
+    validations:
+        Length:
+            min: 4
+            max: 25
   - name: description
-    type: string
-  - name: address
     type: string
   - name: plan
     type: enum
@@ -21,18 +26,17 @@ fields:
     type: int
   - name: rating_avg
     type: float
-  - name: flag_total
-    type: int
-  - name: administer_member_keys
+  - name: administer_member_ids
     type: string[]
-  - name: location_keys
+  - name: location_ids
     type: string[]
-  - name:
+  - name: flag_ids
+    type: string[]
+  - name: status
     type: enum
     values:
-      - Active
-      - Closed
-      - Prohibited
+      - Enabled
+      - Disabled
   - name: created_at
     type: DateTime
   - name: updated_at

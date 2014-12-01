@@ -23,10 +23,10 @@ fields:
 
 foreign_keys:
   - name: fk_location_company
-    column_name: ad_key
+    column_name: ad_id
     referenced_table_name: ad
-    referenced_column_name: key
-  - name: fk_location_company
-    column_name: author_key
+    referenced_column_name: id
+  - name: fk_location_author
+    column_name: author_id
     referenced_table_name: member
-    referenced_column_name: key
+    referenced_column_name: id

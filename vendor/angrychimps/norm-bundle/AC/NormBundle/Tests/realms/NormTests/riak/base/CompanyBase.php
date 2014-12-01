@@ -18,19 +18,19 @@ class CompanyBase extends NormBaseObject {
     protected static $tableName = 'company';
 
     /** @var string[] */
-    protected static $fieldNames = array('company_key', 'name', 'description', 'address', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'flag_total', 'administer_member_keys', 'location_keys', '', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'administer_member_ids', 'location_ids', 'flag_ids', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'int', 'int', 'int', 'float', 'int', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'int', 'int', 'int', 'float', 'string[]', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('companyKey', 'name', 'description', 'address', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'flagTotal', 'administerMemberKeys', 'locationKeys', '', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'administerMemberIds', 'locationIds', 'flagIds', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('company_key');
+    protected static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('companyKey');
+    protected static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
     protected static $autoIncrementFieldName = '';
@@ -39,10 +39,10 @@ class CompanyBase extends NormBaseObject {
     protected static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    protected static $autoGenerateFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    protected static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
     protected static $hasPrimaryKey = true;
@@ -53,22 +53,21 @@ class CompanyBase extends NormBaseObject {
     const BASIC_PLAN = 1;
     const PREMIUM_PLAN = 2;
 
-    const ACTIVE_ = 1;
-    const CLOSED_ = 2;
-    const PROHIBITED_ = 3;
+    const ENABLED_STATUS = 1;
+    const DISABLED_STATUS = 2;
 
 
     /** @var string */
-    public $companyKey;
+    public $id;
+
+    /** @var int */
+    public $mysqlId;
 
     /** @var string */
     public $name;
 
     /** @var string */
     public $description;
-
-    /** @var string */
-    public $address;
 
     /** @var int */
     public $plan;
@@ -82,17 +81,17 @@ class CompanyBase extends NormBaseObject {
     /** @var float */
     public $ratingAvg;
 
-    /** @var int */
-    public $flagTotal;
+    /** @var string[] */
+    public $administerMemberIds;
 
     /** @var string[] */
-    public $administerMemberKeys;
+    public $locationIds;
 
     /** @var string[] */
-    public $locationKeys;
+    public $flagIds;
 
     /** @var int */
-    public $;
+    public $status;
 
     /** @var DateTime */
     public $createdAt;
@@ -103,12 +102,52 @@ class CompanyBase extends NormBaseObject {
 
 
 
-    /** @returns NormTests\riak\Comment */
-    public function getCommentCollection() {
-        if($this->Comment === null) {
-            $this->loadComment();
+    /** @returns NormTests\riak\Ad */
+    public function getAdCollection() {
+        if($this->Ad === null) {
+            $this->loadAd();
         }
-        return $this->Comment;
+        return $this->Ad;
+    }
+
+    /** @returns NormTests\riak\AdFlag */
+    public function getAdFlagCollection() {
+        if($this->AdFlag === null) {
+            $this->loadAdFlag();
+        }
+        return $this->AdFlag;
+    }
+
+    /** @returns NormTests\riak\BookingDetail */
+    public function getBookingDetailCollection() {
+        if($this->BookingDetail === null) {
+            $this->loadBookingDetail();
+        }
+        return $this->BookingDetail;
+    }
+
+    /** @returns NormTests\riak\Calendar */
+    public function getCalendarCollection() {
+        if($this->Calendar === null) {
+            $this->loadCalendar();
+        }
+        return $this->Calendar;
+    }
+
+    /** @returns NormTests\riak\CompanyReviews */
+    public function getCompanyReviewsCollection() {
+        if($this->CompanyReviews === null) {
+            $this->loadCompanyReviews();
+        }
+        return $this->CompanyReviews;
+    }
+
+    /** @returns NormTests\riak\CompanyServices */
+    public function getCompanyServicesCollection() {
+        if($this->CompanyServices === null) {
+            $this->loadCompanyServices();
+        }
+        return $this->CompanyServices;
     }
 
     /** @returns NormTests\riak\Location */
@@ -119,19 +158,63 @@ class CompanyBase extends NormBaseObject {
         return $this->Location;
     }
 
+    /** @returns NormTests\riak\MemberCompanyRating */
+    public function getMemberCompanyRatingCollection() {
+        if($this->MemberCompanyRating === null) {
+            $this->loadMemberCompanyRating();
+        }
+        return $this->MemberCompanyRating;
+    }
 
-    protected function loadCommentCollection() {
-        parent::loadPropertyCollection('Comment', 'comment', 'company_key', 'companyKey');
+    /** @returns NormTests\riak\Review */
+    public function getReviewCollection() {
+        if($this->Review === null) {
+            $this->loadReview();
+        }
+        return $this->Review;
+    }
+
+
+    protected function loadAdCollection() {
+        parent::loadPropertyCollection('Ad', 'ad', 'company_id', 'companyId');
+    }
+
+    protected function loadAdFlagCollection() {
+        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'company_id', 'companyId');
+    }
+
+    protected function loadBookingDetailCollection() {
+        parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'company_id', 'companyId');
+    }
+
+    protected function loadCalendarCollection() {
+        parent::loadPropertyCollection('Calendar', 'calendar', 'company_id', 'companyId');
+    }
+
+    protected function loadCompanyReviewsCollection() {
+        parent::loadPropertyCollection('CompanyReviews', 'company_reviews', 'company_id', 'companyId');
+    }
+
+    protected function loadCompanyServicesCollection() {
+        parent::loadPropertyCollection('CompanyServices', 'company_services', 'company_id', 'companyId');
     }
 
     protected function loadLocationCollection() {
-        parent::loadPropertyCollection('Location', 'location', 'company_key', 'companyKey');
+        parent::loadPropertyCollection('Location', 'location', 'company_id', 'companyId');
+    }
+
+    protected function loadMemberCompanyRatingCollection() {
+        parent::loadPropertyCollection('MemberCompanyRating', 'member_company_rating', 'company_id', 'companyId');
+    }
+
+    protected function loadReviewCollection() {
+        parent::loadPropertyCollection('Review', 'review', 'company_id', 'companyId');
     }
 
 
     /**
      * @param $pk
-     * @return Company
+     * @return \NormTests\riak\Company
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -140,7 +223,7 @@ class CompanyBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return Company
+     * @return \NormTests\riak\Company
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -149,7 +232,7 @@ class CompanyBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return Company
+     * @return \NormTests\riak\Company
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

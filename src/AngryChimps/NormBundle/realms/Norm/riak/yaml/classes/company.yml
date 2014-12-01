@@ -26,11 +26,11 @@ fields:
     type: int
   - name: rating_avg
     type: float
-  - name: flag_total
-    type: int
   - name: administer_member_ids
     type: string[]
-  - name: location_keys
+  - name: location_ids
+    type: string[]
+  - name: flag_ids
     type: string[]
   - name: status
     type: enum

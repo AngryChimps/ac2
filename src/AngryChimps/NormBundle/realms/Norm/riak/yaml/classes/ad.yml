@@ -1,36 +1,26 @@
 primary_keys:
-  - ad_key
+  - id
 
 fields:
-  - name: ad_key
+  - name: id
     type: string
-  - name: location_key
+  - name: location_id
     type: string
-  - name: company_key
+  - name: company_id
     type: string
-  - name: category_name
+  - name: calendar_id
     type: string
-  - name: subcategory_name
+  - name: author_id
     type: string
   - name: title
     type: string
   - name: description
     type: string
-  - name: minutes_required
+  - name: ad_flag_total
     type: int
-  - name: minutes_booking_notice
-    type: int
-  - name: minutes_avail_interval
-    type: int
-  - name: price
-    type: decimal
-  - name: discount
-    type: float
-  - name: body
-    type: string
-  - name: flag_total
-    type: int
-  - name: flag_keys
+  - name: service_ids
+    type: string[]
+  - name: flag_ids
     type: string[]
   - name: status
     type: enum
@@ -42,3 +32,25 @@ fields:
     type: DateTime
   - name: updated_at
     type: DateTime
+
+foreign_keys:
+  - name: fk_ad_location
+    column_name: location_id
+    referenced_table_name: location
+    referenced_column_name: id
+  - name: fk_ad_company
+    column_name: company_id
+    referenced_table_name: company
+    referenced_column_name: id
+  - name: fk_ad_calendar
+    column_name: calendar_id
+    referenced_table_name: calendar
+    referenced_column_name: id
+  - name: fk_ad_author
+    column_name: author_id
+    referenced_table_name: member
+    referenced_column_name: id
+  - name: fk_ad_service
+    column_name: service_id
+    referenced_table_name: service
+    referenced_column_name: id

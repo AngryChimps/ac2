@@ -94,7 +94,7 @@ class PersonBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return Person
+     * @return \NormTests\mysql\Person
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -103,7 +103,7 @@ class PersonBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return Person
+     * @return \NormTests\mysql\Person
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -112,7 +112,7 @@ class PersonBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return Person
+     * @return \NormTests\mysql\Person
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

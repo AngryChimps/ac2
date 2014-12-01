@@ -17,6 +17,19 @@ class CompanyService {
         $this->validator = $validator;
     }
 
+    public function createEmpty(Member $member) {
+        $company = new Company();
+        $company->save();
+
+        $member->managedCompanyIds[] = $company->id;
+        $member->save();
+
+        $company->administerMemberIds[] = $member->id;
+        $company->save();
+
+        return $company;
+    }
+
     public function createCompany($name, Member $owner, &$errors) {
         $company = new Company();
         $company->name = $name;

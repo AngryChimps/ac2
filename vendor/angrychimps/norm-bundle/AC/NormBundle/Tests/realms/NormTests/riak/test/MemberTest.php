@@ -11,9 +11,10 @@ class MemberTest extends AbstractRiakTestCase {
      */
     public static function getNewUnsavedObject() {
         $mem = new Member();
-        $mem->first = 'Bob';
-        $mem->last = 'Bobbington';
-        $mem->email = 'test@test.com';
+        $mem->fname = 'Bob';
+        $mem->lname = 'Bobbington';
+        $mem->email = 'trashy' . rand(1, 999999999) . '@seangallavan.com';
+        $mem->dob = new \DateTime('1949-01-01');
 
         return $mem;
     }
@@ -24,12 +25,14 @@ class MemberTest extends AbstractRiakTestCase {
     public static function getNewSavedObject() {
         $mem = self::getNewUnsavedObject();
         $mem->save();
+        self::addObjectForCleanup($mem);
         return $mem;
     }
 
     public function testSaveNew() {
         $mem = self::getNewUnsavedObject();
         $mem->save();
+        self::addObjectForCleanup($mem);
 
         $bucket = $this->getObjectsBucket('member');
         $response = $bucket->get($mem->id);
@@ -46,13 +49,12 @@ class MemberTest extends AbstractRiakTestCase {
     }
 
     public function testSaveExisting() {
-        $mem = self::getNewUnsavedObject();
+        $mem = self::getNewSavedObject();
         $id = $mem->id;
-        $mem->save();
         $mem->invalidate();
 
         $normObj = Member::getByPk($id);
-        $normObj->first = 'Bill';
+        $normObj->fname = 'Bill';
         $normObj->save();
 
         $bucket = $this->getObjectsBucket('member');

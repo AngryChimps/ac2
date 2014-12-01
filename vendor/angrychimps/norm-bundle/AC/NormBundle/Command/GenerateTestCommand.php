@@ -32,8 +32,8 @@ class GenerateTestCommand extends ContainerAwareCommand
             $realms_parsed = yaml_parse($realms_contents);
 
 
-            Generator::setDatastores($ds_parsed['ac_norm']['datastores']);
-            Generator::setRealms($realms_parsed['ac_norm']['realms']);
+            Generator::setDatastores($ds_parsed['datastores']);
+            Generator::setRealms($realms_parsed['realms']);
             $generator = new Generator();
             $generator->generate($realmName, $realmInfo, true);
 
@@ -45,7 +45,7 @@ class GenerateTestCommand extends ContainerAwareCommand
         $contents = file_get_contents(__DIR__ . "/../Tests/config/ac_norm.yml");
         $parsed = yaml_parse($contents);
 
-        return $parsed['ac_norm']['realms'][$realmName];
+        return $parsed['realms'][$realmName];
     }
 
     protected function getRealmNames() {
@@ -53,7 +53,7 @@ class GenerateTestCommand extends ContainerAwareCommand
         $parsed = yaml_parse($contents);
 
         $realmNames = array();
-        foreach($parsed['ac_norm']['realms'] as $realmName => $realmInfo) {
+        foreach($parsed['realms'] as $realmName => $realmInfo) {
             $realmNames[] = $realmName;
         }
 

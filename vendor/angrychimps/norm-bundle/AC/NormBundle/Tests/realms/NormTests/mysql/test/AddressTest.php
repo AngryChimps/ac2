@@ -20,16 +20,8 @@ class AddressTest extends AbstractMysqlTestCase {
     public static function getNewTestAddressAfterSaving() {
         $addr = self::getNewTestAddress();
         $addr->save();
-        return $addr;
-    }
+        self::addObjectForCleanup($addr);
 
-    /**
-     * @depends getNewTestAddress
-     * @param $addr Address
-     * @return Address
-     */
-    public static function saveAddress(Address $addr) {
-        $addr->save();
         return $addr;
     }
 

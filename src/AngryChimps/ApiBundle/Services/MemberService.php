@@ -39,4 +39,11 @@ class MemberService {
         $member->email = $email;
         $member->save();
     }
+
+    public function createEmpty() {
+        $member = new Member();
+        $member->save();
+
+        return $member;
+    }
 }

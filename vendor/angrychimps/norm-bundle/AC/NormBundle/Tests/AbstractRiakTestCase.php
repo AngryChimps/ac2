@@ -34,8 +34,13 @@ abstract class AbstractRiakTestCase extends AbstractTestCase {
         return self::$conn;
     }
 
+    public function getKeyName($primaryKeys) {
+        return implode('|', $primaryKeys);
+    }
+
     final public function getObjectsBucket($tablename) {
         $bucketName = self::PREFIX . ':' . self::REALM . ':' . $tablename . ':objects';
         return new \Riak\Bucket($this->getConnection(), $bucketName);
     }
+
 }

@@ -30,6 +30,8 @@ class PersonTest extends AbstractMysqlTestCase {
     public static function getNewTestPersonAfterSaving() {
         $p = self::getNewTestPerson();
         $p->save();
+
+
         return $p;
     }
 

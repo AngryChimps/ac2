@@ -16,11 +16,17 @@ class TestCommand extends Command
         $this
             ->setName('norm:test')
             ->setDescription('Run all unit tests')
+            ->addArgument(
+                'options',
+                InputArgument::OPTIONAL,
+                'Do you want to pass any arguments (like -v) to phpunit?'
+            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        system("phpunit --verbose -c ../../../../../../app " . __DIR__ . "/../Tests");
+        $options = $input->getArgument('options');
+        system("phpunit --verbose -c app " . __DIR__ . "/../Tests" . ' ' . $options);
     }
 }

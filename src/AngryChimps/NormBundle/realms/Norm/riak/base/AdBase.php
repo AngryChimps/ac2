@@ -18,19 +18,19 @@ class AdBase extends NormBaseObject {
     protected static $tableName = 'ad';
 
     /** @var string[] */
-    protected static $fieldNames = array('ad_key', 'location_key', 'company_key', 'category_name', 'subcategory_name', 'title', 'description', 'minutes_required', 'minutes_booking_notice', 'minutes_avail_interval', 'price', 'discount', 'body', 'flag_total', 'flag_keys', 'status', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'location_id', 'company_id', 'calendar_id', 'author_id', 'title', 'description', 'ad_flag_total', 'service_ids', 'flag_ids', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'int', 'int', 'decimal', 'float', 'string', 'int', 'string[]', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('adKey', 'locationKey', 'companyKey', 'categoryName', 'subcategoryName', 'title', 'description', 'minutesRequired', 'minutesBookingNotice', 'minutesAvailInterval', 'price', 'discount', 'body', 'flagTotal', 'flagKeys', 'status', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'locationId', 'companyId', 'calendarId', 'authorId', 'title', 'description', 'adFlagTotal', 'serviceIds', 'flagIds', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('ad_key');
+    protected static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('adKey');
+    protected static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
     protected static $autoIncrementFieldName = '';
@@ -56,19 +56,19 @@ class AdBase extends NormBaseObject {
 
 
     /** @var string */
-    public $adKey;
+    public $id;
 
     /** @var string */
-    public $locationKey;
+    public $locationId;
 
     /** @var string */
-    public $companyKey;
+    public $companyId;
 
     /** @var string */
-    public $categoryName;
+    public $calendarId;
 
     /** @var string */
-    public $subcategoryName;
+    public $authorId;
 
     /** @var string */
     public $title;
@@ -77,28 +77,13 @@ class AdBase extends NormBaseObject {
     public $description;
 
     /** @var int */
-    public $minutesRequired;
-
-    /** @var int */
-    public $minutesBookingNotice;
-
-    /** @var int */
-    public $minutesAvailInterval;
-
-    /** @var decimal */
-    public $price;
-
-    /** @var float */
-    public $discount;
-
-    /** @var string */
-    public $body;
-
-    /** @var int */
-    public $flagTotal;
+    public $adFlagTotal;
 
     /** @var string[] */
-    public $flagKeys;
+    public $serviceIds;
+
+    /** @var string[] */
+    public $flagIds;
 
     /** @var int */
     public $status;
@@ -110,6 +95,66 @@ class AdBase extends NormBaseObject {
     public $updatedAt;
 
 
+    /** @returns Norm\riak\Location */
+    public function getLocation() {
+        if($this->Location === null) {
+            $this->loadLocation();
+        }
+        return $this->Location;
+    }
+
+    /** @returns Norm\riak\Company */
+    public function getCompany() {
+        if($this->Company === null) {
+            $this->loadCompany();
+        }
+        return $this->Company;
+    }
+
+    /** @returns Norm\riak\Calendar */
+    public function getCalendar() {
+        if($this->Calendar === null) {
+            $this->loadCalendar();
+        }
+        return $this->Calendar;
+    }
+
+    /** @returns Norm\riak\Member */
+    public function getAuthor() {
+        if($this->Author === null) {
+            $this->loadAuthor();
+        }
+        return $this->Author;
+    }
+
+    /** @returns Norm\riak\Service */
+    public function getService() {
+        if($this->Service === null) {
+            $this->loadService();
+        }
+        return $this->Service;
+    }
+
+
+    protected function loadLocation() {
+        parent::loadProperty('Location', 'location', 'id');
+    }
+
+    protected function loadCompany() {
+        parent::loadProperty('Company', 'company', 'id');
+    }
+
+    protected function loadCalendar() {
+        parent::loadProperty('Calendar', 'calendar', 'id');
+    }
+
+    protected function loadAuthor() {
+        parent::loadProperty('Author', 'member', 'id');
+    }
+
+    protected function loadService() {
+        parent::loadProperty('Service', 'service', 'id');
+    }
 
 
     /** @returns Norm\riak\AdFlag */
@@ -128,13 +173,37 @@ class AdBase extends NormBaseObject {
         return $this->Message;
     }
 
+    /** @returns Norm\riak\BookingDetail */
+    public function getBookingDetailCollection() {
+        if($this->BookingDetail === null) {
+            $this->loadBookingDetail();
+        }
+        return $this->BookingDetail;
+    }
+
+    /** @returns Norm\riak\Review */
+    public function getReviewCollection() {
+        if($this->Review === null) {
+            $this->loadReview();
+        }
+        return $this->Review;
+    }
+
 
     protected function loadAdFlagCollection() {
-        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'ad_key', 'adKey');
+        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'ad_id', 'adId');
     }
 
     protected function loadMessageCollection() {
-        parent::loadPropertyCollection('Message', 'message', 'ad_key', 'adKey');
+        parent::loadPropertyCollection('Message', 'message', 'ad_id', 'adId');
+    }
+
+    protected function loadBookingDetailCollection() {
+        parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'ad_id', 'adId');
+    }
+
+    protected function loadReviewCollection() {
+        parent::loadPropertyCollection('Review', 'review', 'ad_id', 'adId');
     }
 
 

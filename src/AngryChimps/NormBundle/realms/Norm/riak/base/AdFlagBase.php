@@ -18,19 +18,19 @@ class AdFlagBase extends NormBaseObject {
     protected static $tableName = 'ad_flag';
 
     /** @var string[] */
-    protected static $fieldNames = array('ad_key', 'author_key', 'body', 'status', 'created_at');
+    protected static $fieldNames = array('id', 'author_id', 'company_id', 'location_id', 'ad_id', 'service_id', 'body', 'status', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'int', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('adKey', 'authorKey', 'body', 'status', 'createdAt');
+    protected static $propertyNames = array('id', 'authorId', 'companyId', 'locationId', 'adId', 'serviceId', 'body', 'status', 'createdAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('ad_key', 'author_key');
+    protected static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('adKey', 'authorKey');
+    protected static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
     protected static $autoIncrementFieldName = '';
@@ -39,10 +39,10 @@ class AdFlagBase extends NormBaseObject {
     protected static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    protected static $autoGenerateFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    protected static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
     protected static $hasPrimaryKey = true;
@@ -50,12 +50,27 @@ class AdFlagBase extends NormBaseObject {
     /** @var bool */
     protected static $hasAutoIncrement = false;
 
+    const ENABLED_STATUS = 1;
+    const DISABLED_STATUS = 2;
+
 
     /** @var string */
-    public $adKey;
+    public $id;
 
     /** @var string */
-    public $authorKey;
+    public $authorId;
+
+    /** @var string */
+    public $companyId;
+
+    /** @var string */
+    public $locationId;
+
+    /** @var string */
+    public $adId;
+
+    /** @var string */
+    public $serviceId;
 
     /** @var string */
     public $body;
@@ -67,29 +82,65 @@ class AdFlagBase extends NormBaseObject {
     public $createdAt;
 
 
-    /** @returns Norm\riak\Ad */
-    public function getAd_() {
-        if($this->Ad_ === null) {
-            $this->loadAd_();
-        }
-        return $this->Ad_;
-    }
-
     /** @returns Norm\riak\Member */
-    public function getAuthor_() {
-        if($this->Author_ === null) {
-            $this->loadAuthor_();
+    public function getAuthor() {
+        if($this->Author === null) {
+            $this->loadAuthor();
         }
-        return $this->Author_;
+        return $this->Author;
+    }
+
+    /** @returns Norm\riak\Company */
+    public function getCompany() {
+        if($this->Company === null) {
+            $this->loadCompany();
+        }
+        return $this->Company;
+    }
+
+    /** @returns Norm\riak\Location */
+    public function getLocation() {
+        if($this->Location === null) {
+            $this->loadLocation();
+        }
+        return $this->Location;
+    }
+
+    /** @returns Norm\riak\Ad */
+    public function getAd() {
+        if($this->Ad === null) {
+            $this->loadAd();
+        }
+        return $this->Ad;
+    }
+
+    /** @returns Norm\riak\Service */
+    public function getService() {
+        if($this->Service === null) {
+            $this->loadService();
+        }
+        return $this->Service;
     }
 
 
-    protected function loadAd_() {
-        parent::loadProperty('Ad_', 'ad', 'key');
+    protected function loadAuthor() {
+        parent::loadProperty('Author', 'member', 'id');
     }
 
-    protected function loadAuthor_() {
-        parent::loadProperty('Author_', 'member', 'key');
+    protected function loadCompany() {
+        parent::loadProperty('Company', 'company', 'id');
+    }
+
+    protected function loadLocation() {
+        parent::loadProperty('Location', 'location', 'id');
+    }
+
+    protected function loadAd() {
+        parent::loadProperty('Ad', 'ad', 'id');
+    }
+
+    protected function loadService() {
+        parent::loadProperty('Service', 'service', 'id');
     }
 
 

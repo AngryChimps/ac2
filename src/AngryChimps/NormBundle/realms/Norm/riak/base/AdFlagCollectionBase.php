@@ -8,7 +8,7 @@ class AdFlagCollectionBase extends NormBaseCollection {
     protected static $realm = 'riak';
     protected static $tableName = 'ad_flag';
     protected static $singularClassName = 'AdFlag';
-    protected static $primaryKeyFieldNames = array('ad_key', 'author_key');
-    protected static $primaryKeyPropertyNames = array('adKey', 'authorKey');
+    protected static $primaryKeyFieldNames = array('id');
+    protected static $primaryKeyPropertyNames = array('id');
     protected static $autoIncrementFieldName = '';
 }

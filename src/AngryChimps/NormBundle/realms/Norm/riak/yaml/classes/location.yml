@@ -7,6 +7,8 @@ fields:
     auto_generate: true
   - name: company_id
     type: string
+  - name: calendarIds
+    type: string[]
   - name: name
     type: string
     validations:
@@ -52,10 +54,6 @@ fields:
         - Disabled
   - name: photos
     type: string[]
-  - name: availabilities
-    type: DateTime[]
-  - name: flags
-    type: AdFlag[]
   - name: created_at
     type: DateTime
   - name: updated_at

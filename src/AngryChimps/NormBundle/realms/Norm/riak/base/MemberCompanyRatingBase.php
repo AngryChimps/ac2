@@ -18,19 +18,19 @@ class MemberCompanyRatingBase extends NormBaseObject {
     protected static $tableName = 'member_company_rating';
 
     /** @var string[] */
-    protected static $fieldNames = array('rating');
+    protected static $fieldNames = array('member_id', 'company_id', 'rating', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int');
+    protected static $fieldTypes = array('string', 'string', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('rating');
+    protected static $propertyNames = array('memberId', 'companyId', 'rating', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array();
+    protected static $primaryKeyFieldNames = array('member_id', 'company_id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array();
+    protected static $primaryKeyPropertyNames = array('memberId', 'companyId');
 
     /** @var  string[] */
     protected static $autoIncrementFieldName = '';
@@ -51,10 +51,46 @@ class MemberCompanyRatingBase extends NormBaseObject {
     protected static $hasAutoIncrement = false;
 
 
+    /** @var string */
+    public $memberId;
+
+    /** @var string */
+    public $companyId;
+
     /** @var int */
     public $rating;
 
+    /** @var DateTime */
+    public $createdAt;
 
+    /** @var DateTime */
+    public $updatedAt;
+
+
+    /** @returns Norm\riak\Company */
+    public function getCompany() {
+        if($this->Company === null) {
+            $this->loadCompany();
+        }
+        return $this->Company;
+    }
+
+    /** @returns Norm\riak\Member */
+    public function getMember() {
+        if($this->Member === null) {
+            $this->loadMember();
+        }
+        return $this->Member;
+    }
+
+
+    protected function loadCompany() {
+        parent::loadProperty('Company', 'company', 'id');
+    }
+
+    protected function loadMember() {
+        parent::loadProperty('Member', 'member', 'id');
+    }
 
 
 

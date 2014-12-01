@@ -18,13 +18,13 @@ class LocationBase extends NormBaseObject {
     protected static $tableName = 'location';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'company_id', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'lat', 'long', 'status', 'photos', 'availabilities', 'flags', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'company_id', 'calendarIds', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'lat', 'long', 'status', 'photos', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'float', 'float', 'int', 'string[]', 'DateTime[]', 'AdFlag[]', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string[]', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'float', 'float', 'int', 'string[]', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'companyId', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'lat', 'long', 'status', 'photos', 'availabilities', 'flags', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'companyId', 'calendarIds', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'lat', 'long', 'status', 'photos', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -60,6 +60,9 @@ class LocationBase extends NormBaseObject {
     /** @var string */
     public $companyId;
 
+    /** @var string[] */
+    public $calendarIds;
+
     /** @var string */
     public $name;
 
@@ -93,12 +96,6 @@ class LocationBase extends NormBaseObject {
     /** @var string[] */
     public $photos;
 
-    /** @var DateTime[] */
-    public $availabilities;
-
-    /** @var AdFlag[] */
-    public $flags;
-
     /** @var DateTime */
     public $createdAt;
 
@@ -120,6 +117,66 @@ class LocationBase extends NormBaseObject {
     }
 
 
+    /** @returns Norm\riak\Ad */
+    public function getAdCollection() {
+        if($this->Ad === null) {
+            $this->loadAd();
+        }
+        return $this->Ad;
+    }
+
+    /** @returns Norm\riak\AdFlag */
+    public function getAdFlagCollection() {
+        if($this->AdFlag === null) {
+            $this->loadAdFlag();
+        }
+        return $this->AdFlag;
+    }
+
+    /** @returns Norm\riak\Calendar */
+    public function getCalendarCollection() {
+        if($this->Calendar === null) {
+            $this->loadCalendar();
+        }
+        return $this->Calendar;
+    }
+
+    /** @returns Norm\riak\BookingDetail */
+    public function getBookingDetailCollection() {
+        if($this->BookingDetail === null) {
+            $this->loadBookingDetail();
+        }
+        return $this->BookingDetail;
+    }
+
+    /** @returns Norm\riak\Review */
+    public function getReviewCollection() {
+        if($this->Review === null) {
+            $this->loadReview();
+        }
+        return $this->Review;
+    }
+
+
+    protected function loadAdCollection() {
+        parent::loadPropertyCollection('Ad', 'ad', 'location_id', 'locationId');
+    }
+
+    protected function loadAdFlagCollection() {
+        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'location_id', 'locationId');
+    }
+
+    protected function loadCalendarCollection() {
+        parent::loadPropertyCollection('Calendar', 'calendar', 'location_id', 'locationId');
+    }
+
+    protected function loadBookingDetailCollection() {
+        parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'location_id', 'locationId');
+    }
+
+    protected function loadReviewCollection() {
+        parent::loadPropertyCollection('Review', 'review', 'location_id', 'locationId');
+    }
 
 
     /**

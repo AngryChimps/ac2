@@ -40,8 +40,8 @@ class GeolocationService {
         $url = $this->googleMapsApiAddress . '?address=' . $zip . '&key=' . $this->googleMapsApiKey;
         $request = $this->guzzleService->createRequest('GET', $url);
         $response = $this->guzzleService->send($request);
-
-        $address = Address::getFromGoogleMapsArray($response->json());
+        $json = $response->json();
+        $address = Address::getFromGoogleMapsArray($json);
 
         $zipcode = new Zipcode();
         $zipcode->id = $zip;
@@ -49,6 +49,10 @@ class GeolocationService {
         $zipcode->state = $address->state;
         $zipcode->lat = $address->lat;
         $zipcode->long = $address->long;
+        $zipcode->northLat = $json['results'][0]['geometry']['bounds']['northeast']['lat'];
+        $zipcode->southLat = $json['results'][0]['geometry']['bounds']['southwest']['lat'];
+        $zipcode->eastLong = $json['results'][0]['geometry']['bounds']['northeast']['lng'];
+        $zipcode->westLong = $json['results'][0]['geometry']['bounds']['southwest']['lng'];
         $zipcode->save();
 
         return $zipcode;

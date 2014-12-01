@@ -12,6 +12,7 @@ use \AC\NormBundle\core\datastore\AbstractDatastore;
 use AC\NormBundle\core\datastore\DatastoreManager;
 use \AC\NormBundle\config\Config;
 use \AC\NormBundle\core\exceptions\CannotChangePrimaryKeyException;
+use AC\NormBundle\core\exceptions\ObjectAlreadyDeletedException;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
 
@@ -29,6 +30,7 @@ abstract class NormBaseObject extends ContainerAware {
     protected $cache;
 
     private $_hasBeenPersisted = false;
+    private $_hasBeenDeleted = false;
 
     protected static $realm;
     protected static $primaryDatastoreName;
@@ -60,6 +62,9 @@ abstract class NormBaseObject extends ContainerAware {
     }
 
     public function loadFromArray($array = array()) {
+        if($this->_hasBeenDeleted) {
+            throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
+        }
         foreach($array as $key => $value) {
             $this->$key = $value;
         }
@@ -69,6 +74,10 @@ abstract class NormBaseObject extends ContainerAware {
         return static::$primaryKeyFieldNames;
     }
     public function save() {
+        if($this->_hasBeenDeleted) {
+            throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
+        }
+
         //Set created_at updated_at datetimes
         $this->updateDateTimes();
 
@@ -115,18 +124,14 @@ abstract class NormBaseObject extends ContainerAware {
         }
     }
 
-//    public function checkFieldDataTypes() {
-//        for($i = 0; $i < count(static::$propertyNames); $i++) {
-//
-//        }
-//    }
-
     public function delete() {
         if(!$this->_hasBeenPersisted) {
             throw(new \Exception('Unable to delete an item which has not been persisted'));
         }
 
         $this->deleteHook(static::$realm, static::$tableName, $this->getPrimaryKeyData());
+        $this->invalidate();
+        $this->_hasBeenDeleted = true;
     }
 
     public static function getByPk($pk) {
@@ -198,6 +203,9 @@ abstract class NormBaseObject extends ContainerAware {
     }
 
     public function loadByJson($json) {
+        if($this->_hasBeenDeleted) {
+            throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
+        }
         $array = json_decode($json);
         foreach($array as $k => $v) {
             $property = Utils::field2property($k);
@@ -205,94 +213,68 @@ abstract class NormBaseObject extends ContainerAware {
         }
     }
 
+    private function loadFieldWithValue($fieldType, $propertyName, $value) {
+        if(class_exists($fieldType) && $fieldType instanceof NormBaseObject) {
+            $obj = new $fieldType();
+            $obj->loadByJson($value);
+            $this->$propertyName = $obj;
+        }
+        elseif(class_exists($fieldType) && $fieldType instanceof NormBaseCollection) {
+            $obj = new $fieldType();
+            $obj->loadByJson($value);
+            $this->$propertyName = $obj;
+        }
+        else {
+            switch($fieldType) {
+                case 'int':
+                    $this->$propertyName = (int) $value;
+                    break;
+                case 'bool':
+                    $this->$propertyName = (bool) $value;
+                    break;
+                case 'float':
+                    $this->$propertyName = (float) $value;
+                    break;
+                case 'Date':
+                case 'DateTime':
+                    $this->$propertyName = new \DateTime($value);
+                break;
+                default:
+                    $this->$propertyName = $value;
+            }
+        }
+    }
+
     public function loadByFieldDataFlatArray($arr)
     {
+        if($this->_hasBeenDeleted) {
+            throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
+        }
         if (is_array($arr)) {
             for ($i = 0; $i < count($arr); $i++) {
-                switch (static::$fieldTypes[$i]) {
-                    case 'int':
-                        $this->{static::$propertyNames[$i]} = (int) $arr[$i];
-                        break;
-                    case 'bool':
-                        $this->{static::$propertyNames[$i]} = (bool) $arr[$i];
-                        break;
-                    case 'float':
-                        $this->{static::$propertyNames[$i]} = (float) $arr[$i];
-                        break;
-                    case 'Date':
-                    case 'DateTime':
-                        $this->{static::$propertyNames[$i]} = new \DateTime($arr[$i]);
-                        break;
-                    default:
-                        $this->{static::$propertyNames[$i]} =  $arr[$i];
-                }
+                $this->loadFieldWithValue(static::$fieldTypes[$i], static::$propertyNames[$i], $arr[$i]);
             }
         }
         else {
             for ($i = 0; $i < count($arr); $i++) {
-                switch (static::$fieldTypes[$i]) {
-                    case 'int':
-                        $this->{static::$propertyNames[$i]} = (int)$arr->$i;
-                        break;
-                    case 'bool':
-                        $this->{static::$propertyNames[$i]} = (bool)$arr->$i;
-                        break;
-                    case 'float':
-                        $this->{static::$propertyNames[$i]} = (float)$arr->$i;
-                        break;
-                    case 'Date':
-                    case 'DateTime':
-                        $this->{static::$propertyNames[$i]} = new \DateTime($arr->$i);
-                        break;
-                    default:
-                        $this->{static::$propertyNames[$i]} = $arr->$i;
-                }
+                $this->loadFieldWithValue(static::$fieldTypes[$i], static::$propertyNames[$i], $arr->$i);
             }
         }
     }
 
     public function loadByFieldDataAssociativeArray($arr)
     {
+        if($this->_hasBeenDeleted) {
+            throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
+        }
         if (is_array($arr)) {
             for ($i = 0; $i < count($arr); $i++) {
-                switch (static::$fieldTypes[$i]) {
-                    case 'int':
-                        $this->{static::$propertyNames[$i]} = (int) $arr[static::$fieldNames[$i]];
-                        break;
-                    case 'bool':
-                        $this->{static::$propertyNames[$i]} = (bool) $arr[static::$fieldNames[$i]];
-                        break;
-                    case 'float':
-                        $this->{static::$propertyNames[$i]} = (float) $arr[static::$fieldNames[$i]];
-                        break;
-                    case 'Date':
-                    case 'DateTime':
-                        $this->{static::$propertyNames[$i]} = new \DateTime($arr[static::$fieldNames[$i]]);
-                        break;
-                    default:
-                        $this->{static::$propertyNames[$i]} =  $arr[static::$fieldNames[$i]];
-                }
+                $this->loadFieldWithValue(static::$fieldTypes[$i], static::$propertyNames[$i], $arr[static::$fieldNames[$i]]);
             }
         }
         else {
             for ($i = 0; $i < count($arr); $i++) {
-                switch (static::$fieldTypes[$i]) {
-                    case 'int':
-                        $this->{static::$propertyNames[$i]} = (int)$arr->{static::$fieldNames[$i]};
-                        break;
-                    case 'bool':
-                        $this->{static::$propertyNames[$i]} = (bool)$arr->{static::$fieldNames[$i]};
-                        break;
-                    case 'float':
-                        $this->{static::$propertyNames[$i]} = (float)$arr->{static::$fieldNames[$i]};
-                        break;
-                    case 'Date':
-                    case 'DateTime':
-                        $this->{static::$propertyNames[$i]} = new \DateTime($arr->{static::$fieldNames[$i]});
-                        break;
-                    default:
-                        $this->{static::$propertyNames[$i]} = $arr->{static::$fieldNames[$i]};
-                }
+                $this->loadFieldWithValue(static::$fieldTypes[$i], static::$propertyNames[$i], $arr->{static::$fieldNames[$i]});
             }
         }
     }
@@ -301,7 +283,16 @@ abstract class NormBaseObject extends ContainerAware {
         $data = array();
 
         for($i=0; $i<count(static::$primaryKeyFieldNames); $i++) {
-            $data[static::$primaryKeyFieldNames[$i]] = $this->{static::$primaryKeyPropertyNames[$i]};
+            switch(static::$fieldTypes[$i]) {
+                case 'Date':
+                    $data[static::$primaryKeyFieldNames[$i]] = $this->{static::$primaryKeyPropertyNames[$i]}->format('Y-m-d');
+                    break;
+                case 'DateTime':
+                    $data[static::$primaryKeyFieldNames[$i]] = $this->{static::$primaryKeyPropertyNames[$i]}->format('Y-m-d H:i:s');
+                    break;
+                default:
+                    $data[static::$primaryKeyFieldNames[$i]] = $this->{static::$primaryKeyPropertyNames[$i]};
+            }
         }
 
         return $data;
@@ -360,15 +351,19 @@ abstract class NormBaseObject extends ContainerAware {
             if($this->{static::$propertyNames[$i]} === null) {
                 $arr[static::$fieldNames[$i]] = null;
             }
+            elseif($this->{static::$propertyNames[$i]} instanceof NormBaseObject) {
+                $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]}->getJson();
+            }
+            elseif($this->{static::$propertyNames[$i]} instanceof NormBaseCollection) {
+                $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]}->getJson();
+            }
             else {
                 switch(static::$fieldTypes[$i]) {
                     case 'DateTime':
-                        $dt = $this->{static::$propertyNames[$i]};
-                        $arr[static::$fieldNames[$i]] = $dt->format('Y-m-d H:i:s');
+                        $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]}->format('Y-m-d H:i:s');
                         break;
                     case 'Date':
-                        $d = $this->{static::$propertyNames[$i]};
-                        $arr[static::$fieldNames[$i]] = $d->format('Y-m-d H:i:s');
+                        $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]}->format('Y-m-d');
                         break;
                     default:
                         $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]};
@@ -376,6 +371,10 @@ abstract class NormBaseObject extends ContainerAware {
             }
         }
         return $arr;
+    }
+
+    public function getJson() {
+        return json_encode($this->getFieldData());
     }
 
     public function isNewObject() {

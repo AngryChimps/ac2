@@ -39,10 +39,10 @@ class SessionBase extends NormBaseObject {
     protected static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    protected static $autoGenerateFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    protected static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
     protected static $hasPrimaryKey = true;
@@ -67,6 +67,18 @@ class SessionBase extends NormBaseObject {
     public $createdAt;
 
 
+    /** @returns Norm\riak\Member */
+    public function getUser() {
+        if($this->User === null) {
+            $this->loadUser();
+        }
+        return $this->User;
+    }
+
+
+    protected function loadUser() {
+        parent::loadProperty('User', 'member', 'id');
+    }
 
 
 

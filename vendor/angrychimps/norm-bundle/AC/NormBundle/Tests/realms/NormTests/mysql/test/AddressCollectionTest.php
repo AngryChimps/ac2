@@ -16,11 +16,7 @@ class AddressCollectionTest extends AbstractMysqlTestCase {
         $coll = new AddressCollection();
 
         for($i=0; $i<2; $i++) {
-            $obj = new Address();
-            $obj->street = 'street address ' . $i;
-            $obj->city = 'city here';
-            $obj->state = 'ST';
-            $obj->zip = 12345;
+            $obj = AddressTest::getNewTestAddress();
 
             $coll[] = $obj;
         }
@@ -39,6 +35,7 @@ class AddressCollectionTest extends AbstractMysqlTestCase {
 //        $coll->save();
         foreach($coll as $obj) {
             $obj->save();
+            self::addObjectForCleanup($obj);
         }
         assertEquals($currentRowCount + 2, $this->getConnection()->getRowCount('address'));
     }

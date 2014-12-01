@@ -30,6 +30,8 @@ class CompanyTest extends AbstractMysqlTestCase {
     public static function getNewTestCompanyAfterSaving() {
         $comp = self::getNewTestCompany(AddressTest::getNewTestAddress());
         $comp->save();
+        self::addObjectForCleanup($comp);
+
         return $comp;
     }
 
@@ -39,6 +41,7 @@ class CompanyTest extends AbstractMysqlTestCase {
         $currentRowCount = $this->getConnection()->getRowCount('company');
 
         $comp->save();
+        self::addObjectForCleanup($comp);
 
         assertEquals($currentRowCount + 1, $this->getConnection()->getRowCount('company'));
     }

@@ -18,13 +18,13 @@ class MemberBase extends NormBaseObject {
     protected static $tableName = 'member';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'mysql_id', 'email', 'password', 'first', 'last', 'dob', 'photo', 'address', 'lat', 'long', 'status', 'blocked_company_keys', 'managed_company_keys', 'ad_flag_keys', 'message_flag_keys', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'mysql_id', 'email', 'password', 'name', 'fb_id', 'fb_access_token', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'blocked_company_ids', 'managed_company_ids', 'ad_flag_keys', 'message_flag_keys', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'string', 'string', 'Date', 'string', 'sring', 'float', 'float', 'int', 'string[]', 'string[]', 'string[]', 'string[]', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'Date', 'string', 'int', 'int', 'string[]', 'string[]', 'string[]', 'string[]', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'mysqlId', 'email', 'password', 'first', 'last', 'dob', 'photo', 'address', 'lat', 'long', 'status', 'blockedCompanyKeys', 'managedCompanyKeys', 'adFlagKeys', 'messageFlagKeys', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'mysqlId', 'email', 'password', 'name', 'fbId', 'fbAccessToken', 'fname', 'lname', 'gender', 'locale', 'timezone', 'dob', 'photo', 'status', 'role', 'blockedCompanyIds', 'managedCompanyIds', 'adFlagKeys', 'messageFlagKeys', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -52,7 +52,13 @@ class MemberBase extends NormBaseObject {
 
     const ACTIVE_STATUS = 1;
     const DELETED_STATUS = 2;
-    const BANNED_STATUS = 3;
+    const LOCKED_STATUS = 3;
+    const BANNED_STATUS = 4;
+
+    const USER_ROLE = 1;
+    const SUPPORT_ROLE = 2;
+    const ADMIN_ROLE = 3;
+    const SUPER_ADMIN_ROLE = 4;
 
 
     /** @var string */
@@ -68,10 +74,28 @@ class MemberBase extends NormBaseObject {
     public $password;
 
     /** @var string */
-    public $first;
+    public $name;
 
     /** @var string */
-    public $last;
+    public $fbId;
+
+    /** @var string */
+    public $fbAccessToken;
+
+    /** @var string */
+    public $fname;
+
+    /** @var string */
+    public $lname;
+
+    /** @var string */
+    public $gender;
+
+    /** @var string */
+    public $locale;
+
+    /** @var int */
+    public $timezone;
 
     /** @var Date */
     public $dob;
@@ -79,23 +103,17 @@ class MemberBase extends NormBaseObject {
     /** @var string */
     public $photo;
 
-    /** @var sring */
-    public $address;
-
-    /** @var float */
-    public $lat;
-
-    /** @var float */
-    public $long;
-
     /** @var int */
     public $status;
 
-    /** @var string[] */
-    public $blockedCompanyKeys;
+    /** @var int */
+    public $role;
 
     /** @var string[] */
-    public $managedCompanyKeys;
+    public $blockedCompanyIds;
+
+    /** @var string[] */
+    public $managedCompanyIds;
 
     /** @var string[] */
     public $adFlagKeys;
@@ -112,6 +130,14 @@ class MemberBase extends NormBaseObject {
 
 
 
+    /** @returns NormTests\riak\Ad */
+    public function getAdCollection() {
+        if($this->Ad === null) {
+            $this->loadAd();
+        }
+        return $this->Ad;
+    }
+
     /** @returns NormTests\riak\AdFlag */
     public function getAdFlagCollection() {
         if($this->AdFlag === null) {
@@ -120,12 +146,20 @@ class MemberBase extends NormBaseObject {
         return $this->AdFlag;
     }
 
-    /** @returns NormTests\riak\Comment */
-    public function getCommentCollection() {
-        if($this->Comment === null) {
-            $this->loadComment();
+    /** @returns NormTests\riak\BookingDetail */
+    public function getBookingDetailCollection() {
+        if($this->BookingDetail === null) {
+            $this->loadBookingDetail();
         }
-        return $this->Comment;
+        return $this->BookingDetail;
+    }
+
+    /** @returns NormTests\riak\MemberCompanyRating */
+    public function getMemberCompanyRatingCollection() {
+        if($this->MemberCompanyRating === null) {
+            $this->loadMemberCompanyRating();
+        }
+        return $this->MemberCompanyRating;
     }
 
     /** @returns NormTests\riak\Message */
@@ -144,27 +178,71 @@ class MemberBase extends NormBaseObject {
         return $this->MessageFlag;
     }
 
-
-    protected function loadAdFlagCollection() {
-        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'author_key', 'authorKey');
+    /** @returns NormTests\riak\Review */
+    public function getReviewCollection() {
+        if($this->Review === null) {
+            $this->loadReview();
+        }
+        return $this->Review;
     }
 
-    protected function loadCommentCollection() {
-        parent::loadPropertyCollection('Comment', 'comment', 'member_key', 'memberKey');
+    /** @returns NormTests\riak\ReviewFlag */
+    public function getReviewFlagCollection() {
+        if($this->ReviewFlag === null) {
+            $this->loadReviewFlag();
+        }
+        return $this->ReviewFlag;
+    }
+
+    /** @returns NormTests\riak\Session */
+    public function getSessionCollection() {
+        if($this->Session === null) {
+            $this->loadSession();
+        }
+        return $this->Session;
+    }
+
+
+    protected function loadAdCollection() {
+        parent::loadPropertyCollection('Ad', 'ad', 'author_id', 'authorId');
+    }
+
+    protected function loadAdFlagCollection() {
+        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'author_id', 'authorId');
+    }
+
+    protected function loadBookingDetailCollection() {
+        parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'member_id', 'memberId');
+    }
+
+    protected function loadMemberCompanyRatingCollection() {
+        parent::loadPropertyCollection('MemberCompanyRating', 'member_company_rating', 'member_id', 'memberId');
     }
 
     protected function loadMessageCollection() {
-        parent::loadPropertyCollection('Message', 'message', 'author_key', 'authorKey');
+        parent::loadPropertyCollection('Message', 'message', 'author_id', 'authorId');
     }
 
     protected function loadMessageFlagCollection() {
         parent::loadPropertyCollection('MessageFlag', 'message_flag', 'author_key', 'authorKey');
     }
 
+    protected function loadReviewCollection() {
+        parent::loadPropertyCollection('Review', 'review', 'author_id', 'authorId');
+    }
+
+    protected function loadReviewFlagCollection() {
+        parent::loadPropertyCollection('ReviewFlag', 'review_flag', 'author_id', 'authorId');
+    }
+
+    protected function loadSessionCollection() {
+        parent::loadPropertyCollection('Session', 'session', 'user_id', 'userId');
+    }
+
 
     /**
      * @param $pk
-     * @return Member
+     * @return \NormTests\riak\Member
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -173,7 +251,7 @@ class MemberBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return Member
+     * @return \NormTests\riak\Member
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -182,7 +260,7 @@ class MemberBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return Member
+     * @return \NormTests\riak\Member
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

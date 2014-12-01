@@ -18,13 +18,13 @@ class ServiceBase extends NormBaseObject {
     protected static $tableName = 'service';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'company_id', 'name', 'discounted_price', 'original_price', 'mins_for_service', 'mins_notice', 'category', 'status', 'created_at');
+    protected static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'discounted_price', 'original_price', 'mins_for_service', 'mins_notice', 'category_id', 'status', 'updated_at', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'float', 'float', 'int', 'int', 'int', 'int', 'DateTime');
+    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'float', 'float', 'int', 'int', 'int', 'int', 'DateTime', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'companyId', 'name', 'discountedPrice', 'originalPrice', 'minsForService', 'minsNotice', 'category', 'status', 'createdAt');
+    protected static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'discountedPrice', 'originalPrice', 'minsForService', 'minsNotice', 'categoryId', 'status', 'updatedAt', 'createdAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -57,11 +57,14 @@ class ServiceBase extends NormBaseObject {
     /** @var string */
     public $id;
 
-    /** @var string */
-    public $companyId;
+    /** @var int */
+    public $mysqlId;
 
     /** @var string */
     public $name;
+
+    /** @var string */
+    public $description;
 
     /** @var float */
     public $discountedPrice;
@@ -76,29 +79,68 @@ class ServiceBase extends NormBaseObject {
     public $minsNotice;
 
     /** @var int */
-    public $category;
+    public $categoryId;
 
     /** @var int */
     public $status;
 
     /** @var DateTime */
+    public $updatedAt;
+
+    /** @var DateTime */
     public $createdAt;
 
 
-    /** @returns Norm\riak\Company */
-    public function getCompany() {
-        if($this->Company === null) {
-            $this->loadCompany();
+
+
+    /** @returns Norm\riak\Ad */
+    public function getAdCollection() {
+        if($this->Ad === null) {
+            $this->loadAd();
         }
-        return $this->Company;
+        return $this->Ad;
+    }
+
+    /** @returns Norm\riak\AdFlag */
+    public function getAdFlagCollection() {
+        if($this->AdFlag === null) {
+            $this->loadAdFlag();
+        }
+        return $this->AdFlag;
+    }
+
+    /** @returns Norm\riak\BookingDetail */
+    public function getBookingDetailCollection() {
+        if($this->BookingDetail === null) {
+            $this->loadBookingDetail();
+        }
+        return $this->BookingDetail;
+    }
+
+    /** @returns Norm\riak\Review */
+    public function getReviewCollection() {
+        if($this->Review === null) {
+            $this->loadReview();
+        }
+        return $this->Review;
     }
 
 
-    protected function loadCompany() {
-        parent::loadProperty('Company', 'company', 'id');
+    protected function loadAdCollection() {
+        parent::loadPropertyCollection('Ad', 'ad', 'service_id', 'serviceId');
     }
 
+    protected function loadAdFlagCollection() {
+        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'service_id', 'serviceId');
+    }
 
+    protected function loadBookingDetailCollection() {
+        parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'service_id', 'serviceId');
+    }
+
+    protected function loadReviewCollection() {
+        parent::loadPropertyCollection('Review', 'review', 'service_id', 'serviceId');
+    }
 
 
     /**

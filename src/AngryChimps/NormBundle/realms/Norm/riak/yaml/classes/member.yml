@@ -1,6 +1,3 @@
-data_store:
-  riak
-
 primary_keys:
   - id
 
@@ -60,8 +57,6 @@ fields:
       - Support
       - Admin
       - SuperAdmin
-  - name: administer_member_ids
-    type: string[]
   - name: blocked_company_ids
     type: string[]
   - name: managed_company_ids

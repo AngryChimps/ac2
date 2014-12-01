@@ -78,28 +78,28 @@ class MessageBase extends NormBaseObject {
 
 
     /** @returns NormTests\riak\Ad */
-    public function getAd_() {
-        if($this->Ad_ === null) {
-            $this->loadAd_();
+    public function getAd() {
+        if($this->Ad === null) {
+            $this->loadAd();
         }
-        return $this->Ad_;
+        return $this->Ad;
     }
 
     /** @returns NormTests\riak\Member */
-    public function getAuthor_() {
-        if($this->Author_ === null) {
-            $this->loadAuthor_();
+    public function getAuthor() {
+        if($this->Author === null) {
+            $this->loadAuthor();
         }
-        return $this->Author_;
+        return $this->Author;
     }
 
 
-    protected function loadAd_() {
-        parent::loadProperty('Ad_', 'ad', 'key');
+    protected function loadAd() {
+        parent::loadProperty('Ad', 'ad', 'id');
     }
 
-    protected function loadAuthor_() {
-        parent::loadProperty('Author_', 'member', 'key');
+    protected function loadAuthor() {
+        parent::loadProperty('Author', 'member', 'id');
     }
 
 
@@ -119,7 +119,7 @@ class MessageBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return Message
+     * @return \NormTests\riak\Message
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -128,7 +128,7 @@ class MessageBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return Message
+     * @return \NormTests\riak\Message
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
@@ -137,7 +137,7 @@ class MessageBase extends NormBaseObject {
     /**
      * @param $sql The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return Message
+     * @return \NormTests\riak\Message
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

@@ -18,13 +18,13 @@ class ZipcodeBase extends NormBaseObject {
     protected static $tableName = 'zipcode';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'city', 'state', 'lat', 'long', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'city', 'state', 'lat', 'long', 'north_lat', 'south_lat', 'east_long', 'west_long', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'string', 'string', 'float', 'float', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('int', 'string', 'string', 'float', 'float', 'float', 'float', 'float', 'float', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'city', 'state', 'lat', 'long', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'city', 'state', 'lat', 'long', 'northLat', 'southLat', 'eastLong', 'westLong', 'createdAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -66,11 +66,20 @@ class ZipcodeBase extends NormBaseObject {
     /** @var float */
     public $long;
 
-    /** @var DateTime */
-    public $createdAt;
+    /** @var float */
+    public $northLat;
+
+    /** @var float */
+    public $southLat;
+
+    /** @var float */
+    public $eastLong;
+
+    /** @var float */
+    public $westLong;
 
     /** @var DateTime */
-    public $updatedAt;
+    public $createdAt;
 
 
 
