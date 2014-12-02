@@ -29,8 +29,10 @@ abstract class NormBaseObject extends ContainerAware {
      */
     protected $cache;
 
+
     private $_hasBeenPersisted = false;
     private $_hasBeenDeleted = false;
+
 
     protected static $realm;
     protected static $primaryDatastoreName;

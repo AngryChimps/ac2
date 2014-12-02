@@ -6,6 +6,7 @@ parameters:
     angry_chimps_api.controller.location.class: AngryChimps\ApiBundle\Controller\LocationController
     angry_chimps_api.controller.service.class: AngryChimps\ApiBundle\Controller\ServiceController
     angry_chimps_api.controller.categories.class: AngryChimps\ApiBundle\Controller\CategoriesController
+    angry_chimps_api.controller.signup.class: AngryChimps\ApiBundle\Controller\SignupController
 
 services:
 
@@ -39,6 +40,22 @@ services:
         arguments: ["@request_stack", "%angry_chimps_api.session_header_name%"]
     angry_chimps_api.categories:
         class: AngryChimps\ApiBundle\Services\CategoriesService
+    angry_chimps_api.signup:
+        class: AngryChimps\ApiBundle\Services\SignupService
+        arguments:
+            - "@angry_chimps_api.member"
+            - "@angry_chimps_api.company"
+            - "@angry_chimps_api.location"
+            - "@angry_chimps_api.ad"
+            - "@angry_chimps_api.calendar"
+            - "@angry_chimps_api.service"
+            - "@angry_chimps_api.auth"
+            - "@angry_chimps_geo.geolocation"
+    angry_chimps_api.ad:
+        class: AngryChimps\ApiBundle\Services\AdService
+        arguments: ["@validator"]
+    angry_chimps_api.calendar:
+        class: AngryChimps\ApiBundle\Services\CalendarService
 
 ##############################################################
 ###                  Controllers                           ###
@@ -70,6 +87,10 @@ services:
     angry_chimps_api.categories.controller:
             class:     "%angry_chimps_api.controller.categories.class%"
             arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.categories"]
+
+    angry_chimps_api.signup.controller:
+            class:     "%angry_chimps_api.controller.signup.class%"
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.signup"]
 
 
 ##############################################################

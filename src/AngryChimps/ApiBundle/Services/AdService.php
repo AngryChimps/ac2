@@ -19,6 +19,12 @@ use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AdService {
+    protected $validator;
+
+    public function __construct(ValidatorInterface $validator) {
+        $this->validator = $validator;
+    }
+
     public function create($adTitle, $adDescription, Company $company, Location $location, Calendar $calendar) {
         $ad = new Ad();
         $ad->title = $adTitle;

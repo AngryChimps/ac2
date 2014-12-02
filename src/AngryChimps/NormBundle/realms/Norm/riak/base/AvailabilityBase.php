@@ -54,10 +54,10 @@ class AvailabilityBase extends NormBaseObject {
     /** @var string */
     public $id;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $start;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $end;
 
 

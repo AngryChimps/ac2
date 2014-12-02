@@ -30,7 +30,7 @@ class SignupController extends AbstractController
         $this->signupService = $signupService;
     }
 
-    public function registerProviderAd()
+    public function registerProviderAdAction()
     {
         $payload = $this->getPayload();
 
@@ -42,7 +42,7 @@ class SignupController extends AbstractController
         $this->responseService->success($data);
     }
 
-    public function registerProviderCompany() {
+    public function registerProviderCompanyAction() {
         $payload = $this->getPayload();
 
         $company = Company::getByPk($payload['company_id']);
