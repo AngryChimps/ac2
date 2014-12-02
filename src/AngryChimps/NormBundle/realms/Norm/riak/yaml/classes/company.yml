@@ -10,7 +10,7 @@ fields:
   - name: name
     type: string
     validations:
-        Length:
+        - Length:
             min: 4
             max: 25
   - name: description

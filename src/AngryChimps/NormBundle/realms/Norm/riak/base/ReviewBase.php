@@ -18,13 +18,13 @@ class ReviewBase extends NormBaseObject {
     protected static $tableName = 'review';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'author_id', 'company_id', 'location_id', 'ad_id', 'service_id', 'body', 'rating', 'flags', 'status', 'created_at');
+    protected static $fieldNames = array('id', 'author_id', 'company_id', 'location_id', 'ad_id', 'service_id', 'author_screenname', 'body', 'rating', 'flags', 'status', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', '\Norm\riak\ReviewFlagCollection', 'int', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', '\Norm\riak\ReviewFlagCollection', 'int', 'DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'authorId', 'companyId', 'locationId', 'adId', 'serviceId', 'body', 'rating', 'flags', 'status', 'createdAt');
+    protected static $propertyNames = array('id', 'authorId', 'companyId', 'locationId', 'adId', 'serviceId', 'authorScreenname', 'body', 'rating', 'flags', 'status', 'createdAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -71,6 +71,9 @@ class ReviewBase extends NormBaseObject {
 
     /** @var string */
     public $serviceId;
+
+    /** @var string */
+    public $authorScreenname;
 
     /** @var string */
     public $body;

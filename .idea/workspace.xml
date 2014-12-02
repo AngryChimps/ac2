@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3689bbd9-d2b9-48ad-920c-675fe0f9a3e5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/company-post.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/company-post.feature" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/validations/validations.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/validations/validations.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ac.iws" />
@@ -146,26 +147,6 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="MemberService.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/MemberService.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="2.8461537" vertical-offset="74" max-vertical-offset="833">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="CompanyService.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CompanyService.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="13.538462" vertical-offset="352" max-vertical-offset="1139">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="AdService.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/AdService.php">
               <provider selected="true" editor-type-id="text-editor">
@@ -236,11 +217,31 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="company-post.feature" pinned="false" current-in-tab="true">
+          <file leaf-file-name="company-post.feature" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/company-post.feature">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.62355214" vertical-offset="0" max-vertical-offset="561">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
                   <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="validations.yml" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/validations/validations.yml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+                  <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="8" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="company.yml" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company.yml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.3108108" vertical-offset="43" max-vertical-offset="816">
+                  <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
                   <folding />
                 </state>
               </provider>
@@ -261,7 +262,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CompanyService.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/LocationService.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/base/CompanyBase.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/ad_flag.yml" />
@@ -274,7 +274,6 @@
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/calendar.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/calendar_day.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/location.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member_company_rating.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/service.yml" />
@@ -312,6 +311,8 @@
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml" />
         <option value="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/AbstractFeatureContext.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/company-post.feature" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/validations/validations.yml" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company.yml" />
       </list>
     </option>
   </component>
@@ -1427,44 +1428,6 @@
               <option name="myItemId" value="Norm" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="riak" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="base" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AngryChimps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="NormBundle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="realms" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Norm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -2222,21 +2185,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/config/ac_norm.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="813">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/LocationTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="680">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/calendar_day.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
@@ -2638,8 +2586,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/company-post.feature">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62355214" vertical-offset="0" max-vertical-offset="561">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
           <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/validations/validations.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+          <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3108108" vertical-offset="43" max-vertical-offset="816">
+          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
           <folding />
         </state>
       </provider>

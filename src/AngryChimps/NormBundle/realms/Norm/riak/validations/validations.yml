@@ -1,9 +1,22 @@
+Norm\riak\Member:
+    properties:
+        email:
+            -
+                Email: null
+        password:
+            -
+                Length: { min: 6, max: 25 }
+        name:
+            -
+                Length: { min: 4, max: 12 }
+        dob:
+            -
+                Date: null
 Norm\riak\Company:
     properties:
         name:
-            Length:
-                min: 4
-                max: 25
+            -
+                Length: { min: 4, max: 25 }
 Norm\riak\Location:
     properties:
         name:
@@ -21,17 +34,3 @@ Norm\riak\Location:
         phone:
             -
                 Length: { min: 10, max: 25 }
-Norm\riak\Member:
-    properties:
-        email:
-            -
-                Email: null
-        password:
-            -
-                Length: { min: 6, max: 25 }
-        name:
-            -
-                Length: { min: 4, max: 12 }
-        dob:
-            -
-                Date: null
