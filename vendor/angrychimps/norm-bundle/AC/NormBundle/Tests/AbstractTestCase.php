@@ -24,16 +24,16 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase {
 
     protected function tearDown()
     {
-        foreach(self::$objectsForCleanup as $obj) {
-            try {
-                $obj->delete();
-            }
-            catch(\Exception $ex) {
-                //Do nothing
-            }
-        }
-        self::$objectsForCleanup = array();
-
+//        foreach(self::$objectsForCleanup as $obj) {
+//            try {
+//                $obj->delete();
+//            }
+//            catch(\Exception $ex) {
+//                //Do nothing
+//            }
+//        }
+//        self::$objectsForCleanup = array();
+//
         parent::tearDown();
     }
 

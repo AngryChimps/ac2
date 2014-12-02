@@ -19,17 +19,17 @@ class CalendarDayTest extends AbstractRiakTestCase {
         $calendarDay->calendarId = $calendar->id;
         $calendarDay->date = new \DateTime('2014-12-01');
 
-//        $availability = new Availability();
-//        $availability->start = new \DateTime('2014-12-01 09:00:00');
-//        $availability->end = new \DateTime('2014-12-01 11:00:00');
-//        $calendarDay->availabilities[] = $availability;
-//
-//        $booking = new Availability();
-//        $booking->title = 'Haircut for Joe';
-//        $booking->type = Booking::SHORT_BOOKING_TYPE;
-//        $booking->start = new \DateTime('2014-12-01 14:00:00');
-//        $booking->end = new \DateTime('2014-12-01 15:00:00');
-//        $calendarDay->bookings[] = $booking;
+        $availability = new Availability();
+        $availability->start = new \DateTime('2014-12-01 09:00:00');
+        $availability->end = new \DateTime('2014-12-01 11:00:00');
+        $calendarDay->availabilities[] = $availability;
+
+        $booking = new Availability();
+        $booking->title = 'Haircut for Joe';
+        $booking->type = Booking::SHORT_BOOKING_TYPE;
+        $booking->start = new \DateTime('2014-12-01 14:00:00');
+        $booking->end = new \DateTime('2014-12-01 15:00:00');
+        $calendarDay->bookings[] = $booking;
 
         return $calendarDay;
     }
