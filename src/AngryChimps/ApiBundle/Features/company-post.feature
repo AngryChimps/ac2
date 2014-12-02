@@ -17,7 +17,7 @@ Feature: company-post
   Scenario: Attempt to create a company object with invalid data
     Given I have an authenticated user
     And I have a valid new company array
-    And I change the "name" field's value of the request object to "a"
+    And I change the "payload.name" field's value of the request object to "a"
     When I create a test company
     Then I get a status code "400"
     And I get back a valid json object
