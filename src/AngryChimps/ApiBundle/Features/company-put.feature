@@ -25,5 +25,5 @@ Feature: company-put
     And I get back a valid json object
     And The response contains a field named "error.code"
     And The value of the "error.code" field returned is of type "string"
-    And The value of the "error.code" field is "Api.CompanyController.indexPutAction.1"
+    And The value of the "error.code" field is "Api.CompanyController.indexPutAction.3"
     And Finally, I clean up my objects

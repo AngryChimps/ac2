@@ -63,8 +63,7 @@ class AbstractFeatureContext {
     protected function cleanUpObjects() {
         foreach($this->objects as $obj) {
             if(is_object($obj)) {
-                $obj->delete();
-                $obj->invalidate();
+//                $obj->delete();
             }
         }
     }

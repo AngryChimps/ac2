@@ -483,7 +483,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function theValueOfTheFieldOfTheAuthenticatedUserIs($arg1, $arg2)
     {
         $this->assertEquals($this->testUser->$arg1, $arg2,
-            'The value of the ' . $arg1 . ' field of the authenticated user is not ' . $arg2);
+            'The value of the ' . $arg1 . ' field of the authenticated user is not '
+            . $arg2 . ' it is actually ' . $this->testUser->$arg1);
     }
 
     /**

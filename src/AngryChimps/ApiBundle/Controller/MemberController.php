@@ -118,8 +118,15 @@ class MemberController extends AbstractController
             return $this->responseService->failure(400, $errors);
         }
 
-
-        $this->memberService->update($user, $payload['name'], $payload['email']);
+        $errors = array();
+        $valid = $this->memberService->update($user, $payload['name'], $payload['email'], $errors);
+        if(!$valid) {
+            $errors = array(
+                'human' => 'Unable to validate member inputs',
+                'code' => 'Api.MemberController.indexPutAction.3',
+            );
+            return $this->responseService->failure(400, $errors);
+        }
 
         return $this->responseService->success();
     }

@@ -29,12 +29,10 @@ class AuthService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
     protected $validator;
 
-    public function __construct(/*FacebookSessionPersistence $facebookSdk,*/
-                                MailerService $mailer,
+    public function __construct(MailerService $mailer,
                                 TimedTwigEngine $templating,
                                 ValidatorInterface $validator)
     {
-//        $this->facebookSdk = $facebookSdk;
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->validator = $validator;

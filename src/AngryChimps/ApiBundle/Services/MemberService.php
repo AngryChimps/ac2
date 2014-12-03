@@ -34,9 +34,16 @@ class MemberService {
         $this->validator = $validator;
     }
 
-    public function update(Member $member, $name, $email) {
+    public function update(Member $member, $name, $email, array &$errors) {
         $member->name = $name;
         $member->email = $email;
+
+        $errors = $this->validator->validate($member);
+
+        if(count($errors) > 0) {
+            return false;
+        }
+
         $member->save();
     }
 

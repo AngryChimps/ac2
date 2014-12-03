@@ -19,7 +19,6 @@ class Location extends LocationBase {
         $arr['long'] = $this->long;
         $arr['phone'] = $this->phone;
         $arr['photos'] = $this->photos;
-        $arr['availabilities'] = $this->availabilities;
 
         return $arr;
     }
