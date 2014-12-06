@@ -45,6 +45,7 @@ class MemberService {
         }
 
         $member->save();
+        return $member;
     }
 
     public function createEmpty() {

@@ -19,11 +19,11 @@ Feature: location-post
     Given I have an authenticated user
     And The authenticated user has a company
     And I have a valid new location array
-    And I change the "name" field's value of the request object to "a"
+    And I change the "payload.name" field's value of the request object to "a"
     When I create a test location for my test company
     Then I get a status code "400"
     And I get back a valid json object
     And The response contains a field named "error.code"
     And The value of the "error.code" field returned is of type "string"
-    And The value of the "error.code" field is "Api.LocationController.indexPostAction.1"
+    And The value of the "error.code" field is "Api.LocationController.indexPostAction.2"
     And Finally, I clean up my objects

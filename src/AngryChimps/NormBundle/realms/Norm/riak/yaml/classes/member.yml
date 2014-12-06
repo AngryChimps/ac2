@@ -9,20 +9,20 @@ fields:
     type: int
   - name: email
     type: string
-    validations:
-        - Email: ~
+#    validations:
+#        - Email: ~
   - name: password
     type: string
-    validations:
-        - Length:
-            min: 6
-            max: 25
+#    validations:
+#        - Length:
+#            min: 6
+#            max: 25
   - name: name
     type: string
-    validations:
-        - Length:
-            min: 4
-            max: 25
+#    validations:
+#        - Length:
+#            min: 4
+#            max: 25
   - name: mobile
     type: string
   - name: fb_id
@@ -41,8 +41,6 @@ fields:
     type: int
   - name: dob
     type: Date
-    validations:
-        - Date: ~
   - name: photo
     type: string
   - name: status
