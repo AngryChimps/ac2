@@ -21,7 +21,7 @@ class CompanyServicesBase extends NormBaseObject {
     protected static $fieldNames = array('company_id', 'services', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', '\Norm\riak\ServiceCollection', 'DateTime');
+    protected static $fieldTypes = array('string', '\Norm\riak\ServiceCollection', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('companyId', 'services', 'updatedAt');
@@ -57,11 +57,17 @@ class CompanyServicesBase extends NormBaseObject {
     /** @var \Norm\riak\ServiceCollection */
     public $services;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns Norm\riak\Company */
+    public function __construct() {
+        parent::__construct();
+
+        $this->services = new \Norm\riak\ServiceCollection();
+    }
+
+    /** @return \Norm\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -95,7 +101,7 @@ class CompanyServicesBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\CompanyServices
      */

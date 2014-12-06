@@ -21,7 +21,7 @@ class ReviewFlagBase extends NormBaseObject {
     protected static $fieldNames = array('id', 'author_id', 'body', 'status', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'int', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'int', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('id', 'authorId', 'body', 'status', 'createdAt');
@@ -66,11 +66,16 @@ class ReviewFlagBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
 
-    /** @returns Norm\riak\Member */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \Norm\riak\Member */
     public function getAuthor() {
         if($this->Author === null) {
             $this->loadAuthor();
@@ -104,7 +109,7 @@ class ReviewFlagBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\ReviewFlag
      */

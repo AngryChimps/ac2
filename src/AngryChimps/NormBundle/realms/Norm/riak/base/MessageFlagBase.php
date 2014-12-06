@@ -21,7 +21,7 @@ class MessageFlagBase extends NormBaseObject {
     protected static $fieldNames = array('message_key', 'author_key', 'body', 'status', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'int', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'int', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('messageKey', 'authorKey', 'body', 'status', 'createdAt');
@@ -63,11 +63,16 @@ class MessageFlagBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
 
-    /** @returns Norm\riak\Message */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \Norm\riak\Message */
     public function getMessage_() {
         if($this->Message_ === null) {
             $this->loadMessage_();
@@ -75,7 +80,7 @@ class MessageFlagBase extends NormBaseObject {
         return $this->Message_;
     }
 
-    /** @returns Norm\riak\Member */
+    /** @return \Norm\riak\Member */
     public function getAuthor_() {
         if($this->Author_ === null) {
             $this->loadAuthor_();
@@ -113,7 +118,7 @@ class MessageFlagBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\MessageFlag
      */

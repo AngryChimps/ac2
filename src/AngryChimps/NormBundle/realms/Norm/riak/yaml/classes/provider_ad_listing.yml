@@ -1,9 +1,10 @@
 primary_keys:
-  - id
+  - ad_id
 
 fields:
-  - name: id
+  - name: ad_id
     type: string
+    auto_generate: true
   - name: location_id
     type: string
   - name: company_id
@@ -12,12 +13,16 @@ fields:
     type: string
   - name: author_id
     type: string
+  - name: category_id
+    type: int
   - name: title
     type: string
   - name: description
     type: string
   - name: ad_flag_total
     type: int
+  - name: photos
+    type: string[]
   - name: service_ids
     type: string[]
   - name: flag_ids

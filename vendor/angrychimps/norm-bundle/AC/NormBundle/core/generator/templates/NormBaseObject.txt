@@ -63,8 +63,16 @@ class {{className}}Base extends NormBaseObject {
 
     {{/each}}
 
+    public function __construct() {
+        parent::__construct();
+
+        {{#each defaults}}
+        {{{statement}}}
+        {{/each}}
+    }
+
     {{#each foreignKeys}}
-    /** @returns {{propertyClassWithNamespace}} */
+    /** @return {{propertyClassWithNamespace}} */
     public function get{{propertyName}}() {
         if($this->{{propertyName}} === null) {
             $this->load{{propertyName}}();
@@ -82,7 +90,7 @@ class {{className}}Base extends NormBaseObject {
     {{/each}}
 
     {{#each reverseForeignKeys}}
-    /** @returns {{remotePropertyClassWithNamespace}} */
+    /** @return {{remotePropertyClassWithNamespace}} */
     public function get{{remotePropertyClass}}Collection() {
         if($this->{{remotePropertyClass}} === null) {
             $this->load{{remotePropertyClass}}{{collection}}();
@@ -117,7 +125,7 @@ class {{className}}Base extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return {{fullyQualifiedClassWithPrecedingBackslash}}
      */

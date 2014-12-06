@@ -18,13 +18,13 @@ class ServiceBase extends NormBaseObject {
     protected static $tableName = 'service';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'discounted_price', 'original_price', 'mins_for_service', 'mins_notice', 'category_id', 'status', 'updated_at', 'created_at');
+    protected static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'discounted_price', 'original_price', 'mins_for_service', 'mins_notice', 'status', 'updated_at', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'float', 'float', 'int', 'int', 'int', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'float', 'float', 'int', 'int', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'discountedPrice', 'originalPrice', 'minsForService', 'minsNotice', 'categoryId', 'status', 'updatedAt', 'createdAt');
+    protected static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'discountedPrice', 'originalPrice', 'minsForService', 'minsNotice', 'status', 'updatedAt', 'createdAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -79,37 +79,23 @@ class ServiceBase extends NormBaseObject {
     public $minsNotice;
 
     /** @var int */
-    public $categoryId;
-
-    /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
 
+    public function __construct() {
+        parent::__construct();
 
-
-    /** @returns Norm\riak\Ad */
-    public function getAdCollection() {
-        if($this->Ad === null) {
-            $this->loadAd();
-        }
-        return $this->Ad;
     }
 
-    /** @returns Norm\riak\AdFlag */
-    public function getAdFlagCollection() {
-        if($this->AdFlag === null) {
-            $this->loadAdFlag();
-        }
-        return $this->AdFlag;
-    }
 
-    /** @returns Norm\riak\BookingDetail */
+
+    /** @return Norm\riak\BookingDetail */
     public function getBookingDetailCollection() {
         if($this->BookingDetail === null) {
             $this->loadBookingDetail();
@@ -117,7 +103,7 @@ class ServiceBase extends NormBaseObject {
         return $this->BookingDetail;
     }
 
-    /** @returns Norm\riak\Review */
+    /** @return Norm\riak\Review */
     public function getReviewCollection() {
         if($this->Review === null) {
             $this->loadReview();
@@ -125,14 +111,30 @@ class ServiceBase extends NormBaseObject {
         return $this->Review;
     }
 
-
-    protected function loadAdCollection() {
-        parent::loadPropertyCollection('Ad', 'ad', 'service_id', 'serviceId');
+    /** @return Norm\riak\ProviderAdListing */
+    public function getProviderAdListingCollection() {
+        if($this->ProviderAdListing === null) {
+            $this->loadProviderAdListing();
+        }
+        return $this->ProviderAdListing;
     }
 
-    protected function loadAdFlagCollection() {
-        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'service_id', 'serviceId');
+    /** @return Norm\riak\ProviderAd */
+    public function getProviderAdCollection() {
+        if($this->ProviderAd === null) {
+            $this->loadProviderAd();
+        }
+        return $this->ProviderAd;
     }
+
+    /** @return Norm\riak\ProviderAdFlag */
+    public function getProviderAdFlagCollection() {
+        if($this->ProviderAdFlag === null) {
+            $this->loadProviderAdFlag();
+        }
+        return $this->ProviderAdFlag;
+    }
+
 
     protected function loadBookingDetailCollection() {
         parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'service_id', 'serviceId');
@@ -140,6 +142,18 @@ class ServiceBase extends NormBaseObject {
 
     protected function loadReviewCollection() {
         parent::loadPropertyCollection('Review', 'review', 'service_id', 'serviceId');
+    }
+
+    protected function loadProviderAdListingCollection() {
+        parent::loadPropertyCollection('ProviderAdListing', 'provider_ad_listing', 'service_id', 'serviceId');
+    }
+
+    protected function loadProviderAdCollection() {
+        parent::loadPropertyCollection('ProviderAd', 'provider_ad', 'service_id', 'serviceId');
+    }
+
+    protected function loadProviderAdFlagCollection() {
+        parent::loadPropertyCollection('ProviderAdFlag', 'provider_ad_flag', 'service_id', 'serviceId');
     }
 
 
@@ -161,7 +175,7 @@ class ServiceBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\Service
      */

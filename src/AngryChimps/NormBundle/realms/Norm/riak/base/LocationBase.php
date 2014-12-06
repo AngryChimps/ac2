@@ -18,13 +18,13 @@ class LocationBase extends NormBaseObject {
     protected static $tableName = 'location';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'company_id', 'calendarIds', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'lat', 'long', 'status', 'photos', 'created_at', 'updated_at');
+    protected static $fieldNames = array('id', 'company_id', 'calendarIds', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'lat', 'long', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string[]', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'float', 'float', 'int', 'string[]', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string[]', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'float', 'float', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'companyId', 'calendarIds', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'lat', 'long', 'status', 'photos', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('id', 'companyId', 'calendarIds', 'name', 'street1', 'street2', 'city', 'state', 'zip', 'phone', 'lat', 'long', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('id');
@@ -93,17 +93,20 @@ class LocationBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var string[] */
-    public $photos;
-
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns Norm\riak\Company */
+    public function __construct() {
+        parent::__construct();
+
+        $this->calendarIds = array();
+    }
+
+    /** @return \Norm\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -117,23 +120,7 @@ class LocationBase extends NormBaseObject {
     }
 
 
-    /** @returns Norm\riak\Ad */
-    public function getAdCollection() {
-        if($this->Ad === null) {
-            $this->loadAd();
-        }
-        return $this->Ad;
-    }
-
-    /** @returns Norm\riak\AdFlag */
-    public function getAdFlagCollection() {
-        if($this->AdFlag === null) {
-            $this->loadAdFlag();
-        }
-        return $this->AdFlag;
-    }
-
-    /** @returns Norm\riak\Calendar */
+    /** @return Norm\riak\Calendar */
     public function getCalendarCollection() {
         if($this->Calendar === null) {
             $this->loadCalendar();
@@ -141,7 +128,7 @@ class LocationBase extends NormBaseObject {
         return $this->Calendar;
     }
 
-    /** @returns Norm\riak\BookingDetail */
+    /** @return Norm\riak\BookingDetail */
     public function getBookingDetailCollection() {
         if($this->BookingDetail === null) {
             $this->loadBookingDetail();
@@ -149,7 +136,7 @@ class LocationBase extends NormBaseObject {
         return $this->BookingDetail;
     }
 
-    /** @returns Norm\riak\Review */
+    /** @return Norm\riak\Review */
     public function getReviewCollection() {
         if($this->Review === null) {
             $this->loadReview();
@@ -157,14 +144,30 @@ class LocationBase extends NormBaseObject {
         return $this->Review;
     }
 
-
-    protected function loadAdCollection() {
-        parent::loadPropertyCollection('Ad', 'ad', 'location_id', 'locationId');
+    /** @return Norm\riak\ProviderAdListing */
+    public function getProviderAdListingCollection() {
+        if($this->ProviderAdListing === null) {
+            $this->loadProviderAdListing();
+        }
+        return $this->ProviderAdListing;
     }
 
-    protected function loadAdFlagCollection() {
-        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'location_id', 'locationId');
+    /** @return Norm\riak\ProviderAd */
+    public function getProviderAdCollection() {
+        if($this->ProviderAd === null) {
+            $this->loadProviderAd();
+        }
+        return $this->ProviderAd;
     }
+
+    /** @return Norm\riak\ProviderAdFlag */
+    public function getProviderAdFlagCollection() {
+        if($this->ProviderAdFlag === null) {
+            $this->loadProviderAdFlag();
+        }
+        return $this->ProviderAdFlag;
+    }
+
 
     protected function loadCalendarCollection() {
         parent::loadPropertyCollection('Calendar', 'calendar', 'location_id', 'locationId');
@@ -176,6 +179,18 @@ class LocationBase extends NormBaseObject {
 
     protected function loadReviewCollection() {
         parent::loadPropertyCollection('Review', 'review', 'location_id', 'locationId');
+    }
+
+    protected function loadProviderAdListingCollection() {
+        parent::loadPropertyCollection('ProviderAdListing', 'provider_ad_listing', 'location_id', 'locationId');
+    }
+
+    protected function loadProviderAdCollection() {
+        parent::loadPropertyCollection('ProviderAd', 'provider_ad', 'location_id', 'locationId');
+    }
+
+    protected function loadProviderAdFlagCollection() {
+        parent::loadPropertyCollection('ProviderAdFlag', 'provider_ad_flag', 'location_id', 'locationId');
     }
 
 
@@ -197,7 +212,7 @@ class LocationBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\Location
      */

@@ -23,6 +23,7 @@ class CalendarService {
         $calendar = new Calendar();
         $calendar->locationId = $location->id;
         $calendar->name = $name;
+        $calendar->status = Calendar::ENABLED_STATUS;
         $calendar->save();
 
         $location->calendarIds[] = $calendar->id;
@@ -33,6 +34,13 @@ class CalendarService {
 
     public function addAvailability(Calendar $calendar, Availability $availability) {
         $calendarDay = CalendarDay::getByPk(array($calendar->id, $availability->start->format('Y-m-d')));
+
+        if($calendarDay === null) {
+            $calendarDay = new CalendarDay();
+            $calendarDay->calendarId = $calendar->id;
+            $calendarDay->date = $availability->start;
+            $calendarDay->save();
+        }
 
         //If the availability overlaps a booking, then add it to the overlaps array
         $overlaps = array();

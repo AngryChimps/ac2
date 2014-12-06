@@ -3,7 +3,7 @@ namespace Norm\riak\base;
 
 use AC\NormBundle\core\NormBaseObject;
 
-class AdFlagBase extends NormBaseObject {
+class ProviderAdFlagBase extends NormBaseObject {
 
     /** @var  string */
     protected static $primaryDatastoreName = 'riak_ds';
@@ -15,13 +15,13 @@ class AdFlagBase extends NormBaseObject {
     protected static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'ad_flag';
+    protected static $tableName = 'provider_ad_flag';
 
     /** @var string[] */
     protected static $fieldNames = array('id', 'author_id', 'company_id', 'location_id', 'ad_id', 'service_id', 'body', 'status', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('id', 'authorId', 'companyId', 'locationId', 'adId', 'serviceId', 'body', 'status', 'createdAt');
@@ -78,11 +78,16 @@ class AdFlagBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
 
-    /** @returns Norm\riak\Member */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \Norm\riak\Member */
     public function getAuthor() {
         if($this->Author === null) {
             $this->loadAuthor();
@@ -90,7 +95,7 @@ class AdFlagBase extends NormBaseObject {
         return $this->Author;
     }
 
-    /** @returns Norm\riak\Company */
+    /** @return \Norm\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -98,7 +103,7 @@ class AdFlagBase extends NormBaseObject {
         return $this->Company;
     }
 
-    /** @returns Norm\riak\Location */
+    /** @return \Norm\riak\Location */
     public function getLocation() {
         if($this->Location === null) {
             $this->loadLocation();
@@ -106,7 +111,7 @@ class AdFlagBase extends NormBaseObject {
         return $this->Location;
     }
 
-    /** @returns Norm\riak\Ad */
+    /** @return \Norm\riak\ProviderAd */
     public function getAd() {
         if($this->Ad === null) {
             $this->loadAd();
@@ -114,7 +119,7 @@ class AdFlagBase extends NormBaseObject {
         return $this->Ad;
     }
 
-    /** @returns Norm\riak\Service */
+    /** @return \Norm\riak\Service */
     public function getService() {
         if($this->Service === null) {
             $this->loadService();
@@ -136,7 +141,7 @@ class AdFlagBase extends NormBaseObject {
     }
 
     protected function loadAd() {
-        parent::loadProperty('Ad', 'ad', 'id');
+        parent::loadProperty('Ad', 'provider_ad', 'id');
     }
 
     protected function loadService() {
@@ -148,7 +153,7 @@ class AdFlagBase extends NormBaseObject {
 
     /**
      * @param $pk
-     * @return \Norm\riak\AdFlag
+     * @return \Norm\riak\ProviderAdFlag
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -157,16 +162,16 @@ class AdFlagBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return \Norm\riak\AdFlag
+     * @return \Norm\riak\ProviderAdFlag
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return \Norm\riak\AdFlag
+     * @return \Norm\riak\ProviderAdFlag
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

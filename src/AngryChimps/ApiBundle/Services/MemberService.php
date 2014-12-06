@@ -49,6 +49,8 @@ class MemberService {
 
     public function createEmpty() {
         $member = new Member();
+        $member->role = Member::USER_ROLE;
+        $member->status = Member::PARTIAL_REGISTRATION_STATUS;
         $member->save();
 
         return $member;

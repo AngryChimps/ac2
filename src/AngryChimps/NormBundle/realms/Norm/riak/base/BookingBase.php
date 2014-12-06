@@ -21,7 +21,7 @@ class BookingBase extends NormBaseObject {
     protected static $fieldNames = array('id', 'title', 'booking_detail_id', 'type', 'start', 'end');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('id', 'title', 'bookingDetailId', 'type', 'start', 'end');
@@ -66,14 +66,19 @@ class BookingBase extends NormBaseObject {
     /** @var int */
     public $type;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $start;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $end;
 
 
-    /** @returns Norm\riak\BookingDetail */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \Norm\riak\BookingDetail */
     public function getBooking_detail() {
         if($this->Booking_detail === null) {
             $this->loadBooking_detail();
@@ -107,7 +112,7 @@ class BookingBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\Booking
      */

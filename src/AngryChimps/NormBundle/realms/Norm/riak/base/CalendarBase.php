@@ -21,7 +21,7 @@ class CalendarBase extends NormBaseObject {
     protected static $fieldNames = array('id', 'location_id', 'company_id', 'name', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('id', 'locationId', 'companyId', 'name', 'status', 'createdAt', 'updatedAt');
@@ -69,14 +69,19 @@ class CalendarBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns Norm\riak\Location */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \Norm\riak\Location */
     public function getLocation() {
         if($this->Location === null) {
             $this->loadLocation();
@@ -84,7 +89,7 @@ class CalendarBase extends NormBaseObject {
         return $this->Location;
     }
 
-    /** @returns Norm\riak\Company */
+    /** @return \Norm\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -102,15 +107,7 @@ class CalendarBase extends NormBaseObject {
     }
 
 
-    /** @returns Norm\riak\Ad */
-    public function getAdCollection() {
-        if($this->Ad === null) {
-            $this->loadAd();
-        }
-        return $this->Ad;
-    }
-
-    /** @returns Norm\riak\CalendarDay */
+    /** @return Norm\riak\CalendarDay */
     public function getCalendarDayCollection() {
         if($this->CalendarDay === null) {
             $this->loadCalendarDay();
@@ -118,7 +115,7 @@ class CalendarBase extends NormBaseObject {
         return $this->CalendarDay;
     }
 
-    /** @returns Norm\riak\BookingDetail */
+    /** @return Norm\riak\BookingDetail */
     public function getBookingDetailCollection() {
         if($this->BookingDetail === null) {
             $this->loadBookingDetail();
@@ -126,10 +123,22 @@ class CalendarBase extends NormBaseObject {
         return $this->BookingDetail;
     }
 
-
-    protected function loadAdCollection() {
-        parent::loadPropertyCollection('Ad', 'ad', 'calendar_id', 'calendarId');
+    /** @return Norm\riak\ProviderAdListing */
+    public function getProviderAdListingCollection() {
+        if($this->ProviderAdListing === null) {
+            $this->loadProviderAdListing();
+        }
+        return $this->ProviderAdListing;
     }
+
+    /** @return Norm\riak\ProviderAd */
+    public function getProviderAdCollection() {
+        if($this->ProviderAd === null) {
+            $this->loadProviderAd();
+        }
+        return $this->ProviderAd;
+    }
+
 
     protected function loadCalendarDayCollection() {
         parent::loadPropertyCollection('CalendarDay', 'calendar_day', 'calendar_id', 'calendarId');
@@ -137,6 +146,14 @@ class CalendarBase extends NormBaseObject {
 
     protected function loadBookingDetailCollection() {
         parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'calendar_id', 'calendarId');
+    }
+
+    protected function loadProviderAdListingCollection() {
+        parent::loadPropertyCollection('ProviderAdListing', 'provider_ad_listing', 'calendar_id', 'calendarId');
+    }
+
+    protected function loadProviderAdCollection() {
+        parent::loadPropertyCollection('ProviderAd', 'provider_ad', 'calendar_id', 'calendarId');
     }
 
 
@@ -158,7 +175,7 @@ class CalendarBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\Calendar
      */

@@ -19,8 +19,6 @@ fields:
     type: int
   - name: mins_notice
     type: int
-  - name: category_id
-    type: int
   - name: status
     type: enum
     values:

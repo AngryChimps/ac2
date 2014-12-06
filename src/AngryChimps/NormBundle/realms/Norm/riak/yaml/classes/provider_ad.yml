@@ -1,0 +1,61 @@
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: location_id
+    type: string
+  - name: company_id
+    type: string
+  - name: calendar_id
+    type: string
+  - name: author_id
+    type: string
+  - name: category_id
+    type: int
+  - name: title
+    type: string
+  - name: description
+    type: string
+  - name: ad_flag_total
+    type: int
+  - name: photos
+    type: string[]
+  - name: service_ids
+    type: string[]
+  - name: flag_ids
+    type: string[]
+  - name: status
+    type: enum
+    values:
+      - Published
+      - UnPubished
+      - Deleted
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime
+
+foreign_keys:
+  - name: fk_ad_location
+    column_name: location_id
+    referenced_table_name: location
+    referenced_column_name: id
+  - name: fk_ad_company
+    column_name: company_id
+    referenced_table_name: company
+    referenced_column_name: id
+  - name: fk_ad_calendar
+    column_name: calendar_id
+    referenced_table_name: calendar
+    referenced_column_name: id
+  - name: fk_ad_author
+    column_name: author_id
+    referenced_table_name: member
+    referenced_column_name: id
+  - name: fk_ad_service
+    column_name: service_id
+    referenced_table_name: service
+    referenced_column_name: id

@@ -18,13 +18,13 @@ class CalendarDayBase extends NormBaseObject {
     protected static $tableName = 'calendar_day';
 
     /** @var string[] */
-    protected static $fieldNames = array('calendar_id', 'date', 'availabilities', 'bookings', 'status', 'created_at', 'updated_at');
+    protected static $fieldNames = array('calendar_id', 'date', 'availabilities', 'bookings', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'Date', '\Norm\riak\AvailabilityCollection', '\Norm\riak\BookingCollection', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', '\DateTime', '\Norm\riak\AvailabilityCollection', '\Norm\riak\BookingCollection', '\DateTime', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('calendarId', 'date', 'availabilities', 'bookings', 'status', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('calendarId', 'date', 'availabilities', 'bookings', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
     protected static $primaryKeyFieldNames = array('calendar_id', 'date');
@@ -50,14 +50,11 @@ class CalendarDayBase extends NormBaseObject {
     /** @var bool */
     protected static $hasAutoIncrement = false;
 
-    const ENABLED_STATUS = 1;
-    const DISABED_STATUS = 2;
-
 
     /** @var string */
     public $calendarId;
 
-    /** @var Date */
+    /** @var \DateTime */
     public $date;
 
     /** @var \Norm\riak\AvailabilityCollection */
@@ -66,17 +63,21 @@ class CalendarDayBase extends NormBaseObject {
     /** @var \Norm\riak\BookingCollection */
     public $bookings;
 
-    /** @var int */
-    public $status;
-
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns Norm\riak\Calendar */
+    public function __construct() {
+        parent::__construct();
+
+        $this->availabilities = new \Norm\riak\AvailabilityCollection();
+        $this->bookings = new \Norm\riak\BookingCollection();
+    }
+
+    /** @return \Norm\riak\Calendar */
     public function getCalendar() {
         if($this->Calendar === null) {
             $this->loadCalendar();
@@ -110,7 +111,7 @@ class CalendarDayBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\CalendarDay
      */

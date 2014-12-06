@@ -301,12 +301,11 @@ class AbstractFeatureContext {
     public function assertTrue($arg1, $msg) {
         if(!$arg1) {
             echo 'Request: ' . print_r($this->requestArray, true);
-            echo 'Response JSON: ' . $this->response->getBody(true);
 
             try {
-                echo 'Response: ' . $this->response->json();
+                echo 'Response: ' . print_r($this->response->json(), true);
             } catch (\Exception $ex) {
-                //do nothing
+                echo 'Response is not valid JSON';
             }
 
             throw new \Exception($msg);

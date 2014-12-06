@@ -21,7 +21,7 @@ class ReviewBase extends NormBaseObject {
     protected static $fieldNames = array('id', 'author_id', 'company_id', 'location_id', 'ad_id', 'service_id', 'author_screenname', 'body', 'rating', 'flags', 'status', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', '\Norm\riak\ReviewFlagCollection', 'int', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', '\Norm\riak\ReviewFlagCollection', 'int', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('id', 'authorId', 'companyId', 'locationId', 'adId', 'serviceId', 'authorScreenname', 'body', 'rating', 'flags', 'status', 'createdAt');
@@ -87,11 +87,17 @@ class ReviewBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
 
-    /** @returns Norm\riak\Member */
+    public function __construct() {
+        parent::__construct();
+
+        $this->flags = new \Norm\riak\ReviewFlagCollection();
+    }
+
+    /** @return \Norm\riak\Member */
     public function getAuthor() {
         if($this->Author === null) {
             $this->loadAuthor();
@@ -99,7 +105,7 @@ class ReviewBase extends NormBaseObject {
         return $this->Author;
     }
 
-    /** @returns Norm\riak\Company */
+    /** @return \Norm\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -107,7 +113,7 @@ class ReviewBase extends NormBaseObject {
         return $this->Company;
     }
 
-    /** @returns Norm\riak\Location */
+    /** @return \Norm\riak\Location */
     public function getLocation() {
         if($this->Location === null) {
             $this->loadLocation();
@@ -115,7 +121,7 @@ class ReviewBase extends NormBaseObject {
         return $this->Location;
     }
 
-    /** @returns Norm\riak\Ad */
+    /** @return \Norm\riak\ProviderAd */
     public function getAd() {
         if($this->Ad === null) {
             $this->loadAd();
@@ -123,7 +129,7 @@ class ReviewBase extends NormBaseObject {
         return $this->Ad;
     }
 
-    /** @returns Norm\riak\Service */
+    /** @return \Norm\riak\Service */
     public function getService() {
         if($this->Service === null) {
             $this->loadService();
@@ -145,7 +151,7 @@ class ReviewBase extends NormBaseObject {
     }
 
     protected function loadAd() {
-        parent::loadProperty('Ad', 'ad', 'id');
+        parent::loadProperty('Ad', 'provider_ad', 'id');
     }
 
     protected function loadService() {
@@ -173,7 +179,7 @@ class ReviewBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\Review
      */

@@ -116,4 +116,10 @@ class NormBaseCollection extends \ArrayObject {
             $this[$id] = $obj;
         }
     }
+
+    public static function getByPks(array $pks) {
+        $coll = new self();
+        $coll->loadByIds($pks);
+        return $coll;
+    }
 } 

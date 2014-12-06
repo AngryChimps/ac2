@@ -396,6 +396,9 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
             $id = $this->getResponseFieldValue('payload.company.id');
             $this->testCompany = Company::getByPk($id);
             $this->addObject($this->testCompany);
+
+            $this->testUser->managedCompanyIds = array($id);
+            $this->testUser->save();
         }
     }
 
@@ -659,6 +662,82 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iGetTheServiceDataForTheTestService()
     {
         throw new PendingException();
+    }
+
+    /**
+     * @Given I have a valid signup ad array
+     */
+    public function iHaveAValidSignupAdArray()
+    {
+        $arr = array();
+        $arr['ad_title'] = 'My Nifty Ad Title';
+        $arr['ad_description'] = 'And a description';
+        $arr['start'] = '2014-12-03';
+        $arr['end'] = '2014-12-03 05:00:00';
+        $arr['service_name'] = 'Long Haircut';
+        $arr['discounted_price'] = 70.00;
+        $arr['original_price'] = 129.00;
+        $arr['mins_for_service'] = 60;
+        $arr['mins_notice'] = 180;
+        $arr['category_id'] = 101;
+
+        $this->requestArray = array('payload'=>$arr);
+    }
+
+    /**
+     * @When I register a provider ad
+     */
+    public function iRegisterAProviderAd()
+    {
+        $this->postData('signup/registerProviderAd');
+
+        if($this->response->getStatusCode() === 200) {
+            $this->authenticatedUserId = $this->getResponseFieldValue('payload.member.id');
+            $this->testUser = Member::getByPk($this->authenticatedUserId);
+            $this->testCompany = Company::getByPk($this->testUser->managedCompanyIds[0]);
+            $this->addObject($this->testUser);
+            $this->addObject($this->testCompany);
+        }
+    }
+
+    /**
+     * @Given I have a valid signup company array
+     */
+    public function iHaveAValidSignupCompanyArray()
+    {
+        $arr = array();
+        $arr['member_id'] = $this->authenticatedUserId;
+        $arr['company_name'] = 'Acme Auto Repair';
+        $arr['member_name'] = 'James Williams';
+        $arr['email'] = 'testio' . $this->rand . '@seangallavan.com';
+        $arr['password'] = 'abcdabcd';
+        $arr['dob'] = '1950-01-03';
+        $arr['street1'] = '440 Castro Street';
+        $arr['street2'] = '';
+        $arr['zip'] = 94114;
+        $arr['phone'] = '4155551212';
+        $arr['mobile_phone'] = '4155551213';
+
+        $this->requestArray = array('payload'=>$arr);
+    }
+
+    /**
+     * @Given I register a provider ad company
+     */
+    public function iRegisterAProviderAdCompany()
+    {
+        $this->postData('signup/registerProviderCompany');
+
+        if($this->response->getStatusCode() === 200) {
+            $this->testUser->invalidate();
+            $this->testUser = Member::getByPk($this->authenticatedUserId);
+            $this->testCompany->invalidate();
+            $this->testCompany = Company::getByPk($this->testUser->managedCompanyIds[0]);
+            $this->testLocation = Location::getByPk($this->testCompany->locationIds[0]);
+            $this->addObject($this->testUser);
+            $this->addObject($this->testCompany);
+            $this->addObject($this->testLocation);
+        }
     }
 
 }

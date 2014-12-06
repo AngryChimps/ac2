@@ -21,7 +21,7 @@ class ZipcodeBase extends NormBaseObject {
     protected static $fieldNames = array('id', 'city', 'state', 'lat', 'long', 'north_lat', 'south_lat', 'east_long', 'west_long', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'string', 'string', 'float', 'float', 'float', 'float', 'float', 'float', 'DateTime');
+    protected static $fieldTypes = array('int', 'string', 'string', 'float', 'float', 'float', 'float', 'float', 'float', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('id', 'city', 'state', 'lat', 'long', 'northLat', 'southLat', 'eastLong', 'westLong', 'createdAt');
@@ -78,9 +78,14 @@ class ZipcodeBase extends NormBaseObject {
     /** @var float */
     public $westLong;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
+
+    public function __construct() {
+        parent::__construct();
+
+    }
 
 
 
@@ -104,7 +109,7 @@ class ZipcodeBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\Zipcode
      */

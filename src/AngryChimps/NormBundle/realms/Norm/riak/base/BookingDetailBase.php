@@ -21,7 +21,7 @@ class BookingDetailBase extends NormBaseObject {
     protected static $fieldNames = array('id', 'location_id', 'company_id', 'calendar_id', 'service_id', 'ad_id', 'member_id', 'start', 'end', 'payment_type', 'payment_id', 'cancellation_policy', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'DateTime', 'DateTime', 'int', 'string', 'string', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', '\DateTime', '\DateTime', 'int', 'string', 'string', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('id', 'locationId', 'companyId', 'calendarId', 'serviceId', 'adId', 'memberId', 'start', 'end', 'paymentType', 'paymentId', 'cancellationPolicy', 'status', 'createdAt', 'updatedAt');
@@ -79,10 +79,10 @@ class BookingDetailBase extends NormBaseObject {
     /** @var string */
     public $memberId;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $start;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $end;
 
     /** @var int */
@@ -97,14 +97,19 @@ class BookingDetailBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns Norm\riak\Location */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \Norm\riak\Location */
     public function getLocation() {
         if($this->Location === null) {
             $this->loadLocation();
@@ -112,7 +117,7 @@ class BookingDetailBase extends NormBaseObject {
         return $this->Location;
     }
 
-    /** @returns Norm\riak\Company */
+    /** @return \Norm\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -120,7 +125,7 @@ class BookingDetailBase extends NormBaseObject {
         return $this->Company;
     }
 
-    /** @returns Norm\riak\Calendar */
+    /** @return \Norm\riak\Calendar */
     public function getCalendar() {
         if($this->Calendar === null) {
             $this->loadCalendar();
@@ -128,7 +133,7 @@ class BookingDetailBase extends NormBaseObject {
         return $this->Calendar;
     }
 
-    /** @returns Norm\riak\Ad */
+    /** @return \Norm\riak\ProviderAd */
     public function getAd() {
         if($this->Ad === null) {
             $this->loadAd();
@@ -136,7 +141,7 @@ class BookingDetailBase extends NormBaseObject {
         return $this->Ad;
     }
 
-    /** @returns Norm\riak\Service */
+    /** @return \Norm\riak\Service */
     public function getService() {
         if($this->Service === null) {
             $this->loadService();
@@ -144,7 +149,7 @@ class BookingDetailBase extends NormBaseObject {
         return $this->Service;
     }
 
-    /** @returns Norm\riak\Member */
+    /** @return \Norm\riak\Member */
     public function getMember() {
         if($this->Member === null) {
             $this->loadMember();
@@ -166,7 +171,7 @@ class BookingDetailBase extends NormBaseObject {
     }
 
     protected function loadAd() {
-        parent::loadProperty('Ad', 'ad', 'id');
+        parent::loadProperty('Ad', 'provider_ad', 'id');
     }
 
     protected function loadService() {
@@ -178,7 +183,7 @@ class BookingDetailBase extends NormBaseObject {
     }
 
 
-    /** @returns Norm\riak\Booking */
+    /** @return Norm\riak\Booking */
     public function getBookingCollection() {
         if($this->Booking === null) {
             $this->loadBooking();
@@ -210,7 +215,7 @@ class BookingDetailBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\BookingDetail
      */

@@ -234,6 +234,7 @@ class Generator {
         $data['propertyNames'] = array();
         $data['propertyTypes'] = array();
         $data['properties'] = array();
+        $data['defaults'] = array();
         $data['autoIncrementFieldName'] = $table->autoIncrementName;
         $data['autoIncrementPropertyName'] = Utils::field2property($table->autoIncrementName);
         $data['autoGenerateFieldName'] = $table->autoGenerateName;
@@ -242,11 +243,32 @@ class Generator {
             /** @var $column Column */
 
             $data['fieldNames'][] = $column->name;
-            $data['fieldTypes'][] = (string) $column->type;
+            switch($column->type) {
+                case 'Date':
+                case 'DateTime':
+                    $data['fieldTypes'][] = "\\DateTime";
+                    break;
+                default:
+                    $data['fieldTypes'][] = (string) $column->type;
+            }
+
+            if($column->default !== null) {
+                $data['defaults'][] = array('statement' => '$this->' .
+                    Utils::field2property($column->name) . ' = ' . $column->default . ';');
+            }
+            elseif(class_exists($column->type) && in_array("AC\\NormBundle\\core\\NormBaseCollection", class_parents($column->type))) {
+                $data['defaults'][] = array('statement' => '$this->' .
+                    Utils::field2property($column->name) . ' = new ' . $column->type . '();');
+            }
+            elseif(in_array($column->type, array('string[]', 'int[]', 'float[]', 'double[]', 'bool[]'))) {
+                $data['defaults'][] = array('statement' => '$this->' .
+                    Utils::field2property($column->name) . ' = array();');
+            }
+
             $data['propertyNames'][] = Utils::field2property($column->name);
             $data['properties'][] = array(
                 'name' => Utils::field2property($column->name),
-                'type' => $column->type,
+                'type' => $data['fieldTypes'][count($data['fieldTypes']) - 1],
             );
             $data['validations'] = $column->validations;
         }
@@ -287,7 +309,7 @@ class Generator {
             $newFk['remotePropertyClass'] = Utils::table2class($fk->tableName);
 
             $newFk['remotePropertyIdFieldName'] = Utils::field2property($fk->referencedColumnName);
-            $newFk['propertyClassWithNamespace'] = $data['namespace'] . "\\"
+            $newFk['propertyClassWithNamespace'] = "\\" . $data['namespace'] . "\\"
                 . Utils::table2class($fk->referencedTableName);
             $newFk['remotePropertyClassWithNamespace'] = $data['namespace'] . "\\"
                 . Utils::table2class($fk->tableName);

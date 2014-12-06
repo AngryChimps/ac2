@@ -22,7 +22,9 @@ fields:
     validations:
         - Length:
             min: 4
-            max: 12
+            max: 25
+  - name: mobile
+    type: string
   - name: fb_id
     type: string
   - name: fb_access_token
@@ -50,6 +52,7 @@ fields:
       - Deleted
       - Locked
       - Banned
+      - PartialRegistration
   - name: role
     type: enum
     values:

@@ -31,8 +31,8 @@ class GeolocationService {
         return $zipcode;
     }
 
-    public function lookupAddress($street1, $street2, $zip) {
-        return $this->lookupAddressFromGoogle($street1, $street2, $zip);
+    public function lookupAddress($street1, $zip) {
+        return $this->lookupAddressFromGoogle($street1, $zip);
     }
 
     protected function lookupZipcodeFromGoogle($zip) {
@@ -58,8 +58,8 @@ class GeolocationService {
         return $zipcode;
     }
 
-    protected function lookupAddressFromGoogle($street1, $street2, $zip) {
-        $addressString = $street1 . ', ' . $street2 . ',  ' . $zip;
+    protected function lookupAddressFromGoogle($street1, $zip) {
+        $addressString = $street1 . ',  ' . $zip;
 
         //Make request to google
         $url = $this->googleMapsApiAddress . '?address=' . urlencode($addressString) . '&key=' . $this->googleMapsApiKey;

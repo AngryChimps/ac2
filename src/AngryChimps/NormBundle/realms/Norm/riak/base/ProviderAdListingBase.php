@@ -3,7 +3,7 @@ namespace Norm\riak\base;
 
 use AC\NormBundle\core\NormBaseObject;
 
-class AdBase extends NormBaseObject {
+class ProviderAdListingBase extends NormBaseObject {
 
     /** @var  string */
     protected static $primaryDatastoreName = 'riak_ds';
@@ -15,22 +15,22 @@ class AdBase extends NormBaseObject {
     protected static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'ad';
+    protected static $tableName = 'provider_ad_listing';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'location_id', 'company_id', 'calendar_id', 'author_id', 'title', 'description', 'ad_flag_total', 'service_ids', 'flag_ids', 'status', 'created_at', 'updated_at');
+    protected static $fieldNames = array('ad_id', 'location_id', 'company_id', 'calendar_id', 'author_id', 'category_id', 'title', 'description', 'ad_flag_total', 'photos', 'service_ids', 'flag_ids', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'int', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'int', 'string', 'string', 'int', 'string[]', 'string[]', 'string[]', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'locationId', 'companyId', 'calendarId', 'authorId', 'title', 'description', 'adFlagTotal', 'serviceIds', 'flagIds', 'status', 'createdAt', 'updatedAt');
+    protected static $propertyNames = array('adId', 'locationId', 'companyId', 'calendarId', 'authorId', 'categoryId', 'title', 'description', 'adFlagTotal', 'photos', 'serviceIds', 'flagIds', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('id');
+    protected static $primaryKeyFieldNames = array('ad_id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('id');
+    protected static $primaryKeyPropertyNames = array('adId');
 
     /** @var  string[] */
     protected static $autoIncrementFieldName = '';
@@ -39,10 +39,10 @@ class AdBase extends NormBaseObject {
     protected static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    protected static $autoGenerateFieldName = 'ad_id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    protected static $autoGeneratePropertyName = 'adId';
 
     /** @var bool */
     protected static $hasPrimaryKey = true;
@@ -56,7 +56,7 @@ class AdBase extends NormBaseObject {
 
 
     /** @var string */
-    public $id;
+    public $adId;
 
     /** @var string */
     public $locationId;
@@ -70,6 +70,9 @@ class AdBase extends NormBaseObject {
     /** @var string */
     public $authorId;
 
+    /** @var int */
+    public $categoryId;
+
     /** @var string */
     public $title;
 
@@ -80,6 +83,9 @@ class AdBase extends NormBaseObject {
     public $adFlagTotal;
 
     /** @var string[] */
+    public $photos;
+
+    /** @var string[] */
     public $serviceIds;
 
     /** @var string[] */
@@ -88,14 +94,22 @@ class AdBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns Norm\riak\Location */
+    public function __construct() {
+        parent::__construct();
+
+        $this->photos = array();
+        $this->serviceIds = array();
+        $this->flagIds = array();
+    }
+
+    /** @return \Norm\riak\Location */
     public function getLocation() {
         if($this->Location === null) {
             $this->loadLocation();
@@ -103,7 +117,7 @@ class AdBase extends NormBaseObject {
         return $this->Location;
     }
 
-    /** @returns Norm\riak\Company */
+    /** @return \Norm\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -111,7 +125,7 @@ class AdBase extends NormBaseObject {
         return $this->Company;
     }
 
-    /** @returns Norm\riak\Calendar */
+    /** @return \Norm\riak\Calendar */
     public function getCalendar() {
         if($this->Calendar === null) {
             $this->loadCalendar();
@@ -119,7 +133,7 @@ class AdBase extends NormBaseObject {
         return $this->Calendar;
     }
 
-    /** @returns Norm\riak\Member */
+    /** @return \Norm\riak\Member */
     public function getAuthor() {
         if($this->Author === null) {
             $this->loadAuthor();
@@ -127,7 +141,7 @@ class AdBase extends NormBaseObject {
         return $this->Author;
     }
 
-    /** @returns Norm\riak\Service */
+    /** @return \Norm\riak\Service */
     public function getService() {
         if($this->Service === null) {
             $this->loadService();
@@ -157,59 +171,11 @@ class AdBase extends NormBaseObject {
     }
 
 
-    /** @returns Norm\riak\AdFlag */
-    public function getAdFlagCollection() {
-        if($this->AdFlag === null) {
-            $this->loadAdFlag();
-        }
-        return $this->AdFlag;
-    }
-
-    /** @returns Norm\riak\Message */
-    public function getMessageCollection() {
-        if($this->Message === null) {
-            $this->loadMessage();
-        }
-        return $this->Message;
-    }
-
-    /** @returns Norm\riak\BookingDetail */
-    public function getBookingDetailCollection() {
-        if($this->BookingDetail === null) {
-            $this->loadBookingDetail();
-        }
-        return $this->BookingDetail;
-    }
-
-    /** @returns Norm\riak\Review */
-    public function getReviewCollection() {
-        if($this->Review === null) {
-            $this->loadReview();
-        }
-        return $this->Review;
-    }
-
-
-    protected function loadAdFlagCollection() {
-        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'ad_id', 'adId');
-    }
-
-    protected function loadMessageCollection() {
-        parent::loadPropertyCollection('Message', 'message', 'ad_id', 'adId');
-    }
-
-    protected function loadBookingDetailCollection() {
-        parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'ad_id', 'adId');
-    }
-
-    protected function loadReviewCollection() {
-        parent::loadPropertyCollection('Review', 'review', 'ad_id', 'adId');
-    }
 
 
     /**
      * @param $pk
-     * @return \Norm\riak\Ad
+     * @return \Norm\riak\ProviderAdListing
      */
     public static function getByPk($pk) {
         return parent::getByPk($pk);
@@ -218,16 +184,16 @@ class AdBase extends NormBaseObject {
     /**
      * @param $where string The WHERE clause (excluding the word WHERE)
      * @param array $params The parameter count
-     * @return \Norm\riak\Ad
+     * @return \Norm\riak\ProviderAdListing
      */
     public static function getByWhere($where, $params = array()) {
         return parent::getByWhere($where, $params);
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
-     * @return \Norm\riak\Ad
+     * @return \Norm\riak\ProviderAdListing
      */
     public static function getBySql($sql, $params = array()) {
         return parent::getBySql($sql, $params);

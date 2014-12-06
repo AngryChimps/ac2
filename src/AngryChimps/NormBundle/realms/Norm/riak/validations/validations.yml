@@ -8,7 +8,7 @@ Norm\riak\Member:
                 Length: { min: 6, max: 25 }
         name:
             -
-                Length: { min: 4, max: 12 }
+                Length: { min: 4, max: 25 }
         dob:
             -
                 Date: null

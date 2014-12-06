@@ -6,6 +6,8 @@ namespace AngryChimps\ApiBundle\Services;
 
 use Norm\riak\Member;
 use Norm\riak\Company;
+use Norm\riak\CompanyServices;
+use Norm\riak\CompanyReviews;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -19,6 +21,7 @@ class CompanyService {
 
     public function createEmpty(Member $member) {
         $company = new Company();
+        $company->status = Company::ENABLED_STATUS;
         $company->save();
 
         $member->managedCompanyIds[] = $company->id;
@@ -26,6 +29,14 @@ class CompanyService {
 
         $company->administerMemberIds[] = $member->id;
         $company->save();
+
+        $companyServices = new CompanyServices();
+        $companyServices->companyId = $company->id;
+        $companyServices->save();
+
+        $companyReviews = new CompanyReviews();
+        $companyReviews->companyId = $company->id;
+        $companyReviews->save();
 
         return $company;
     }

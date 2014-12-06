@@ -11,11 +11,6 @@ fields:
     type: \Norm\riak\AvailabilityCollection
   - name: bookings
     type: \Norm\riak\BookingCollection
-  - name: status
-    type: enum
-    values:
-      - Enabled
-      - Disabed
   - name: created_at
     type: DateTime
   - name: updated_at

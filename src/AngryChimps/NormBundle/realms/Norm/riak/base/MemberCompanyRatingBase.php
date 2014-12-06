@@ -21,7 +21,7 @@ class MemberCompanyRatingBase extends NormBaseObject {
     protected static $fieldNames = array('member_id', 'company_id', 'rating', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'int', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('memberId', 'companyId', 'rating', 'createdAt', 'updatedAt');
@@ -60,14 +60,19 @@ class MemberCompanyRatingBase extends NormBaseObject {
     /** @var int */
     public $rating;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns Norm\riak\Company */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \Norm\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -75,7 +80,7 @@ class MemberCompanyRatingBase extends NormBaseObject {
         return $this->Company;
     }
 
-    /** @returns Norm\riak\Member */
+    /** @return \Norm\riak\Member */
     public function getMember() {
         if($this->Member === null) {
             $this->loadMember();
@@ -113,7 +118,7 @@ class MemberCompanyRatingBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\MemberCompanyRating
      */

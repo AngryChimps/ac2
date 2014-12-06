@@ -46,13 +46,14 @@ services:
             - "@angry_chimps_api.member"
             - "@angry_chimps_api.company"
             - "@angry_chimps_api.location"
-            - "@angry_chimps_api.ad"
+            - "@angry_chimps_api.provider_ad"
             - "@angry_chimps_api.calendar"
             - "@angry_chimps_api.service"
             - "@angry_chimps_api.auth"
-            - "@angry_chimps_geo.geolocation"
-    angry_chimps_api.ad:
-        class: AngryChimps\ApiBundle\Services\AdService
+            - "@validator"
+            - "@angry_chimps_api.session"
+    angry_chimps_api.provider_ad:
+        class: AngryChimps\ApiBundle\Services\ProviderAdService
         arguments: ["@validator"]
     angry_chimps_api.calendar:
         class: AngryChimps\ApiBundle\Services\CalendarService
@@ -90,7 +91,7 @@ services:
 
     angry_chimps_api.signup.controller:
             class:     "%angry_chimps_api.controller.signup.class%"
-            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.signup"]
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.signup", "@angry_chimps_geo.geolocation"]
 
 
 ##############################################################

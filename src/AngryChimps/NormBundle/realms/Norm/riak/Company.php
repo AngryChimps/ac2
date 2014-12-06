@@ -5,6 +5,26 @@ namespace Norm\riak;
 use Norm\riak\base\CompanyBase;
 
 class Company extends CompanyBase {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $companyPhotos = new CompanyPhotos();
+        $companyPhotos->companyId = $this->id;
+        $companyPhotos->photos = array();
+        $companyPhotos->save();
+
+        $companyReviews = new CompanyReviews();
+        $companyReviews->companyId = $this->id;
+        $companyReviews->reviewIds = array();
+        $companyReviews->save();
+
+        $companyServices = new CompanyServices();
+        $companyServices->companyId = $this->id;
+        $companyServices->services = new ServiceCollection();
+        $companyServices->save();
+    }
+
     public function getPublicArray() {
         $arr = array();
         $arr['id'] = $this->id;
@@ -32,5 +52,4 @@ class Company extends CompanyBase {
 
         return $company;
     }
-
 }

@@ -12,6 +12,7 @@ use AC\NormBundle\core\generator\types\Schema;
 use AC\NormBundle\core\generator\types\Table;
 use AC\NormBundle\core\generator\types\Column;
 use AC\NormBundle\core\generator\types\ForeignKey;
+use AC\NormBundle\core\NormBaseCollection;
 
 class YamlGenerator extends AbstractGenerator {
     protected $isTest;
@@ -46,7 +47,8 @@ class YamlGenerator extends AbstractGenerator {
                 $column->name = $fieldData['name'];
                 $column->position = $ordinalPosition;
                 $column->default = isset($fieldData['default']) ? $fieldData['default'] : null;
-//                $column->typeWithLength = $columnRow['COLUMN_TYPE'];
+
+      //            $column->typeWithLength = $columnRow['COLUMN_TYPE'];
 
                 if(strtolower($fieldData['type']) === 'enum') {
                     $column->type = 'int';

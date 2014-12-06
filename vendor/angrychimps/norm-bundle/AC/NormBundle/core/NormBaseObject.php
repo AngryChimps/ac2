@@ -216,12 +216,12 @@ abstract class NormBaseObject extends ContainerAware {
     }
 
     private function loadFieldWithValue($fieldType, $propertyName, $value) {
-        if(class_exists($fieldType) && $fieldType instanceof NormBaseObject) {
+        if(class_exists($fieldType) && in_array("AC\\NormBundle\\core\\NormBaseObject", class_parents($fieldType))) {
             $obj = new $fieldType();
             $obj->loadByJson($value);
             $this->$propertyName = $obj;
         }
-        elseif(class_exists($fieldType) && $fieldType instanceof NormBaseCollection) {
+        elseif(class_exists($fieldType) && in_array("AC\\NormBundle\\core\\NormBaseCollection", class_parents($fieldType))) {
             $obj = new $fieldType();
             $obj->loadByJson($value);
             $this->$propertyName = $obj;
@@ -240,7 +240,13 @@ abstract class NormBaseObject extends ContainerAware {
                 case 'Date':
                 case 'DateTime':
                     $this->$propertyName = new \DateTime($value);
-                break;
+                    break;
+                case 'int[]':
+                case 'float[]':
+                case 'double[]':
+                case 'string[]':
+                    $this->$propertyName = json_decode($value, true);
+                    break;
                 default:
                     $this->$propertyName = $value;
             }
@@ -301,30 +307,11 @@ abstract class NormBaseObject extends ContainerAware {
     }
 
     protected function getFieldDataWithoutPrimaryKeys() {
-        $fieldNames = array_diff(static::$fieldNames, static::$primaryKeyFieldNames);
-        $propertyNames = array_diff(static::$propertyNames, static::$primaryKeyPropertyNames);
-
-        $arr = array();
-        foreach($fieldNames as $index => $fieldName) {
-            if($this->$propertyNames[$index] === null) {
-                $arr[$fieldNames[$index]] = null;
-            }
-            else {
-                switch(static::$fieldTypes[$index]) {
-                    case 'DateTime':
-                        $dt = $this->{$propertyNames[$index]};
-                        $arr[$fieldNames[$index]] = $dt->format('Y-m-d H:i:s');
-                        break;
-                    case 'Date':
-                        $d = $this->{$propertyNames[$index]};
-                        $arr[$fieldNames[$index]] = $d->format('Y-m-d H:i:s');
-                        break;
-                    default:
-                        $arr[$fieldNames[$index]] = $this->{$propertyNames[$index]};
-                }
-            }
+        $data = $this->getFieldData();
+        foreach(static::$primaryKeyFieldNames as $name) {
+            unset($data[$name]);
         }
-        return $arr;
+        return $data;
     }
 
     protected function getChangedFields() {
@@ -366,6 +353,12 @@ abstract class NormBaseObject extends ContainerAware {
                         break;
                     case 'Date':
                         $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]}->format('Y-m-d');
+                        break;
+                    case 'int[]':
+                    case 'float[]':
+                    case 'double[]':
+                    case 'string[]':
+                        $arr[static::$fieldNames[$i]] = json_encode($this->{static::$propertyNames[$i]});
                         break;
                     default:
                         $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]};

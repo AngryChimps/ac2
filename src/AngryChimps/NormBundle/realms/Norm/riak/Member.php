@@ -4,6 +4,7 @@ namespace Norm\riak;
 
 use AC\NormBundle\core\datastore\RiakBlobDatastore;
 use AC\NormBundle\core\datastore\DatastoreManager;
+use Norm\mysql\CompanyCollection;
 use Norm\riak\base\MemberBase;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
@@ -49,10 +50,10 @@ class Member extends MemberBase implements UserInterface, EquatableInterface {
     public function getPrivateArray() {
         $arr = $this->getPublicArray();
         $arr['email'] = $this->email;
+        $arr['company_ids'] = ($this->managedCompanyIds !== null) ? $this->managedCompanyIds : array();
 
         return $arr;
     }
-
 
     protected function createHook($realm, $tableName, $fieldData, $primaryKeys, $autoIncrementFieldName) {
         if(!empty($autoIncrementFieldName)) {

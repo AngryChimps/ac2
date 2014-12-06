@@ -36,3 +36,16 @@ Feature: auth-login-form
     And The value of the "error.code" field returned is of type "string"
     And The value of the "error.code" field is "Api.AuthController.loginAction.1"
     And Finally, I clean up my objects
+
+  Scenario: Log in a valid user with a company using form authentication
+    Given I have a test user
+    And I get a new session token
+    And The authenticated user has a company
+    And I have a valid form login array
+    When I log in
+    Then I get a status code "200"
+    And I get back a valid json object
+    And The response contains a field named "payload.member.company_ids"
+    And The value of the "payload.member.company_ids" field returned is of type "array"
+    And The "payload.member.company_ids" array is not empty
+    And Finally, I clean up my objects

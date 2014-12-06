@@ -21,7 +21,7 @@ class SessionBase extends NormBaseObject {
     protected static $fieldNames = array('id', 'user_id', 'browser_hash', 'session_bag', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'array', 'DateTime');
+    protected static $fieldTypes = array('string', 'string', 'string', 'array', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('id', 'userId', 'browserHash', 'sessionBag', 'createdAt');
@@ -63,11 +63,16 @@ class SessionBase extends NormBaseObject {
     /** @var array */
     public $sessionBag;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
 
-    /** @returns Norm\riak\Member */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \Norm\riak\Member */
     public function getUser() {
         if($this->User === null) {
             $this->loadUser();
@@ -101,7 +106,7 @@ class SessionBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\Session
      */

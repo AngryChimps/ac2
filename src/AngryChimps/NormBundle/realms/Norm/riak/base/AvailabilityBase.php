@@ -21,7 +21,7 @@ class AvailabilityBase extends NormBaseObject {
     protected static $fieldNames = array('id', 'start', 'end');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'DateTime', 'DateTime');
+    protected static $fieldTypes = array('string', '\DateTime', '\DateTime');
 
     /** @var  string[] */
     protected static $propertyNames = array('id', 'start', 'end');
@@ -54,12 +54,17 @@ class AvailabilityBase extends NormBaseObject {
     /** @var string */
     public $id;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $start;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $end;
 
+
+    public function __construct() {
+        parent::__construct();
+
+    }
 
 
 
@@ -83,7 +88,7 @@ class AvailabilityBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \Norm\riak\Availability
      */

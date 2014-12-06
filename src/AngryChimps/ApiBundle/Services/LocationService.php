@@ -23,6 +23,7 @@ class LocationService {
 
     public function createEmpty(Company $company) {
         $location = new Location();
+        $location->status = Location::ENABLED_STATUS;
         $location->save();
 
         $company->locationIds[] = $location->id;
