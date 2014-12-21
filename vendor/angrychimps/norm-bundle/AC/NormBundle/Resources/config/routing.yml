@@ -1,3 +1,3 @@
 ac_norm_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: ACNormBundle:Default:index }
+    path:     /generate
+    defaults: { _controller: ACNormBundle:Default:generate}

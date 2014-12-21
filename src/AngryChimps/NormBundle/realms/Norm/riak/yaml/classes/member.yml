@@ -9,36 +9,24 @@ fields:
     type: int
   - name: email
     type: string
-#    validations:
-#        - Email: ~
+    validations:
+        - Email: ~
   - name: password
     type: string
-#    validations:
-#        - Length:
-#            min: 6
-#            max: 25
+    validations:
+        - Length:
+            min: 6
+            max: 25
+  - name: passwordResetCode
+    type: string
   - name: name
     type: string
-#    validations:
-#        - Length:
-#            min: 4
-#            max: 25
+    validations:
+        - Length:
+            min: 4
+            max: 25
   - name: mobile
     type: string
-  - name: fb_id
-    type: string
-  - name: fb_access_token
-    type: string
-  - name: fname
-    type: string
-  - name: lname
-    type: string
-  - name: gender
-    type: string
-  - name: locale
-    type: string
-  - name: timezone
-    type: int
   - name: dob
     type: Date
   - name: photo
@@ -58,6 +46,9 @@ fields:
       - Support
       - Admin
       - SuperAdmin
+  - name: last_activity_date
+    type: Date
+    default: "new \\DateTime()"
   - name: blocked_company_ids
     type: string[]
   - name: managed_company_ids
@@ -70,3 +61,4 @@ fields:
     type: DateTime
   - name: updated_at
     type: DateTime
+

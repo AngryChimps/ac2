@@ -2,8 +2,71 @@
 
 namespace {{namespace}};
 
-use {{fullyQualifiedBaseObject}};
+class {{className}} {
+    /** @var  string */
+    public static $primaryDatastoreName = '{{primaryDatastoreName}}';
 
-class {{className}} extends {{className}}Base {
+    /** @var  string */
+    public static $cacheDatastoreName = '{{cacheDatastoreName}}';
+
+    /** @var  string */
+    public static $realm = '{{realm}}';
+
+    /** @var  string */
+    public static $tableName = '{{tableName}}';
+
+    /** @var string[] */
+    public static $fieldNames = array({{fieldNamesQuotedString}});
+
+    /** @var string[] */
+    public static $fieldTypes = array({{fieldTypesQuotedString}});
+
+    /** @var  string[] */
+    public static $propertyNames = array({{propertyNamesQuotedString}});
+
+    /** @var  string[] */
+    public static $primaryKeyFieldNames = array({{primaryKeyFieldNamesQuotedString}});
+
+    /** @var  string[] */
+    public static $primaryKeyPropertyNames = array({{primaryKeyPropertyNamesQuotedString}});
+
+    /** @var  string[] */
+    public static $autoIncrementFieldName = '{{autoIncrementFieldName}}';
+
+    /** @var  string[] */
+    public static $autoIncrementPropertyName = '{{autoIncrementPropertyName}}';
+
+    /** @var  string[] */
+    public static $autoGenerateFieldName = '{{autoGenerateFieldName}}';
+
+    /** @var  string[] */
+    public static $autoGeneratePropertyName = '{{autoGeneratePropertyName}}';
+
+    /** @var bool */
+    public static $hasPrimaryKey = {{hasPrimaryKey}};
+
+    /** @var bool */
+    public static $hasAutoIncrement = {{hasAutoIncrement}};
+
+    {{#each enums}}
+    {{#each values}}
+    const {{name}} = {{value}};
+    {{/each}}
+
+    {{/each}}
+
+    {{#each properties}}
+    /** @var {{type}} */
+    public ${{name}};
+
+    {{/each}}
+
+    public function __construct() {
+        parent::__construct();
+
+        {{#each defaults}}
+        {{{statement}}}
+        {{/each}}
+    }
 
 }

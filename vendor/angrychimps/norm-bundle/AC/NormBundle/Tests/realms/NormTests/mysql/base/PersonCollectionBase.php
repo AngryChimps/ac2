@@ -5,10 +5,11 @@ namespace NormTests\mysql\base;
 use AC\NormBundle\core\NormBaseCollection;
 
 class PersonCollectionBase extends NormBaseCollection {
-    protected static $realm = 'mysql';
-    protected static $tableName = 'person';
-    protected static $singularClassName = 'Person';
-    protected static $primaryKeyFieldNames = array('id');
-    protected static $primaryKeyPropertyNames = array('id');
-    protected static $autoIncrementFieldName = 'id';
+    public static $realm = 'mysql';
+    public static $tableName = 'person';
+    public static $singularClassName = '\NormTests\mysql\Person';
+    public static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
+    public static $autoIncrementFieldName = 'id';
+    public static $primaryDatastoreName = '__norm_test_mysql_ds';
 }

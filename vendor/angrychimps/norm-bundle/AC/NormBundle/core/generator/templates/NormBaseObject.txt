@@ -6,49 +6,46 @@ use AC\NormBundle\core\NormBaseObject;
 class {{className}}Base extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '{{primaryDatastoreName}}';
+    public static $primaryDatastoreName = '{{primaryDatastoreName}}';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '{{cacheDatastoreName}}';
+    public static $realm = '{{realm}}';
 
     /** @var  string */
-    protected static $realm = '{{realm}}';
-
-    /** @var  string */
-    protected static $tableName = '{{tableName}}';
+    public static $tableName = '{{tableName}}';
 
     /** @var string[] */
-    protected static $fieldNames = array({{fieldNamesQuotedString}});
+    public static $fieldNames = array({{fieldNamesQuotedString}});
 
     /** @var string[] */
-    protected static $fieldTypes = array({{fieldTypesQuotedString}});
+    public static $fieldTypes = array({{fieldTypesQuotedString}});
 
     /** @var  string[] */
-    protected static $propertyNames = array({{propertyNamesQuotedString}});
+    public static $propertyNames = array({{propertyNamesQuotedString}});
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array({{primaryKeyFieldNamesQuotedString}});
+    public static $primaryKeyFieldNames = array({{primaryKeyFieldNamesQuotedString}});
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array({{primaryKeyPropertyNamesQuotedString}});
+    public static $primaryKeyPropertyNames = array({{primaryKeyPropertyNamesQuotedString}});
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '{{autoIncrementFieldName}}';
+    public static $autoIncrementFieldName = '{{autoIncrementFieldName}}';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '{{autoIncrementPropertyName}}';
+    public static $autoIncrementPropertyName = '{{autoIncrementPropertyName}}';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '{{autoGenerateFieldName}}';
+    public static $autoGenerateFieldName = '{{autoGenerateFieldName}}';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '{{autoGeneratePropertyName}}';
+    public static $autoGeneratePropertyName = '{{autoGeneratePropertyName}}';
 
     /** @var bool */
-    protected static $hasPrimaryKey = {{hasPrimaryKey}};
+    public static $hasPrimaryKey = {{hasPrimaryKey}};
 
     /** @var bool */
-    protected static $hasAutoIncrement = {{hasAutoIncrement}};
+    public static $hasAutoIncrement = {{hasAutoIncrement}};
 
     {{#each enums}}
     {{#each values}}

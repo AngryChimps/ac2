@@ -2,12 +2,13 @@
 
 namespace AC\NormBundle\Controller;
 
+use AC\NormBundle\Services\RealmInfoService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function generateAction()
     {
-        return $this->render('ACNormBundle:Default:index.html.twig', array('name' => $name));
+        $test = $this->get('ac_norm.realm_info');
     }
 }

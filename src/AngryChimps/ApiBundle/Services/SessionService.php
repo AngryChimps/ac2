@@ -14,6 +14,8 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Templating\TemplateReferenceInterface;
+use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
+use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
 
 class SessionService {
     protected $sessionHeaderName;
@@ -21,9 +23,17 @@ class SessionService {
     /** @var Request  */
     protected $request;
 
-    public function __construct(RequestStack $request, $sessionHeaderName) {
+    /** @var  NormRiakService */
+    protected $riak;
+
+    /** @var  NormMysqlService */
+    protected $mysql;
+
+    public function __construct(RequestStack $request, $sessionHeaderName, NormRiakService $riak, NormMysqlService $mysql) {
         $this->request = $request->getCurrentRequest();
         $this->sessionHeaderName = $sessionHeaderName;
+        $this->riak = $riak;
+        $this->mysql = $mysql;
     }
 
     protected function generateToken($length = 16) {
@@ -43,7 +53,7 @@ class SessionService {
     public function checkToken() {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
-        $session = Session::getByPk($sessionToken);
+        $session = $this->riak->getSession($sessionToken);
         if($session === null) {
             $debug = array(
                 'code' => 'Api.SessionService.1a',
@@ -97,32 +107,44 @@ class SessionService {
         }
     }
 
+    public function getNewSession() {
+        $token = $this->getNewSessionToken();
+
+        $session = new Session();
+        $session->id= $token;
+        $session->browserHash = $this->getBrowserHash();
+
+        $this->riak->create($session);
+        return $session;
+    }
+
     public function getSessionUser() {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
-        $session = Session::getByPk($sessionToken);
+        $session = $this->riak->getSession($sessionToken);
 
         if($session->userId === null) {
             return null;
         }
 
-        $user = Member::getByPk($session->userId);
+        $user = $this->riak->getMember($session->userId);
         return $user;
     }
 
     public function setSessionUser(Member $user) {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
-        $session = Session::getByPk($sessionToken);
+        $session = $this->riak->getSession($sessionToken);
         $session->userId = $user->id;
-        $session->save();
+        $this->riak->update($session);
     }
 
     public function logoutUser() {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
-        $session = Session::getByPk($sessionToken);
+        $session = $this->riak->getSession($sessionToken);
         $session->userId = null;
         $session->sessionBag = array();
+        $this->riak->update($session);
     }
 } 

@@ -9,55 +9,68 @@
 namespace AC\NormBundle\core\datastore;
 
 
+use AC\NormBundle\core\NormBaseCollection;
 use AC\NormBundle\core\NormBaseObject;
 use AC\NormBundle\core\Utils;
+use AC\NormBundle\core\exceptions\UnsupportedObjectType;
 
 class RiakBlobDatastore extends AbstractRiakDatastore {
 
-    public function create($realm, $tableName, $fieldData, $primaryKeys, $autoIncrementFieldName)
+    public function createObject($obj, &$debug)
     {
-        if(!empty($autoIncrementFieldName)) {
-            throw new \Exception('Auto-increment fields are not supported in the RiakBlobDatastore');
-        }
-        $bucket = $this->getBucket($realm, $tableName);
-        $key = $this->getKeyName($primaryKeys);
-        $data = json_encode($fieldData);
+        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
 
-        $obj = new \Riak\Object($key);
-        $obj->setContent($data);
-        $bucket->put($obj);
+        //Deal with created_at if necessary
+        if(property_exists($obj, 'createdAt')) {
+            $obj->createdAt = new \DateTime();
+        }
+
+        $data = $this->getAsArray($obj);
+        $bucket = $this->getBucket($tableInfo['realmName'], $tableInfo['name']);
+        $key = $this->getKeyName($this->getIdentifier($obj));
+        $data = json_encode($data);
+
+        if($debug !== null) {
+            $arr = [];
+            $arr['bucket'] = $bucket->getName();
+            $arr['key'] = $key;
+            $debug['createObject'][] = $arr;
+            $this->loggerService->info('Creating object: ' . json_encode($debug));
+        }
+
+        $riakObj = new \Riak\Object($key);
+        $riakObj->setContent($data);
+        $bucket->put($riakObj);
     }
 
-    public function read($realm, $tableName, $primaryKeys)
+    public function createCollection($coll, &$debug)
     {
-        $bucket = $this->getBucket($realm, $tableName);
-        $key = $this->getKeyName($primaryKeys);
-
-        $response = $bucket->get($key);
-
-        if(!is_object($response)) {
-            return null;
-        }
-
-        if(!$response->hasObject()) {
-            return null;
-        }
-
-        if($response->hasObject()) {
-            $content = $response->getFirstObject();
-            $json = $content->getContent();
-            return json_decode($json, true);
-        }
-        else {
-            return null;
+        for($i = 0; $i < count($coll); $i++) {
+            $this->createObject($coll[$i], $debug);
         }
     }
 
-    public function update($realm, $tableName, $primaryKeys, $fieldDataWithoutPrimaryKeys)
+    public function updateObject($obj, &$debug)
     {
-        $bucket = $this->getBucket($realm, $tableName);
-        $key = $this->getKeyName($primaryKeys);
-        $data = json_encode(array_merge($primaryKeys, $fieldDataWithoutPrimaryKeys));
+        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
+
+        //Deal with times if necessary
+        if(property_exists($obj, 'updatedAt')) {
+            $obj->updatedAt = new \DateTime();
+        }
+
+        $data = $this->getAsArray($obj);
+        $bucket = $this->getBucket($tableInfo['realmName'], $tableInfo['name']);
+        $key = $this->getKeyName($this->getIdentifier($obj));
+        $data = json_encode($data);
+
+        if($debug !== null) {
+            $arr = [];
+            $arr['bucket'] = $bucket->getName();
+            $arr['key'] = $key;
+            $debug['updateObject'][] = $arr;
+            $this->loggerService->info('Updating object: ' . json_encode($debug));
+        }
 
         // Read back the object from Riak
         $response = $bucket->get($key);
@@ -74,10 +87,26 @@ class RiakBlobDatastore extends AbstractRiakDatastore {
         $bucket->put($readObject);
     }
 
-    public function delete($realm, $tableName, $primaryKeys)
+    public function updateCollection($coll, &$debug)
     {
-        $bucket = $this->getBucket($realm, $tableName);
-        $key = $this->getKeyName($primaryKeys);
+        for($i = 0; $i < count($coll); $i++) {
+            $this->updateObject($coll[$i], $debug);
+        }
+    }
+
+    public function deleteObject($obj, &$debug)
+    {
+        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
+        $bucket = $this->getBucket($tableInfo['realmName'], $tableInfo['name']);
+        $key = $this->getKeyName($this->getIdentifier($obj));
+
+        if($debug !== null) {
+            $arr = [];
+            $arr['bucket'] = $bucket->getName();
+            $arr['key'] = $key;
+            $debug['deleteObject'][] = $arr;
+            $this->loggerService->info('Deleting object: ' . json_encode($debug));
+        }
 
         // Read back the object from Riak
         $response = $bucket->get($key);
@@ -94,94 +123,195 @@ class RiakBlobDatastore extends AbstractRiakDatastore {
         $bucket->delete($readObject);
     }
 
-    public function createCollection($realm, $tableName, $fieldData, $primaryKeys, $autoIncrementFieldName)
+    public function deleteCollection($coll, &$debug)
     {
-        for($i=0; $i<count($primaryKeys); $i++) {
-            $this->create($realm, $tableName, $fieldData[$i], $primaryKeys[$i], $autoIncrementFieldName);
+        for($i = 0; $i < count($coll); $i++) {
+            $this->deleteObject($coll[$i], $debug);
         }
     }
 
-    public function readCollection($realm, $tableName, $primaryKeys)
-    {
-        $arr = array();
-        foreach($primaryKeys as $pk) {
-            $arr[] = $this->read($realm, $tableName, $pk);
+    protected function getAsArray($obj) {
+        if(is_array($obj)) {
+            return $obj;
         }
+
+        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
+        $arr = [];
+
+        if($this->isCollection($obj)) {
+            foreach($obj as $object) {
+                $arr[] = $this->getAsArray($object);
+            }
+        }
+        else {
+            for ($i = 0; $i < count($tableInfo['fieldNames']); $i++) {
+                if ($obj->{$tableInfo['propertyNames'][$i]} === null) {
+                    $arr[$tableInfo['fieldNames'][$i]] = null;
+                } else {
+                    switch ($tableInfo['fieldTypes'][$i]) {
+                        case 'Date':
+                            $arr[$tableInfo['fieldNames'][$i]] = $obj->{$tableInfo['propertyNames'][$i]}->format('Y-m-d');
+                            break;
+                        case 'DateTime':
+                            $arr[$tableInfo['fieldNames'][$i]] = $obj->{$tableInfo['propertyNames'][$i]}->format('Y-m-d H:i:s');
+                            break;
+                        default:
+                            if (class_exists($tableInfo['fieldTypes'][$i])) {
+                                $arr[$tableInfo['fieldNames'][$i]] = $this->getAsArray($obj->{$tableInfo['propertyNames'][$i]});
+                            } else {
+                                $arr[$tableInfo['fieldNames'][$i]] = $obj->{$tableInfo['propertyNames'][$i]};
+                            }
+                    }
+                }
+            }
+        }
+
         return $arr;
     }
 
-    public function updateCollection($realm, $tableName, $primaryKeys, $fieldDataWithoutPrimaryKeys)
+    public function populateObjectByPks($obj, $pks, &$debug)
     {
-        for($i=0; $i<count($primaryKeys); $i++) {
-            $this->update($realm, $tableName, $primaryKeys[$i], $fieldDataWithoutPrimaryKeys[$i]);
-        }
-    }
+        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
+        $bucket = $this->getBucket($tableInfo['realmName'], $tableInfo['name']);
+        $key = $this->getKeyName($pks);
 
-    public function deleteCollection($realm, $tableName, $primaryKeys)
-    {
-        for($i=0; $i<count($primaryKeys); $i++) {
-            $this->delete($realm, $tableName, $primaryKeys[$i]);
-        }
-    }
-
-    public function readBySql($sql, $params)
-    {
-        throw new MethodNotImplemented(__METHOD__, get_called_class());
-    }
-
-    public function readByWhere($tableName, $where, $params)
-    {
-        throw new MethodNotImplemented(__METHOD__, get_called_class());
-    }
-
-    public function readCollectionBySql($sql, $params)
-    {
-        throw new MethodNotImplemented(__METHOD__, get_called_class());
-    }
-
-    public function readCollectionByWhere($tableName, $where, $params)
-    {
-        throw new MethodNotImplemented(__METHOD__, get_called_class());
-    }
-
-    public function query($sql, $params = array())
-    {
-        throw new MethodNotImplemented(__METHOD__, get_called_class());
-    }
-
-    public function queryOneValue($sql, $params = array())
-    {
-        throw new MethodNotImplemented(__METHOD__, get_called_class());
-    }
-
-    public function queryOneColumn($sql, $params = array())
-    {
-        throw new MethodNotImplemented(__METHOD__, get_called_class());
-    }
-
-    public function getDbName()
-    {
-        throw new MethodNotImplemented(__METHOD__, get_called_class());
-    }
-
-    public function readBySecondaryIndex($realm, $tableName, $indexName, $value) {
-        $bucket = $this->getBucket($realm, $tableName);
-
-        $response = $bucket->index($indexName, $value);
-
-        if(empty($response)) {
-            return null;
+        if($debug !== null) {
+            $arr = [];
+            $arr['bucket'] = $bucket->getName();
+            $arr['key'] = $key;
+            $debug['populateObjectByPks'][] = $arr;
+            $this->loggerService->info('Populating object by primary keys: ' . json_encode($debug));
         }
 
-        if($response->hasObject()) {
+        // Read back the object from Riak
+        $response = $bucket->get($key);
+
+        if(!is_object($response)) {
+            $this->loggerService->info('Riak returned a response which was not an object.');
+            return false;
+        }
+
+        // Make sure we got an object back
+        if ($response->hasObject()) {
+            // Get the first returned object
             $content = $response->getFirstObject();
             $json = $content->getContent();
-            return json_decode($json);
+            $arr = json_decode($json, true);
+            $this->populateObjectWithArray($obj, $arr);
         }
         else {
-            return null;
+            $this->loggerService->info('The response from Riak did not have an object.');
+            return false;
+        }
+        return true;
+    }
+
+
+    public function populateCollectionByPks($coll, $pks, &$debug) {
+        //For a collection $pks would be an array of ids or an array of an array of ids
+        $tableInfo = $this->realmInfo->getTableInfo(get_class($coll));
+
+        foreach($pks as $pk) {
+            $object = new $tableInfo['objectName']();
+
+            if($this->populateObjectByPks($object, $pk, $debug) === false) {
+                throw new \Exception('Unable to find one or more objects to populate the collection.');
+            }
+
+            $coll[$this->getIdentifier($object)] = $object;
         }
     }
 
+//    public function populateObjectBySecondaryIndex(NormBaseObject $obj, $indexName, $value, &$debug = null) {
+//        $bucket = $this->getBucket($obj::$realm, $obj::$tableName);
+//
+//        $response = $bucket->index($indexName, $value);
+//
+//        if(empty($response)) {
+//            return null;
+//        }
+//
+//        if($response->hasObject()) {
+//            $content = $response->getFirstObject();
+//            $json = $content->getContent();
+//            $this->populateObjectByOrderedArray($obj, json_decode($json, true));
+//        }
+//        else {
+//            return null;
+//        }
+//    }
+//
+//    public function populateCollectionBySecondaryIndex(NormBaseCollection $coll, $indexName, $value, &$debug = null) {
+//        $bucket = $this->getBucket($coll::$realm, $coll::$tableName);
+//
+//        $response = $bucket->index($indexName, $value);
+//
+//        if(empty($response)) {
+//            return null;
+//        }
+//
+//        if($response->hasObject()) {
+//            $content = $response->getFirstObject();
+//            $json = $content->getContent();
+//            $this->populateCollectionByOrderedArray($coll, json_decode($json, true));
+//        }
+//        else {
+//            return null;
+//        }
+//    }
+//
+//    protected function populateObjectByOrderedArray(NormBaseObject $obj, array $arr) {
+//        for($i = 0; $i < count($obj::$fieldNames); $i++) {
+//            $fieldType = $obj::$fieldTypes[$i];
+//            $propertyName = $obj::$propertyNames[$i];
+//            $value = $arr[$i];
+//
+//            if(class_exists($fieldType) && in_array("AC\\NormBundle\\core\\NormBaseObject", class_parents($fieldType))) {
+//                $object = new $fieldType();
+//                $this->populateObjectByOrderedArray($object, json_decode($value));
+//                $obj->$propertyName = $object;
+//            }
+//            elseif(class_exists($fieldType) && in_array("AC\\NormBundle\\core\\NormBaseCollection", class_parents($fieldType))) {
+//                $object = new $fieldType();
+//                $this->populateObjectByOrderedArray($object, json_decode($value));
+//                $obj->$propertyName = $object;
+//            }
+//            else {
+//                switch($fieldType) {
+//                    case 'int':
+//                        $obj->$propertyName = (int) $value;
+//                        break;
+//                    case 'bool':
+//                        $obj->$propertyName = (bool) $value;
+//                        break;
+//                    case 'float':
+//                        $obj->$propertyName = (float) $value;
+//                        break;
+//                    case 'Date':
+//                    case 'DateTime':
+//                        $obj->$propertyName = new \DateTime($value);
+//                        break;
+//                    case 'int[]':
+//                    case 'float[]':
+//                    case 'double[]':
+//                    case 'string[]':
+//                        $obj->$propertyName = $value;
+//                        break;
+//                    default:
+//                        $obj->$propertyName = $value;
+//                }
+//            }
+//
+//        }
+//    }
+//
+//    protected function populateCollectionByOrderedArray(NormBaseCollection $coll, array $arr) {
+//        foreach($arr as $objArr) {
+//            $objectClass = $coll::$singularClassName;
+//            $obj = new $objectClass();
+//            $this->populateObjectByOrderedArray($obj, $objArr);
+//            $coll[$this->getIdentifier($obj)] = $obj;
+//        }
+//    }
 
 }

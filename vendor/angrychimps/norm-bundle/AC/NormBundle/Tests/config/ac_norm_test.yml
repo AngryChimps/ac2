@@ -10,3 +10,10 @@ datastores:
         port: 3379
         user: "root"
         password: ""
+    __norm_test_es_ds:
+        driver: "elasticsearch"
+        index_name: ac
+        nodes:
+            - node1:
+                host: "localhost"
+                port: 9200

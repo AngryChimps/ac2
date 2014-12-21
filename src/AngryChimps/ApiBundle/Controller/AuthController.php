@@ -2,6 +2,7 @@
 
 namespace AngryChimps\ApiBundle\Controller;
 
+use AngryChimps\ApiBundle\Services\MemberService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -22,19 +23,23 @@ class AuthController extends AbstractController
     protected $authService;
     protected $debugStatus;
 
+    /** @var MemberService  */
+    protected $memberService;
+
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
                                 ResponseService $responseService, AuthService $authService,
-                                $debugStatus)
+                                $debugStatus, MemberService $memberService)
     {
         parent::__construct($requestStack, $sessionService, $responseService);
         $this->authService = $authService;
         $this->debugStatus = $debugStatus;
+        $this->memberService = $memberService;
     }
 
     public function registerAction() {
         $payload = $this->getPayload();
 
-        $member = Member::getByEmailEnabled($payload['email']);
+        $member = $this->memberService->getMemberByEmailEnabled($payload['email']);
         if($member !== null) {
             $error = array(
                 'human' => 'Active member found with that email',
@@ -56,7 +61,7 @@ class AuthController extends AbstractController
             return $this->responseService->failure(400, $error);
         }
 
-        return $this->responseService->success(array('member'=>$member->getPrivateArray(),
+        return $this->responseService->success(array('member'=>array('id'=>$member->id),
             'auth_token' => $this->authService->generateToken()));
     }
 
@@ -70,11 +75,16 @@ class AuthController extends AbstractController
         $auth = $this->authService;
 
         $user = $auth->loginFormUser($payload['email'], $payload['password']);
-        if($user !== false && $user !== null ) {
+        if($user !== false && $user !== null && $user->id !== null) {
             //Set the userId in the session
             $this->getSessionService()->setSessionUser($user);
 
-            $data = array('member' => $user->getPrivateArray());
+            $data = array('member' => array('id'=> $user->id,
+                                            'name' => $user->name,
+                                            'photo' => $user->photo,
+                                            'email' => $user->email,
+                                            'company_ids' => $user->managedCompanyIds,
+                ));
             return $this->responseService->success($data);
         }
         else {
@@ -94,40 +104,40 @@ class AuthController extends AbstractController
         }
     }
 
-    public function fbLoginRegisterAction() {
-        $payload = $this->getPayload();
-        $auth = $this->authService;
-
-        try {
-            $userProfile = $this->authService->fbAuth($payload['fb_id'], $payload['fb_access_token']);
-        }
-        catch(\FacebookApiException $fbex) {
-            $error = array('code' => 'Api.AuthController.fbLoginRegisterAction.1',
-                'human' => 'Unable to authenticate token to Facebook');
-            return $this->responseService->failure(401, $error, $fbex);
-        }
-        catch(\Exception $ex) {
-            $error = array('code' => 'Api.AuthController.fbLoginRegisterAction.2',
-                'human' => 'Unable to authenticate for unknown reasons');
-            return $this->responseService->failure(401, $error, $ex);
-        }
-
-        $user = Member::getByEmail($userProfile['email']);
-
-        if($user === null) {
-            $user = $auth->registerFbUser($userProfile);
-            $is_new = true;
-        }
-        else {
-            $is_new = false;
-        }
-
-        $data = array('user' => $user->getPrivateArray(),
-            'is_new' => $is_new,
-            'auth_token' => $auth->generateToken(),
-        );
-        return $this->responseService->success($data);
-    }
+//    public function fbLoginRegisterAction() {
+//        $payload = $this->getPayload();
+//        $auth = $this->authService;
+//
+//        try {
+//            $userProfile = $this->authService->fbAuth($payload['fb_id'], $payload['fb_access_token']);
+//        }
+//        catch(\FacebookApiException $fbex) {
+//            $error = array('code' => 'Api.AuthController.fbLoginRegisterAction.1',
+//                'human' => 'Unable to authenticate token to Facebook');
+//            return $this->responseService->failure(401, $error, $fbex);
+//        }
+//        catch(\Exception $ex) {
+//            $error = array('code' => 'Api.AuthController.fbLoginRegisterAction.2',
+//                'human' => 'Unable to authenticate for unknown reasons');
+//            return $this->responseService->failure(401, $error, $ex);
+//        }
+//
+//        $user = Member::getByEmail($userProfile['email']);
+//
+//        if($user === null) {
+//            $user = $auth->registerFbUser($userProfile);
+//            $is_new = true;
+//        }
+//        else {
+//            $is_new = false;
+//        }
+//
+//        $data = array('user' => $user->getPrivateArray(),
+//            'is_new' => $is_new,
+//            'auth_token' => $auth->generateToken(),
+//        );
+//        return $this->responseService->success($data);
+//    }
 
     /**
      * @Route("/logout")

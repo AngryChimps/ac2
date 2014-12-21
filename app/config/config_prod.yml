@@ -31,3 +31,6 @@ swiftmailer:
 angry_chimps_api:
     debug: false
     base_url: http://proddy.angrychimps.com/api/v1
+
+ac_norm:
+    debug: false

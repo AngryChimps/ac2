@@ -14,7 +14,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+//            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AngryChimps\AcBundle\AngryChimpsAcBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
@@ -29,8 +29,8 @@ class AppKernel extends Kernel
             new AngryChimps\AdminBundle\AngryChimpsAdminBundle(),
             new AngryChimps\MailerBundle\AngryChimpsMailerBundle(),
             new AngryChimps\GeoBundle\AngryChimpsGeoBundle(),
-//            new Misd\GuzzleBundle\MisdGuzzleBundle(),
             new AngryChimps\GuzzleBundle\AngryChimpsGuzzleBundle(),
+            new AngryChimps\ElasticsearchBundle\AngryChimpsElasticsearchBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test', 'local', 'behat'))) {

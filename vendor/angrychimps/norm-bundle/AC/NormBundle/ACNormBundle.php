@@ -21,36 +21,38 @@ class ACNormBundle extends Bundle
 
         DatastoreManager::setDatastores($config['datastores']);
 
-//        Generator::setRealms($config['realms']);
-//        Generator::setDatastores($config['datastores']);
-
         //Set up autoloaders for each realm
         foreach($config['realms'] as $realmName => $realmInfo) {
             spl_autoload_register(function ($class) use ($realmName, $realmInfo) {
                 if(strpos($class, $realmInfo['namespace']) === 0) {
-                    $class_parts = explode('\\', $class);
-                    require_once(__DIR__ . '/../../../../../src/AngryChimps/NormBundle/realms/' . $realmName
-                        . '/' . $class_parts[count($class_parts) - 1]
-                        . '.php');
+                    require_once(__DIR__ . '/../../../../../app/cache/'
+                        . $this->container->get('kernel')->getEnvironment() . '/angrychimps/norm/realms/'
+                        . $realmName . '/classes/classes.php');
                 }
             });
         }
 
-        //Set up autoloader for general Norm classes
+        //Set up autoloader for cached services
         spl_autoload_register(function ($class) {
-            if(strpos($class, 'AC\\NormBundle') === 0) {
+            if(strpos($class, 'AC\\NormBundle\\cached') === 0) {
                 $class_parts = explode('\\', $class);
-                require_once(__DIR__ . '/../../../' . implode('/', $class_parts) . '.php');
+                require_once(__DIR__ . '/../../../../../app/cache/'
+                    . $this->container->get('kernel')->getEnvironment() . '/angrychimps/norm/'
+                    . implode("/", array_slice($class_parts, 3)) . '.php');
+            }
+            elseif(strpos($class, 'AC\\NormBundle') === 0) {
+                $class_parts = explode('\\', $class);
+                require_once(__DIR__ . '/../../' . implode('/', $class_parts) . '.php');
             }
         });
 
-        //Set up autoloader for Handlebars
-        spl_autoload_register(function ($class) {
-            if(strpos($class, 'Handlebars') === 0) {
-                $class_parts = explode('\\', $class);
-                require_once(__DIR__ . '/../vendor/xamin/handlebars.php/src/' . implode($class_parts, DIRECTORY_SEPARATOR) . '.php');
-            }
-        });
+//        //Set up autoloader for general Norm classes
+//        spl_autoload_register(function ($class) {
+//            if(strpos($class, 'AC\\NormBundle') === 0) {
+//                $class_parts = explode('\\', $class);
+//                require_once(__DIR__ . '/../../' . implode('/', $class_parts) . '.php');
+//            }
+//        });
     }
 
     public function build(ContainerBuilder $container) {

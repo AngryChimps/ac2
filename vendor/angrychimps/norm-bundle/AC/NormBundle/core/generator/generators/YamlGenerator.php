@@ -13,14 +13,17 @@ use AC\NormBundle\core\generator\types\Table;
 use AC\NormBundle\core\generator\types\Column;
 use AC\NormBundle\core\generator\types\ForeignKey;
 use AC\NormBundle\core\NormBaseCollection;
+use AC\NormBundle\core\Utils;
 
 class YamlGenerator extends AbstractGenerator {
     protected $isTest;
     protected $realm;
+    protected $namepsace;
 
-    public function __construct($realm, $isTest) {
+    public function __construct($realm, $namespace, $isTest = false ) {
         $this->realm = $realm;
         $this->isTest = $isTest;
+        $this->namepsace = $namespace;
     }
 
     /**
@@ -28,18 +31,19 @@ class YamlGenerator extends AbstractGenerator {
      */
     public function getSchema() {
         $schema = new Schema();
+        $schema->realm = $this->realm;
+        $schema->namespace = $this->namepsace;
 
         foreach($this->getTableNames() as $tableName) {
-            echo "Processing table: $tableName\n";
-
             $table = new Table();
             $table->name = $tableName;
-//            $table->comment = $row['TABLE_COMMENT'];
-//            $table->primaryKeyNames = $this->getPrimaryKeyFieldNames($table->name);
             $tableData = $this->getTableData($table->name);
-            $table->data = $tableData;
             if(isset($tableData['primary_keys'])) {
                 $table->primaryKeyNames = $tableData['primary_keys'];
+                $table->primaryKeyPropertyNames = [];
+                foreach($table->primaryKeyNames as $pkName) {
+                    $table->primaryKeyPropertyNames[] = Utils::field2property($pkName);
+                }
             }
             $ordinalPosition = 0;
             foreach($tableData['fields'] as $fieldData) {

@@ -5,10 +5,11 @@ namespace NormTests\riak\base;
 use AC\NormBundle\core\NormBaseCollection;
 
 class CalendarCollectionBase extends NormBaseCollection {
-    protected static $realm = 'riak';
-    protected static $tableName = 'calendar';
-    protected static $singularClassName = 'Calendar';
-    protected static $primaryKeyFieldNames = array('id');
-    protected static $primaryKeyPropertyNames = array('id');
-    protected static $autoIncrementFieldName = '';
+    public static $realm = 'riak';
+    public static $tableName = 'calendar';
+    public static $singularClassName = '\NormTests\riak\Calendar';
+    public static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
+    public static $autoIncrementFieldName = '';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 }

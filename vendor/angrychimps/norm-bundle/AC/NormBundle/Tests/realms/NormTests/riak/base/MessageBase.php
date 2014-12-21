@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class MessageBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_riak_ds';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'riak';
+    public static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'message';
+    public static $tableName = 'message';
 
     /** @var string[] */
-    protected static $fieldNames = array('message_key', 'ad_key', 'author_key', 'body', 'status', 'flags', 'created_at');
+    public static $fieldNames = array('id', 'ad_id', 'author_key', 'body', 'status', 'flags', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'int', 'MessageFlag[]', 'DateTime');
+    public static $fieldTypes = array('string', 'string', 'string', 'string', 'int', 'MessageFlag[]', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('messageKey', 'adKey', 'authorKey', 'body', 'status', 'flags', 'createdAt');
+    public static $propertyNames = array('id', 'adId', 'authorKey', 'body', 'status', 'flags', 'createdAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('message_key');
+    public static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('messageKey');
+    public static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    public static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    public static $autoGeneratePropertyName = '';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
     const UNREAD_STATUS = 1;
     const READ_STATUS = 2;
@@ -56,10 +56,10 @@ class MessageBase extends NormBaseObject {
 
 
     /** @var string */
-    public $messageKey;
+    public $id;
 
     /** @var string */
-    public $adKey;
+    public $adId;
 
     /** @var string */
     public $authorKey;
@@ -73,11 +73,16 @@ class MessageBase extends NormBaseObject {
     /** @var MessageFlag[] */
     public $flags;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
 
-    /** @returns NormTests\riak\Ad */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \NormTests\riak\ProviderAd */
     public function getAd() {
         if($this->Ad === null) {
             $this->loadAd();
@@ -85,7 +90,7 @@ class MessageBase extends NormBaseObject {
         return $this->Ad;
     }
 
-    /** @returns NormTests\riak\Member */
+    /** @return \NormTests\riak\Member */
     public function getAuthor() {
         if($this->Author === null) {
             $this->loadAuthor();
@@ -95,7 +100,7 @@ class MessageBase extends NormBaseObject {
 
 
     protected function loadAd() {
-        parent::loadProperty('Ad', 'ad', 'id');
+        parent::loadProperty('Ad', 'provider_ad', 'id');
     }
 
     protected function loadAuthor() {
@@ -103,7 +108,7 @@ class MessageBase extends NormBaseObject {
     }
 
 
-    /** @returns NormTests\riak\MessageFlag */
+    /** @return NormTests\riak\MessageFlag */
     public function getMessageFlagCollection() {
         if($this->MessageFlag === null) {
             $this->loadMessageFlag();
@@ -135,7 +140,7 @@ class MessageBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\riak\Message
      */

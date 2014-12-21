@@ -1,0 +1,82 @@
+<?php
+
+namespace {{realmBaseServiceNamespace}};
+
+use AC\NormBundle\Services\NormService;
+{{#each traitNames}}
+use {{traitName}};
+{{/each}}
+
+{{#each tables}}
+use {{objectName}};
+{{/each}}
+
+class Norm{{realmNameCapitalized}}BaseService extends NormService {
+    {{#each traitNames}}
+    use {{traitShortName}};
+    {{/each}}
+
+    {{#each tables}}
+    /**
+     * @param $pks array|int|string|\DateTime The primary key/keys values
+     * @return {{objectNameWithoutNamespace}}
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}($pks) {
+        return $this->getObjectByPks('{{objectName}}', $pks);
+    }
+
+    /**
+     * @param $pks array An array of primary keys
+     * @return {{objectNameWithoutNamespace}}Collection
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}Collection($pks) {
+        return $this->getCollectionByPks('{{objectName}}Collection', $pks);
+    }
+
+    {{#if driverIsMysql}}
+    /**
+     * @param $where string The WHERE clause
+     * @param $params array The parameter values array
+     * @return {{objectNameWithoutNamespace}}
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}ByWhere($where, $params = array()) {
+        return $this->getObjectByWhere('{{objectName}}', $where, $params);
+    }
+
+    /**
+     * @param $sql string The entire SQL clause
+     * @param $params array The parameter values array
+     * @return {{objectNameWithoutNamespace}}
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}BySql($sql, $params = array()) {
+        return $this->getObjectBySql('{{objectName}}', $sql, $params);
+    }
+
+    /**
+     * @param $where string The WHERE clause
+     * @param $params array The parameter values array
+     * @return {{objectNameWithoutNamespace}}Collection
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}CollectionByWhere($where, $params = array()) {
+        return $this->getCollectionByWhere('{{collectionName}}', $where, $params);
+    }
+
+    /**
+     * @param $sql string The entire SQL clause
+     * @param $params array The parameter values array
+     * @return {{objectNameWithoutNamespace}}Collection
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}CollectionBySql($sql, $params = array()) {
+        return $this->getObjectBySql('{{objectName}}', $sql, $params);
+    }
+
+    {{/if}}
+
+    {{/each}}
+}

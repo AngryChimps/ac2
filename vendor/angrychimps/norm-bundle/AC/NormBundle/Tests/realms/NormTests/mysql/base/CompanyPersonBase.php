@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class CompanyPersonBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_mysql_ds';
+    public static $primaryDatastoreName = '__norm_test_mysql_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'mysql';
+    public static $realm = 'mysql';
 
     /** @var  string */
-    protected static $tableName = 'company_person';
+    public static $tableName = 'company_person';
 
     /** @var string[] */
-    protected static $fieldNames = array('company_id', 'person_id', 'status');
+    public static $fieldNames = array('company_id', 'person_id', 'status');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'int', 'int');
+    public static $fieldTypes = array('int', 'int', 'int');
 
     /** @var  string[] */
-    protected static $propertyNames = array('companyId', 'personId', 'status');
+    public static $propertyNames = array('companyId', 'personId', 'status');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('company', 'person');
+    public static $primaryKeyFieldNames = array('company', 'person');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('company', 'person');
+    public static $primaryKeyPropertyNames = array('company', 'person');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    public static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    public static $autoGeneratePropertyName = '';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
     const EMPLOYED_STATUS = 1;
     const TERMINATED_STATUS = 2;
@@ -65,7 +65,12 @@ class CompanyPersonBase extends NormBaseObject {
     public $status;
 
 
-    /** @returns NormTests\mysql\Company */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \NormTests\mysql\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -73,7 +78,7 @@ class CompanyPersonBase extends NormBaseObject {
         return $this->Company;
     }
 
-    /** @returns NormTests\mysql\Person */
+    /** @return \NormTests\mysql\Person */
     public function getPerson() {
         if($this->Person === null) {
             $this->loadPerson();
@@ -111,7 +116,7 @@ class CompanyPersonBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\mysql\CompanyPerson
      */

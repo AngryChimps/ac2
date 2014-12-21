@@ -12,7 +12,7 @@ Feature: auth-login-form
     And I get back a valid json object
     And The response contains a field named "payload.member.id"
     And The value of the "payload.member.id" field returned is of type "string"
-    And The string length of the "payload.member.id" field is "16"
+    And The string length of the "payload.member.id" field is "32"
     And Finally, I clean up my objects
 
   Scenario: Attempt log in with invalid email

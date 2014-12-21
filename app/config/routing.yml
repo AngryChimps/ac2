@@ -1,3 +1,7 @@
+angry_chimps_elasticsearch:
+    resource: "@AngryChimpsElasticsearchBundle/Resources/config/routing.yml"
+    prefix:   /
+
 angry_chimps_guzzle:
     resource: "@AngryChimpsGuzzleBundle/Resources/config/routing.yml"
     prefix:   /

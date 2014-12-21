@@ -28,11 +28,10 @@
         "jms/serializer": "master@dev",
         "friendsofsymfony/rest-bundle": "~1.4",
         "jms/serializer-bundle": "master@dev",
-        //"hwi/oauth-bundle": "0.4.*@dev",
-        //"friendsofsymfony/facebook-bundle": "master@dev",
-        //"armetiz/facebook-bundle": "*",
         "behat/symfony2-extension": "~2.0@dev",
-        "guzzlehttp/guzzle": "~5.0"
+        "guzzlehttp/guzzle": "~5.0",
+        "ruflin/Elastica": "dev-master",
+        "xamin/handlebars.php": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

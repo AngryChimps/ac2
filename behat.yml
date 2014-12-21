@@ -1,11 +1,16 @@
 default:
+    suites:
+        api:
+            type: symfony_bundle
+            bundle: AngryChimpsApiBundle
+#        default:
+#            contexts:
+#                - FeatureContext:
+#                    norm:   '@ac_norm.norm'
+
     extensions:
         Behat\Symfony2Extension:
             kernel:
                 env: behat
                 debug: true
 
-    suites:
-        api:
-            type: symfony_bundle
-            bundle: AngryChimpsApiBundle

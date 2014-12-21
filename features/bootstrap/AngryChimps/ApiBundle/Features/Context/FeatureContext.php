@@ -9,6 +9,7 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
+use Norm\riak\Address;
 use Norm\riak\Company;
 use Norm\riak\Location;
 use Norm\riak\Member;
@@ -18,13 +19,13 @@ use Norm\riak\Session;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Guzzle\Http\Exception\ClientException;
+use Behat\Behat\Tester\Exception\PendingException;
 
 /**
  * Defines application features from the specific context.
  */
 class FeatureContext extends AbstractFeatureContext implements Context, SnippetAcceptingContext, KernelAwareContext
 {
-
     /**
      * @Given I have a valid new user array
      */
@@ -50,7 +51,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
         //Lookup member and add it to the objects array to be deleted after we're done
         if(isset($this->getContentArray()['payload']['member'])) {
-            $this->addObject(Member::getByPk($this->getResponseFieldValue('payload.member.id')));
+            $this->addObject($this->riak->getMember($this->getResponseFieldValue('payload.member.id')));
         }
     }
 
@@ -119,19 +120,24 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iHaveATestUser()
     {
+
         try {
             $this->rand = rand(1, 99999999999);
 
-            $member = new Member();
-            $member->email = 'trash' . $this->rand . '@seangallavan.com';
-            $member->name = 'Trashy ' . $this->rand;
-            $member->dob = new \DateTime('1950-01-01');
-            $member->password = $this->getAuthService()->hashPassword('abcdabcd');
-            $member->status = Member::ACTIVE_STATUS;
-            $member->role = Member::USER_ROLE;
-            $member->save();
+            $member = $this->memberService->createEmpty();
 
-            //Save the user_id for future use
+            $changes = array(
+                'email' => 'trash' . $this->rand . '@seangallavan.com',
+                'name' => 'Trashy ' . $this->rand,
+                'dob' => new \DateTime('1940-01-05'),
+                'password' => $this->getAuthService()->hashPassword('abcdabcd'),
+                'status' => Member::ACTIVE_STATUS,
+            );
+
+            $errors = array();
+            $this->memberService->update($member, $changes, $errors, true);
+
+            //Save the user for future use
             $this->testUser = $member;
 
             //Add it to the objects array so it gets cleaned up
@@ -189,7 +195,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->sessionId = $this->getResponseFieldValue('payload.session_id');
 
         //Add to objects so it gets cleaned up
-        $this->addObject(Session::getByPk($this->sessionId));
+        $this->addObject($this->riak->getSession($this->sessionId));
     }
 
     /**
@@ -250,7 +256,10 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iSaveChangesToTheAuthenticatedUser()
     {
-        $this->requestArray = array('payload' => $this->testUser->getPrivateArray());
+        $this->requestArray = array('payload' => array('id' => $this->testUser->id,
+                                                        'name' => $this->testUser->name,
+                                                        'email' => $this->testUser->email,
+                                                        'photo' => $this->testUser->photo));
         $this->putData('member/' . $this->testUser->id);
     }
 
@@ -267,8 +276,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function theAuthenticatedUserSFieldIs($arg1, $arg2)
     {
-        $this->testUser->invalidate();
-        $this->testUser = Member::getByPk($this->authenticatedUserId);
+        $this->riak->invalidate($this->testUser);
+        $this->testUser = $this->riak->getMember($this->authenticatedUserId);
 
         $this->assertEquals($this->testUser->$arg1, $arg2,
             'The authenticated users ' . $arg1 . ' field is not ' . $arg2);
@@ -291,18 +300,17 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $company = new Company();
         $company->name = 'ABC Company';
         $company->description = "a cool company";
-        $company->address = '234 Main Street, Burlington, VT 91023';
         $company->plan = Company::BASIC_PLAN;
         $company->status = Company::ENABLED_STATUS;
         $company->administerMemberIds = [$this->authenticatedUserId];
-        $company->save();
+        $this->riak->create($company);
 
         $this->testCompany = $company;
 
         $this->addObject($company);
 
         $this->testUser->managedCompanyIds = array($company->id);
-        $this->testUser->save();
+        $this->riak->update($this->testUser);
     }
 
     /**
@@ -319,14 +327,14 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $member->password = $this->getAuthService()->hashPassword('abcdabcd');
         $member->status = Member::ACTIVE_STATUS;
         $member->role = Member::USER_ROLE;
-        $member->save();
+        $this->riak->create($member);
 
         $company = new Company();
         $company->administerMemberIds = array($member->id);
         $company->name = 'Acme Company';
         $company->plan = Company::BASIC_PLAN;
         $company->status = Company::ENABLED_STATUS;
-        $company->save();
+        $this->riak->create($company);
 
         $this->testCompany = $company;
     }
@@ -360,7 +368,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iSaveChangesToTheTestCompany()
     {
-        $this->testCompany->save();
+        $this->riak->update($this->testCompany);
     }
 
     /**
@@ -394,11 +402,11 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
         if($this->response->getStatusCode() == 200) {
             $id = $this->getResponseFieldValue('payload.company.id');
-            $this->testCompany = Company::getByPk($id);
+            $this->testCompany = $this->riak->getCompany($id);
             $this->addObject($this->testCompany);
 
             $this->testUser->managedCompanyIds = array($id);
-            $this->testUser->save();
+            $this->riak->update($this->testUser);
         }
     }
 
@@ -428,7 +436,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $company->administerMemberIds = array($this->authenticatedUserId);
         $company->status = Company::ENABLED_STATUS;
         $company->plan = Company::BASIC_PLAN;
-        $company->save();
+        $this->riak->create($company);
 
         $this->addObject($company);
 
@@ -465,7 +473,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->postData('location');
 
         if($this->response->getStatusCode() === 200) {
-            $this->testLocation = Location::getByPk($this->getResponseFieldValue('payload.location.id'));
+            $this->testLocation = $this->riak->getLocation($this->getResponseFieldValue('payload.location.id'));
         }
     }
 
@@ -474,10 +482,10 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function ifIReloadTheAuthenticatedUser()
     {
-        $user = Member::getByPk($this->authenticatedUserId);
-        $user->invalidate();
+        $user = $this->riak->getMember($this->authenticatedUserId);
+        $this->riak->invalidate($user);
 
-        $this->testUser =  Member::getByPk($this->authenticatedUserId);
+        $this->testUser =  $this->riak->getMember($this->authenticatedUserId);
     }
 
     /**
@@ -496,8 +504,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function ifIReloadTheTestCompany()
     {
         $id = $this->testCompany->id;
-        $this->testCompany->invalidate();
-        $this->testCompany = Company::getByPk($id);
+        $this->riak->invalidate($this->testCompany);
+        $this->testCompany = $this->riak->getCompany($id);
     }
 
     /**
@@ -506,8 +514,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function theValueOfTheFieldOfTheTestCompanyIs($arg1, $arg2)
     {
         $id = $this->testCompany->id;
-        $this->testCompany->invalidate();
-        $this->testCompany = Company::getByPk($id);
+        $this->riak->invalidate($this->testCompany);
+        $this->testCompany = $this->riak->getCompany($id);
 
         $this->assertEquals($this->testCompany->$arg1, $arg2,
             'The value of the ' . $arg1 . ' field of the test company is not ' . $arg2);
@@ -528,9 +536,9 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     {
         $arr = array();
         $arr['name'] = $this->testLocation->name;
-        $arr['street1'] = $this->testLocation->street1;
-        $arr['street2'] = $this->testLocation->street2;
-        $arr['zip'] = $this->testLocation->zip;
+        $arr['street1'] = $this->testLocation->address->street1;
+        $arr['street2'] = $this->testLocation->address->street2;
+        $arr['zip'] = $this->testLocation->address->zip;
         $arr['companyId'] = $this->testLocation->companyId;
         $arr['phone'] = $this->testLocation->phone;
 
@@ -545,9 +553,9 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     {
         $arr = array();
         $arr['name'] = $this->testLocation->name;
-        $arr['street1'] = $this->testLocation->street1;
-        $arr['street2'] = $this->testLocation->street2;
-        $arr['zip'] = $this->testLocation->zip;
+        $arr['street1'] = $this->testLocation->address->street1;
+        $arr['street2'] = $this->testLocation->address->street2;
+        $arr['zip'] = $this->testLocation->address->zip;
         $arr['companyId'] = $this->testCompany->id;
         $arr['phone'] = $this->testLocation->phone;
 
@@ -560,8 +568,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function ifIReloadTheTestLocation()
     {
         $id = $this->testLocation->id;
-        $this->testLocation->invalidate();
-        $this->testLocation = Location::getByPk($id);
+        $this->riak->invalidate($this->testLocation);
+        $this->testLocation = $this->riak->getLocation($id);
     }
 
     /**
@@ -580,13 +588,14 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     {
         $this->testLocation = new Location();
         $this->testLocation->companyId = $this->testCompany->id;
-        $this->testLocation->street1 = '298 Willow Street';
-        $this->testLocation->street2 = 'APT 212';
-        $this->testLocation->zip = 94114;
-        $this->testLocation->phone = '5555551212';
-        $this->testLocation->lat = 37.762822;
-        $this->testLocation->long = -122.437239;
-        $this->testLocation->save();
+        $this->testLocation->address = new Address();
+        $this->testLocation->address->street1 = '298 Willow Street';
+        $this->testLocation->address->street2 = 'APT 212';
+        $this->testLocation->address->zip = 94114;
+        $this->testLocation->address->phone = '5555551212';
+        $this->testLocation->address->lat = 37.762822;
+        $this->testLocation->address->long = -122.437239;
+        $this->riak->create($this->testLocation);
     }
 
     /**
@@ -633,8 +642,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $service->originalPrice = 70;
         $service->minsForService = 30;
         $service->minsNotice = 60;
-        $service->category = 101;
-        $service->save();
+        $this->riak->create($service);
 
         $this->testService = $service;
     }
@@ -693,8 +701,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
         if($this->response->getStatusCode() === 200) {
             $this->authenticatedUserId = $this->getResponseFieldValue('payload.member.id');
-            $this->testUser = Member::getByPk($this->authenticatedUserId);
-            $this->testCompany = Company::getByPk($this->testUser->managedCompanyIds[0]);
+            $this->testUser = $this->riak->getMember($this->authenticatedUserId);
+            $this->testCompany = $this->riak->getCompany($this->testUser->managedCompanyIds[0]);
             $this->addObject($this->testUser);
             $this->addObject($this->testCompany);
         }
@@ -729,11 +737,11 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->postData('signup/registerProviderCompany');
 
         if($this->response->getStatusCode() === 200) {
-            $this->testUser->invalidate();
-            $this->testUser = Member::getByPk($this->authenticatedUserId);
-            $this->testCompany->invalidate();
-            $this->testCompany = Company::getByPk($this->testUser->managedCompanyIds[0]);
-            $this->testLocation = Location::getByPk($this->testCompany->locationIds[0]);
+            $this->riak->invalidate($this->testUser);
+            $this->testUser = $this->riak->getMember($this->authenticatedUserId);
+            $this->riak->invalidate($this->testCompany);
+            $this->testCompany = $this->riak->getCompany($this->testUser->managedCompanyIds[0]);
+            $this->testLocation = $this->riak->getLocation($this->testCompany->locationIds[0]);
             $this->addObject($this->testUser);
             $this->addObject($this->testCompany);
             $this->addObject($this->testLocation);

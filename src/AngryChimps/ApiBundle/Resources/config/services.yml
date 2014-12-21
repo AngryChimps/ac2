@@ -1,4 +1,17 @@
 parameters:
+    angry_chimps_api.auth.class: AngryChimps\ApiBundle\Services\AuthService
+    angry_chimps_api.member.class: AngryChimps\ApiBundle\Services\MemberService
+    angry_chimps_api.company.class: AngryChimps\ApiBundle\Services\CompanyService
+    angry_chimps_api.location.class: AngryChimps\ApiBundle\Services\LocationService
+    angry_chimps_api.service.class: AngryChimps\ApiBundle\Services\ServiceService
+    angry_chimps_api.response.class: AngryChimps\ApiBundle\Services\ResponseService
+    angry_chimps_api.session.class: AngryChimps\ApiBundle\Services\SessionService
+    angry_chimps_api.categories.class: AngryChimps\ApiBundle\Services\CategoriesService
+    angry_chimps_api.signup.class: AngryChimps\ApiBundle\Services\SignupService
+    angry_chimps_api.provider_ad.class: AngryChimps\ApiBundle\Services\ProviderAdService
+    angry_chimps_api.calendar.class: AngryChimps\ApiBundle\Services\CalendarService
+    angry_chimps_api.search.class: AngryChimps\ApiBundle\Services\SearchService
+
     angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
     angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
     angry_chimps_api.controller.auth.class: AngryChimps\ApiBundle\Controller\AuthController
@@ -7,6 +20,7 @@ parameters:
     angry_chimps_api.controller.service.class: AngryChimps\ApiBundle\Controller\ServiceController
     angry_chimps_api.controller.categories.class: AngryChimps\ApiBundle\Controller\CategoriesController
     angry_chimps_api.controller.signup.class: AngryChimps\ApiBundle\Controller\SignupController
+    angry_chimps_api.controller.search.class: AngryChimps\ApiBundle\Controller\SearchController
 
 services:
 
@@ -14,34 +28,34 @@ services:
 ###                  Services                              ###
 ##############################################################
     angry_chimps_api.auth:
-        class: AngryChimps\ApiBundle\Services\AuthService
-        arguments: ["@angry_chimps_mailer.mailer", "@templating", "@validator"]
+        class: "%angry_chimps_api.auth.class%"
+        arguments: ["@angry_chimps_mailer.mailer", "@templating", "@validator", "@angry_chimps_api.member"]
     angry_chimps_api.member:
-        class: AngryChimps\ApiBundle\Services\MemberService
-        arguments: ["@angry_chimps_mailer.mailer", "@templating", "@angry_chimps_api.auth", "@validator"]
+        class: "%angry_chimps_api.member.class%"
+        arguments: ["@angry_chimps_mailer.mailer", "@templating", "@validator", "@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
     angry_chimps_api.company:
-        class: AngryChimps\ApiBundle\Services\CompanyService
-        arguments: ["@validator"]
+        class: "%angry_chimps_api.company.class%"
+        arguments: ["@validator", "@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
     angry_chimps_api.location:
-        class: AngryChimps\ApiBundle\Services\LocationService
-        arguments: ["@validator", "@angry_chimps_geo.geolocation"]
+        class: "%angry_chimps_api.location.class%"
+        arguments: ["@validator", "@angry_chimps_geo.geolocation", "@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
     angry_chimps_api.service:
-        class: AngryChimps\ApiBundle\Services\ServiceService
-        arguments: ["@validator"]
+        class: "%angry_chimps_api.service.class%"
+        arguments: ["@validator", "@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
     angry_chimps_api.response:
-        class: AngryChimps\ApiBundle\Services\ResponseService
+        class: "%angry_chimps_api.response.class%"
         arguments: ["@request_stack", "@logger", "@fos_rest.view_handler"]
 #    angry_chimps_api.guzzle:
 #        class: AngryChimps\ApiBundle\Services\GuzzleService
 #        tags:
 #            -  { name: guzzle.client }
     angry_chimps_api.session:
-        class: AngryChimps\ApiBundle\Services\SessionService
-        arguments: ["@request_stack", "%angry_chimps_api.session_header_name%"]
+        class: "%angry_chimps_api.session.class%"
+        arguments: ["@request_stack", "%angry_chimps_api.session_header_name%", "@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
     angry_chimps_api.categories:
-        class: AngryChimps\ApiBundle\Services\CategoriesService
+        class: "%angry_chimps_api.categories.class%"
     angry_chimps_api.signup:
-        class: AngryChimps\ApiBundle\Services\SignupService
+        class: "%angry_chimps_api.signup.class%"
         arguments:
             - "@angry_chimps_api.member"
             - "@angry_chimps_api.company"
@@ -52,11 +66,24 @@ services:
             - "@angry_chimps_api.auth"
             - "@validator"
             - "@angry_chimps_api.session"
+            - "@ac_norm.norm.riak"
+            - "@ac_norm.norm.mysql"
     angry_chimps_api.provider_ad:
-        class: AngryChimps\ApiBundle\Services\ProviderAdService
-        arguments: ["@validator"]
+        class: "%angry_chimps_api.provider_ad.class%"
+        arguments:
+            - "@validator"
+            - "@ac_norm.norm.riak"
+            - "@ac_norm.norm.mysql"
+            - "@ac_norm.norm.es"
+            - "@angry_chimps_api.company"
+            - "@angry_chimps_api.location"
+            - "@angry_chimps_api.calendar"
+            - "@angry_chimps_api.service"
     angry_chimps_api.calendar:
-        class: AngryChimps\ApiBundle\Services\CalendarService
+        class: "%angry_chimps_api.calendar.class%"
+        arguments: ["@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
+    angry_chimps_api.search:
+        class: "%angry_chimps_api.search.class%"
 
 ##############################################################
 ###                  Controllers                           ###
@@ -71,7 +98,7 @@ services:
 
     angry_chimps_api.auth.controller:
             class:     "%angry_chimps_api.controller.auth.class%"
-            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.auth", "%kernel.debug%"]
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.auth", "%kernel.debug%", "@angry_chimps_api.member"]
 
     angry_chimps_api.company.controller:
             class:     "%angry_chimps_api.controller.company.class%"
@@ -79,11 +106,11 @@ services:
 
     angry_chimps_api.location.controller:
             class:     "%angry_chimps_api.controller.location.class%"
-            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.location"]
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.location", "@angry_chimps_api.company"]
 
     angry_chimps_api.service.controller:
             class:     "%angry_chimps_api.controller.service.class%"
-            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.service"]
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.service", "@angry_chimps_api.company"]
 
     angry_chimps_api.categories.controller:
             class:     "%angry_chimps_api.controller.categories.class%"
@@ -91,7 +118,19 @@ services:
 
     angry_chimps_api.signup.controller:
             class:     "%angry_chimps_api.controller.signup.class%"
-            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.signup", "@angry_chimps_geo.geolocation"]
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.signup"
+                - "@angry_chimps_geo.geolocation"
+                - "@angry_chimps_api.provider_ad"
+                - "@angry_chimps_api.company"
+                - "@angry_chimps_api.location"
+
+    angry_chimps_api.search.controller:
+            class:     "%angry_chimps_api.controller.search.class%"
+            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.search"]
 
 
 ##############################################################
@@ -102,3 +141,6 @@ services:
         arguments: ["@angry_chimps_api.response", "%angry_chimps_api.debug%"]
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+
+

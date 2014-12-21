@@ -1,0 +1,48 @@
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: author_id
+    type: string
+  - name: company_id
+    type: string
+  - name: location_id
+    type: string
+  - name: ad_id
+    type: string
+  - name: service_id
+    type: string
+  - name: body
+    type: string
+  - name: status
+    type: enum
+    values:
+      - Enabled
+      - Disabled
+  - name: created_at
+    type: DateTime
+
+foreign_keys:
+  - name: fk_ad_flag_author
+    column_name: author_id
+    referenced_table_name: member
+    referenced_column_name: id
+  - name: fk_ad_flag_company
+    column_name: company_id
+    referenced_table_name: company
+    referenced_column_name: id
+  - name: fk_ad_flag_location
+    column_name: location_id
+    referenced_table_name: location
+    referenced_column_name: id
+  - name: fk_ad_flag_ad
+    column_name: ad_id
+    referenced_table_name: provider_ad
+    referenced_column_name: id
+  - name: fk_ad_flag_service
+    column_name: service_id
+    referenced_table_name: service
+    referenced_column_name: id

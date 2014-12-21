@@ -20,7 +20,7 @@ class GenerateCommand extends ContainerAwareCommand
             ->setDescription('Generate objects for a specific realm')
             ->addArgument(
                 'realm',
-                InputArgument::REQUIRED,
+                InputArgument::OPTIONAL,
                 'What is the name of the realm to generate?'
             )
         ;
@@ -29,18 +29,13 @@ class GenerateCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $realmName = $input->getArgument('realm');
-        $realmInfo = $this->getRealmInfo($realmName);
 
         $generator = new Generator();
-        $generator->generate($realmName, $realmInfo);
-
-        $output->writeln("\n\n=========\n\nGenerated objects for realm: $realmName\n");
-    }
-
-    protected function getRealmInfo($realmName) {
-        $contents = file_get_contents(__DIR__ . "/../../../../../../app/config/ac_norm.yml");
-        $parsed = yaml_parse($contents);
-
-        return $parsed['realms'][$realmName];
+        if($realmName !== null) {
+            $generator->generate($realmName, $this->getContainer()->get('kernel')->environment);
+        }
+        else{
+            $generator->generateAll($this->getContainer()->get('kernel')->environment);
+        }
     }
 }

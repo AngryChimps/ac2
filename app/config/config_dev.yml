@@ -48,3 +48,6 @@ assetic:
 angry_chimps_api:
     debug: true
     base_url: http://loco.angrychimps.com/api/v1
+
+ac_norm:
+    debug: true

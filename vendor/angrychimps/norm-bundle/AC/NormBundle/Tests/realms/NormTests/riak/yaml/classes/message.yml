@@ -1,10 +1,10 @@
 primary_keys:
-  - message_key
+  - id
 
 fields:
-  - name: message_key
+  - name: id
     type: string
-  - name: ad_key
+  - name: ad_id
     type: string
   - name: author_key
     type: string
@@ -22,9 +22,9 @@ fields:
     type: DateTime
 
 foreign_keys:
-  - name: fk_location_company
+  - name: fk_message_ad
     column_name: ad_id
-    referenced_table_name: ad
+    referenced_table_name: provider_ad
     referenced_column_name: id
   - name: fk_location_author
     column_name: author_id

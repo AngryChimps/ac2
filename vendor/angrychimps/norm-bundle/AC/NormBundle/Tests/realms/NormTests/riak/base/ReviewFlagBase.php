@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class ReviewFlagBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_riak_ds';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'riak';
+    public static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'review_flag';
+    public static $tableName = 'review_flag';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'author_id', 'body', 'status', 'created_at');
+    public static $fieldNames = array('id', 'author_id', 'body', 'status', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'int', 'DateTime');
+    public static $fieldTypes = array('string', 'string', 'string', 'int', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'authorId', 'body', 'status', 'createdAt');
+    public static $propertyNames = array('id', 'authorId', 'body', 'status', 'createdAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = 'id';
+    public static $autoGenerateFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = 'id';
+    public static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
     const ENABLED_STATUS = 1;
     const DISABLED_STATUS = 2;
@@ -66,11 +66,16 @@ class ReviewFlagBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
 
-    /** @returns NormTests\riak\Member */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \NormTests\riak\Member */
     public function getAuthor() {
         if($this->Author === null) {
             $this->loadAuthor();
@@ -104,7 +109,7 @@ class ReviewFlagBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\riak\ReviewFlag
      */

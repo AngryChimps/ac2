@@ -2,8 +2,12 @@
 
 namespace {{namespace}};
 
-use {{fullyQualifiedBaseCollectionObject}};
-
-class {{className}}Collection extends {{className}}CollectionBase {
-
+class {{className}}Collection extends \ArrayObject {
+    public static $realm = '{{realm}}';
+    public static $tableName = '{{tableName}}';
+    public static $singularClassName = '{{fullyQualifiedClassWithPrecedingBackslash}}';
+    public static $primaryKeyFieldNames = [{{primaryKeyFieldNamesQuotedString}}];
+    public static $primaryKeyPropertyNames = array({{primaryKeyPropertyNamesQuotedString}});
+    public static $autoIncrementFieldName = '{{autoIncrementFieldName}}';
+    public static $primaryDatastoreName = '{{primaryDatastoreName}}';
 }

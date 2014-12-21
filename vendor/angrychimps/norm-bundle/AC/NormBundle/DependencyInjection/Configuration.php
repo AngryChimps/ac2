@@ -20,9 +20,51 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('ac_norm');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->scalarNode('debug')->end()
+                ->arrayNode('realms')
+                    ->children()
+                        ->scalarNode('name')
+                            ->isRequired()
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->scalarNode('namespace')
+                            ->isRequired()
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->scalarNode('primary_datastore')
+                            ->isRequired()
+                            ->cannotBeEmpty()
+                        ->end()
+            ->end();
+//                ->end()
+//                ->arrayNode('datastores')
+//                    ->children()
+//                        ->scalarNode('name')
+//                            ->isRequired()
+//                            ->cannotBeEmpty()
+//                        ->end()
+//                        ->scalarNode('driver')
+//                            ->isRequired()
+//                            ->cannotBeEmpty()
+//                        ->end()
+//                        ->scalarNode('host')->end()
+//                        ->scalarNode('port')->end()
+//                        ->scalarNode('db_name')->end()
+//                        ->scalarNode('user')->end()
+//                        ->scalarNode('password')->end()
+//                        ->scalarNode('index_name')->end()
+//                        ->arrayNode('servers')
+//                            ->children()
+//                                ->scalarNode('host')->end()
+//                                ->scalarNode('port')->end()
+//                            ->end()
+//                        ->end()
+//                    ->end()
+//                ->end()
+//            ->end()
+//        ;
 
         return $treeBuilder;
     }

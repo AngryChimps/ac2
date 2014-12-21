@@ -18,6 +18,9 @@ class Table {
     /** @var  string[] */
     public $primaryKeyNames = array();
 
+    /** @var  string[] */
+    public $primaryKeyPropertyNames = array();
+
     /** @var  string */
     public $autoIncrementName;
 
@@ -37,12 +40,4 @@ class Table {
     public $enums = array();
 
     const StatusEnumActive = 1;
-
-    public function getClassName() {
-        return Utils::table2class($this->name);
-    }
-
-    public function getFullClassName($realm) {
-        return "Norm\\$realm\\" . $this->getClassName();
-    }
 }

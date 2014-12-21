@@ -1,3 +1,4 @@
+debug: true
 datastores:
     riak_ds:
         driver: "riak_blob"
@@ -10,3 +11,10 @@ datastores:
         port: 3379
         user: "root"
         password: ""
+    es_ds:
+        driver: "elasticsearch"
+        index_name: ac
+        nodes:
+            - node1:
+                host: "localhost"
+                port: 9200

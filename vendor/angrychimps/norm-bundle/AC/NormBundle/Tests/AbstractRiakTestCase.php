@@ -34,7 +34,12 @@ abstract class AbstractRiakTestCase extends AbstractTestCase {
         return self::$conn;
     }
 
-    public function getKeyName($primaryKeys) {
+    protected function getKeyName($primaryKeys) {
+        foreach($primaryKeys as &$primaryKey) {
+            if($primaryKey instanceof \DateTime) {
+                $primaryKey = $primaryKey->format('Y-m-d H:i:s');
+            }
+        }
         return implode('|', $primaryKeys);
     }
 

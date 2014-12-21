@@ -9,9 +9,11 @@
 namespace AC\NormBundle\core\datastore;
 
 
+use AC\NormBundle\Services\RealmInfoService;
 use Doctrine\DBAL\DriverManager;
 use \Doctrine\DBAL\Configuration;
 use \AC\NormBundle\core\datastore\MysqlTableDatastore;
+use Psr\Log\LoggerInterface;
 
 class DatastoreManager {
     /** @var \AC\NormBundle\core\datastore\AbstractDatastore[] */
@@ -28,28 +30,34 @@ class DatastoreManager {
 
     /**
      * @param $datastoreName string
+     * @param $realmInfo RealmInfoService
      * @return AbstractDatastore
      * @throws \Exception Unsupported driver type exception
      */
-    public static function getDatastore($datastoreName) {
+    public static function getDatastore($datastoreName, RealmInfoService $realmInfo, LoggerInterface $loggerService) {
         if(!array_key_exists($datastoreName, self::$_datastores)) {
             $configParams = self::$_datastoreInfo[$datastoreName];
 
+
             switch($configParams['driver']) {
                 case 'mysql':
-                    self::$_datastores[$datastoreName] = new MysqlPdoDatastore($configParams);
+                    self::$_datastores[$datastoreName] = new MysqlPdoDatastore($configParams, $realmInfo, $loggerService);
                     break;
 
                 case 'redis_blob':
-                    self::$_datastores[$datastoreName] = new RedisBlobDatastore($configParams);
+                    self::$_datastores[$datastoreName] = new RedisBlobDatastore($configParams, $realmInfo, $loggerService);
                     break;
 
                 case 'redis_hash':
-                    self::$_datastores[$datastoreName] = new RedisHashDatastore($configParams);
+                    self::$_datastores[$datastoreName] = new RedisHashDatastore($configParams, $realmInfo, $loggerService);
                     break;
 
                 case 'riak_blob':
-                    self::$_datastores[$datastoreName] = new RiakBlobDatastore($configParams);
+                    self::$_datastores[$datastoreName] = new RiakBlobDatastore($configParams, $realmInfo, $loggerService);
+                    break;
+
+                case 'elasticsearch':
+                    self::$_datastores[$datastoreName] = new ElasticsearchDatastore($configParams, $realmInfo, $loggerService);
                     break;
 
                 default:

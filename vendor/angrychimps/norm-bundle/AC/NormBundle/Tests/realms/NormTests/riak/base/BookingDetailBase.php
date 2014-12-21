@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class BookingDetailBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_riak_ds';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'riak';
+    public static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'booking_detail';
+    public static $tableName = 'booking_detail';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'location_id', 'company_id', 'calendar_id', 'service_id', 'ad_id', 'member_id', 'start', 'end', 'payment_type', 'payment_id', 'cancellation_policy', 'status', 'created_at', 'updated_at');
+    public static $fieldNames = array('id', 'location_id', 'company_id', 'calendar_id', 'service_id', 'ad_id', 'member_id', 'start', 'end', 'payment_type', 'payment_id', 'cancellation_policy', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', 'DateTime', 'DateTime', 'int', 'string', 'string', 'int', 'DateTime', 'DateTime');
+    public static $fieldTypes = array('string', 'string', 'string', 'string', 'string', 'string', 'string', '\DateTime', '\DateTime', 'int', 'string', 'string', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'locationId', 'companyId', 'calendarId', 'serviceId', 'adId', 'memberId', 'start', 'end', 'paymentType', 'paymentId', 'cancellationPolicy', 'status', 'createdAt', 'updatedAt');
+    public static $propertyNames = array('id', 'locationId', 'companyId', 'calendarId', 'serviceId', 'adId', 'memberId', 'start', 'end', 'paymentType', 'paymentId', 'cancellationPolicy', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = 'id';
+    public static $autoGenerateFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = 'id';
+    public static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
     const PAY_PAL_PAYMENT__TYPE = 1;
     const CREDIT_CARD_PAYMENT__TYPE = 2;
@@ -79,10 +79,10 @@ class BookingDetailBase extends NormBaseObject {
     /** @var string */
     public $memberId;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $start;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $end;
 
     /** @var int */
@@ -97,14 +97,19 @@ class BookingDetailBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns NormTests\riak\Location */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \NormTests\riak\Location */
     public function getLocation() {
         if($this->Location === null) {
             $this->loadLocation();
@@ -112,7 +117,7 @@ class BookingDetailBase extends NormBaseObject {
         return $this->Location;
     }
 
-    /** @returns NormTests\riak\Company */
+    /** @return \NormTests\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -120,7 +125,7 @@ class BookingDetailBase extends NormBaseObject {
         return $this->Company;
     }
 
-    /** @returns NormTests\riak\Calendar */
+    /** @return \NormTests\riak\Calendar */
     public function getCalendar() {
         if($this->Calendar === null) {
             $this->loadCalendar();
@@ -128,7 +133,7 @@ class BookingDetailBase extends NormBaseObject {
         return $this->Calendar;
     }
 
-    /** @returns NormTests\riak\Ad */
+    /** @return \NormTests\riak\ProviderAd */
     public function getAd() {
         if($this->Ad === null) {
             $this->loadAd();
@@ -136,7 +141,7 @@ class BookingDetailBase extends NormBaseObject {
         return $this->Ad;
     }
 
-    /** @returns NormTests\riak\Service */
+    /** @return \NormTests\riak\Service */
     public function getService() {
         if($this->Service === null) {
             $this->loadService();
@@ -144,7 +149,7 @@ class BookingDetailBase extends NormBaseObject {
         return $this->Service;
     }
 
-    /** @returns NormTests\riak\Member */
+    /** @return \NormTests\riak\Member */
     public function getMember() {
         if($this->Member === null) {
             $this->loadMember();
@@ -166,7 +171,7 @@ class BookingDetailBase extends NormBaseObject {
     }
 
     protected function loadAd() {
-        parent::loadProperty('Ad', 'ad', 'id');
+        parent::loadProperty('Ad', 'provider_ad', 'id');
     }
 
     protected function loadService() {
@@ -178,7 +183,7 @@ class BookingDetailBase extends NormBaseObject {
     }
 
 
-    /** @returns NormTests\riak\Booking */
+    /** @return NormTests\riak\Booking */
     public function getBookingCollection() {
         if($this->Booking === null) {
             $this->loadBooking();
@@ -210,7 +215,7 @@ class BookingDetailBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\riak\BookingDetail
      */

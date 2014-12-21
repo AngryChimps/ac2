@@ -15,11 +15,17 @@ class ValidatorPass implements CompilerPassInterface
         $validatorFiles = array();
         $finder = new Finder();
         //TODO: Fix this!
-        $realms = array('riak', 'mysql');
+        $realms = array('riak', 'mysql', 'es');
 
         foreach($realms as $realm) {
-            foreach ($finder->files()->in(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/$realm/validations") as $file) {
-                $validatorFiles[] = $file->getRealPath();
+            try {
+                foreach ($finder->files()->in(__DIR__ . "/../../../../../../../app/cache/" . $container->getParameter('kernel.environment')
+                    . "/angrychimps/norm/realms/$realm/validations") as $file) {
+                    $validatorFiles[] = $file->getRealPath();
+                }
+            }
+            catch(\Exception $ex) {
+                //Do nothing, probably just means the cache hasn't been created yet
             }
         }
 

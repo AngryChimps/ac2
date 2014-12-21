@@ -23,14 +23,9 @@ class SessionController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexGetAction() {
-        $token = $this->getSessionService()->getNewSessionToken();
+        $session = $this->getSessionService()->getNewSession();
 
-        $session = new Session();
-        $session->id= $token;
-        $session->browserHash = $this->getSessionService()->getBrowserHash($this->getRequest());
-        $session->save();
-
-        return $this->responseService->success(array('session_id' => $token));
+        return $this->responseService->success(array('session_id' => $session->id));
     }
 
 }

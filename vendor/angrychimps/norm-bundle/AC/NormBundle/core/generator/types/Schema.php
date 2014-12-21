@@ -7,6 +7,10 @@ use \AC\NormBundle\core\generator\types\Table;
 use \AC\NormBundle\core\generator\types\Column;
 
 class Schema {
+    /** @var string */
+    public $realm;
+    public $namespace;
+
     /** @var  string */
     public $dbname;
 

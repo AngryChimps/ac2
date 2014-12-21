@@ -19,12 +19,16 @@ use AC\NormBundle\core\generator\types\Column;
 use AC\NormBundle\core\generator\types\ForeignKey;
 use Handlebars\Handlebars;
 use Symfony\Component\Yaml\Dumper;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 
 class Generator {
     protected $_realm;
     protected $_namespace;
     protected $_isTest;
     protected $_schemaManager;
+    protected $_environment;
+    protected $_primaryDatastore;
+    protected $_tableNames = [];
 
     /**
      * @var ForeignKeyConstraint[]
@@ -43,14 +47,18 @@ class Generator {
     protected static $_realms = array();
     protected static $_datastores;
 
-    public function generate($realm, array $realmInfo, $isTest = false) {
+    public function generate($realm, $environment, $isTest = false) {
+        $this->populateRealms();
+
         $this->_realm = $realm;
-        $this->_namespace = $realmInfo['namespace'];
+        $this->_namespace = self::$_realms[$realm]['namespace'];
         $this->_isTest = $isTest;
-        self::$_realms[$realm] = $realmInfo;
+        $this->_environment = $environment;
+
 
         $gen = new YamlGenerator($realm, $isTest);
         $schema = $gen->getSchema();
+        $this->_primaryDatastore = $schema->
 
         $this->createRealmFolders();
 
@@ -58,6 +66,40 @@ class Generator {
 
         foreach($schema->tables as $table) {
             $this->processTable($table, $isTest);
+        }
+
+        $this->renderRealmProperties();
+    }
+
+    public function generateAll($environment) {
+        $this->populateRealms();
+
+        foreach(self::$_realms as $realmName) {
+            $this->generate($realmName, $environment);
+        }
+    }
+
+//    public function renderDatastoreProperties() {
+//        $dsInfo = self::$_realms[$this->_realm]['dsInfo'];
+//
+//        $data = array();
+//        $data['dsName'] = self::$_realms[$this->_realm]['primary_datastore'];
+//        $data['driver'] = $dsInfo['driver'];
+//        $data['connetionInfo'] = $dsInfo;
+//    }
+
+    protected function populateRealms() {
+        $contents = file_get_contents(__DIR__ . "/../../../../../../app/config/ac_norm.yml");
+        $ac_norm = yaml_parse($contents);
+
+        $contents = file_get_contents(__DIR__ . "/../../../../../../app/config/ac_norm_"
+            . $this->_environment . ".yml");
+        $ac_norm_env = yaml_parse($contents);
+
+        foreach($ac_norm['realms'] as $realmName => $realmInfo) {
+            self::$_realms[$realmName] = $realmInfo;
+            self::$_realms[$realmName]['dsInfo']
+                = $ac_norm_env['datastores'][self::$_realms[$realmName]['primary_datastore']];
         }
     }
 
@@ -77,13 +119,6 @@ class Generator {
                 }
             }
         }
-//        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
-//        $yml = $serializer->serialize($data, 'yml');
-//        file_put_contents(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/"
-//            . $this->_realm . '/validations/validations.yml', $yml);
-
-//        yaml_emit_file(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/"
-//            . $this->_realm . '/validations/validations.yml', $data, YAML_UTF8_ENCODING, YAML_LN_BREAK);
 
         $dumper = new Dumper();
 
@@ -105,15 +140,21 @@ class Generator {
         if($this->_isTest) {
             if (!file_exists(__DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm)) {
                 mkdir(__DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm);
-                mkdir(__DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm . '/base');
                 mkdir(__DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm . '/validations');
+                mkdir(__DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm . '/services');
+                mkdir(__DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm . '/services/base');
+                mkdir(__DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm . '/yaml');
+                mkdir(__DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm . '/yaml/classes');
             }
         }
         else {
             if (!file_exists(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $this->_realm)) {
                 mkdir(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $this->_realm);
-                mkdir(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $this->_realm . '/base');
                 mkdir(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $this->_realm . '/validations');
+                mkdir(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $this->_realm . '/services');
+                mkdir(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $this->_realm . '/services/base');
+                mkdir(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $this->_realm . '/yaml');
+                mkdir(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $this->_realm . '/yaml/classes');
             }
         }
     }
@@ -125,52 +166,96 @@ class Generator {
         }
     }
 
-    protected function getClassConfigs() {
-        $configs = array();
-
-        $driver = DatastoreManager::getReferenceDbType($this->_realm);
-        switch($driver) {
-            case 'pdo_mysql':
-                $referenceDatastore = self::$_realms[$this->_realm]['referenceDatastore'];
-                $schemaName = $referenceDatastore['dbname'];
-
-                $ds = DatastoreManager::getReferenceDb($this->_realm);
-                $sql = 'SELECT TABLE_NAME, TABLE_COMMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = ?';
-                $params = array($schemaName);
-
-                $stmt = $ds->executeQuery($sql, $params);
-
-                while($row = $stmt->fetch()) {
-                    $commentArray = array();
-                    $tableName = $row['TABLE_NAME'];
-                    $comments = isset($$row['TABLE_COMMENT']) ? $row['TABLE_COMMENT'] : null;
-
-                    if($comments !== null) {
-                        $lines = explode("\n", $comments);
-                        foreach($lines as $line) {
-                            $parts = explode('=', $line, 1);
-                            $lpart = trim($parts[0]);
-                            $rpart = trim($parts[1]);
-                            $commentArray[] = array($lpart => $rpart);
-                        }
-                        $configs[$tableName] = $commentArray;
-                    }
-                }
-                break;
-        }
-
-        return $configs;
-    }
+//    protected function getClassConfigs() {
+//        $configs = array();
+//
+//        $driver = DatastoreManager::getReferenceDbType($this->_realm);
+//        switch($driver) {
+//            case 'pdo_mysql':
+//                $referenceDatastore = self::$_realms[$this->_realm]['referenceDatastore'];
+//                $schemaName = $referenceDatastore['dbname'];
+//
+//                $ds = DatastoreManager::getReferenceDb($this->_realm);
+//                $sql = 'SELECT TABLE_NAME, TABLE_COMMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = ?';
+//                $params = array($schemaName);
+//
+//                $stmt = $ds->executeQuery($sql, $params);
+//
+//                while($row = $stmt->fetch()) {
+//                    $commentArray = array();
+//                    $tableName = $row['TABLE_NAME'];
+//                    $comments = isset($$row['TABLE_COMMENT']) ? $row['TABLE_COMMENT'] : null;
+//
+//                    if($comments !== null) {
+//                        $lines = explode("\n", $comments);
+//                        foreach($lines as $line) {
+//                            $parts = explode('=', $line, 1);
+//                            $lpart = trim($parts[0]);
+//                            $rpart = trim($parts[1]);
+//                            $commentArray[] = array($lpart => $rpart);
+//                        }
+//                        $configs[$tableName] = $commentArray;
+//                    }
+//                }
+//                break;
+//        }
+//
+//        return $configs;
+//    }
 
     protected function processTable(Table $table, $isTest) {
         $data = $this->getHandlebarsData($table);
-        $this->renderTemplate('NormObject', $data['className'], $data, false, $isTest);
-        $this->renderTemplate('NormBaseObject', $data['className'] . 'Base', $data, true, $isTest);
-        $this->renderTemplate('NormCollection', $data['className'] . 'Collection', $data, false, $isTest);
-        $this->renderTemplate('NormBaseCollection', $data['className'] . 'CollectionBase', $data, true, $isTest);
+        $this->renderTemplate('NormObject', $data['className'], $data, $isTest);
+        $this->renderTemplate('NormCollection', $data['className'] . 'Collection', $data, $isTest);
+        $this->renderRealmInfoTable($data, $table->name);
     }
 
-    protected function renderTemplate($templateName, $className, $data, $isBaseObject, $isTest) {
+    protected function renderRealmProperties() {
+        $data = [];
+        $data['namespace'] = '';
+        $data['primaryDatastore'] = self::$_realms[$this->_realm]['primary_datastore'];
+        $data['realm'] = $this->_realm;
+        $data['tables'] = $this->_tableNames;
+        $data['namespace'] = $this->_namespace;
+
+        $engine = new Handlebars(array(
+            'loader' => new \Handlebars\Loader\FilesystemLoader(__DIR__.'/templates/', array('extension' => 'txt')),
+        ));
+        $rendered = $engine->render('RealmProperties', $data);
+
+        if(!file_exists(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm/realmInfo/' . $this->_realm . '/_realmProperties.php')) {
+            touch(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm/realmInfo/' . $this->_realm . '/_realmProperties.php');
+        }
+        file_put_contents(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm/realmInfo/' . $this->_realm . '/_realmProperties.php', $rendered);
+
+    }
+
+    protected function renderRealmInfoTable($data, $tableName) {
+        $engine = new Handlebars(array(
+            'loader' => new \Handlebars\Loader\FilesystemLoader(__DIR__.'/templates/', array('extension' => 'txt')),
+        ));
+        $rendered = $engine->render('TableInfo', $data);
+
+        if(!file_exists(__DIR__ . '/../../../../../../../app/cache/angrychimps')) {
+            mkdir(__DIR__ . '/../../../../../../../app/cache/angrychimps');
+        }
+        if(!file_exists(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm')) {
+            mkdir(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm');
+        }
+        if(!file_exists(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm/realmInfo')) {
+            mkdir(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm/realmInfo');
+        }
+        if(!file_exists(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm/realmInfo/' . $this->_realm)) {
+            mkdir(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm/realmInfo/' . $this->_realm);
+        }
+
+        if(!file_exists(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm/realmInfo/' . $this->_realm . '/' . $tableName . '.php')) {
+            touch(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm/realmInfo/' . $this->_realm . '/' . $tableName . '.php');
+        }
+        file_put_contents(__DIR__ . '/../../../../../../../app/cache/angrychimps/norm/realmInfo/' . $this->_realm . '/' . $tableName . '.php', $rendered);
+    }
+
+    protected function renderTemplate($templateName, $className, $data, $isTest) {
 
         $engine = new Handlebars(array(
             'loader' => new \Handlebars\Loader\FilesystemLoader(__DIR__.'/templates/', array('extension' => 'txt')),
@@ -178,32 +263,15 @@ class Generator {
         $rendered = $engine->render($templateName, $data);
 
         if($isTest) {
-            if ($isBaseObject) {
-                $filename = __DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm . '/base/' . $className . '.php';
-            } else {
-                $filename = __DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm . '/' . $className . '.php';
-            }
+            $filename = __DIR__ . '/../../Tests/realms/NormTests/' . $this->_realm . '/' . $className . '.php';
         }
         else {
-            if ($isBaseObject) {
-                $filename = __DIR__ . '/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/' . $this->_realm . '/base/' . $className . '.php';
-            } else {
-                $filename = __DIR__ . '/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/' . $this->_realm . '/' . $className . '.php';
-            }
+            $filename = __DIR__ . '/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/' . $this->_realm . '/' . $className . '.php';
         }
 
-        //Only overwrite base files
-        if($isBaseObject) {
-            if(!file_exists($filename)) {
-                touch($filename);
-            }
+        if(!file_exists($filename)) {
+            touch($filename);
             file_put_contents($filename, $rendered);
-        }
-        else {
-            if(!file_exists($filename)) {
-                touch($filename);
-                file_put_contents($filename, $rendered);
-            }
         }
     }
 
@@ -214,6 +282,7 @@ class Generator {
     protected function getHandlebarsData(Table $table) {
         $data = array();
 
+        $data['driver'] = self::$_realms[$this->_realm]['dsInfo']['driver'];
         $data['tableName'] = $table->name;
         $data['className'] = Utils::table2class($table->name);
         $data['realm'] = $this->_realm;
@@ -221,14 +290,11 @@ class Generator {
         $data['primaryDatastoreName'] = /*!empty($this->_classConfigs[$table->name]['primaryDatastoreName'])
             ? $this->_classConfigs[$table->name]['primaryDatastoreName']
             :*/ self::$_realms[$this->_realm]['primary_datastore'];
-        $data['cacheDatastoreName'] = /*!empty($this->_classConfigs[$table->name]['cacheDatastoreName'])
-            ? $this->_classConfigs[$table->name]['cacheDatastoreName']
-            :*/ self::$_realms[$this->_realm]['cache_datastore'];
 
         $data['fullyQualifiedClass'] = $data['namespace'] . "\\" . $data['className'];
         $data['fullyQualifiedClassWithPrecedingBackslash'] = "\\" . $data['namespace'] . "\\" . $data['className'];
-        $data['fullyQualifiedBaseObject'] = $data['namespace'] . "\\base\\" . $data['className'] . 'Base';
-        $data['fullyQualifiedBaseCollectionObject'] = $data['namespace'] . "\\base\\" . $data['className'] . 'CollectionBase';
+        $data['classNameDoubleEscaped'] = "\\\\" . $data['namespace'] . "\\\\" . $data['className'];
+        $data['collectionNameDoubleEscaped'] = "\\\\" . $data['namespace'] . "\\\\" . $data['className'] . 'Collection';
 
         $data['fieldNames'] = array();
         $data['propertyNames'] = array();
@@ -239,9 +305,9 @@ class Generator {
         $data['autoIncrementPropertyName'] = Utils::field2property($table->autoIncrementName);
         $data['autoGenerateFieldName'] = $table->autoGenerateName;
         $data['autoGeneratePropertyName'] = Utils::field2property($table->autoGenerateName);
+        $data['fields'] = [];
         foreach($table->columns as $column) {
             /** @var $column Column */
-
             $data['fieldNames'][] = $column->name;
             switch($column->type) {
                 case 'Date':
@@ -271,6 +337,13 @@ class Generator {
                 'type' => $data['fieldTypes'][count($data['fieldTypes']) - 1],
             );
             $data['validations'] = $column->validations;
+
+            //For the Realm Info Template
+            $fieldData = [];
+            $fieldData['fieldName'] = $column->name;
+            $fieldData['type'] = $column->type;
+            $fieldData['propertyName'] = $column->getPropertyName();
+            $data['fields'][] = $fieldData;
         }
 
         $data['fieldNamesQuotedString'] = Utils::array2quotedString($data['fieldNames']);
@@ -387,6 +460,11 @@ class Generator {
 //            }
 //        }
 
+        $this->_tableNames[] = array(
+            'tableName' => $table->name,
+            'realmInfo' => '$realms["' . $this->_realm . '"]',
+            'tableInfo' => '$realms["' . $this->_realm . '"]["' . $table->name . '"]',
+        );
         return $data;
     }
 

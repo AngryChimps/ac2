@@ -1,0 +1,43 @@
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: street1
+    type: string
+    validations:
+        - Length:
+            min: 2
+            max: 25
+  - name: street2
+    type: string
+    validations:
+        - Length:
+            min: 2
+            max: 25
+  - name: city
+    type: string
+  - name: state
+    type: string
+  - name: zip
+    type: string
+    validations:
+        - Length:
+            min: 5
+            max: 10
+  - name: phone
+    type: string
+    validations:
+        - Length:
+            min: 10
+            max: 25
+  - name: lat
+    type: float
+  - name: long
+    type: float
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

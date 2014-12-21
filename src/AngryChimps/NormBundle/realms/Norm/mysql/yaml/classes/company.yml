@@ -30,7 +30,7 @@ fields:
     type: string[]
   - name: location_keys
     type: string[]
-  - name:
+  - name: status
     type: enum
     values:
       - Active

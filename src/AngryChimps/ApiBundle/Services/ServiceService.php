@@ -7,13 +7,23 @@ use Norm\riak\Member;
 use Norm\riak\Service;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
+use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
 
 class ServiceService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
     protected $validator;
 
-    public function __construct(ValidatorInterface $validator) {
+    /** @var  NormRiakService */
+    protected $riak;
+
+    /** @var  NormMysqlService */
+    protected $mysql;
+
+    public function __construct(ValidatorInterface $validator, NormRiakService $riak, NormMysqlService $mysql) {
         $this->validator = $validator;
+        $this->riak = $riak;
+        $this->mysql = $mysql;
     }
 
     public function createService($name, $companyId, $discountedPrice,
@@ -34,7 +44,7 @@ class ServiceService {
             return false;
         }
 
-        $service->save();
+        $this->riak->create($service);
 
         return $service;
     }
@@ -55,9 +65,17 @@ class ServiceService {
             return false;
         }
 
-        $service->save();
+        $this->riak->update($service);
 
         return $service;
     }
 
+    public function getService($id) {
+        return $this->riak->getService($id);
+    }
+
+    public function markServiceDeleted(Service $service) {
+        $service->status = Service::DISABLED_STATUS;
+        $this->riak->update($service);
+    }
 } 

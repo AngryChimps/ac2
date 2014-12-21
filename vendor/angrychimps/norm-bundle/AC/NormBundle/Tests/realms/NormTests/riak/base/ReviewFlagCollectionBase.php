@@ -5,10 +5,11 @@ namespace NormTests\riak\base;
 use AC\NormBundle\core\NormBaseCollection;
 
 class ReviewFlagCollectionBase extends NormBaseCollection {
-    protected static $realm = 'riak';
-    protected static $tableName = 'review_flag';
-    protected static $singularClassName = 'ReviewFlag';
-    protected static $primaryKeyFieldNames = array('id');
-    protected static $primaryKeyPropertyNames = array('id');
-    protected static $autoIncrementFieldName = '';
+    public static $realm = 'riak';
+    public static $tableName = 'review_flag';
+    public static $singularClassName = '\NormTests\riak\ReviewFlag';
+    public static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
+    public static $autoIncrementFieldName = '';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 }

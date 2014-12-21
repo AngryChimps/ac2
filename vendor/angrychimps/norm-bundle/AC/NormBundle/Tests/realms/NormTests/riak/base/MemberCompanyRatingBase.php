@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class MemberCompanyRatingBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_riak_ds';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'riak';
+    public static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'member_company_rating';
+    public static $tableName = 'member_company_rating';
 
     /** @var string[] */
-    protected static $fieldNames = array('member_id', 'company_id', 'rating', 'created_at', 'updated_at');
+    public static $fieldNames = array('member_id', 'company_id', 'rating', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'int', 'DateTime', 'DateTime');
+    public static $fieldTypes = array('string', 'string', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('memberId', 'companyId', 'rating', 'createdAt', 'updatedAt');
+    public static $propertyNames = array('memberId', 'companyId', 'rating', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('member_id', 'company_id');
+    public static $primaryKeyFieldNames = array('member_id', 'company_id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('memberId', 'companyId');
+    public static $primaryKeyPropertyNames = array('memberId', 'companyId');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    public static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    public static $autoGeneratePropertyName = '';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
 
     /** @var string */
@@ -60,14 +60,19 @@ class MemberCompanyRatingBase extends NormBaseObject {
     /** @var int */
     public $rating;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns NormTests\riak\Company */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \NormTests\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -75,7 +80,7 @@ class MemberCompanyRatingBase extends NormBaseObject {
         return $this->Company;
     }
 
-    /** @returns NormTests\riak\Member */
+    /** @return \NormTests\riak\Member */
     public function getMember() {
         if($this->Member === null) {
             $this->loadMember();
@@ -113,7 +118,7 @@ class MemberCompanyRatingBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\riak\MemberCompanyRating
      */

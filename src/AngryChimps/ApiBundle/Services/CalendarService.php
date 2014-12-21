@@ -4,8 +4,11 @@
 namespace AngryChimps\ApiBundle\Services;
 
 
+use AC\NormBundle\Services\NormService;
 use AngryChimps\MailerBundle\Messages\BasicMessage;
 use AngryChimps\MailerBundle\Services\MailerService;
+use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
+use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
 use Armetiz\FacebookBundle\FacebookSessionPersistence;
 use Norm\riak\Availability;
 use Norm\riak\Calendar;
@@ -19,32 +22,35 @@ use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CalendarService {
+    /** @var  NormRiakService */
+    protected $riak;
+
+    /** @var  NormMysqlService */
+    protected $mysql;
+
+    public function __construct(NormRiakService $riak, NormMysqlService $mysql) {
+        $this->riak = $riak;
+        $this->mysql = $mysql;
+    }
+
     public function createNew(Location $location, $name) {
         $calendar = new Calendar();
         $calendar->locationId = $location->id;
         $calendar->name = $name;
         $calendar->status = Calendar::ENABLED_STATUS;
-        $calendar->save();
+        $calendar->companyId = $location->companyId;
+        $this->riak->create($calendar);
 
         $location->calendarIds[] = $calendar->id;
-        $location->save();
+        $this->riak->update($location);
 
         return $calendar;
     }
 
     public function addAvailability(Calendar $calendar, Availability $availability) {
-        $calendarDay = CalendarDay::getByPk(array($calendar->id, $availability->start->format('Y-m-d')));
-
-        if($calendarDay === null) {
-            $calendarDay = new CalendarDay();
-            $calendarDay->calendarId = $calendar->id;
-            $calendarDay->date = $availability->start;
-            $calendarDay->save();
-        }
-
         //If the availability overlaps a booking, then add it to the overlaps array
         $overlaps = array();
-        foreach($calendarDay->bookings as $booking) {
+        foreach($calendar->bookings as $booking) {
             if(($availability->start < $booking->end && $availability->end > $booking->start)
                     || ($booking->start < $availability->end && $booking->end > $availability->start)) {
                 $overlaps[] = $booking;
@@ -57,7 +63,7 @@ class CalendarService {
         }
 
         //If the availability overlaps another availability, merge the two
-        foreach($calendarDay->availabilities as $cdAvail) {
+        foreach($calendar->availabilities as $cdAvail) {
             if(($availability->start < $cdAvail->end && $availability->end > $cdAvail->start)
                 || ($cdAvail->start < $availability->end && $cdAvail->end > $availability->start)) {
                 $overlaps[] = $cdAvail;
@@ -65,7 +71,7 @@ class CalendarService {
         }
 
         if(count($overlaps) == 0) {
-            $calendarDay->availabilities[] = $availability;
+            $calendar->availabilities[] = $availability;
         }
         else {
             for($i = 0; $i < count($overlaps); $i++) {
@@ -73,12 +79,12 @@ class CalendarService {
                     $overlaps[$i]->start, $overlaps[$i]->end);
                 $availability->start = $newStart;
                 $availability->end = $newEnd;
-                unset($calendarDay->availabilities[$overlaps[$i]->id]);
+                unset($calendar->availabilities[$overlaps[$i]->id]);
             }
-            $calendarDay->availabilities[] = $availability;
+            $calendar->availabilities[] = $availability;
         }
 
-        $calendarDay->save();
+        $this->riak->update($calendar);
     }
 
     protected function mergeDateRanges($start1, $end1, $start2, $end2) {

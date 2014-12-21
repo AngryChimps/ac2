@@ -11,7 +11,7 @@ Feature: member-get
     And I get back a valid json object
     And The response contains a field named "payload.member.id"
     And The value of the "payload.member.id" field returned is of type "string"
-    And The string length of the "payload.member.id" field is "16"
+    And The string length of the "payload.member.id" field is "32"
     And The response does not contain a field named "payload.member.email"
     And Finally, I clean up my objects
 
@@ -22,7 +22,7 @@ Feature: member-get
     And I get back a valid json object
     And The response contains a field named "payload.member.id"
     And The value of the "payload.member.id" field returned is of type "string"
-    And The string length of the "payload.member.id" field is "16"
+    And The string length of the "payload.member.id" field is "32"
     And The response contains a field named "payload.member.email"
     And The value of the "payload.member.email" field returned is of type "string"
     And The string length of the "payload.member.id" field greater than zero

@@ -3,6 +3,8 @@
 
 namespace AngryChimps\ApiBundle\Features\Context;
 
+use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
+use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
 use AngryChimps\ApiBundle\Services\GuzzleService;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
@@ -17,6 +19,7 @@ use Norm\riak\Member;
 use Guzzle\Http\Message\Response;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpKernel\KernelInterface;
+use AngryChimps\ApiBundle\Services\MemberService;
 
 class AbstractFeatureContext {
     // Setup the container using the KernelDictionary trait
@@ -56,6 +59,15 @@ class AbstractFeatureContext {
 
     private $objects = array();
 
+    /** @var  NormRiakService */
+    protected $riak;
+
+    /** @var  NormMysqlService */
+    protected $mysql;
+
+    /** @var  MemberService */
+    protected $memberService;
+
     protected function addObject($obj) {
         $this->objects[] = $obj;
     }
@@ -74,6 +86,9 @@ class AbstractFeatureContext {
         $this->guzzle = new Client();
         $this->sessionHeaderName = $this->getContainer()->getParameter('angry_chimps_api.session_header_name');
         $this->baseUrl = $this->getContainer()->getParameter('angry_chimps_api.base_url');
+        $this->riak = $this->getContainer()->get('ac_norm.norm.riak');
+        $this->mysql = $this->getContainer()->get('ac_norm.norm.mysql');
+        $this->memberService = $this->getContainer()->get('angry_chimps_api.member');
     }
     /**
      * Returns HttpKernel service container.

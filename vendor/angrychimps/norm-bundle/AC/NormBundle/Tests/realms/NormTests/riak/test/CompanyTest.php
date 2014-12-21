@@ -2,6 +2,7 @@
 
 namespace AC\NormBundle\Tests\realms\riak;
 
+use NormTests\riak\Service;
 use NormTests\riak\Company;
 use NormTests\riak\Member;
 use AC\NormBundle\Tests\AbstractRiakTestCase;
@@ -18,6 +19,16 @@ class CompanyTest extends AbstractRiakTestCase {
         $company->description = "A bangin' good time";
         $company->plan = Company::BASIC_PLAN;
         $company->status = Company::ENABLED_STATUS;
+
+        //Set up some services
+        $service1 = new Service();
+        $service1->name = 'Long Haircut';
+        $service1->description = 'An excellent choice for long hair';
+        $service1->discountedPrice = 49.99;
+        $service1->originalPrice = 100;
+        $service1->minsForService = 30;
+        $service1->minsNotice = 60;
+        $service1->status = Service::ENABLED_STATUS;
 
         return $company;
     }

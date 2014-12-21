@@ -5,10 +5,11 @@ namespace NormTests\riak\base;
 use AC\NormBundle\core\NormBaseCollection;
 
 class ReviewCollectionBase extends NormBaseCollection {
-    protected static $realm = 'riak';
-    protected static $tableName = 'review';
-    protected static $singularClassName = 'Review';
-    protected static $primaryKeyFieldNames = array('id');
-    protected static $primaryKeyPropertyNames = array('id');
-    protected static $autoIncrementFieldName = '';
+    public static $realm = 'riak';
+    public static $tableName = 'review';
+    public static $singularClassName = '\NormTests\riak\Review';
+    public static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
+    public static $autoIncrementFieldName = '';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 }

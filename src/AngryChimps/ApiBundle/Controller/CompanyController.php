@@ -31,7 +31,7 @@ class CompanyController extends AbstractController
 
     public function indexGetAction($id)
     {
-        $company = Company::getByPk($id);
+        $company = $this->companyService->getByPk($id);
 
         if($company === null) {
             $errors = array(
@@ -41,13 +41,12 @@ class CompanyController extends AbstractController
             return $this->responseService->failure(404, $errors);
         }
 
-        $user = $this->getAuthenticatedUser();
-        if($user !== null && in_array($user->id, $company->administerMemberIds)) {
-            return $this->responseService->success(array('company' => $company->getPrivateArray()));
-        }
-        else {
-            return $this->responseService->success(array('company' => $company->getPublicArray()));
-        }
+        $arr = [];
+        $arr['id'] = $company->id;
+        $arr['name'] = $company->name;
+        $arr['description'] = $company->description;
+
+        return $this->responseService->success(array('company' => $arr));
     }
 
     /**
@@ -60,7 +59,7 @@ class CompanyController extends AbstractController
 
         $errors = array();
         $user = $this->getAuthenticatedUser();
-        $company = $this->getCompanyService()->createCompany($payload['name'], $user, $errors);
+        $company = $this->companyService->createCompany($payload['name'], $user, $errors);
         if($company === false) {
             $errors = array(
                 'human' => 'Error validating company fields',
@@ -69,7 +68,7 @@ class CompanyController extends AbstractController
             return $this->responseService->failure(400, $errors);
         }
 
-        return $this->responseService->success(array('company' => $company->getPrivateArray()));
+        return $this->responseService->success(array('company' => array('id' => $company->id)));
     }
 
     /**
@@ -78,7 +77,7 @@ class CompanyController extends AbstractController
      */
     public function indexPutAction($id)
     {
-        $company = Company::getByPk($id);
+        $company = $this->companyService->getByPk($id);
 
         if($company === null) {
             $errors = array(
@@ -98,8 +97,8 @@ class CompanyController extends AbstractController
 
         $payload = $this->getPayload();
         $errors = array();
-        $user = $this->getAuthenticatedUser();
-        $valid = $this->getCompanyService()->updateCompany($company, $payload['name'], $errors);
+
+        $valid = $this->companyService->updateCompany($company, $payload['name'], $errors);
         if(!$valid) {
             $errors = array(
                 'human' => 'Unable to validate company inputs',
@@ -117,8 +116,7 @@ class CompanyController extends AbstractController
      */
     public function indexDeleteAction($id)
     {
-        $company = Company::getByPkEnabled($id);
-
+        $company = $this->companyService->getByPk($id);
 
         if($company === null) {
             $errors = array(
@@ -136,13 +134,8 @@ class CompanyController extends AbstractController
             return $this->responseService->failure(403, $errors);
         }
 
-        $company->status = Company::DISABLED_STATUS;
-        $company->save();
+        $this->companyService->markCompanyDeleted($company);
 
         return $this->responseService->success();
-    }
-
-    public function getCompanyService() {
-        return $this->companyService;
     }
 }

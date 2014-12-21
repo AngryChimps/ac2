@@ -9,27 +9,7 @@ fields:
     type: string
   - name: email
     type: string
-  - name: password
-    type: string
   - name: name
-    type: string
-  - name: fb_id
-    type: string
-  - name: fb_access_token
-    type: string
-  - name: fname
-    type: string
-  - name: lname
-    type: string
-  - name: gender
-    type: string
-  - name: locale
-    type: string
-  - name: timezone
-    type: int
-  - name: dob
-    type: Date
-  - name: photo
     type: string
   - name: status
     type: enum
@@ -38,6 +18,7 @@ fields:
       - Deleted
       - Locked
       - Banned
+      - PartialRegistration
   - name: role
     type: enum
     values:
@@ -45,6 +26,9 @@ fields:
       - Support
       - Admin
       - SuperAdmin
+  - name: last_activity_date
+    type: Date
+    default: "new \\DateTime()"
   - name: created_at
     type: DateTime
   - name: updated_at

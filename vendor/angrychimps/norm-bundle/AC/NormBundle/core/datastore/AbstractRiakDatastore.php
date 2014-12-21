@@ -3,6 +3,8 @@
 
 namespace AC\NormBundle\core\datastore;
 
+use AC\NormBundle\Services\RealmInfoService;
+use Psr\Log\LoggerInterface;
 
 abstract class AbstractRiakDatastore extends AbstractDatastore {
     const PREFIX = '__norm';
@@ -13,15 +15,25 @@ abstract class AbstractRiakDatastore extends AbstractDatastore {
     /** @var \Riak\Bucket[] */
     protected $buckets = array();
 
-    public function __construct($configParams) {
+    /** @var  RealmInfoService */
+    protected $realmInfo;
+
+
+
+    public function __construct($configParams, RealmInfoService $realmInfo, LoggerInterface $loggerService) {
+        parent::__construct($realmInfo, $loggerService);
         $this->connection = new \Riak\Connection($configParams['host'], $configParams['port']);
+        $this->realmInfo = $realmInfo;
     }
 
     protected function _getBucketName($realm, $tablename) {
         return self::PREFIX . ':' . $realm . ':' . $tablename . ':objects';
     }
 
-    public function getKeyName($primaryKeys) {
+    protected function getKeyName($primaryKeys) {
+        if(!is_array($primaryKeys)) {
+            $primaryKeys = [$primaryKeys];
+        }
         foreach($primaryKeys as &$primaryKey) {
             if($primaryKey instanceof \DateTime) {
                 $primaryKey = $primaryKey->format('Y-m-d H:i:s');

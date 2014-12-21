@@ -2,9 +2,14 @@
 
 namespace AngryChimps\ApiBundle\Controller;
 
+use AngryChimps\ApiBundle\Services\CompanyService;
+use AngryChimps\ApiBundle\Services\LocationService;
+use AngryChimps\ApiBundle\Services\ProviderAdService;
 use AngryChimps\ApiBundle\Services\SignupService;
 use AngryChimps\GeoBundle\Services\GeolocationService;
 use Norm\riak\Company;
+use Norm\riak\Location;
+use Norm\riak\ProviderAd;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -24,14 +29,21 @@ class SignupController extends AbstractController
 {
     protected $signupService;
     protected $geolocationService;
+    protected $providerAdService;
+    protected $companyService;
+    protected $locationService;
 
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
                                 ResponseService $responseService, SignupService $signupService,
-                                GeolocationService $geolocationService)
+                                GeolocationService $geolocationService, ProviderAdService $providerAdService,
+                                CompanyService $companyService, LocationService $locationService)
     {
         parent::__construct($requestStack, $sessionService, $responseService);
         $this->signupService = $signupService;
         $this->geolocationService = $geolocationService;
+        $this->providerAdService = $providerAdService;
+        $this->companyService = $companyService;
+        $this->locationService = $locationService;
     }
 
     public function registerProviderAdAction()
@@ -75,7 +87,7 @@ class SignupController extends AbstractController
             return $this->responseService->failure(403, $error);
         }
 
-        $company = Company::getByPk($this->getAuthenticatedUser()->managedCompanyIds[0]);
+        $company = $this->companyService->getByPk($this->getAuthenticatedUser()->managedCompanyIds[0]);
 
         if($company === null){
             $error = array('code' => 'Api.SignupController.registerProviderCompany.4',
@@ -91,9 +103,11 @@ class SignupController extends AbstractController
             return $this->responseService->failure(400, $error);
         }
 
+        $location = $this->locationService->getByPk($company->locationIds[0]);
+
         $errors = array();
         $result = $this->signupService->registerProviderCompany($this->getAuthenticatedUser(), $company,
-            $payload['company_name'], $payload['member_name'], $payload['email'],
+            $location, $payload['company_name'], $payload['member_name'], $payload['email'],
             $payload['password'], new \DateTime($payload['dob']), $payload['street1'],
             $payload['street2'], $payload['zip'], $address, $payload['phone'], $payload['mobile_phone'], $errors);
 
@@ -104,7 +118,9 @@ class SignupController extends AbstractController
             return $this->responseService->failure(400, $error);
         }
 
+        //Publish the ad
+        $this->providerAdService->publish($this->providerAdService->getProviderAd($result['providerAd']['id']));
+
         return $this->responseService->success($result);
     }
-
 }

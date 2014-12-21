@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class ZipcodeBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_riak_ds';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'riak';
+    public static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'zipcode';
+    public static $tableName = 'zipcode';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'city', 'state', 'lat', 'long', 'north_lat', 'south_lat', 'east_long', 'west_long', 'created_at');
+    public static $fieldNames = array('id', 'city', 'state', 'lat', 'long', 'north_lat', 'south_lat', 'east_long', 'west_long', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'string', 'string', 'float', 'float', 'float', 'float', 'float', 'float', 'DateTime');
+    public static $fieldTypes = array('int', 'string', 'string', 'float', 'float', 'float', 'float', 'float', 'float', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'city', 'state', 'lat', 'long', 'northLat', 'southLat', 'eastLong', 'westLong', 'createdAt');
+    public static $propertyNames = array('id', 'city', 'state', 'lat', 'long', 'northLat', 'southLat', 'eastLong', 'westLong', 'createdAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    public static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    public static $autoGeneratePropertyName = '';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
 
     /** @var int */
@@ -78,9 +78,14 @@ class ZipcodeBase extends NormBaseObject {
     /** @var float */
     public $westLong;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
+
+    public function __construct() {
+        parent::__construct();
+
+    }
 
 
 
@@ -104,7 +109,7 @@ class ZipcodeBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\riak\Zipcode
      */

@@ -5,10 +5,11 @@ namespace NormTests\riak\base;
 use AC\NormBundle\core\NormBaseCollection;
 
 class MessageCollectionBase extends NormBaseCollection {
-    protected static $realm = 'riak';
-    protected static $tableName = 'message';
-    protected static $singularClassName = 'Message';
-    protected static $primaryKeyFieldNames = array('message_key');
-    protected static $primaryKeyPropertyNames = array('messageKey');
-    protected static $autoIncrementFieldName = '';
+    public static $realm = 'riak';
+    public static $tableName = 'message';
+    public static $singularClassName = '\NormTests\riak\Message';
+    public static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
+    public static $autoIncrementFieldName = '';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 }

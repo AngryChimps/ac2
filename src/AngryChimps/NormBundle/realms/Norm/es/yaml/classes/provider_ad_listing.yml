@@ -1,0 +1,20 @@
+primary_keys:
+  - ad_id
+
+fields:
+  - name: ad_id #immutable id
+    type: string
+  - name: company_name
+    type: string
+  - name: title
+    type: string
+  - name: photo
+    type: string
+  - name: address
+    type: \Norm\riak\Address
+  - name: rating
+    type: float
+  - name: availabilities
+    type: \Norm\riak\AvailabilityCollection
+  - name: updated_at
+    type: DateTime

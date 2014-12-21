@@ -11,6 +11,10 @@ fields:
     type: string
   - name: name
     type: string
+  - name: availabilities
+    type: \Norm\riak\AvailabilityCollection
+  - name: bookings
+    type: \Norm\riak\BookingCollection
   - name: status
     type: enum
     values:

@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class AddressBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_mysql_ds';
+    public static $primaryDatastoreName = '__norm_test_mysql_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'mysql';
+    public static $realm = 'mysql';
 
     /** @var  string */
-    protected static $tableName = 'address';
+    public static $tableName = 'address';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'street', 'city', 'state', 'zip', 'zip4');
+    public static $fieldNames = array('id', 'street', 'city', 'state', 'zip', 'zip4');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'string', 'string', 'string', 'int', 'int');
+    public static $fieldTypes = array('int', 'string', 'string', 'string', 'int', 'int');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'street', 'city', 'state', 'zip', 'zip4');
+    public static $propertyNames = array('id', 'street', 'city', 'state', 'zip', 'zip4');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = 'id';
+    public static $autoIncrementFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = 'id';
+    public static $autoIncrementPropertyName = 'id';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    public static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    public static $autoGeneratePropertyName = '';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = true;
+    public static $hasAutoIncrement = true;
 
 
     /** @var int */
@@ -70,9 +70,14 @@ class AddressBase extends NormBaseObject {
     public $zip4;
 
 
+    public function __construct() {
+        parent::__construct();
+
+    }
 
 
-    /** @returns NormTests\mysql\Person */
+
+    /** @return NormTests\mysql\Person */
     public function getPersonCollection() {
         if($this->Person === null) {
             $this->loadPerson();
@@ -80,7 +85,7 @@ class AddressBase extends NormBaseObject {
         return $this->Person;
     }
 
-    /** @returns NormTests\mysql\Company */
+    /** @return NormTests\mysql\Company */
     public function getCompanyCollection() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -116,7 +121,7 @@ class AddressBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\mysql\Address
      */

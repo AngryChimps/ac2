@@ -7,7 +7,10 @@ namespace AngryChimps\ApiBundle\Services;
 use AngryChimps\GeoBundle\Services\GeolocationService;
 use Norm\riak\Company;
 use Norm\riak\Location;
+use Norm\riak\Address;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
+use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
 
 class LocationService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
@@ -16,40 +19,47 @@ class LocationService {
     /** @varAngryChimps\GeoBundle\Services\GeolocationService */
     protected $geo;
 
-    public function __construct(ValidatorInterface $validator, GeolocationService $geo) {
+    /** @var  NormRiakService */
+    protected $riak;
+
+    /** @var  NormMysqlService */
+    protected $mysql;
+
+    public function __construct(ValidatorInterface $validator, GeolocationService $geo, NormRiakService $riak, NormMysqlService $mysql) {
         $this->validator = $validator;
         $this->geo = $geo;
+        $this->riak = $riak;
+        $this->mysql = $mysql;
     }
 
     public function createEmpty(Company $company) {
         $location = new Location();
+        $location->companyId = $company->id;
         $location->status = Location::ENABLED_STATUS;
-        $location->save();
+        $this->riak->create($location);
 
         $company->locationIds[] = $location->id;
-        $company->save();
-
-        $location->companyId = $company->id;
-        $location->save();
+        $this->riak->update($company);
 
         return $location;
     }
 
 
-    public function createLocation($name, $street1, $street2, $zip, $phone, $company, $user, &$errors) {
+    public function createLocation($name, $street1, $street2, $zip, $phone, $company, &$errors) {
         $address = $this->geo->lookupAddress($street1, $street2, $zip);
 
         $location = new Location();
         $location->name = $name;
-        $location->street1 = $street1;
-        $location->street2 = $street2;
-        $location->zip = $zip;
-        $location->phone = $phone;
+        $location->address = new Address();
+        $location->address->street1 = $street1;
+        $location->address->street2 = $street2;
+        $location->address->zip = $zip;
+        $location->address->phone = $phone;
 
-        $location->city = $address->city;
-        $location->state = $address->state;
-        $location->lat = $address->lat;
-        $location->long = $address->long;
+        $location->address->city = $address->city;
+        $location->address->state = $address->state;
+        $location->address->lat = $address->lat;
+        $location->address->long = $address->long;
 
         $location->companyId = $company->id;
         $location->status = Location::ENABLED_STATUS;
@@ -59,35 +69,42 @@ class LocationService {
             return false;
         }
 
-        $location->save();
+        $this->riak->create($location);
 
         return $location;
     }
 
-    public function updateLocation($location, $company, $name, $street1, $street2, $zip, $phone, &$errors) {
+    public function updateLocation(Location $location, $name, $street1, $street2, $zip, $phone, &$errors) {
         $address = $this->geo->lookupAddress($street1, $street2, $zip);
 
         $location->name = $name;
-        $location->street1 = $street1;
-        $location->street2 = $street2;
-        $location->zip = $zip;
-        $location->phone = $phone;
+        $location->address = new Address();
+        $location->address->street1 = $street1;
+        $location->address->street2 = $street2;
+        $location->address->zip = $zip;
+        $location->address->phone = $phone;
 
-        $location->city = $address->city;
-        $location->state = $address->state;
-        $location->lat = $address->lat;
-        $location->long = $address->long;
-
-        $location->companyId = $company->id;
+        $location->address->city = $address->city;
+        $location->address->state = $address->state;
+        $location->address->lat = $address->lat;
+        $location->address->long = $address->long;
 
         $errors = $this->validator->validate($location);
         if(count($errors) > 0) {
             return false;
         }
 
-        $location->save();
+        $this->riak->update($location);
 
         return $location;
     }
 
+    public function getByPk($id) {
+        return $this->riak->getLocation($id);
+    }
+
+    public function markLocationDeleted(Location $location) {
+        $location->status = Location::DISABLED_STATUS;
+        $this->riak->update($location);
+    }
 }

@@ -29,6 +29,15 @@ class Utils {
         return ucfirst(self::field2property($tableName));
     }
 
+    public static function class2table($classNameWithNamespace) {
+        $parts = explode("\\", $classNameWithNamespace);
+        $className = $parts[count($parts) - 1];
+        if(strpos($className, 'Collection') === strlen($className) - 10) {
+            $className = substr($className, 0, strlen($className) - 10);
+        }
+        return self::camel2TrainCase($className);
+    }
+
     public static function array2quotedString($arr) {
         if(empty($arr)) {
             return null;

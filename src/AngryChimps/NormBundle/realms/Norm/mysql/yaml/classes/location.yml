@@ -31,8 +31,6 @@ fields:
     type: float
   - name: photos
     type: string[]
-  - name: availabilities
-    type: DateTime[]
   - name: flags
     type: AdFlag[]
   - name: created_at

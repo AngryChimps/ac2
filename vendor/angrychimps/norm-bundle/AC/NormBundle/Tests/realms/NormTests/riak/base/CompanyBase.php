@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class CompanyBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_riak_ds';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'riak';
+    public static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'company';
+    public static $tableName = 'company';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'administer_member_ids', 'location_ids', 'flag_ids', 'status', 'created_at', 'updated_at');
+    public static $fieldNames = array('id', 'mysql_id', 'name', 'description', 'plan', 'rating_count', 'rating_total', 'rating_avg', 'administer_member_ids', 'location_ids', 'flag_ids', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'int', 'string', 'string', 'int', 'int', 'int', 'float', 'string[]', 'string[]', 'string[]', 'int', 'DateTime', 'DateTime');
+    public static $fieldTypes = array('string', 'int', 'string', 'string', 'int', 'int', 'int', 'float', 'string[]', 'string[]', 'string[]', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'administerMemberIds', 'locationIds', 'flagIds', 'status', 'createdAt', 'updatedAt');
+    public static $propertyNames = array('id', 'mysqlId', 'name', 'description', 'plan', 'ratingCount', 'ratingTotal', 'ratingAvg', 'administerMemberIds', 'locationIds', 'flagIds', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = 'id';
+    public static $autoGenerateFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = 'id';
+    public static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
     const BASIC_PLAN = 1;
     const PREMIUM_PLAN = 2;
@@ -93,32 +93,24 @@ class CompanyBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
+    public function __construct() {
+        parent::__construct();
 
-
-    /** @returns NormTests\riak\Ad */
-    public function getAdCollection() {
-        if($this->Ad === null) {
-            $this->loadAd();
-        }
-        return $this->Ad;
+        $this->administerMemberIds = array();
+        $this->locationIds = array();
+        $this->flagIds = array();
     }
 
-    /** @returns NormTests\riak\AdFlag */
-    public function getAdFlagCollection() {
-        if($this->AdFlag === null) {
-            $this->loadAdFlag();
-        }
-        return $this->AdFlag;
-    }
 
-    /** @returns NormTests\riak\BookingDetail */
+
+    /** @return NormTests\riak\BookingDetail */
     public function getBookingDetailCollection() {
         if($this->BookingDetail === null) {
             $this->loadBookingDetail();
@@ -126,7 +118,7 @@ class CompanyBase extends NormBaseObject {
         return $this->BookingDetail;
     }
 
-    /** @returns NormTests\riak\Calendar */
+    /** @return NormTests\riak\Calendar */
     public function getCalendarCollection() {
         if($this->Calendar === null) {
             $this->loadCalendar();
@@ -134,7 +126,23 @@ class CompanyBase extends NormBaseObject {
         return $this->Calendar;
     }
 
-    /** @returns NormTests\riak\CompanyReviews */
+    /** @return NormTests\riak\CompanyAds */
+    public function getCompanyAdsCollection() {
+        if($this->CompanyAds === null) {
+            $this->loadCompanyAds();
+        }
+        return $this->CompanyAds;
+    }
+
+    /** @return NormTests\riak\CompanyPhotos */
+    public function getCompanyPhotosCollection() {
+        if($this->CompanyPhotos === null) {
+            $this->loadCompanyPhotos();
+        }
+        return $this->CompanyPhotos;
+    }
+
+    /** @return NormTests\riak\CompanyReviews */
     public function getCompanyReviewsCollection() {
         if($this->CompanyReviews === null) {
             $this->loadCompanyReviews();
@@ -142,7 +150,7 @@ class CompanyBase extends NormBaseObject {
         return $this->CompanyReviews;
     }
 
-    /** @returns NormTests\riak\CompanyServices */
+    /** @return NormTests\riak\CompanyServices */
     public function getCompanyServicesCollection() {
         if($this->CompanyServices === null) {
             $this->loadCompanyServices();
@@ -150,7 +158,7 @@ class CompanyBase extends NormBaseObject {
         return $this->CompanyServices;
     }
 
-    /** @returns NormTests\riak\Location */
+    /** @return NormTests\riak\Location */
     public function getLocationCollection() {
         if($this->Location === null) {
             $this->loadLocation();
@@ -158,7 +166,7 @@ class CompanyBase extends NormBaseObject {
         return $this->Location;
     }
 
-    /** @returns NormTests\riak\MemberCompanyRating */
+    /** @return NormTests\riak\MemberCompanyRating */
     public function getMemberCompanyRatingCollection() {
         if($this->MemberCompanyRating === null) {
             $this->loadMemberCompanyRating();
@@ -166,7 +174,23 @@ class CompanyBase extends NormBaseObject {
         return $this->MemberCompanyRating;
     }
 
-    /** @returns NormTests\riak\Review */
+    /** @return NormTests\riak\ProviderAd */
+    public function getProviderAdCollection() {
+        if($this->ProviderAd === null) {
+            $this->loadProviderAd();
+        }
+        return $this->ProviderAd;
+    }
+
+    /** @return NormTests\riak\ProviderAdFlag */
+    public function getProviderAdFlagCollection() {
+        if($this->ProviderAdFlag === null) {
+            $this->loadProviderAdFlag();
+        }
+        return $this->ProviderAdFlag;
+    }
+
+    /** @return NormTests\riak\Review */
     public function getReviewCollection() {
         if($this->Review === null) {
             $this->loadReview();
@@ -175,20 +199,20 @@ class CompanyBase extends NormBaseObject {
     }
 
 
-    protected function loadAdCollection() {
-        parent::loadPropertyCollection('Ad', 'ad', 'company_id', 'companyId');
-    }
-
-    protected function loadAdFlagCollection() {
-        parent::loadPropertyCollection('AdFlag', 'ad_flag', 'company_id', 'companyId');
-    }
-
     protected function loadBookingDetailCollection() {
         parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'company_id', 'companyId');
     }
 
     protected function loadCalendarCollection() {
         parent::loadPropertyCollection('Calendar', 'calendar', 'company_id', 'companyId');
+    }
+
+    protected function loadCompanyAdsCollection() {
+        parent::loadPropertyCollection('CompanyAds', 'company_ads', 'company_id', 'companyId');
+    }
+
+    protected function loadCompanyPhotosCollection() {
+        parent::loadPropertyCollection('CompanyPhotos', 'company_photos', 'company_id', 'companyId');
     }
 
     protected function loadCompanyReviewsCollection() {
@@ -205,6 +229,14 @@ class CompanyBase extends NormBaseObject {
 
     protected function loadMemberCompanyRatingCollection() {
         parent::loadPropertyCollection('MemberCompanyRating', 'member_company_rating', 'company_id', 'companyId');
+    }
+
+    protected function loadProviderAdCollection() {
+        parent::loadPropertyCollection('ProviderAd', 'provider_ad', 'company_id', 'companyId');
+    }
+
+    protected function loadProviderAdFlagCollection() {
+        parent::loadPropertyCollection('ProviderAdFlag', 'provider_ad_flag', 'company_id', 'companyId');
     }
 
     protected function loadReviewCollection() {
@@ -230,7 +262,7 @@ class CompanyBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\riak\Company
      */

@@ -43,7 +43,7 @@ class MemberController extends AbstractController
      */
     public function indexGetAction($id)
     {
-        $member = Member::getByPkEnabled($id);
+        $member = $this->memberService->getMember($id);
 
         if($member === null) {
             $errors = array(
@@ -54,13 +54,17 @@ class MemberController extends AbstractController
         }
 
         $user = $this->getAuthenticatedUser();
+
+        $arr = [];
+        $arr['id'] = $member->id;
+        $arr['name'] = $member->name;
+        $arr['photo'] = $member->photo;
+
         if($user !== null && $member->id === $user->id) {
-            $memberInfo = $member->getPrivateArray();
+            $arr['email'] = $member->email;
         }
-        else {
-            $memberInfo = $member->getPublicArray();
-        }
-        $data = array('member' => $memberInfo);
+
+        $data = array('member' => $arr);
 
         return $this->responseService->success($data);
     }
@@ -78,7 +82,7 @@ class MemberController extends AbstractController
             return $this->responseService->failure(401, $errors);
         }
 
-        $member = Member::getByPkEnabled($id);
+        $member =$this->memberService->getMember($id);
 
         if($member === null) {
             $error = array(
@@ -88,8 +92,7 @@ class MemberController extends AbstractController
             return $this->responseService->failure(404, $error);
         }
 
-        $member->status = Member::DELETED_STATUS;
-        $member->save();
+        $this->memberService->markMemberDeleted($member);
 
         return $this->responseService->success();
     }
@@ -110,20 +113,20 @@ class MemberController extends AbstractController
             return $this->responseService->failure(401, $errors);
         }
 
-        if(empty($payload['name']) || empty($payload['email'])) {
-            $errors = array(
-                'human' => 'The name and email are required fields',
-                'code' => 'Api.MemberController.indexPutAction.2',
-            );
-            return $this->responseService->failure(400, $errors);
+        $changes = [];
+        if(isset($payload['name'])) {
+            $changes['name'] = $payload['name'];
+        }
+        if(isset($payload['email'])) {
+            $changes['email'] = $payload['email'];
         }
 
         $errors = array();
-        $valid = $this->memberService->update($user, $payload['name'], $payload['email'], $errors);
+        $valid = $this->memberService->update($user, $changes, $errors);
         if(!$valid) {
             $errors = array(
                 'human' => 'Unable to validate member inputs',
-                'code' => 'Api.MemberController.indexPutAction.3',
+                'code' => 'Api.MemberController.indexPutAction.2',
             );
             return $this->responseService->failure(400, $errors);
         }

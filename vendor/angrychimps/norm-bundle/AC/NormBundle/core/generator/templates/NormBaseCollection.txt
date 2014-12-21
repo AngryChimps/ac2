@@ -5,10 +5,11 @@ namespace {{namespace}}\base;
 use AC\NormBundle\core\NormBaseCollection;
 
 class {{className}}CollectionBase extends NormBaseCollection {
-    protected static $realm = '{{realm}}';
-    protected static $tableName = '{{tableName}}';
-    protected static $singularClassName = '{{className}}';
-    protected static $primaryKeyFieldNames = array({{primaryKeyFieldNamesQuotedString}});
-    protected static $primaryKeyPropertyNames = array({{primaryKeyPropertyNamesQuotedString}});
-    protected static $autoIncrementFieldName = '{{autoIncrementFieldName}}';
+    public static $realm = '{{realm}}';
+    public static $tableName = '{{tableName}}';
+    public static $singularClassName = '{{fullyQualifiedClassWithPrecedingBackslash}}';
+    public static $primaryKeyFieldNames = array({{primaryKeyFieldNamesQuotedString}});
+    public static $primaryKeyPropertyNames = array({{primaryKeyPropertyNamesQuotedString}});
+    public static $autoIncrementFieldName = '{{autoIncrementFieldName}}';
+    public static $primaryDatastoreName = '{{primaryDatastoreName}}';
 }

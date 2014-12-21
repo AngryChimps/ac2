@@ -30,23 +30,23 @@ abstract class NormBaseObject extends ContainerAware {
     protected $cache;
 
 
-    private $_hasBeenPersisted = false;
-    private $_hasBeenDeleted = false;
+    public $hasBeenPersisted = false;
+    public $hasBeenDeleted = false;
 
 
-    protected static $realm;
-    protected static $primaryDatastoreName;
-    protected static $cacheDatastoreName;
-    protected static $tableName;
-    protected static $fieldNames;
-    protected static $fieldTypes;
-    protected static $propertyNames;
-    protected static $primaryKeyPropertyNames;
-    protected static $primaryKeyFieldNames;
-    protected static $autoIncrementFieldName;
-    protected static $autoIncrementPropertyName;
-    protected static $autoGenerateFieldName;
-    protected static $autoGeneratePropertyName;
+    public static $realm;
+    public static $primaryDatastoreName;
+    public static $cacheDatastoreName;
+    public static $tableName;
+    public static $fieldNames;
+    public static $fieldTypes;
+    public static $propertyNames;
+    public static $primaryKeyPropertyNames;
+    public static $primaryKeyFieldNames;
+    public static $autoIncrementFieldName;
+    public static $autoIncrementPropertyName;
+    public static $autoGenerateFieldName;
+    public static $autoGeneratePropertyName;
 
     public function __construct() {
         $this->db = DatastoreManager::getDatastore(static::$primaryDatastoreName);
@@ -64,7 +64,7 @@ abstract class NormBaseObject extends ContainerAware {
     }
 
     public function loadFromArray($array = array()) {
-        if($this->_hasBeenDeleted) {
+        if($this->hasBeenDeleted) {
             throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
         }
         foreach($array as $key => $value) {
@@ -75,39 +75,44 @@ abstract class NormBaseObject extends ContainerAware {
     public static function getPrimaryKeyFieldNames() {
         return static::$primaryKeyFieldNames;
     }
-    public function save() {
-        if($this->_hasBeenDeleted) {
-            throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
-        }
 
-        //Set created_at updated_at datetimes
-        $this->updateDateTimes();
-
-        if($this->_hasBeenPersisted) {
-            $this->checkPrimaryKeyValuesHaveNotChanged();
-            $this->updateHook(static::$realm, static::$tableName, $this->getPrimaryKeyData(), $this->getFieldDataWithoutPrimaryKeys());
-        }
-        else {
-            if(empty(static::$autoIncrementPropertyName)) {
-                $this->createHook(static::$realm, static::$tableName, $this->getFieldData(), $this->getPrimaryKeyData(),
-                    static::$autoIncrementPropertyName);
-            }
-            else {
-                $id = $this->createHook(static::$realm, static::$tableName, $this->getFieldData(),
-                    $this->getPrimaryKeyData(), static::$autoIncrementPropertyName);
-                $this->{static::$autoIncrementPropertyName} = (int) $id;
-            }
-            $this->_hasBeenPersisted = true;
-        }
-
-        $this->updateOriginalValues();
+    public function getIdentifier() {
+        return $this->db->getKeyName($this->getPrimaryKeyData());
     }
+
+//    public function save() {
+//        if($this->hasBeenDeleted) {
+//            throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
+//        }
+//
+//        //Set created_at updated_at datetimes
+//        $this->updateDateTimes();
+//
+//        if($this->hasBeenPersisted) {
+//            $this->checkPrimaryKeyValuesHaveNotChanged();
+//            $this->updateHook(static::$realm, static::$tableName, $this->getPrimaryKeyData(), $this->getFieldDataWithoutPrimaryKeys());
+//        }
+//        else {
+//            if(empty(static::$autoIncrementPropertyName)) {
+//                $this->createHook(static::$realm, static::$tableName, $this->getFieldData(), $this->getPrimaryKeyData(),
+//                    static::$autoIncrementPropertyName);
+//            }
+//            else {
+//                $id = $this->createHook(static::$realm, static::$tableName, $this->getFieldData(),
+//                    $this->getPrimaryKeyData(), static::$autoIncrementPropertyName);
+//                $this->{static::$autoIncrementPropertyName} = (int) $id;
+//            }
+//            $this->hasBeenPersisted = true;
+//        }
+//
+//        $this->updateOriginalValues();
+//    }
 
     protected function updateDateTimes() {
         if(in_array('created_at', static::$fieldNames) && $this->createdAt === null) {
             $this->createdAt = new \DateTime();
         }
-        if($this->_hasBeenPersisted && in_array('updated_at', static::$fieldNames)) {
+        if($this->hasBeenPersisted && in_array('updated_at', static::$fieldNames)) {
             $this->updatedAt = new \DateTime();
         }
     }
@@ -127,13 +132,13 @@ abstract class NormBaseObject extends ContainerAware {
     }
 
     public function delete() {
-        if(!$this->_hasBeenPersisted) {
+        if(!$this->hasBeenPersisted) {
             throw(new \Exception('Unable to delete an item which has not been persisted'));
         }
 
         $this->deleteHook(static::$realm, static::$tableName, $this->getPrimaryKeyData());
         $this->invalidate();
-        $this->_hasBeenDeleted = true;
+        $this->hasBeenDeleted = true;
     }
 
     public static function getByPk($pk) {
@@ -204,26 +209,31 @@ abstract class NormBaseObject extends ContainerAware {
         NormObjectLocalStore::invalidateAll();
     }
 
-    public function loadByJson($json) {
-        if($this->_hasBeenDeleted) {
+    public function loadByArray($arr) {
+        if($this->hasBeenDeleted) {
             throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
         }
-        $array = json_decode($json);
-        foreach($array as $k => $v) {
-            $property = Utils::field2property($k);
-            $this->$property = $v;
+        if(!empty($arr)) {
+            foreach ($arr as $k => $v) {
+                $property = Utils::field2property($k);
+                $this->$property = $v;
+            }
         }
+    }
+
+    public function loadByJson($json) {
+        $this->loadByArray(json_decode($json));
     }
 
     private function loadFieldWithValue($fieldType, $propertyName, $value) {
         if(class_exists($fieldType) && in_array("AC\\NormBundle\\core\\NormBaseObject", class_parents($fieldType))) {
             $obj = new $fieldType();
-            $obj->loadByJson($value);
+            $obj->loadByArray($value);
             $this->$propertyName = $obj;
         }
         elseif(class_exists($fieldType) && in_array("AC\\NormBundle\\core\\NormBaseCollection", class_parents($fieldType))) {
             $obj = new $fieldType();
-            $obj->loadByJson($value);
+            $obj->loadByArray($value);
             $this->$propertyName = $obj;
         }
         else {
@@ -245,7 +255,7 @@ abstract class NormBaseObject extends ContainerAware {
                 case 'float[]':
                 case 'double[]':
                 case 'string[]':
-                    $this->$propertyName = json_decode($value, true);
+                    $this->$propertyName = $value;
                     break;
                 default:
                     $this->$propertyName = $value;
@@ -255,7 +265,7 @@ abstract class NormBaseObject extends ContainerAware {
 
     public function loadByFieldDataFlatArray($arr)
     {
-        if($this->_hasBeenDeleted) {
+        if($this->hasBeenDeleted) {
             throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
         }
         if (is_array($arr)) {
@@ -272,7 +282,7 @@ abstract class NormBaseObject extends ContainerAware {
 
     public function loadByFieldDataAssociativeArray($arr)
     {
-        if($this->_hasBeenDeleted) {
+        if($this->hasBeenDeleted) {
             throw new ObjectAlreadyDeletedException(static::$tableName, $this->getPrimaryKeyData());
         }
         if (is_array($arr)) {
@@ -326,10 +336,6 @@ abstract class NormBaseObject extends ContainerAware {
         return $changed;
     }
 
-    protected function hasCache() {
-        return ($this->_cache === NULL);
-    }
-
     public function getRealm() {
         return static::$realm;
     }
@@ -340,11 +346,13 @@ abstract class NormBaseObject extends ContainerAware {
             if($this->{static::$propertyNames[$i]} === null) {
                 $arr[static::$fieldNames[$i]] = null;
             }
-            elseif($this->{static::$propertyNames[$i]} instanceof NormBaseObject) {
-                $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]}->getJson();
+            elseif(class_exists(static::$fieldTypes[$i])
+                && in_array("AC\\NormBundle\\core\\NormBaseObject", class_parents(static::$fieldTypes[$i]))) {
+                $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]}->getArray();
             }
-            elseif($this->{static::$propertyNames[$i]} instanceof NormBaseCollection) {
-                $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]}->getJson();
+            elseif(class_exists(static::$fieldTypes[$i])
+                && in_array("AC\\NormBundle\\core\\NormBaseCollection", class_parents(static::$fieldTypes[$i]))) {
+                $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]}->getArray();
             }
             else {
                 switch(static::$fieldTypes[$i]) {
@@ -358,7 +366,8 @@ abstract class NormBaseObject extends ContainerAware {
                     case 'float[]':
                     case 'double[]':
                     case 'string[]':
-                        $arr[static::$fieldNames[$i]] = json_encode($this->{static::$propertyNames[$i]});
+                        //Pass these along as arrays
+                        $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]};
                         break;
                     default:
                         $arr[static::$fieldNames[$i]] = $this->{static::$propertyNames[$i]};
@@ -368,12 +377,16 @@ abstract class NormBaseObject extends ContainerAware {
         return $arr;
     }
 
+    public function getArray() {
+        return $this->getFieldData();
+    }
+
     public function getJson() {
-        return json_encode($this->getFieldData());
+        return json_encode($this->getArray());
     }
 
     public function isNewObject() {
-        return $this->_hasBeenPersisted;
+        return !$this->hasBeenPersisted;
     }
 
     public function hasAutoIncrement() {

@@ -15,12 +15,15 @@ fields:
     type: string
   - name: category_id
     type: int
+  - name: current_immutable_id
+    type: string
   - name: title
     type: string
   - name: description
     type: string
   - name: ad_flag_total
     type: int
+    default: 0
   - name: photos
     type: string[]
   - name: service_ids
@@ -58,4 +61,8 @@ foreign_keys:
   - name: fk_ad_service
     column_name: service_id
     referenced_table_name: service
+    referenced_column_name: id
+  - name: fk_provider_ad_immutable
+    column_name: current_immutable_id
+    referenced_table_name: provider_ad_immutable
     referenced_column_name: id

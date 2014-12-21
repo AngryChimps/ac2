@@ -1,8 +1,29 @@
-#parameters:
-#    validator.mapping.loader.yaml_files_loader.mapping_files:
-#        - validation.yml
-#
-#services:
-#    ac_norm.example:
-#        class: AC\NormBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+####################################################################################
+###                   Auto-generated File - Do Not Edit!                         ###
+####################################################################################
+
+services:
+    data_collector.norm_data_collector:
+        class: AC\NormBundle\Collector\NormDataCollector
+        arguments: ["@ac_norm.norm"]
+        tags:
+            - { name: data_collector, template: "ACNormBundle:Collector:norm_data_collector.html.twig", id: "norm_data_collector" }
+
+    ac_norm.norm:
+        class: AC\NormBundle\Services\NormService
+        arguments: ["%ac_norm.debug%", "@ac_norm.realm_info", "@logger"]
+    ac_norm.realm_info_creator:
+        class: AC\NormBundle\Services\RealmInfoCreatorService
+        arguments:  [%kernel.environment%]
+    ac_norm.realm_info:
+        class: AC\NormBundle\Services\RealmInfoService
+        arguments:  [%kernel.environment%, "@ac_norm.realm_info_creator"]
+    ac_norm.norm.riak:
+        class: AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService
+        arguments: ["%ac_norm.debug%", "@ac_norm.realm_info", "@logger"]
+    ac_norm.norm.mysql:
+        class: AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService
+        arguments: ["%ac_norm.debug%", "@ac_norm.realm_info", "@logger"]
+    ac_norm.norm.es:
+        class: AngryChimps\NormBundle\realms\Norm\es\services\NormEsService
+        arguments: ["%ac_norm.debug%", "@ac_norm.realm_info", "@logger"]

@@ -12,7 +12,7 @@ Feature: location-get
     And I get back a valid json object
     And The response contains a field named "payload.location.id"
     And The value of the "payload.location.id" field returned is of type "string"
-    And The string length of the "payload.location.id" field is "16"
+    And The string length of the "payload.location.id" field is "32"
     And Finally, I clean up my objects
 
 #    This scenario may bring back private fields in the future to test
@@ -25,7 +25,7 @@ Feature: location-get
     And I get back a valid json object
     And The response contains a field named "payload.location.id"
     And The value of the "payload.location.id" field returned is of type "string"
-    And The string length of the "payload.location.id" field is "16"
+    And The string length of the "payload.location.id" field is "32"
     And Finally, I clean up my objects
 
   Scenario: Fail to get a location with an invalid id

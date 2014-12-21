@@ -1,0 +1,3 @@
+angry_chimps_elasticsearch_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: AngryChimpsElasticsearchBundle:Default:index }

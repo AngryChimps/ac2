@@ -2,6 +2,7 @@
 
 namespace AngryChimps\ApiBundle\Controller;
 
+use AngryChimps\ApiBundle\Services\CompanyService;
 use AngryChimps\ApiBundle\Services\ServiceService;
 use Norm\riak\Service;
 use Norm\riak\Company;
@@ -22,10 +23,15 @@ class ServiceController extends AbstractController
     /** @var  \AngryChimps\ApiBundle\Services\ServiceService */
     protected $serviceService;
 
+    /** @var  CompanyService */
+    protected $companyService;
+
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
-                                ResponseService $responseService, ServiceService $serviceService) {
+                                ResponseService $responseService, ServiceService $serviceService,
+                                CompanyService $companyService) {
         parent::__construct($requestStack, $sessionService, $responseService);
         $this->serviceService = $serviceService;
+        $this->companyService = $companyService;
     }
 
     /**
@@ -34,7 +40,7 @@ class ServiceController extends AbstractController
      */
     public function indexGetAction($id)
     {
-        $service = Service::getByPk($id);
+        $service = $this->serviceService->getService($id);
 
         if($service === null) {
             $errors = array(
@@ -44,7 +50,7 @@ class ServiceController extends AbstractController
             return $this->responseService->failure(404, $errors);
         }
 
-        $company = Company::getByPk($service->companyId);
+        $company = $this->companyService->getByPk($service->companyId);
 
         if($company === null) {
             $errors = array(
@@ -54,14 +60,20 @@ class ServiceController extends AbstractController
             return $this->responseService->failure(400, $errors);
         }
 
+        $arr = [];
+        $arr['id'] = $service->id;
+        $arr['name'] = $service->name;
+        $arr['description'] = $service->description;
+        $arr['discounted_price'] = $service->discountedPrice;
+        $arr['original_price'] = $service->originalPrice;
+        $arr['mins_for_service'] = $service->minsForService;
+
         $user = $this->getAuthenticatedUser();
         if($user !== null && in_array($user->id, $company->administerMemberIds)) {
-            return $this->responseService->success(array('service' => $service->getPrivateArray()));
+            $arr['mins_notice'] = $service->minsNotice;
         }
-        else {
-            return $this->responseService->success(array('service' => $service->getPublicArray()));
-        }
-    }
+        return $this->responseService->success(array('service' => $arr));
+=    }
 
     /**
      * @Route("/")
@@ -78,7 +90,7 @@ class ServiceController extends AbstractController
         $minsNotice = $payload['mins_notice'];
         $category = $payload['category'];
 
-        $company = Company::getByPk($companyId);
+        $company = $this->companyService->getByPk($companyId);
 
         if($company === null) {
             $errors = array(
@@ -108,7 +120,7 @@ class ServiceController extends AbstractController
             return $this->responseService->failure(400, $errors);
         }
 
-        return $this->responseService->success(array('service' => $service->getPrivateArray()));
+        return $this->responseService->success(array('service' => array('id' => $service->id)));
     }
 
     /**
@@ -125,7 +137,7 @@ class ServiceController extends AbstractController
         $minsNotice = $payload['mins_notice'];
         $category = $payload['category'];
 
-        $service = Service::getByPk($id);
+        $service = $this->serviceService->getService($id);
 
         if($service === null) {
             $errors = array(
@@ -135,7 +147,7 @@ class ServiceController extends AbstractController
             return $this->responseService->failure(404, $errors);
         }
 
-        $company = Company::getByPk($service->companyId);
+        $company = $this->companyService->getByPk($service->companyId);
 
         if($company === null) {
             $errors = array(
@@ -174,7 +186,7 @@ class ServiceController extends AbstractController
      */
     public function indexDeleteAction($id)
     {
-        $service = Service::getByPk($id);
+        $service = $this->serviceService->getService($id);
 
         if($service === null) {
             $errors = array(
@@ -184,7 +196,7 @@ class ServiceController extends AbstractController
             return $this->responseService->failure(404, $errors);
         }
 
-        $company = Company::getByPk($service->companyId);
+        $company = $this->companyService->getByPk($service->companyId);
 
         if($company === null) {
             $errors = array(
@@ -202,8 +214,7 @@ class ServiceController extends AbstractController
             return $this->responseService->failure(401, $errors);
         }
 
-        $service->status = Service::DISABLED_STATUS;
-        $service->save();
+        $this->serviceService->markServiceDeleted($service);
 
         return $this->responseService->success();
     }

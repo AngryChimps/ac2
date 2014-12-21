@@ -6,57 +6,62 @@ use AC\NormBundle\core\NormBaseObject;
 class CustomerBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_mysql_ds';
+    public static $primaryDatastoreName = '__norm_test_mysql_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'mysql';
+    public static $realm = 'mysql';
 
     /** @var  string */
-    protected static $tableName = 'customer';
+    public static $tableName = 'customer';
 
     /** @var string[] */
-    protected static $fieldNames = array('person_id', 'dob');
+    public static $fieldNames = array('person_id', 'dob');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'Date');
+    public static $fieldTypes = array('int', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('personId', 'dob');
+    public static $propertyNames = array('personId', 'dob');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('person_id');
+    public static $primaryKeyFieldNames = array('person_id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('personId');
+    public static $primaryKeyPropertyNames = array('personId');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    public static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    public static $autoGeneratePropertyName = '';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
 
     /** @var int */
     public $personId;
 
-    /** @var Date */
+    /** @var \DateTime */
     public $dob;
 
+
+    public function __construct() {
+        parent::__construct();
+
+    }
 
 
 
@@ -80,7 +85,7 @@ class CustomerBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\mysql\Customer
      */

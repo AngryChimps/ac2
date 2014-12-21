@@ -6,60 +6,65 @@ use AC\NormBundle\core\NormBaseObject;
 class AvailabilityBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_riak_ds';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'riak';
+    public static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'availability';
+    public static $tableName = 'availability';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'start', 'end');
+    public static $fieldNames = array('id', 'start', 'end');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'DateTime', 'DateTime');
+    public static $fieldTypes = array('string', '\DateTime', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'start', 'end');
+    public static $propertyNames = array('id', 'start', 'end');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = 'id';
+    public static $autoGenerateFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = 'id';
+    public static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
 
     /** @var string */
     public $id;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $start;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $end;
 
+
+    public function __construct() {
+        parent::__construct();
+
+    }
 
 
 
@@ -83,7 +88,7 @@ class AvailabilityBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\riak\Availability
      */

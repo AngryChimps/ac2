@@ -29,57 +29,61 @@ class AuthService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
     protected $validator;
 
+    /** @var  MemberService */
+    protected $memberService;
+
     public function __construct(MailerService $mailer,
                                 TimedTwigEngine $templating,
-                                ValidatorInterface $validator)
+                                ValidatorInterface $validator,
+                                MemberService $memberService)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->validator = $validator;
+        $this->memberService = $memberService;
     }
 
     public function register($name, $email, $password, \DateTime $dob, array &$errors) {
-        $member = new Member();
-        $member->name = $name;
-        $member->email = $email;
-        $member->password = $password;
-        $member->dob = $dob;
-        $member->status = Member::ACTIVE_STATUS;
-        $member->role = Member::USER_ROLE;
+        if(strlen($password) < 8) {
+            $errors[] = 'The password must be at least 8 characters long';
+            return false;
+        }
 
-        $errors = $this->validator->validate($member);
+        $data = array(
+            'name' => $name,
+            'email' => $email,
+            'password' => $this->hashPassword($password),
+            'dob' => $dob,
+        );
+
+        $member = $this->memberService->create($data, $errors);
 
         if(count($errors) > 0) {
             return false;
         }
 
-        //Hash password
-        $member->password = $this->hashPassword($password);
-
-        $member->save();
-
         return $member;
     }
 
-    /**
-     * @param $fb_id
-     * @param $access_token
-     * @return Member|null
-     * @throws \Exception
-     */
-    public function fbAuth($fb_id, $access_token) {
-        $this->facebookSdk->setAccessToken($access_token);
-        $userProfile = $this->facebookSdk->api('/' . $fb_id, 'GET');
-
-        if($userProfile['id'] !== $fb_id) {
-            throw new \Exception('Facebook id does not match access_token');
-        }
-
-        return $userProfile;
-    }
+//    /**
+//     * @param $fb_id
+//     * @param $access_token
+//     * @return Member|null
+//     * @throws \Exception
+//     */
+//    public function fbAuth($fb_id, $access_token) {
+//        $this->facebookSdk->setAccessToken($access_token);
+//        $userProfile = $this->facebookSdk->api('/' . $fb_id, 'GET');
+//
+//        if($userProfile['id'] !== $fb_id) {
+//            throw new \Exception('Facebook id does not match access_token');
+//        }
+//
+//        return $userProfile;
+//    }
 
     public function loginFormUser($email, $password) {
-        $user = Member::getByEmailEnabled($email);
+        $user = $this->memberService->getMemberByEmailEnabled($email);
 
         if($user === null) {
             return null;
@@ -104,18 +108,9 @@ class AuthService {
     }
 
     public function forgotPassword($email) {
-        $user = Member::getByEmail($email);
-
-        if($user === null) {
-            return;
-        }
-
         $resetCode = $this->generateToken(8);
 
-        $now = new \DateTime();
-        $user->password = 'reset: ' . $now->format("Y-m-d H:i:s");
-        $user->passwordResetCode = $resetCode;
-        $user->save();
+        $this->memberService->resetPassword($email, $resetCode);
 
         //Send password change email
         $message = BasicMessage::newInstance()
@@ -136,45 +131,31 @@ class AuthService {
         $this->mailer->send($message);
     }
 
-    public function registerFbUser($userProfile) {
-        $member = new Member();
-        $member->name = $userProfile['name'];
-        $member->email = $userProfile['email'];
-        $member->fname = $userProfile['first_name'];
-        $member->lname = $userProfile['last_name'];
-        $member->gender = $userProfile['gender'];
-        $member->locale = $userProfile['locale'];
-        $member->timezone = $userProfile['timezone'];
-
-        $member->status = Member::ACTIVE_STATUS;
-        $member->role = Member::USER_ROLE;
-
-        $member->save();
-
-        return $member;
-    }
+//    public function registerFbUser($userProfile) {
+//        $member = new Member();
+//        $member->name = $userProfile['name'];
+//        $member->email = $userProfile['email'];
+//        $member->fname = $userProfile['first_name'];
+//        $member->lname = $userProfile['last_name'];
+//        $member->gender = $userProfile['gender'];
+//        $member->locale = $userProfile['locale'];
+//        $member->timezone = $userProfile['timezone'];
+//
+//        $member->status = Member::ACTIVE_STATUS;
+//        $member->role = Member::USER_ROLE;
+//
+//        $this->norm->save($member);
+//
+//        return $member;
+//    }
 
     public function resetPassword($email, $password) {
-        $user = Member::getByEmail($email);
-        $user->password = $this->hashPassword($password);
-        $user->passwordResetCode = null;
-        $user->save();
+        return $this->memberService->changePassword($email, $this->hashPassword($password));
     }
 
     public function generateToken($length = 16) {
         $bytes = openssl_random_pseudo_bytes($length);
         $hex   = bin2hex($bytes);
         return $hex;
-    }
-
-    public function getUserByAuthToken($authToken) {
-
-        $session = $this->get('session');
-
-        if($session->get('ac.auth_service.auth_token') != $authToken) {
-            return null;
-        }
-
-        return Member::getByPk($session->get('ac.auth_service.user_id'));
     }
 }

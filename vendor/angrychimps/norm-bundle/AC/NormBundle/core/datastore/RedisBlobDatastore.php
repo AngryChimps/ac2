@@ -10,6 +10,8 @@ namespace AC\NormBundle\core\datastore;
 
 
 use AC\NormBundle\core\exceptions\MethodNotImplemented;
+use AC\NormBundle\core\exceptions\UnsupportedObjectType;
+use AC\NormBundle\core\NormBaseCollection;
 use AC\NormBundle\core\NormBaseObject;
 
 class RedisBlobDatastore extends AbstractRedisDatastore {
@@ -19,7 +21,7 @@ class RedisBlobDatastore extends AbstractRedisDatastore {
         $this->connection->connect($configParams['hostname'], $configParams['port']);
     }
 
-    public function create($tableName, $fieldData, $primaryKeys, $autoIncrementFieldName)
+     public function create($tableName, $fieldData, $primaryKeys, $autoIncrementFieldName)
     {
         if(!empty($autoIncrementFieldName)) {
             $autoIncrementValue = $this->connection->incr('__norm:sequence:' . $tableName);

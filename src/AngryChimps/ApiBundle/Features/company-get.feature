@@ -11,7 +11,7 @@ Feature: company-get
     And I get back a valid json object
     And The response contains a field named "payload.company.id"
     And The value of the "payload.company.id" field returned is of type "string"
-    And The string length of the "payload.company.id" field is "16"
+    And The string length of the "payload.company.id" field is "32"
     And Finally, I clean up my objects
 
 #    This scenario may bring back private fields in the future to test
@@ -23,7 +23,7 @@ Feature: company-get
     And I get back a valid json object
     And The response contains a field named "payload.company.id"
     And The value of the "payload.company.id" field returned is of type "string"
-    And The string length of the "payload.company.id" field is "16"
+    And The string length of the "payload.company.id" field is "32"
     And Finally, I clean up my objects
 
   Scenario: Fail to get a company with an invalid id

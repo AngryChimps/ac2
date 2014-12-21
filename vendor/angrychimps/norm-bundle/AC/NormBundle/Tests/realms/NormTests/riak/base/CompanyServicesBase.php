@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class CompanyServicesBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_riak_ds';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'riak';
+    public static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'company_services';
+    public static $tableName = 'company_services';
 
     /** @var string[] */
-    protected static $fieldNames = array('company_id', 'services', 'updated_at');
+    public static $fieldNames = array('company_id', 'services', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', '\Norm\riak\ServiceCollection', 'DateTime');
+    public static $fieldTypes = array('string', '\Norm\riak\ServiceCollection', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('companyId', 'services', 'updatedAt');
+    public static $propertyNames = array('companyId', 'services', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('company_id');
+    public static $primaryKeyFieldNames = array('company_id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('companyId');
+    public static $primaryKeyPropertyNames = array('companyId');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    public static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    public static $autoGeneratePropertyName = '';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
 
     /** @var string */
@@ -57,11 +57,17 @@ class CompanyServicesBase extends NormBaseObject {
     /** @var \Norm\riak\ServiceCollection */
     public $services;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns NormTests\riak\Company */
+    public function __construct() {
+        parent::__construct();
+
+        $this->services = new \Norm\riak\ServiceCollection();
+    }
+
+    /** @return \NormTests\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -95,7 +101,7 @@ class CompanyServicesBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\riak\CompanyServices
      */

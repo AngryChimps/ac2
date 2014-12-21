@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class MessageFlagBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_riak_ds';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'riak';
+    public static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'message_flag';
+    public static $tableName = 'message_flag';
 
     /** @var string[] */
-    protected static $fieldNames = array('message_key', 'author_key', 'body', 'status', 'created_at');
+    public static $fieldNames = array('message_key', 'author_key', 'body', 'status', 'created_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'int', 'DateTime');
+    public static $fieldTypes = array('string', 'string', 'string', 'int', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('messageKey', 'authorKey', 'body', 'status', 'createdAt');
+    public static $propertyNames = array('messageKey', 'authorKey', 'body', 'status', 'createdAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('message_key', 'author_key');
+    public static $primaryKeyFieldNames = array('message_key', 'author_key');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('messageKey', 'authorKey');
+    public static $primaryKeyPropertyNames = array('messageKey', 'authorKey');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    public static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    public static $autoGeneratePropertyName = '';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
 
     /** @var string */
@@ -63,11 +63,16 @@ class MessageFlagBase extends NormBaseObject {
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
 
-    /** @returns NormTests\riak\Message */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \NormTests\riak\Message */
     public function getMessage_() {
         if($this->Message_ === null) {
             $this->loadMessage_();
@@ -75,7 +80,7 @@ class MessageFlagBase extends NormBaseObject {
         return $this->Message_;
     }
 
-    /** @returns NormTests\riak\Member */
+    /** @return \NormTests\riak\Member */
     public function getAuthor_() {
         if($this->Author_ === null) {
             $this->loadAuthor_();
@@ -113,7 +118,7 @@ class MessageFlagBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\riak\MessageFlag
      */

@@ -1,9 +1,13 @@
 realms:
-     riak:
-         namespace: "NormTests\\riak"
-         primary_datastore: "__norm_test_riak_ds"
-         cache_datastore: null
-     mysql:
-         namespace: "NormTests\\mysql"
-         primary_datastore: "__norm_test_mysql_ds"
-         cache_datastore: null
+    riak:
+        namespace: "NormTests\\riak"
+        primary_datastore: "__norm_test_riak_ds"
+        cache_datastore: null
+    mysql:
+        namespace: "NormTests\\mysql"
+        primary_datastore: "__norm_test_mysql_ds"
+        cache_datastore: null
+    es:
+        namespace: "NormTests\\es"
+        primary_datastore: "__norm_test_es_ds"
+        cache_datastore: null

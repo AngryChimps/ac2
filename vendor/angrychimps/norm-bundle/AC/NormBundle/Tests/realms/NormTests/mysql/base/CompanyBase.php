@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class CompanyBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_mysql_ds';
+    public static $primaryDatastoreName = '__norm_test_mysql_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'mysql';
+    public static $realm = 'mysql';
 
     /** @var  string */
-    protected static $tableName = 'company';
+    public static $tableName = 'company';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'name', 'address_id');
+    public static $fieldNames = array('id', 'name', 'address_id');
 
     /** @var string[] */
-    protected static $fieldTypes = array('int', 'string', 'int');
+    public static $fieldTypes = array('int', 'string', 'int');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'name', 'addressId');
+    public static $propertyNames = array('id', 'name', 'addressId');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = 'id';
+    public static $autoIncrementFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = 'id';
+    public static $autoIncrementPropertyName = 'id';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = '';
+    public static $autoGenerateFieldName = '';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = '';
+    public static $autoGeneratePropertyName = '';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = true;
+    public static $hasAutoIncrement = true;
 
 
     /** @var int */
@@ -61,7 +61,12 @@ class CompanyBase extends NormBaseObject {
     public $addressId;
 
 
-    /** @returns NormTests\mysql\Address */
+    public function __construct() {
+        parent::__construct();
+
+    }
+
+    /** @return \NormTests\mysql\Address */
     public function getAddress() {
         if($this->Address === null) {
             $this->loadAddress();
@@ -75,7 +80,7 @@ class CompanyBase extends NormBaseObject {
     }
 
 
-    /** @returns NormTests\mysql\CompanyPerson */
+    /** @return NormTests\mysql\CompanyPerson */
     public function getCompanyPersonCollection() {
         if($this->CompanyPerson === null) {
             $this->loadCompanyPerson();
@@ -107,7 +112,7 @@ class CompanyBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\mysql\Company
      */

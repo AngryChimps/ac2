@@ -6,49 +6,49 @@ use AC\NormBundle\core\NormBaseObject;
 class CalendarBase extends NormBaseObject {
 
     /** @var  string */
-    protected static $primaryDatastoreName = '__norm_test_riak_ds';
+    public static $primaryDatastoreName = '__norm_test_riak_ds';
 
     /** @var  string */
-    protected static $cacheDatastoreName = '';
+    public static $cacheDatastoreName = '';
 
     /** @var  string */
-    protected static $realm = 'riak';
+    public static $realm = 'riak';
 
     /** @var  string */
-    protected static $tableName = 'calendar';
+    public static $tableName = 'calendar';
 
     /** @var string[] */
-    protected static $fieldNames = array('id', 'location_id', 'company_id', 'name', 'status', 'created_at', 'updated_at');
+    public static $fieldNames = array('id', 'location_id', 'company_id', 'name', 'availabilities', 'bookings', 'status', 'created_at', 'updated_at');
 
     /** @var string[] */
-    protected static $fieldTypes = array('string', 'string', 'string', 'string', 'int', 'DateTime', 'DateTime');
+    public static $fieldTypes = array('string', 'string', 'string', 'string', '\Norm\riak\AvailabilityCollection', '\Norm\riak\BookingCollection', 'int', '\DateTime', '\DateTime');
 
     /** @var  string[] */
-    protected static $propertyNames = array('id', 'locationId', 'companyId', 'name', 'status', 'createdAt', 'updatedAt');
+    public static $propertyNames = array('id', 'locationId', 'companyId', 'name', 'availabilities', 'bookings', 'status', 'createdAt', 'updatedAt');
 
     /** @var  string[] */
-    protected static $primaryKeyFieldNames = array('id');
+    public static $primaryKeyFieldNames = array('id');
 
     /** @var  string[] */
-    protected static $primaryKeyPropertyNames = array('id');
+    public static $primaryKeyPropertyNames = array('id');
 
     /** @var  string[] */
-    protected static $autoIncrementFieldName = '';
+    public static $autoIncrementFieldName = '';
 
     /** @var  string[] */
-    protected static $autoIncrementPropertyName = '';
+    public static $autoIncrementPropertyName = '';
 
     /** @var  string[] */
-    protected static $autoGenerateFieldName = 'id';
+    public static $autoGenerateFieldName = 'id';
 
     /** @var  string[] */
-    protected static $autoGeneratePropertyName = 'id';
+    public static $autoGeneratePropertyName = 'id';
 
     /** @var bool */
-    protected static $hasPrimaryKey = true;
+    public static $hasPrimaryKey = true;
 
     /** @var bool */
-    protected static $hasAutoIncrement = false;
+    public static $hasAutoIncrement = false;
 
     const ENABLED_STATUS = 1;
     const DISABED_STATUS = 2;
@@ -66,17 +66,30 @@ class CalendarBase extends NormBaseObject {
     /** @var string */
     public $name;
 
+    /** @var \Norm\riak\AvailabilityCollection */
+    public $availabilities;
+
+    /** @var \Norm\riak\BookingCollection */
+    public $bookings;
+
     /** @var int */
     public $status;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $createdAt;
 
-    /** @var DateTime */
+    /** @var \DateTime */
     public $updatedAt;
 
 
-    /** @returns NormTests\riak\Location */
+    public function __construct() {
+        parent::__construct();
+
+        $this->availabilities = new \NormTests\riak\AvailabilityCollection();
+        $this->bookings = new \NormTests\riak\BookingCollection();
+    }
+
+    /** @return \NormTests\riak\Location */
     public function getLocation() {
         if($this->Location === null) {
             $this->loadLocation();
@@ -84,7 +97,7 @@ class CalendarBase extends NormBaseObject {
         return $this->Location;
     }
 
-    /** @returns NormTests\riak\Company */
+    /** @return \NormTests\riak\Company */
     public function getCompany() {
         if($this->Company === null) {
             $this->loadCompany();
@@ -102,15 +115,7 @@ class CalendarBase extends NormBaseObject {
     }
 
 
-    /** @returns NormTests\riak\Ad */
-    public function getAdCollection() {
-        if($this->Ad === null) {
-            $this->loadAd();
-        }
-        return $this->Ad;
-    }
-
-    /** @returns NormTests\riak\BookingDetail */
+    /** @return \NormTests\riak\BookingDetail */
     public function getBookingDetailCollection() {
         if($this->BookingDetail === null) {
             $this->loadBookingDetail();
@@ -118,25 +123,21 @@ class CalendarBase extends NormBaseObject {
         return $this->BookingDetail;
     }
 
-    /** @returns NormTests\riak\CalendarDay */
-    public function getCalendarDayCollection() {
-        if($this->CalendarDay === null) {
-            $this->loadCalendarDay();
+    /** @return \NormTests\riak\ProviderAd */
+    public function getProviderAdCollection() {
+        if($this->ProviderAd === null) {
+            $this->loadProviderAd();
         }
-        return $this->CalendarDay;
+        return $this->ProviderAd;
     }
 
-
-    protected function loadAdCollection() {
-        parent::loadPropertyCollection('Ad', 'ad', 'calendar_id', 'calendarId');
-    }
 
     protected function loadBookingDetailCollection() {
         parent::loadPropertyCollection('BookingDetail', 'booking_detail', 'calendar_id', 'calendarId');
     }
 
-    protected function loadCalendarDayCollection() {
-        parent::loadPropertyCollection('CalendarDay', 'calendar_day', 'calendar_id', 'calendarId');
+    protected function loadProviderAdCollection() {
+        parent::loadPropertyCollection('ProviderAd', 'provider_ad', 'calendar_id', 'calendarId');
     }
 
 
@@ -158,7 +159,7 @@ class CalendarBase extends NormBaseObject {
     }
 
     /**
-     * @param $sql The complete sql statement with placeholders
+     * @param $sql string The complete sql statement with placeholders
      * @param array $params The parameter array to replace placeholders in the sql
      * @return \NormTests\riak\Calendar
      */
