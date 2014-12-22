@@ -45,7 +45,7 @@ class LocationService {
     }
 
 
-    public function createLocation($name, $street1, $street2, $zip, $phone, $company, &$errors) {
+    public function createLocation($name, $street1, $street2, $zip, $phone, $company, $isMobile, &$errors) {
         $address = $this->geo->lookupAddress($street1, $street2, $zip);
 
         $location = new Location();
@@ -62,6 +62,7 @@ class LocationService {
         $location->address->long = $address->long;
 
         $location->companyId = $company->id;
+        $location->isMobile = $isMobile;
         $location->status = Location::ENABLED_STATUS;
 
         $errors = $this->validator->validate($location);
@@ -74,10 +75,11 @@ class LocationService {
         return $location;
     }
 
-    public function updateLocation(Location $location, $name, $street1, $street2, $zip, $phone, &$errors) {
+    public function updateLocation(Location $location, $name, $street1, $street2, $zip, $phone, $isMobile, &$errors) {
         $address = $this->geo->lookupAddress($street1, $street2, $zip);
 
         $location->name = $name;
+        $location->isMobile = $isMobile;
         $location->address = new Address();
         $location->address->street1 = $street1;
         $location->address->street2 = $street2;

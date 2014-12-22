@@ -21,6 +21,8 @@ fields:
     type: \Norm\riak\Address
   - name: phone
     type: string
+  - name: is_mobile
+    type: bool
   - name: status
     type: enum
     values:

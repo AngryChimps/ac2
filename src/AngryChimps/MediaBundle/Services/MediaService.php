@@ -28,7 +28,7 @@ class MediaService {
         $extension = $file->getClientOriginalExtension();
         $filename = bin2hex(openssl_random_pseudo_bytes(16));
 
-        $filesystem->write($filename . '.' . $extension, $content, true);
+        $filesystem->write($filename . '.' . $extension, $content);
 
         return $filename . '.' . $extension;
     }

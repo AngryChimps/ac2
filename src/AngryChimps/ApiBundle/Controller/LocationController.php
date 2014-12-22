@@ -70,6 +70,7 @@ class LocationController extends AbstractController
         $arr['name'] = $location->name;
         $arr['address'] = (array) $location->address;
         $arr['phone'] = $location->phone;
+        $arr['is_mobile'] = $location->isMobile;
 
         $user = $this->getAuthenticatedUser();
         if($user !== null && in_array($user->id, $company->administerMemberIds)) {
@@ -96,6 +97,7 @@ class LocationController extends AbstractController
         }
         $zip = $payload['zip'];
         $phone = $payload['phone'];
+        $isMobile = $payload['is_mobile'];
 
         $company = $this->companyService->getByPk($companyId);
 
@@ -108,7 +110,7 @@ class LocationController extends AbstractController
         }
 
         $errors = array();
-        $location = $this->locationService->createLocation($name, $street1, $street2, $zip, $phone, $company, $errors);
+        $location = $this->locationService->createLocation($name, $street1, $street2, $zip, $phone, $company, $isMobile, $errors);
         if($location === false) {
             $errors = array(
                 'human' => 'Error validating location fields',
@@ -161,9 +163,10 @@ class LocationController extends AbstractController
         $street2 = $payload['street2'];
         $zip = $payload['zip'];
         $phone = $payload['phone'];
+        $isMobile = $payload['is_mobile'];
 
         $errors = array();
-        $location = $this->locationService->updateLocation($location, $name, $street1, $street2, $zip, $phone, $errors);
+        $location = $this->locationService->updateLocation($location, $name, $street1, $street2, $zip, $phone, $isMobile, $errors);
         if($location === false) {
             $errors = array(
                 'human' => 'Unable to validate location inputs',

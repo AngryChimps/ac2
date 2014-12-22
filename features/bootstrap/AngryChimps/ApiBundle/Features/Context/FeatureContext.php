@@ -461,7 +461,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $arr['street1'] = '440 Castro Street';
         $arr['zip'] = 94114;
         $arr['company_id'] = $this->testCompany->id;
-        $arr['phone'] = '555-555-5555';
+        $arr['phone'] = '(415) 555-5555';
+        $arr['is_mobile'] = false;
         $this->requestArray = array('payload' => $arr);
     }
 
@@ -541,6 +542,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $arr['zip'] = $this->testLocation->address->zip;
         $arr['companyId'] = $this->testLocation->companyId;
         $arr['phone'] = $this->testLocation->phone;
+        $arr['is_mobile'] = $this->testLocation->isMobile;
 
         $this->requestArray = array('payload' => $arr);
         $this->putData('location/' . $this->testLocation->id);
@@ -558,6 +560,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $arr['zip'] = $this->testLocation->address->zip;
         $arr['companyId'] = $this->testCompany->id;
         $arr['phone'] = $this->testLocation->phone;
+        $arr['is_mobile'] = $this->testLocation->isMobile;
 
         $this->requestArray = array('payload' => $arr);
         $this->putData('location/a');
@@ -589,12 +592,16 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->testLocation = new Location();
         $this->testLocation->companyId = $this->testCompany->id;
         $this->testLocation->address = new Address();
-        $this->testLocation->address->street1 = '298 Willow Street';
+        $this->testLocation->address->street1 = '230 Dolores Street';
         $this->testLocation->address->street2 = 'APT 212';
-        $this->testLocation->address->zip = 94114;
-        $this->testLocation->address->phone = '5555551212';
+        $this->testLocation->address->city = 'San Francisco';
+        $this->testLocation->address->state = 'CA';
+        $this->testLocation->address->zip = 94110;
+        $this->testLocation->address->phone = '(415) 555-1213';
         $this->testLocation->address->lat = 37.762822;
         $this->testLocation->address->long = -122.437239;
+        $this->testLocation->phone = '(415) 555-1212';
+        $this->testLocation->isMobile = false;
         $this->riak->create($this->testLocation);
     }
 
