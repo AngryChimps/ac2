@@ -9,12 +9,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class BehatApiTestCommand extends Command
+class BehatDevTestCommand extends Command
 {
     protected function configure()
     {
         $this
-            ->setName('behat:api')
+            ->setName('behat:dev')
             ->setDescription('Call behat functions in the api suite')
             ->addArgument(
                 'behat_command',
@@ -38,14 +38,14 @@ class BehatApiTestCommand extends Command
         switch($command) {
             case 'test':
                 if($feature) {
-                    system("/usr/bin/php vendor/behat/behat/bin/behat --suite api --name $feature");
+                    system("/usr/bin/php vendor/behat/behat/bin/behat -c behat_dev.yml --suite api --name $feature");
                 }
                 else {
-                    system("/usr/bin/php vendor/behat/behat/bin/behat --suite api");
+                    system("/usr/bin/php vendor/behat/behat/bin/behat -c behat_dev.yml --suite api");
                 }
                 break;
             case 'init':
-                system("/usr/bin/php vendor/behat/behat/bin/behat --init --suite api");
+                system("/usr/bin/php vendor/behat/behat/bin/behat -c behat_dev.yml --init --suite api");
                 break;
             default:
                 throw new \Exception('Unknown command: ' . $command);
