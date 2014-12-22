@@ -19,23 +19,22 @@ class GenerateCommand extends ContainerAwareCommand
             ->setName('norm:generate')
             ->setDescription('Generate objects for a specific realm')
             ->addArgument(
-                'realm',
+                'environ',
                 InputArgument::OPTIONAL,
-                'What is the name of the realm to generate?'
+                'Which environment should we generate?'
             )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $realmName = $input->getArgument('realm');
+        $env = $input->getArgument('environ');
 
-        $generator = new Generator();
-        if($realmName !== null) {
-            $generator->generate($realmName, $this->getContainer()->get('kernel')->environment);
+        $rics = $this->getContainer()->get('ac_norm.realm_info_creator');
+        if($env !== null) {
+            $rics->setEnvironment($env);
         }
-        else{
-            $generator->generateAll($this->getContainer()->get('kernel')->environment);
-        }
+
+        $rics->createIfNecessary();
     }
 }
