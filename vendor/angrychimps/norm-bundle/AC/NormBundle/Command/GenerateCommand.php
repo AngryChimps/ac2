@@ -35,6 +35,6 @@ class GenerateCommand extends ContainerAwareCommand
             $rics->setEnvironment($env);
         }
 
-        $rics->createIfNecessary();
+        $rics->createIfNecessary(true);
     }
 }

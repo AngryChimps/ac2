@@ -37,8 +37,8 @@ class RealmInfoCreatorService {
         $this->environment = $env;
     }
 
-    public function createIfNecessary() {
-        if(!file_exists(__DIR__ . '/../../../../../../app/cache/' . $this->environment . '/angrychimps/norm/realmProperties.php')) {
+    public function createIfNecessary($force = false) {
+        if($force || !file_exists(__DIR__ . '/../../../../../../app/cache/' . $this->environment . '/angrychimps/norm/realmProperties.php')) {
         $this->populateRealms();
         $this->createRealmFolders();
 
