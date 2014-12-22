@@ -63,6 +63,8 @@ class SignupController extends AbstractController
             return $this->responseService->failure(400, $error);
         }
 
+
+
         return $this->responseService->success($data);
     }
 
@@ -99,17 +101,24 @@ class SignupController extends AbstractController
 
         if($address === null) {
             $error = array('code' => 'Api.SignupController.registerProviderCompany.5',
-                'human' => 'Google Maps failed to find th specified address');
+                'human' => 'Google Maps failed to find the specified address');
             return $this->responseService->failure(400, $error);
         }
 
         $location = $this->locationService->getByPk($company->locationIds[0]);
 
+        if($location === null) {
+            $error = array('code' => 'Api.SignupController.registerProviderCompany.6',
+                'human' => 'Unable to find the associated location');
+            return $this->responseService->failure(400, $error);
+        }
+
         $errors = array();
         $result = $this->signupService->registerProviderCompany($this->getAuthenticatedUser(), $company,
             $location, $payload['company_name'], $payload['member_name'], $payload['email'],
             $payload['password'], new \DateTime($payload['dob']), $payload['street1'],
-            $payload['street2'], $payload['zip'], $address, $payload['phone'], $payload['mobile_phone'], $errors);
+            $payload['street2'], $payload['zip'], $address, $payload['phone'], $payload['mobile_phone'],
+            $errors);
 
         if(!$result) {
             $error = array('code' => 'Api.SignupController.registerProviderCompany.6',
@@ -122,5 +131,28 @@ class SignupController extends AbstractController
         $this->providerAdService->publish($this->providerAdService->getProviderAd($result['providerAd']['id']));
 
         return $this->responseService->success($result);
+    }
+
+    public function uploadFirstAdPhotoAction() {
+        /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $photo */
+        $photo = $this->getRequest()->files->get('photo');
+
+        if($photo === null) {
+            $error = array('code' => 'Api.SignupController.uploadFirstAdPhoto.1',
+                'human' => 'No photo was attached');
+            return $this->responseService->failure(400, $error);
+        }
+
+        try {
+            $this->signupService->uploadPhoto($this->getAuthenticatedUser(), $photo);
+        }
+        catch(\Exception $ex) {
+            throw $ex;
+            $error = array('code' => 'Api.SignupController.uploadFirstAdPhoto.2',
+                'human' => 'Unknown error occurred processing the image');
+            return $this->responseService->failure(400, $error);
+        }
+
+        return $this->responseService->success();
     }
 }

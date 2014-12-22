@@ -1,3 +1,11 @@
+angry_chimps_media:
+    resource: "@AngryChimpsMediaBundle/Resources/config/routing.yml"
+    prefix:   /media
+
+angry_chimps_sample:
+    resource: "@AngryChimpsSampleBundle/Resources/config/routing.yml"
+    prefix:   /sample
+
 angry_chimps_elasticsearch:
     resource: "@AngryChimpsElasticsearchBundle/Resources/config/routing.yml"
     prefix:   /

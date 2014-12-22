@@ -66,16 +66,18 @@ abstract class AbstractDatastore {
                     break;
                 default:
                     if (class_exists($tableInfo['fieldTypes'][$i]) && $this->isCollection($tableInfo['fieldTypes'][$i])) {
-                        $this->$propertyName = new $tableInfo['fieldTypes'][$i]();
-                        foreach ($arr[$i] as $objectArray) {
+                        $obj->$tableInfo['propertyNames'][$i] = new $tableInfo['fieldTypes'][$i]();
+                        foreach (array_values($arr)[$i] as $objectArray) {
                             $tableInfo2 = $this->realmInfo->getTableInfo($tableInfo['fieldTypes'][$i]);
-                            $object = new $tableInfo2['objectClass']();
+                            $object = new $tableInfo2['objectName']();
                             $this->populateObjectWithArray($object, $objectArray);
-                            $this->$propertyName[$this->getIdentifier($object)] = $object;
+                            $obj->$tableInfo['propertyNames'][$i]->offsetSet($this->getIdentifier($object), $object);
                         }
                     } elseif (class_exists($tableInfo['fieldTypes'][$i])) {
                         $object = new $tableInfo['fieldTypes'][$i]();
-                        $this->populateObjectWithArray($object, array_values($arr)[$i]);
+                        if(array_values($arr)[$i] !== null) {
+                            $this->populateObjectWithArray($object, array_values($arr)[$i]);
+                        }
                         $obj->$tableInfo['propertyNames'][$i] = $object;
                     } else {
                         $obj->$tableInfo['propertyNames'][$i] = array_values($arr)[$i];
@@ -85,6 +87,10 @@ abstract class AbstractDatastore {
 
     }
 
+    /**
+     * @param $obj
+     * @return string
+     */
     protected function getIdentifier($obj) {
         $class = get_class($obj);
         $tableInfo = $this->realmInfo->getTableInfo($class);

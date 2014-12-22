@@ -21,10 +21,6 @@ fields:
     type: \Norm\riak\Address
   - name: phone
     type: string
-    validations:
-        - Length:
-            min: 10
-            max: 25
   - name: status
     type: enum
     values:

@@ -68,6 +68,7 @@ services:
             - "@angry_chimps_api.session"
             - "@ac_norm.norm.riak"
             - "@ac_norm.norm.mysql"
+            - "@angry_chimps_media.media"
     angry_chimps_api.provider_ad:
         class: "%angry_chimps_api.provider_ad.class%"
         arguments:

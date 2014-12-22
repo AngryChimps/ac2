@@ -14,7 +14,7 @@ Feature: location-put
     Then I get a status code "200"
     And I get back a valid json object
     And If I reload the test location
-    And The value of the "name" field of the test lcoation is "234 Maple Lane"
+    And The value of the "name" field of the test location is "234 Maple Lane"
     And Finally, I clean up my objects
 
   Scenario: Attempt to modify a location with an invalid id

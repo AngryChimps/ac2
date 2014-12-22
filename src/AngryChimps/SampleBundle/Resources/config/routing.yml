@@ -1,0 +1,4 @@
+angry_chimps_sample_homepage:
+    path:     /{command}
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_sample.default.controller:indexAction }

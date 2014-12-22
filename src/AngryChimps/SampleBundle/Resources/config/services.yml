@@ -1,0 +1,17 @@
+parameters:
+    angry_chimps_sample.generator.class: AngryChimps\SampleBundle\Services\GeneratorService
+
+
+    angry_chimps_sample.default.controller.class: AngryChimps\SampleBundle\Controller\DefaultController
+
+services:
+    angry_chimps_sample.generator:
+        class: "%angry_chimps_sample.generator.class%"
+        arguments:
+            - "@angry_chimps_guzzle.guzzle"
+            - "%angry_chimps_sample.session_header_name%"
+            - "%angry_chimps_sample.base_url%"
+
+    angry_chimps_sample.default.controller:
+        class: "%angry_chimps_sample.default.controller.class%"
+        arguments: ["@angry_chimps_sample.generator"]

@@ -4,6 +4,7 @@
 namespace AngryChimps\ApiBundle\Services;
 
 
+use AngryChimps\MediaBundle\Services\MediaService;
 use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
 use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
 use AngryChimps\GeoBundle\Classes\Address;
@@ -24,6 +25,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SignupService {
     /** @var  MemberService */
@@ -62,11 +64,15 @@ class SignupService {
     /** @var  NormMysqlService */
     protected $mysql;
 
+    /** @var MediaService */
+    protected $mediaService;
+
     public function __construct(MemberService $memberService, CompanyService $companyService,
                                 LocationService $locationService, ProviderAdService $providerAdService,
                                 CalendarService $calendarService, ServiceService $serviceService,
                                 AuthService $authService, ValidatorInterface $validator,
-                                SessionService $sessionService, NormRiakService $riak, NormMysqlService $mysql)
+                                SessionService $sessionService, NormRiakService $riak, NormMysqlService $mysql,
+                                MediaService $mediaService)
     {
         $this->memberService = $memberService;
         $this->companyService = $companyService;
@@ -79,6 +85,7 @@ class SignupService {
         $this->sessionService = $sessionService;
         $this->riak = $riak;
         $this->mysql = $mysql;
+        $this->mediaService = $mediaService;
     }
 
     public function registerProviderAd($adTitle, $adDescription, \DateTime $start, \DateTime $end,
@@ -198,5 +205,11 @@ class SignupService {
         return array('providerAd' => array('id' => $companyAds->publishedAdIds[0]));
     }
 
+    public function uploadPhoto(Member $member, UploadedFile $photo) {
+        $filename = $this->mediaService->persist('company_photos_fs', $photo);
 
+        $companyPhotos = $this->riak->getCompanyPhotos($member->managedCompanyIds[0]);
+        $companyPhotos->photos[] = $filename;
+        $this->riak->update($companyPhotos);
+    }
  }

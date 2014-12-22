@@ -573,9 +573,9 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     }
 
     /**
-     * @Then The value of the :arg1 field of the test lcoation is :arg2
+     * @Then The value of the :arg1 field of the test location is :arg2
      */
-    public function theValueOfTheFieldOfTheTestLcoationIs($arg1, $arg2)
+    public function theValueOfTheFieldOfTheTestLocationIs($arg1, $arg2)
     {
         $this->assertEquals($this->testLocation->$arg1, $arg2,
             'The value of the ' . $arg1 . ' field of the test location is not ' . $arg2);

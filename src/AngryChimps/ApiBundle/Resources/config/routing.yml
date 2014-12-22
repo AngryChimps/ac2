@@ -97,6 +97,10 @@ angry_chimps_api_signup_registerProviderCompany:
     path:     /signup/registerProviderCompany
     methods: ["POST"]
     defaults: { _controller: angry_chimps_api.signup.controller:registerProviderCompanyAction }
+angry_chimps_api_signup_uploadFirstAdPhoto:
+    path:     /signup/uploadFirstAdPhoto
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.signup.controller:uploadFirstAdPhotoAction }
 
 #search
 angry_chimps_api_search_post:

@@ -20,22 +20,11 @@ use Norm\riak\Address;
  * $realms
  */
 class RealmInfoService {
-    /** @var string[] All of the realm names */
-    private $realmNames = [];
-
-    private $realms = [];
-
     /** @var  string The environment */
     protected $environment;
 
-    /** @var Norm An array of schemas */
-    protected $norm;
-
-    /** @var array The data associated with all of the realms */
-    protected $data = [];
-
-    protected $realmInfo;
-    protected $classInfo;
+    protected static $realmInfo;
+    protected static $classInfo;
 
     public function __construct($environment, RealmInfoCreatorService $realmInfoCreatorService)
     {
@@ -46,20 +35,31 @@ class RealmInfoService {
 
         require(__DIR__ . '/../../../../../../app/cache/' . $this->environment . '/angrychimps/norm/realmProperties.php');
 
-        $this->realmInfo = $realms;
-        $this->classInfo = $classes;
+        self::$realmInfo = $realms;
+        self::$classInfo = $classes;
     }
 
     public function getDatastore($className) {
-        return $this->classInfo[$className]['primary_datastore'];
+        if(strpos($className, "\\") === 0) {
+            $className = substr($className, 1);
+        }
+        return self::$classInfo[$className]['primary_datastore'];
     }
 
     public function getRealm($className) {
-        return $this->classInfo[$className]['realmName'];
+        if(strpos($className, "\\") === 0) {
+            $className = substr($className, 1);
+        }
+
+        return self::$classInfo[$className]['realmName'];
     }
 
     public function getTableName($className) {
-        return $this->classInfo[$className]['tableName'];
+        if(strpos($className, "\\") === 0) {
+            $className = substr($className, 1);
+        }
+
+        return self::$classInfo[$className]['tableName'];
     }
 
     public function getPkData($obj) {
@@ -68,7 +68,7 @@ class RealmInfoService {
         $realm = $this->getRealm($class);
         $tableName = $this->getTableName($class);
 
-        $pkProperties = $this->realmInfo[$realm][$tableName]['primaryKeyPropertyNames'];
+        $pkProperties = self::$realmInfo[$realm][$tableName]['primaryKeyPropertyNames'];
         $arr = array();
         if($this->isCollection($obj)) {
             foreach($obj as $object) {
@@ -93,7 +93,7 @@ class RealmInfoService {
         $realm = $this->getRealm($class);
         $tableName = $this->getTableName($class);
 
-        $pkProperties = $this->realmInfo[$realm][$tableName]['primaryKeyPropertyNames'];
+        $pkProperties = self::$realmInfo[$realm][$tableName]['primaryKeyPropertyNames'];
         $arr = array();
         if($this->isCollection($obj)) {
             foreach($obj as $object) {
@@ -118,14 +118,14 @@ class RealmInfoService {
         $realm = $this->getRealm($class);
         $tableName = $this->getTableName($class);
 
-        return $this->realmInfo[$realm][$tableName]['autoIncrementProperty'];
+        return self::$realmInfo[$realm][$tableName]['autoIncrementProperty'];
     }
 
     public function getTableInfo($class) {
         $realm = $this->getRealm($class);
         $tableName = $this->getTableName($class);
 
-        return $this->realmInfo[$realm][$tableName];
+        return self::$realmInfo[$realm][$tableName];
     }
 
     public function isCollection($obj) {

@@ -91,6 +91,10 @@ angry_chimps_geo:
 angry_chimps_api:
     session_header_name: angrychimps-api-session-token
 
+angry_chimps_sample:
+    session_header_name: angrychimps-api-session-token
+
+
 ac_norm:
 #    realms:
 #        -
@@ -106,3 +110,31 @@ ac_norm:
 #            namespace: "Norm\\es"
 #            primary_datastore: "es_ds"
 
+knp_gaufrette:
+    adapters:
+        member_photos:
+            aws_s3:
+                service_id: 'angry_chimps_media.aws_s3.client'
+                bucket_name: 'angrychimps-member-images'
+                options:
+                    directory: %kernel.environment%
+        company_photos:
+            aws_s3:
+                service_id: 'angry_chimps_media.aws_s3.client'
+                bucket_name: 'angrychimps-company-images'
+                options:
+                    directory: %kernel.environment%
+    filesystems:
+        member_photos_fs:
+            adapter:    member_photos
+        company_photos_fs:
+            adapter:    company_photos
+
+angry_chimps_media:
+    filesystems:
+        member_photos_fs:
+            upload_width_px: 480
+            upload_height_px: 480
+        company_photos_fs:
+            upload_width_px: 700
+            upload_height_px: 480

@@ -27,3 +27,7 @@ swiftmailer:
 angry_chimps_api:
     debug: true
     base_url: http://devvy.angrychimps.com/api/v1
+
+angry_chimps_sample:
+    base_url: http://loco.angrychimps.com/api/v1
+

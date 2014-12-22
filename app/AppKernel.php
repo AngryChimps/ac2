@@ -31,6 +31,9 @@ class AppKernel extends Kernel
             new AngryChimps\GeoBundle\AngryChimpsGeoBundle(),
             new AngryChimps\GuzzleBundle\AngryChimpsGuzzleBundle(),
             new AngryChimps\ElasticsearchBundle\AngryChimpsElasticsearchBundle(),
+            new AngryChimps\SampleBundle\AngryChimpsSampleBundle(),
+            new AngryChimps\MediaBundle\AngryChimpsMediaBundle(),
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test', 'local', 'behat'))) {

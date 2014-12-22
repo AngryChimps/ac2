@@ -1,0 +1,3 @@
+angry_chimps_media_homepage:
+    path:     /{photoUrl}
+    defaults: { _controller: AngryChimpsMediaBundle:Default:index }
