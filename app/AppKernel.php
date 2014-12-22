@@ -36,7 +36,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()
         );
 
-        if (in_array($this->getEnvironment(), array('dev', 'test', 'local', 'behat'))) {
+        if (in_array($this->getEnvironment(), array('dev', 'test', 'local', 'behat', 'behat_dev'))) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();

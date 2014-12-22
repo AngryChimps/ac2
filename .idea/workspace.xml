@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3689bbd9-d2b9-48ad-920c-675fe0f9a3e5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Command/BehatDevTestCommand.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ac.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/config/ac_norm_behat_dev.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/behat_dev.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/config/config_behat_dev.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Command\BehatApiTestCommand.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Command/BehatLocalTestCommand.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/AppKernel.php" afterPath="$PROJECT_DIR$/app/AppKernel.php" />
     </list>
     <ignored path="ac.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -97,20 +91,20 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="AppKernel.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="AppKernel.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="969">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.65637064" vertical-offset="119" max-vertical-offset="969">
+                  <caret line="38" column="95" selection-start-line="38" selection-start-column="95" selection-end-line="38" selection-end-column="95" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="BehatLocalTestCommand.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="BehatLocalTestCommand.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Command/BehatLocalTestCommand.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.75933075" vertical-offset="141" max-vertical-offset="952">
+                <state vertical-scroll-proportion="-28.115385" vertical-offset="0" max-vertical-offset="952">
                   <caret line="47" column="65" selection-start-line="47" selection-start-column="65" selection-end-line="47" selection-end-column="65" />
                   <folding />
                 </state>
@@ -161,10 +155,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="RealmInfoCreatorService.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="RealmInfoCreatorService.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Services/RealmInfoCreatorService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.49933246" vertical-offset="187" max-vertical-offset="5678">
+                <state vertical-scroll-proportion="-14.384615" vertical-offset="187" max-vertical-offset="5678">
                   <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
                   <folding />
                 </state>
@@ -221,10 +215,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="config_dev.yml" pinned="false" current-in-tab="false">
+          <file leaf-file-name="config_dev.yml" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="232" max-vertical-offset="1054">
+                <state vertical-scroll-proportion="0.10786802" vertical-offset="0" max-vertical-offset="1054">
                   <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
                   <folding />
                 </state>
@@ -269,7 +263,6 @@
         <option value="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/Goodman.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/AbstractController.php" />
-        <option value="$PROJECT_DIR$/app/AppKernel.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/goodman.yml" />
         <option value="$PROJECT_DIR$/app/config/config_local.yml" />
         <option value="$PROJECT_DIR$/app/config/config_dev.yml" />
@@ -307,6 +300,7 @@
         <option value="$PROJECT_DIR$/behat_dev.yml" />
         <option value="$PROJECT_DIR$/app/config/ac_norm_behat_dev.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Command/BehatLocalTestCommand.php" />
+        <option value="$PROJECT_DIR$/app/AppKernel.php" />
       </list>
     </option>
   </component>
@@ -2875,14 +2869,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="232" max-vertical-offset="1054">
-          <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="679" max-vertical-offset="1445">
@@ -2895,14 +2881,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Services/RealmInfoCreatorService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49933246" vertical-offset="187" max-vertical-offset="5678">
-          <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
           <folding />
         </state>
       </provider>
@@ -2973,18 +2951,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Command/BehatLocalTestCommand.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="-28.115385" vertical-offset="0" max-vertical-offset="952">
+          <caret line="47" column="65" selection-start-line="47" selection-start-column="65" selection-end-line="47" selection-end-column="65" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Command/BehatLocalTestCommand.php">
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Services/RealmInfoCreatorService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.75933075" vertical-offset="141" max-vertical-offset="952">
-          <caret line="47" column="65" selection-start-line="47" selection-start-column="65" selection-end-line="47" selection-end-column="65" />
+        <state vertical-scroll-proportion="-14.384615" vertical-offset="187" max-vertical-offset="5678">
+          <caret line="40" column="21" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10786802" vertical-offset="0" max-vertical-offset="1054">
+          <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.65637064" vertical-offset="119" max-vertical-offset="969">
+          <caret line="38" column="95" selection-start-line="38" selection-start-column="95" selection-end-line="38" selection-end-column="95" />
           <folding />
         </state>
       </provider>
