@@ -4,6 +4,7 @@ parameters:
 #    amazon_s3.key: AKIAJX62AEO7EEBEE65Q
 #    amazon_s3.secret: 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
     amazon_s3.region: us-east-1
+    angry_chimps_media.controller.default.class: AngryChimps\MediaBundle\Controller\DefaultController
 
 services:
 #    angry_chimps_media.example:
@@ -23,3 +24,9 @@ services:
                 secret: %amazon_s3.secret%
                 region: %amazon_s3.region%
 
+    ##############################################################
+    ###                  Controllers                           ###
+    ##############################################################
+    angry_chimps_media.default.controller:
+            class:     "%angry_chimps_media.controller.default.class%"
+            arguments: ["@request_stack", "@angry_chimps_media.media"]

@@ -20,9 +20,9 @@ class DefaultController extends Controller
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    public function indexAction($photoUrl)
+    public function indexAction($filesystemName, $filename)
     {
-        list($filesystemName, $filename) = explode('/', $photoUrl);
+//        list($filesystemName, $filename) = explode('/', $photoUrl);
 
         $responseString = $this->mediaService->retrieveSized($filesystemName, $filename,
             $this->request->query->get('width'), $this->request->query->get('height'));
@@ -32,7 +32,7 @@ class DefaultController extends Controller
 
         // Set headers
 //        $response->headers->set('Cache-Control', 'private');
-        $response->headers->set('Content-type', mime_content_type($filename));
+        $response->headers->set('Content-type', 'image/jpeg');
 //        $response->headers->set('Content-Disposition', 'attachment; filename="' . basename($filename) . '";');
 //        $response->headers->set('Content-length', filesize($filename));
 

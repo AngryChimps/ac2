@@ -1,3 +1,4 @@
 angry_chimps_media_homepage:
-    path:     /{photoUrl}
-    defaults: { _controller: AngryChimpsMediaBundle:Default:index }
+    path:     /{filesystemName}/{filename}
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_media.default.controller:indexAction }
