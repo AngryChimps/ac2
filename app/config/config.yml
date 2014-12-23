@@ -112,29 +112,29 @@ ac_norm:
 
 knp_gaufrette:
     adapters:
-        member_photos:
+        member_images:
             aws_s3:
                 service_id: 'angry_chimps_media.aws_s3.client'
                 bucket_name: 'angrychimps-member-images'
                 options:
                     directory: %kernel.environment%
-        company_photos:
+        company_images:
             aws_s3:
                 service_id: 'angry_chimps_media.aws_s3.client'
                 bucket_name: 'angrychimps-company-images'
                 options:
                     directory: %kernel.environment%
     filesystems:
-        member_photos_fs:
-            adapter:    member_photos
-        company_photos_fs:
-            adapter:    company_photos
+        member_images_fs:
+            adapter:    member_images
+        company_images_fs:
+            adapter:    company_images
 
 angry_chimps_media:
     filesystems:
-        member_photos_fs:
+        member_images_fs:
             upload_width_px: 480
             upload_height_px: 480
-        company_photos_fs:
+        company_images_fs:
             upload_width_px: 700
             upload_height_px: 480

@@ -28,6 +28,9 @@ class DefaultController extends Controller
                 break;
             case 'mi':
                 $filesystemName = 'member_images_fs';
+                break;
+            default:
+                throw new \Exception('Unknown filesystemShortName: ' . $filesystemShortName);
         }
 
         $responseString = $this->mediaService->retrieveSized($filesystemName, $filename,
