@@ -1,4 +1,4 @@
 angry_chimps_media_homepage:
-    path:     /{filesystemName}/{filename}
+    path:     /{filesystemShortName}/{filename}
     methods: ["GET"]
     defaults: { _controller: angry_chimps_media.default.controller:indexAction }

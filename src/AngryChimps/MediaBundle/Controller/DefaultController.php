@@ -20,9 +20,15 @@ class DefaultController extends Controller
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    public function indexAction($filesystemName, $filename)
+    public function indexAction($filesystemShortName, $filename)
     {
-//        list($filesystemName, $filename) = explode('/', $photoUrl);
+        switch($filesystemShortName) {
+            case 'ci':
+                $filesystemName = 'company_images_fs';
+                break;
+            case 'mi':
+                $filesystemName = 'member_images_fs';
+        }
 
         $responseString = $this->mediaService->retrieveSized($filesystemName, $filename,
             $this->request->query->get('width'), $this->request->query->get('height'));
