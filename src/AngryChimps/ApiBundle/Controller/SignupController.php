@@ -147,7 +147,6 @@ class SignupController extends AbstractController
             $this->signupService->uploadPhoto($this->getAuthenticatedUser(), $photo);
         }
         catch(\Exception $ex) {
-            throw $ex;
             $error = array('code' => 'Api.SignupController.uploadFirstAdPhoto.2',
                 'human' => 'Unknown error occurred processing the image');
             return $this->responseService->failure(400, $error);
