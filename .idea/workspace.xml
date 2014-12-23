@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3689bbd9-d2b9-48ad-920c-675fe0f9a3e5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Controller/DefaultController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Controller/DefaultController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Services/MediaService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Services/MediaService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Resources/config/routing.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Resources/config/routing.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Resources/config/services.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_dev.yml" afterPath="$PROJECT_DIR$/app/config/config_dev.yml" />
     </list>
     <ignored path="ac.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,16 +39,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="config_behat.yml" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/config/config_behat.yml">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="1037">
-                  <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="AbstractDatastore.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractDatastore.php">
               <provider selected="true" editor-type-id="text-editor">
@@ -80,7 +66,7 @@
           <file leaf-file-name="config_local.yml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1445">
+                <state vertical-scroll-proportion="0.0" vertical-offset="561" max-vertical-offset="1445">
                   <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
                   <folding />
                 </state>
@@ -97,11 +83,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="services.yml" pinned="false" current-in-tab="true">
+          <file leaf-file-name="config_dev.yml" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.7916667" vertical-offset="238" max-vertical-offset="1054">
+                  <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="services.yml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/MediaBundle/Resources/config/services.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.6139477" vertical-offset="0" max-vertical-offset="803">
-                  <caret line="29" column="41" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="41" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
+                  <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
                   <folding />
                 </state>
               </provider>
@@ -268,7 +264,6 @@
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/AbstractController.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/goodman.yml" />
         <option value="$PROJECT_DIR$/app/config/config_local.yml" />
-        <option value="$PROJECT_DIR$/app/config/config_dev.yml" />
         <option value="$PROJECT_DIR$/app/config/config_prod.yml" />
         <option value="$PROJECT_DIR$/app/config/config_test.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/DependencyInjection/Configuration.php" />
@@ -311,6 +306,7 @@
         <option value="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Resources/config/routing.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Services/MediaService.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Controller/DefaultController.php" />
+        <option value="$PROJECT_DIR$/app/config/config_dev.yml" />
       </list>
     </option>
   </component>
@@ -2747,14 +2743,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="28" max-vertical-offset="1054">
-          <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/config/ac_norm_dev.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
@@ -2863,14 +2851,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1445">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1679" max-vertical-offset="2482">
@@ -2955,14 +2935,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/MediaBundle/Resources/config/services.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6139477" vertical-offset="0" max-vertical-offset="803">
-          <caret line="29" column="41" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/MediaBundle/Services/MediaService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="969">
@@ -2975,6 +2947,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6061776" vertical-offset="56" max-vertical-offset="833">
           <caret line="34" column="59" selection-start-line="34" selection-start-column="59" selection-end-line="34" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/MediaBundle/Resources/config/services.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
+          <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1445">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7916667" vertical-offset="238" max-vertical-offset="1054">
+          <caret line="52" column="26" selection-start-line="52" selection-start-column="26" selection-end-line="52" selection-end-column="26" />
           <folding />
         </state>
       </provider>
