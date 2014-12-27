@@ -172,6 +172,7 @@ class MemberService {
 
     public function resetPassword($email, $resetCode) {
         $member = $this->getMemberByEmailEnabled($email);
+        $now = new \DateTime();
         $member->password = 'reset: ' . $now->format("Y-m-d H:i:s");
         $member->passwordResetCode = $resetCode;
         $this->riak->update($member);

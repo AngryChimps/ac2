@@ -16,10 +16,6 @@ class NormDataCollector extends DataCollector {
     /** @var  NormService */
     protected $norm;
 
-    public function __construct(NormService $norm) {
-        $this->norm = $norm;
-    }
-
     /**
      * Collects data for the given Request and Response.
      *
@@ -31,7 +27,7 @@ class NormDataCollector extends DataCollector {
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data['collector'] = $this->norm->collectDebugData();
+//        $this->data['collector'] = $this->norm->collectDebugData();
     }
 
     /**

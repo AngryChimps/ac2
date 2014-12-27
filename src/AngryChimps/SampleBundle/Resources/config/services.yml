@@ -11,6 +11,7 @@ services:
             - "@angry_chimps_guzzle.guzzle"
             - "%angry_chimps_sample.session_header_name%"
             - "%angry_chimps_sample.base_url%"
+            - "@ac_norm.norm.es"
 
     angry_chimps_sample.default.controller:
         class: "%angry_chimps_sample.default.controller.class%"

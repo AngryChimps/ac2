@@ -12,9 +12,9 @@ fields:
   - name: name
     type: string
   - name: availabilities
-    type: \Norm\riak\AvailabilityCollection
+    type: \Norm\riak\Availability[]
   - name: bookings
-    type: \Norm\riak\BookingCollection
+    type: \Norm\riak\Booking[]
   - name: status
     type: enum
     values:

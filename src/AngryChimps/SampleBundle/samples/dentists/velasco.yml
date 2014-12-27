@@ -1,0 +1,37 @@
+steps:
+    -
+        name: session-get
+    -
+        name: signup-registerProviderAd
+        payload:
+            ad_title: "Painless Cleaning"
+            ad_description:
+                - "Dentistry plays a significant role in a person's overall health and well-being. To obtain this state cannot be done alone. In my practice, it is our goal to provide you with education and guidance about your dental needs. In a relaxed and comfortable environment, we will work together to help you understand these needs, which will allow you to make meaningful and important decisions about your dental health."
+                - "Sakiko is our receptionist and she has been been with us since I started the practice. She speaks Japanese fluently and this has been a great asset to the office as well as to our Japanese speaking patients."
+                - "Our dental hygienist, Janice (or Jan), has been in her profession for 30 years. Her soft hands and gentle touch make patients feel every visit a painless and pleasant experience."
+                - "Vanessa has been with us since 2007. She grew up in Oregon and graduated from Oregon Health and Sciences University with a BS in Dental Hygiene. She enjoys traveling, reading, and spending time with her fiance."
+            start: tomorrow 10:00:00
+            end: tomorrow 15:00:00
+            service_name: Full dental cleaning
+            discounted_price: 69
+            original_price: 115
+            mins_for_service: 45
+            mins_notice: 120
+            category_id: 201
+    -
+        name: signup-uploadFirstAdPhoto
+        filename: velasco.jpg
+    -
+        name: signup-registerProviderCompany
+        payload:
+            member_id: #<Auto-Inserted>
+            company_name: Jermey Velasco, D.D.S.
+            member_name: Jeremy Velasco
+            email: #<Auto-Inserted>
+            password: #<Auto-Inserted>
+            dob: #<Auto-Inserted>
+            street1: 490 Post Street
+            street2: Suite 1052
+            zip: 94102
+            phone: #<Auto-Inserted>
+            mobile_phone: #<Auto-Inserted>

@@ -1,3 +1,6 @@
 angry_chimps_ac_homepage:
     path:     /
     defaults: { _controller: AngryChimpsAcBundle:Default:index }
+post:
+    resource: "@AngryChimpsAcBundle/Controller/TestController.php"
+    type:     annotation

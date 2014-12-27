@@ -3,6 +3,7 @@
 namespace {{realmBaseServiceNamespace}};
 
 use AC\NormBundle\Services\NormService;
+use AC\NormBundle\Services\DatastoreService;
 {{#each traitNames}}
 use {{traitName}};
 {{/each}}

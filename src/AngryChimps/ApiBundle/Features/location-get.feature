@@ -6,7 +6,11 @@ Feature: location-get
   Scenario: Get a location with a valid id without authenticating
     Given Another user has a company
     And The test company has a test location
-    And I have an authenticated user
+#    And I have an authenticated user
+    And I have a test user
+    And I get a new session token
+    And I have a valid form login array
+    And I log in
     When I get the location data for the test location
     Then I get a status code "200"
     And I get back a valid json object

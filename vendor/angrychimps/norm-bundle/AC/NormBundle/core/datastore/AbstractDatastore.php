@@ -1,28 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sean
- * Date: 6/19/14
- * Time: 10:06 AM
- */
 
 namespace AC\NormBundle\core\datastore;
 
-
-use AC\NormBundle\core\NormBaseObject;
-use AC\NormBundle\core\NormBaseCollection;
-use AC\NormBundle\Services\RealmInfoService;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractDatastore {
-    protected $connection;
-
-    /** @var  RealmInfoService */
-    protected $realmInfo;
-
-    /** @var LoggerInterface  */
-    protected $loggerService;
-
     abstract public function createObject($obj, &$debug);
     abstract public function createCollection($coll, &$debug);
     abstract public function updateObject($obj, &$debug);
@@ -32,55 +14,93 @@ abstract class AbstractDatastore {
     abstract public function populateObjectByPks($obj, $pks, &$debug);
     abstract public function populateCollectionByPks($obj, $pks, &$debug);
 
-    public function __construct(RealmInfoService $realmInfo, LoggerInterface $loggerService) {
-        $this->realmInfo = $realmInfo;
-        $this->loggerService = $loggerService;
-    }
-
     protected function populateObjectWithArray($obj, $arr)
     {
+        $this->loggerService->info(print_r($obj, true));
+        $this->loggerService->info(print_r($arr, true));
         $class = get_class($obj);
         $tableInfo = $this->realmInfo->getTableInfo($class);
 
+        if((is_array($arr) || $this->isCollection($obj)) && empty($arr)) {
+            return [];
+        }
         for($i = 0; $i < count($tableInfo['fieldNames']); $i++) {
+            $fieldName = $tableInfo['fieldNames'][$i];
+            $fieldType = $tableInfo['fieldTypes'][$i];
+            $propertyName = $tableInfo['propertyNames'][$i];
+
             switch($tableInfo['fieldTypes'][$i]) {
+                case 'string':
+                    $obj->$propertyName = $arr[$fieldName];
+                    break;
                 case 'int':
-                    $obj->$tableInfo['propertyNames'][$i] = (int) array_values($arr)[$i];
+                    $obj->$propertyName = (int) $arr[$fieldName];
                     break;
                 case 'bool':
-                    $obj->$tableInfo['propertyNames'][$i] = (bool) array_values($arr)[$i];
+                    $obj->$propertyName = (bool) $arr[$fieldName];
                     break;
                 case 'float':
                 case 'double':
-                    $obj->$tableInfo['propertyNames'][$i] = (float) array_values($arr)[$i];
+                    $obj->$propertyName = (float) $arr[$fieldName];
                     break;
                 case 'Date':
                 case 'DateTime':
-                    $obj->$tableInfo['propertyNames'][$i] = new \DateTime(array_values($arr)[$i]);
+                    $obj->$propertyName = new \DateTime($arr[$fieldName]);
                     break;
                 case 'int[]':
                 case 'float[]':
                 case 'double[]':
                 case 'string[]':
-                    $obj->$tableInfo['propertyNames'][$i] = array_values($arr)[$i];
+                    $obj->$propertyName = array_values($arr[$fieldName]);
+                    break;
+                case 'Date[]':
+                case 'DateTime[]':
+                    $obj->$propertyName = [];
+                    foreach($arr[$obj->$fieldName] as $val) {
+                        $obj->{$tableInfo['propertyNames'][$i]}[] = new \DateTime($val);
+                    }
                     break;
                 default:
-                    if (class_exists($tableInfo['fieldTypes'][$i]) && $this->isCollection($tableInfo['fieldTypes'][$i])) {
-                        $obj->$tableInfo['propertyNames'][$i] = new $tableInfo['fieldTypes'][$i]();
-                        foreach (array_values($arr)[$i] as $objectArray) {
-                            $tableInfo2 = $this->realmInfo->getTableInfo($tableInfo['fieldTypes'][$i]);
+                    //Norm collection
+                    if ($this->isCollection($fieldName)) {
+                        $obj->$propertyName = new $fieldType();
+                        foreach ($arr[$obj->$tableInfo['fieldNames'][$i]] as $objectArray) {
+                            $tableInfo2 = $this->realmInfo->getTableInfo($fieldType);
                             $object = new $tableInfo2['objectName']();
                             $this->populateObjectWithArray($object, $objectArray);
                             $obj->$tableInfo['propertyNames'][$i]->offsetSet($this->getIdentifier($object), $object);
                         }
-                    } elseif (class_exists($tableInfo['fieldTypes'][$i])) {
-                        $object = new $tableInfo['fieldTypes'][$i]();
-                        if(array_values($arr)[$i] !== null) {
-                            $this->populateObjectWithArray($object, array_values($arr)[$i]);
+                    }
+                    //Empty array of Norm objects
+                    elseif(empty($arr) && (strpos($fieldType, '[]') === strlen($fieldType) - 2)
+                        && class_exists(substr($fieldType, 0, strlen($fieldType) - 2))) {
+                        $obj->$propertyName = [];
+                    }
+                    //Array of Norm objects
+                    elseif ((strpos($fieldType, '[]') === strlen($fieldType) - 2)
+                            && class_exists(substr($fieldType, 0, strlen($fieldType) - 2))) {
+                        $className = substr($fieldType, 0, strlen($fieldType) - 2);
+                        $obj->$propertyName = [];
+                        foreach($arr[$fieldName] as $object) {
+                            $obj2 = new $className();
+                            $this->populateObjectWithArray($obj2, $object);
+                            $obj->{$propertyName}[] = $obj2;
                         }
-                        $obj->$tableInfo['propertyNames'][$i] = $object;
-                    } else {
-                        $obj->$tableInfo['propertyNames'][$i] = array_values($arr)[$i];
+//                        $object = new $className();
+//                        if($arr[$fieldName] !== null) {
+//                            $this->populateObjectWithArray($object, $arr[$fieldName]);
+//                        }
+//                        $obj->$propertyName = $object;
+                    }
+                    elseif (class_exists($tableInfo['fieldTypes'][$i])) {
+                        $object = new $tableInfo['fieldTypes'][$i]();
+                        if($arr[$fieldName] !== null) {
+                            $this->populateObjectWithArray($object, $arr[$fieldName]);
+                        }
+                        $obj->$propertyName = $object;
+                    }
+                    else {
+                        $obj->$propertyName = $arr[$fieldName];
                     }
             }
         }
@@ -114,6 +134,9 @@ abstract class AbstractDatastore {
     public function isCollection($class) {
         if(is_object($class)) {
             $class = get_class($class);
+        }
+        else {
+            return false;
         }
         return strpos($class, 'Collection') == strlen($class) - 10;
     }

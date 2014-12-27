@@ -4,6 +4,7 @@
 namespace AngryChimps\ApiBundle\Services;
 
 
+use AngryChimps\GeoBundle\Services\TimeService;
 use AngryChimps\MediaBundle\Services\MediaService;
 use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
 use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
@@ -67,12 +68,14 @@ class SignupService {
     /** @var MediaService */
     protected $mediaService;
 
+    /** @var TimeService */
+    protected $timeService;
     public function __construct(MemberService $memberService, CompanyService $companyService,
                                 LocationService $locationService, ProviderAdService $providerAdService,
                                 CalendarService $calendarService, ServiceService $serviceService,
                                 AuthService $authService, ValidatorInterface $validator,
                                 SessionService $sessionService, NormRiakService $riak, NormMysqlService $mysql,
-                                MediaService $mediaService)
+                                MediaService $mediaService, TimeService $timeService)
     {
         $this->memberService = $memberService;
         $this->companyService = $companyService;
@@ -86,6 +89,7 @@ class SignupService {
         $this->riak = $riak;
         $this->mysql = $mysql;
         $this->mediaService = $mediaService;
+        $this->timeService = $timeService;
     }
 
     public function registerProviderAd($adTitle, $adDescription, \DateTime $start, \DateTime $end,
@@ -199,17 +203,39 @@ class SignupService {
         $companyAds->publishedAdIds[] = $companyAds->unpublishedAdIds[0];
         $companyAds->unpublishedAdIds = array();
 
-        $ad = $this->providerAdService->getProviderAd($companyAds->publishedAdIds[0]);
-        $this->providerAdService->markProviderAdDeleted($ad);
+        //Now that we know the location, we can localize the start/end availability times
+        $calendar = $this->riak->getCalendar($location->calendarIds[0]);
+        $avail = new Availability();
+        $avail->start = $this->timeService->getTime($calendar->availabilities[0]->start, $zip);
+        $avail->end = $this->timeService->getTime($calendar->availabilities[0]->end, $zip);
+        $calendar->availabilities[] = $avail;
+        $this->riak->update($calendar);
+
+        $providerAd = $this->providerAdService->getProviderAd($companyAds->publishedAdIds[0]);
+        $this->providerAdService->publish($providerAd);
 
         return array('providerAd' => array('id' => $companyAds->publishedAdIds[0]));
     }
 
     public function uploadPhoto(Member $member, UploadedFile $photo) {
-        $filename = $this->mediaService->persist('company_photos_fs', $photo);
+        $filename = $this->mediaService->persist('company_images_fs', $photo);
 
         $companyPhotos = $this->riak->getCompanyPhotos($member->managedCompanyIds[0]);
         $companyPhotos->photos[] = $filename;
         $this->riak->update($companyPhotos);
+
+        $companyAds = $this->riak->getCompanyAds($member->managedCompanyIds[0]);
+        if(!empty($companyAds->publishedAdIds)) {
+            $providerAd = $this->riak->getProviderAd($companyAds->publishedAdIds[0]);
+            $providerAd->photos[0] = 'ci/' . $filename;
+            $this->riak->update($providerAd);
+
+            $this->providerAdService->publish($providerAd);
+        }
+        else {
+            $providerAd = $this->riak->getProviderAd($companyAds->unpublishedAdIds[0]);
+            $providerAd->photos[0] = 'ci/' . $filename;
+            $this->riak->update($providerAd);
+        }
     }
  }

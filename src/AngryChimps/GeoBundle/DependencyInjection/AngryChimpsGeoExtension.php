@@ -25,6 +25,7 @@ class AngryChimpsGeoExtension extends Extension
 
         $container->setParameter('angry_chimps_geo.google_api_key', $config['google_api_key']);
         $container->setParameter('angry_chimps_geo.google_maps_api_address', $config['google_maps_api_address']);
+        $container->setParameter('angry_chimps_geo.google_maps_time_address', $config['google_maps_time_address']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

@@ -7,7 +7,7 @@ use Aws\S3\S3Client;
 use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use Imagine\Image\Box;
 use Symfony\Component\HttpFoundation\Response;
-use Imagine\Gd\Imagine;
+use Imagine\Imagick\Imagine;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaService {

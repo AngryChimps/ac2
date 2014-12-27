@@ -22,13 +22,23 @@ trait ElasticsearchTrait {
      * @param $className
      * @param $query
      * @param int $limit
-     * @param int $offset
+     * @param int $of   fset
      * @return \Elastica\ResultSet
      */
     public function search($className, $query, $limit = 10, $offset = 0)
     {
         /** @var ElasticsearchDatastore $ds */
-        $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo);
-        return $ds->search($className, $query, $limit, $offset);
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService);
+        return $ds->search($this->realmInfo->getTableName($className), $query, $limit, $offset);
     }
-} 
+
+    public function publishObject($obj, array $data) {
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore(get_class($obj)), $this->realmInfo, $this->loggerService);
+        return $ds->publish($this->realmInfo->getTableName(get_class($obj)), $this->getIdentifier($obj), $data);
+    }
+
+    public function deleteIndex($className, $indexName) {
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService);
+        return $ds->deleteIndex($indexName);
+    }
+}

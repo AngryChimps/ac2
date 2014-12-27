@@ -16,13 +16,7 @@ class ACNormBundle extends Bundle
      */
     public function boot()
     {
-        // Merges configs and removes unnecessary array levels to yield something similiar to this:
-        $config = $this->getConfig();
-
-        DatastoreManager::setDatastores($config['datastores']);
-
-        //Set up autoloaders for each realm
-        foreach($config['realms'] as $realmName => $realmInfo) {
+        foreach($this->container->getParameter('ac_norm.realms') as $realmName => $realmInfo) {
             spl_autoload_register(function ($class) use ($realmName, $realmInfo) {
                 if(strpos($class, $realmInfo['namespace']) === 0) {
                     require_once(__DIR__ . '/../../../../../app/cache/'
@@ -45,14 +39,6 @@ class ACNormBundle extends Bundle
                 require_once(__DIR__ . '/../../' . implode('/', $class_parts) . '.php');
             }
         });
-
-//        //Set up autoloader for general Norm classes
-//        spl_autoload_register(function ($class) {
-//            if(strpos($class, 'AC\\NormBundle') === 0) {
-//                $class_parts = explode('\\', $class);
-//                require_once(__DIR__ . '/../../' . implode('/', $class_parts) . '.php');
-//            }
-//        });
     }
 
     public function build(ContainerBuilder $container) {
@@ -61,18 +47,18 @@ class ACNormBundle extends Bundle
         $container->addCompilerPass(new ValidatorPass());
     }
 
-    protected function getConfig() {
-        $env = $this->container->get('kernel')->getEnvironment();
-
-        $config = array();
-        $filenames = array('ac_norm.yml', 'ac_norm_' . $env . '.yml');
-
-        foreach($filenames as $filename){
-            $yaml = file_get_contents(__DIR__ . '/../../../../../app/config/' . $filename);
-            $arr = yaml_parse($yaml);
-            $config = array_merge($config, $arr);
-        }
-
-        return $config;
-    }
+//    protected function getConfig() {
+//        $env = $this->container->get('kernel')->getEnvironment();
+//
+//        $config = array();
+//        $filenames = array('ac_norm.yml', 'ac_norm_' . $env . '.yml');
+//
+//        foreach($filenames as $filename){
+//            $yaml = file_get_contents(__DIR__ . '/../../../../../app/config/' . $filename);
+//            $arr = yaml_parse($yaml);
+//            $config = array_merge($config, $arr);
+//        }
+//
+//        return $config;
+//    }
 }

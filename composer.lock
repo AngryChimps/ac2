@@ -1596,12 +1596,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "47cb819658f0c2d1672eb8e3613db562eafb2d75"
+                "reference": "bc0dd6ca3a1451aa00fa61c9defbeab10e8d4a9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/47cb819658f0c2d1672eb8e3613db562eafb2d75",
-                "reference": "47cb819658f0c2d1672eb8e3613db562eafb2d75",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/bc0dd6ca3a1451aa00fa61c9defbeab10e8d4a9e",
+                "reference": "bc0dd6ca3a1451aa00fa61c9defbeab10e8d4a9e",
                 "shasum": ""
             },
             "require": {
@@ -1657,7 +1657,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2014-12-03 15:35:26"
+            "time": "2014-12-26 16:17:46"
         },
         {
             "name": "jms/serializer-bundle",
@@ -2808,16 +2808,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.16.2",
+            "version": "v1.16.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "42f758d9fe2146d1f0470604fc05ee43580873fc"
+                "reference": "6dc11a1e8ecfc30e2c68aaeb218148409d8e68af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/42f758d9fe2146d1f0470604fc05ee43580873fc",
-                "reference": "42f758d9fe2146d1f0470604fc05ee43580873fc",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/6dc11a1e8ecfc30e2c68aaeb218148409d8e68af",
+                "reference": "6dc11a1e8ecfc30e2c68aaeb218148409d8e68af",
                 "shasum": ""
             },
             "require": {
@@ -2852,7 +2852,7 @@
                 },
                 {
                     "name": "Twig Team",
-                    "homepage": "https://github.com/fabpot/Twig/graphs/contributors",
+                    "homepage": "http://twig.sensiolabs.org/contributors",
                     "role": "Contributors"
                 }
             ],
@@ -2861,7 +2861,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2014-10-17 12:53:44"
+            "time": "2014-12-25 19:58:19"
         },
         {
             "name": "willdurand/jsonp-callback-validator",

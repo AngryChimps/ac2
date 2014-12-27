@@ -52,28 +52,24 @@ angry_chimps_api:
 angry_chimps_sample:
     base_url: http://loco.angrychimps.com/api/v1
 
-#ac_norm:
-#    datastores:
-#        -
-#            name: riak_ds
-#            driver: "riak_blob"
-#            host: "localhost"
-#            port: 8087
-#        -
-#            name: mysql_ds
-#            driver: "mysql"
-#            db_name: "ac"
-#            host: "localhost"
-#            port: 3306
-#            user: "root"
-#            password: ""
-#        -
-#            name: es_ds
-#            driver: "elasticsearch"
-#            index_name: ac
-#            servers:
-#                - host: "localhost"
-#                  port: 9200
 ac_norm:
     debug: true
+    datastores:
+        riak_ds:
+            driver: "riak_blob"
+            host: "localhost"
+            port: 8087
+        mysql_ds:
+            driver: "mysql"
+            db_name: "ac"
+            host: "localhost"
+            port: 3306
+            user: "root"
+            password: ""
+        es_ds:
+            driver: "elasticsearch"
+            index_name: ac
+            servers:
+                - host: "localhost"
+                  port: 9200
 

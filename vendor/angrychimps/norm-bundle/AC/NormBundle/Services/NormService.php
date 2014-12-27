@@ -8,6 +8,7 @@ use AC\NormBundle\core\exceptions\UnsupportedObjectType;
 use AC\NormBundle\core\exceptions\UnsupportedObjectTypeException;
 use AC\NormBundle\core\NormBaseCollection;
 use AC\NormBundle\core\NormBaseObject;
+use Norm\es\ProviderAdListing;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 use AC\NormBundle\Collector\NormDataCollector;
@@ -23,15 +24,19 @@ class NormService
     /** @var  LoggerInterface */
     protected $loggerService;
 
+    /** @var DatastoreService */
+    protected $datastoreService;
 
     /**
      * @param $debug bool Whether to enable the data collection for the profiler
      * @param $realmInfo RealmInfoService Injected through dependency injection
      */
-    public function __construct($debug, RealmInfoService $realmInfo, LoggerInterface $loggerService) {
+    public function __construct($debug, RealmInfoService $realmInfo, LoggerInterface $loggerService,
+                                DatastoreService $datastoreService) {
         $this->debug = $debug;
         $this->realmInfo = $realmInfo;
         $this->loggerService = $loggerService;
+        $this->datastoreService = $datastoreService;
     }
 
     public function create($obj) {
@@ -46,8 +51,7 @@ class NormService
         }
 
         $class = get_class($obj);
-        $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($class), $this->realmInfo,
-                                             $this->loggerService);
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($class));
 
         if($this->isCollection($obj)) {
             $ds->createCollection($obj, $debug);
@@ -78,8 +82,7 @@ class NormService
 
         //Get datastore
         $class = get_class($obj);
-        $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($class), $this->realmInfo,
-            $this->loggerService);
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($class));
 
         if($this->isCollection($obj)) {
             $ds->updateCollection($obj, $debug);
@@ -107,8 +110,7 @@ class NormService
         }
 
         $class = get_class($obj);
-        $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($class), $this->realmInfo,
-            $this->loggerService);
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($class));
 
         if($this->isCollection($obj)) {
             $ds->deleteCollection($obj, $this->realmInfo->getRealm($class),
@@ -187,8 +189,7 @@ class NormService
             $pkData[array_values($primaryKeyFieldNames)[$i]] = array_values($pks)[$i];
         }
 
-        $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo,
-            $this->loggerService);
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className));
 
         if($ds->populateObjectByPks($obj, $pkData, $debug) === false) {
             if ($this->debug) {
@@ -271,13 +272,13 @@ class NormService
         $pkArray = [];
         for($i = 0; $i < count($tableInfo['primaryKeyPropertyNames']); $i++) {
             if($tableInfo['fieldTypes'][$i] === 'DateTime') {
-                $pkArray = $obj->$tableInfo['primaryKeyPropertyNames'][$i]->format('Y-m-d H:i:s');
+                $pkArray[] = $obj->$tableInfo['primaryKeyPropertyNames'][$i]->format('Y-m-d H:i:s');
             }
             elseif($tableInfo['fieldTypes'][$i] === 'Date') {
-                $pkArray = $obj->$tableInfo['primaryKeyPropertyNames'][$i]->format('Y-m-d');
+                $pkArray[] = $obj->$tableInfo['primaryKeyPropertyNames'][$i]->format('Y-m-d');
             }
             else {
-                $pkArray = $obj->$tableInfo['primaryKeyPropertyNames'][$i];
+                $pkArray[] = $obj->$tableInfo['primaryKeyPropertyNames'][$i];
             }
         }
 

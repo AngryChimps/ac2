@@ -108,6 +108,7 @@ angry_chimps_api_search_post:
     methods: ["POST"]
     defaults: { _controller: angry_chimps_api.search.controller:indexPostAction }
 
+
 #api:
 #    resource: "@AngryChimpsApiBundle/Controller"
 #    type:     annotation

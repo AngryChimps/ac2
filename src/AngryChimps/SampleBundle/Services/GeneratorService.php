@@ -5,6 +5,7 @@ namespace AngryChimps\SampleBundle\Services;
 
 
 use AngryChimps\GuzzleBundle\Services\GuzzleService;
+use AngryChimps\NormBundle\realms\Norm\es\services\NormEsService;
 use GuzzleHttp\Post\PostFile;
 
 class GeneratorService {
@@ -13,16 +14,18 @@ class GeneratorService {
 
     protected $sessionHeaderName;
     protected $baseUrl;
+    protected $es;
 
     protected $sessionId;
     protected $authenticatedUserId;
     protected $providerAdId;
     protected $consumerAdId;
 
-    public function __construct(GuzzleService $guzzleService, $sessionHeaderName, $baseUrl) {
+    public function __construct(GuzzleService $guzzleService, $sessionHeaderName, $baseUrl, NormEsService $es) {
         $this->guzzle = $guzzleService;
         $this->sessionHeaderName = $sessionHeaderName;
         $this->baseUrl = $baseUrl;
+        $this->es = $es;
     }
 
     public function generate($folderToProcess = null) {
@@ -44,6 +47,13 @@ class GeneratorService {
                 if($file === '.' || $file === '..') {
                     continue;
                 }
+
+                //Reset values from last time
+                $this->sessionId = null;
+                $this->authenticatedUserId = null;
+                $this->providerAdId = null;
+                $this->consumerAdId = null;
+
 
                 $yaml = file_get_contents(__DIR__ . '/../samples/' . $folder . '/' . $file);
                 $arr = yaml_parse($yaml);
@@ -112,6 +122,7 @@ class GeneratorService {
             else {
                 $url = $this->baseUrl . '/' . $url;
             }
+
 
             $request = $this->guzzle->createRequest('GET', $url, [
                 'headers' => [
@@ -215,7 +226,7 @@ class GeneratorService {
     }
 
     public function reset() {
-
+        $this->es->deleteIndex('Norm\\es\\ProviderAdListing', 'provider_ad_listing');
     }
 
 }

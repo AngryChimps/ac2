@@ -28,9 +28,14 @@ class RealmInfoCreatorService {
     /** @var array The data associated with all of the realms */
     protected $data = [];
 
-    public function __construct($environment)
+    private $configRealms;
+    private $configDatastores;
+
+    public function __construct($environment, $realms, $datastores)
     {
         $this->environment = $environment;
+        $this->configRealms = $realms;
+        $this->configDatastores = $datastores;
     }
 
     public function setEnvironment($env) {
@@ -39,26 +44,26 @@ class RealmInfoCreatorService {
 
     public function createIfNecessary($force = false) {
         if($force || !file_exists(__DIR__ . '/../../../../../../app/cache/' . $this->environment . '/angrychimps/norm/realmProperties.php')) {
-        $this->populateRealms();
-        $this->createRealmFolders();
+            $this->populateRealms();
+            $this->createRealmFolders();
 
-        $this->norm = new Norm();
-        $this->generateRealmInfoFolders();
-        foreach($this->realmNames as $realmName) {
-            $gen = new YamlGenerator($realmName, $this->realms[$realmName]['namespace']);
-            $schema = $gen->getSchema();
-            $this->norm->schemas[$realmName] = $schema;
-            $this->createValidations($schema);
-        }
+            $this->norm = new Norm();
+            $this->generateRealmInfoFolders();
+            foreach($this->realmNames as $realmName) {
+                $gen = new YamlGenerator($realmName, $this->realms[$realmName]['namespace']);
+                $schema = $gen->getSchema();
+                $this->norm->schemas[$realmName] = $schema;
+                $this->createValidations($schema);
+            }
 
-        $this->generateRealmData();
+            $this->generateRealmData();
 
-        foreach($this->realmNames as $realmName) {
-            $this->createRealmClassesFile($realmName);
-        }
+            foreach($this->realmNames as $realmName) {
+                $this->createRealmClassesFile($realmName);
+            }
 
-        $this->createRealmPropertiesFile();
-        $this->generateServiceFiles();
+            $this->createRealmPropertiesFile();
+            $this->generateServiceFiles();
         }
     }
 
@@ -202,9 +207,9 @@ class RealmInfoCreatorService {
                         $tableData['defaults'][] = array('statement' => '$this->' .
                             Utils::field2property($column->name) . ' = new ' . $column->type . '();');
                     }
-                    elseif(in_array($column->type, array('string[]', 'int[]', 'float[]', 'double[]', 'bool[]'))) {
+                    elseif(strpos($column->type, '[]') === strlen($column->type) - 2) {
                         $tableData['defaults'][] = array('statement' => '$this->' .
-                            Utils::field2property($column->name) . ' = array();');
+                            Utils::field2property($column->name) . ' = [];');
                     }
                     elseif($table->autoGenerateName == $column->name) {
                         $tableData['defaults'][] = array('statement' => '$this->' .
@@ -272,19 +277,12 @@ class RealmInfoCreatorService {
     }
 
     protected function populateRealms() {
-        $contents = file_get_contents(__DIR__ . "/../../../../../../app/config/ac_norm.yml");
-        $ac_norm = yaml_parse($contents);
-
-        $contents = file_get_contents(__DIR__ . "/../../../../../../app/config/ac_norm_"
-            . $this->environment . ".yml");
-        $ac_norm_env = yaml_parse($contents);
-
-        foreach($ac_norm['realms'] as $realmName => $realmInfo) {
+        foreach($this->configRealms as $realmName => $realmInfo) {
             $this->realms[$realmName] = $realmInfo;
             $this->realms[$realmName]['name'] = $realmName;
             $this->realms[$realmName]['namespace'] = $realmInfo['namespace'];
             $this->realms[$realmName]['dsInfo']
-                = $ac_norm_env['datastores'][$this->realms[$realmName]['primary_datastore']];
+                = $this->configDatastores[$this->realms[$realmName]['primary_datastore']];
 
             $this->realmNames[] = $realmName;
         }

@@ -19,8 +19,10 @@ class DefaultController
     {
         switch($command) {
             case 'generate':
-                $this->generatorService->reset();
                 $this->generatorService->generate();
+                break;
+            case 'reset':
+                $this->generatorService->reset();
                 break;
             default:
                 throw new \Exception('Unknown command: ' . $command);

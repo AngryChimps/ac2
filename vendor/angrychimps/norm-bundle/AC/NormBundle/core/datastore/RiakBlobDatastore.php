@@ -8,14 +8,9 @@
 
 namespace AC\NormBundle\core\datastore;
 
-
-use AC\NormBundle\core\NormBaseCollection;
-use AC\NormBundle\core\NormBaseObject;
 use AC\NormBundle\core\Utils;
-use AC\NormBundle\core\exceptions\UnsupportedObjectType;
 
 class RiakBlobDatastore extends AbstractRiakDatastore {
-
     public function createObject($obj, &$debug)
     {
         $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
@@ -24,16 +19,17 @@ class RiakBlobDatastore extends AbstractRiakDatastore {
         if(property_exists($obj, 'createdAt')) {
             $obj->createdAt = new \DateTime();
         }
-
         $data = $this->getAsArray($obj);
         $bucket = $this->getBucket($tableInfo['realmName'], $tableInfo['name']);
         $key = $this->getKeyName($this->getIdentifier($obj));
         $data = json_encode($data);
 
+
         if($debug !== null) {
             $arr = [];
             $arr['bucket'] = $bucket->getName();
             $arr['key'] = $key;
+            $arr['data'] = $data;
             $debug['createObject'][] = $arr;
             $this->loggerService->info('Creating object: ' . json_encode($debug));
         }
@@ -130,43 +126,86 @@ class RiakBlobDatastore extends AbstractRiakDatastore {
         }
     }
 
-    protected function getAsArray($obj) {
-        if(is_array($obj)) {
-            return $obj;
-        }
+//    protected function getAsArray($obj) {
+//        if(is_array($obj)) {
+//            return $obj;
+//        }
+//
+//        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
+//        $arr = [];
+//
+//        if($this->isCollection($obj)) {
+//            foreach($obj as $object) {
+//                $arr[] = $this->getAsArray($object);
+//            }
+//        }
+//        else {
+//            for ($i = 0; $i < count($tableInfo['fieldNames']); $i++) {
+//                if ($obj->{$tableInfo['propertyNames'][$i]} === null) {
+//                    $arr[$tableInfo['fieldNames'][$i]] = null;
+//                } else {
+//                    switch ($tableInfo['fieldTypes'][$i]) {
+//                        case 'Date':
+//                            $arr[$tableInfo['fieldNames'][$i]] = $obj->{$tableInfo['propertyNames'][$i]}->format('Y-m-d');
+//                            break;
+//                        case 'DateTime':
+//                            $arr[$tableInfo['fieldNames'][$i]] = $obj->{$tableInfo['propertyNames'][$i]}->format('Y-m-d H:i:s');
+//                            break;
+//                        default:
+//                            if (class_exists($tableInfo['fieldTypes'][$i])) {
+//                                $arr[$tableInfo['fieldNames'][$i]] = $this->getAsArray($obj->{$tableInfo['propertyNames'][$i]});
+//                            } else {
+//                                $arr[$tableInfo['fieldNames'][$i]] = $obj->{$tableInfo['propertyNames'][$i]};
+//                            }
+//                    }
+//                }
+//            }
+//        }
+//
+//        return $arr;
+//    }
 
-        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
-        $arr = [];
+    public function getAsArray($obj)
+    {
+        switch (gettype($obj)) {
+            case 'NULL':
+                return null;
 
-        if($this->isCollection($obj)) {
-            foreach($obj as $object) {
-                $arr[] = $this->getAsArray($object);
-            }
-        }
-        else {
-            for ($i = 0; $i < count($tableInfo['fieldNames']); $i++) {
-                if ($obj->{$tableInfo['propertyNames'][$i]} === null) {
-                    $arr[$tableInfo['fieldNames'][$i]] = null;
-                } else {
-                    switch ($tableInfo['fieldTypes'][$i]) {
-                        case 'Date':
-                            $arr[$tableInfo['fieldNames'][$i]] = $obj->{$tableInfo['propertyNames'][$i]}->format('Y-m-d');
-                            break;
-                        case 'DateTime':
-                            $arr[$tableInfo['fieldNames'][$i]] = $obj->{$tableInfo['propertyNames'][$i]}->format('Y-m-d H:i:s');
-                            break;
-                        default:
-                            if (class_exists($tableInfo['fieldTypes'][$i])) {
-                                $arr[$tableInfo['fieldNames'][$i]] = $this->getAsArray($obj->{$tableInfo['propertyNames'][$i]});
-                            } else {
-                                $arr[$tableInfo['fieldNames'][$i]] = $obj->{$tableInfo['propertyNames'][$i]};
-                            }
-                    }
+            case 'boolean':
+            case 'integer':
+            case 'double':
+            case 'string':
+                return $obj;
+
+            case 'array':
+                $arr = [];
+                foreach ($obj as $object) {
+                    $arr[] = $this->getAsArray($object);
                 }
-            }
-        }
+                return $arr;
 
-        return $arr;
+            case 'object':
+                if ($this->isCollection($obj)) {
+                    $arr = [];
+                    foreach ($obj as $key => $val) {
+                        $arr[$key] = $this->getAsArray($val);
+                    }
+                    return $arr;
+                }
+                elseif (get_class($obj) == 'DateTime') {
+                    return $obj->format('Y-m-d H:i:s');
+                }
+                else {
+                    $arr = [];
+                    foreach ($obj as $key => $val) {
+                        $arr[Utils::property2field($key)] = $this->getAsArray($val);
+                    }
+                    return $arr;
+                }
+
+            default:
+                throw new \Exception('Unknown object type: ' . gettype($obj));
+        }
     }
 
     public function populateObjectByPks($obj, $pks, &$debug)
@@ -178,7 +217,6 @@ class RiakBlobDatastore extends AbstractRiakDatastore {
         if($debug !== null) {
             $arr = [];
             $arr['bucket'] = $bucket->getName();
-            $arr['key'] = $key;
             $debug['populateObjectByPks'][] = $arr;
             $this->loggerService->info('Populating object by primary keys: ' . json_encode($debug));
         }

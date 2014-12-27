@@ -36,4 +36,22 @@ angry_chimps_sample:
     base_url: http://loco.angrychimps.com/api/v1
 
 ac_norm:
-    debug: false
+    debug: true
+    datastores:
+        riak_ds:
+            driver: "riak_blob"
+            host: "localhost"
+            port: 8087
+        mysql_ds:
+            driver: "mysql"
+            db_name: "ac"
+            host: "acdb.ckqkc6zyc9bn.us-east-1.rds.amazonaws.com"
+            port: 3306
+            user: "root"
+            password: "zBkt4oHIcFci"
+        es_ds:
+            driver: "elasticsearch"
+            index_name: ac
+            servers:
+                - host: "localhost"
+                  port: 9200

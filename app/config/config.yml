@@ -87,6 +87,7 @@ fos_rest:
 angry_chimps_geo:
     google_api_key: AIzaSyArupKalnQR4uprl9raMJwXSwunIHWl41o
     google_maps_api_address: https://maps.googleapis.com/maps/api/geocode/json
+    google_maps_time_address: https://maps.googleapis.com/maps/api/timezone/json
 
 angry_chimps_api:
     session_header_name: angrychimps-api-session-token
@@ -96,19 +97,16 @@ angry_chimps_sample:
 
 
 ac_norm:
-#    realms:
-#        -
-#            name: riak
-#            namespace: "Norm\\riak"
-#            primary_datastore: "riak_ds"
-#        -
-#            name: mysql
-#            namespace: "Norm\\mysql"
-#            primary_datastore: "mysql_ds"
-#        -
-#            name: es
-#            namespace: "Norm\\es"
-#            primary_datastore: "es_ds"
+    realms:
+        riak:
+              namespace: "Norm\\riak"
+              primary_datastore: "riak_ds"
+        mysql:
+              namespace: "Norm\\mysql"
+              primary_datastore: "mysql_ds"
+        es:
+              namespace: "Norm\\es"
+              primary_datastore: "es_ds"
 
 knp_gaufrette:
     adapters:

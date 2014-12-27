@@ -26,7 +26,7 @@ trait PdoTrait {
         }
 
         /** @var AbstractPdoDatastore $ds */
-        $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService);
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService);
         $ds->populateObjectByWhere($obj, $where, $params, $debug);
 
         if($debug !== null) {
@@ -52,7 +52,7 @@ trait PdoTrait {
             }
 
             /** @var AbstractPdoDatastore $ds */
-            $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService);
+            $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className));
             $ds->populateObjectBySql($obj, $sql, $params, $debug);
 
             if($debug !== null) {
@@ -82,7 +82,7 @@ trait PdoTrait {
             }
 
             /** @var AbstractPdoDatastore $ds */
-            $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService);
+            $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className));
             $ds->populateCollectionBySql($coll, $sql, $params, $debug);
 
             if($debug !== null) {
@@ -112,7 +112,7 @@ trait PdoTrait {
             }
 
             /** @var AbstractPdoDatastore $ds */
-            $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService     );
+            $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($className));
             $ds->populateCollectionByWhere($coll, $where, $params, $debug);
 
             if($debug !== null) {

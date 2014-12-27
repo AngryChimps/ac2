@@ -20,15 +20,20 @@ abstract class AbstractPdoDatastore extends AbstractDatastore {
      */
     protected $_connection;
     protected $_dbname;
+    protected $realmInfo;
+    protected $loggerService;
 
+//    /** @var DatastoreService */
+//    protected $datastoreService;
 
-    public function __construct($configParams, RealmInfoService $realmInfo, LoggerInterface $loggerService) {
-        parent::__construct($realmInfo, $loggerService);
-
+    public function __construct($configParams, RealmInfoService $realmInfo, LoggerInterface $loggerService/*, DatastoreService $datastoreService*/) {
         $this->_connection = new \PDO('mysql:dbname=' . $configParams['db_name'] . ';host=' . $configParams['host'] . ';port='
             . $configParams['port'], $configParams['user'], $configParams['password']);
         $this->_connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $this->_dbname = $configParams['db_name'];
+        $this->realmInfo = $realmInfo;
+        $this->loggerService = $loggerService;
+//        $this->datastoreService = $datastoreService;
     }
 
     public function createObject($obj, &$debug)
@@ -341,7 +346,7 @@ abstract class AbstractPdoDatastore extends AbstractDatastore {
             throw new \Exception('Multiple objects of type ' . get_class($obj) . ' were found (SQL: ' . $sql . '; params: ' . json_encode($params) . ')');
         }
 
-        while($row = $stmt->fetch(\PDO::FETCH_NUM)) {
+        while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $this->populateObjectWithArray($obj, $row);
         }
 

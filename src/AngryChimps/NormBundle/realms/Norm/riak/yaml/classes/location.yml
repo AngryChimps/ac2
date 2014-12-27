@@ -9,7 +9,7 @@ fields:
     type: int
   - name: company_id
     type: string
-  - name: calendarIds
+  - name: calendar_ids
     type: string[]
   - name: name
     type: string

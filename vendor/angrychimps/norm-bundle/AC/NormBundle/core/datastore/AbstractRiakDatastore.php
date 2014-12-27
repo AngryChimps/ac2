@@ -18,12 +18,13 @@ abstract class AbstractRiakDatastore extends AbstractDatastore {
     /** @var  RealmInfoService */
     protected $realmInfo;
 
+    protected $loggerService;
 
-
-    public function __construct($configParams, RealmInfoService $realmInfo, LoggerInterface $loggerService) {
-        parent::__construct($realmInfo, $loggerService);
+    public function __construct($configParams, RealmInfoService $realmInfo,
+                                LoggerInterface $loggerService) {
         $this->connection = new \Riak\Connection($configParams['host'], $configParams['port']);
         $this->realmInfo = $realmInfo;
+        $this->loggerService = $loggerService;
     }
 
     protected function _getBucketName($realm, $tablename) {

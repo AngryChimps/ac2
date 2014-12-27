@@ -17,7 +17,7 @@ fields:
         - Length:
             min: 6
             max: 25
-  - name: passwordResetCode
+  - name: password_reset_code
     type: string
   - name: name
     type: string

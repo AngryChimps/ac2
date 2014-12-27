@@ -17,6 +17,7 @@ use Elastica\Search;
 use AC\NormBundle\core\NormBaseCollection;
 use AC\NormBundle\core\NormBaseObject;
 use AC\NormBundle\Services\RealmInfoService;
+use Psr\Log\LoggerInterface;
 
 class ElasticsearchDatastore extends AbstractDatastore {
     /** @var  \Elastica\Client */
@@ -25,13 +26,16 @@ class ElasticsearchDatastore extends AbstractDatastore {
     /** @var  \Elastica\Index */
     private $index;
 
-
+    /** @var LoggerInterface */
+    protected $loggerService;
     protected $realmInfo;
 
-    public function __construct($configParams, RealmInfoService $realmInfo) {
+    public function __construct($configParams, RealmInfoService $realmInfo, LoggerInterface $loggerService) {
+
         $this->client = new Client(array('servers' => $configParams['servers']));
         $this->index = $this->client->getIndex($configParams['index_name']);
         $this->realmInfo = $realmInfo;
+        $this->loggerService = $loggerService;
     }
 
     public function createObject($obj, &$debug)
@@ -155,7 +159,8 @@ class ElasticsearchDatastore extends AbstractDatastore {
      * @param int $offset
      * @return \Elastica\ResultSet
      */
-    public function search($tableName, $query, $limit = 10, $offset = 0) {
+    public function search($tableName, $query, $limit = 10, $offset = 0)
+    {
         $query = new Builder($query);
         $query = new Query($query->toArray());
         $search = new Search($this->client);
@@ -165,6 +170,25 @@ class ElasticsearchDatastore extends AbstractDatastore {
         return $resultSet;
     }
 
+    public function publish($indexName, $identifier, array $data)
+    {
+        $this->loggerService->info('Publishing ad :: '
+            . json_encode(
+                array (
+                    'indexName' => $indexName,
+                    'identifier' => $identifier,
+                    'data' => $data,
+                )));
+        $type = $this->index->getType($indexName);
+        $doc = new Document($identifier, $data);
+        $type->addDocument($doc);
+        $type->getIndex()->refresh();
+    }
+
+    public function deleteIndex($indexName) {
+        $type = $this->index->getType($indexName);
+        $type->delete();
+    }
 //    public function update($realm, $tableName, $primaryKeys, $fieldDataWithoutPrimaryKeys)
 //    {
 //        $fData = $this->normalizeFieldData($fieldDataWithoutPrimaryKeys);

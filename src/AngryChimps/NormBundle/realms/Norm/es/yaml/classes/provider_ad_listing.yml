@@ -1,8 +1,10 @@
 primary_keys:
-  - ad_id
+  - provider_ad_immutable_id
 
 fields:
-  - name: ad_id #immutable id
+  - name: provider_ad_immutable_id
+    type: string
+  - name: provider_ad_id
     type: string
   - name: company_name
     type: string

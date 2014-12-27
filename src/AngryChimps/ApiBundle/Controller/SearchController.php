@@ -25,13 +25,9 @@ class SearchController extends AbstractController
         $this->searchService = $searchService;
     }
 
-    public function logTestAction() {
-        $this->logTester->anotherMethod();
-        return $this->responseService->success();
-    }
-
     public function indexPostAction() {
         $result = $this->searchService->getSampleProviderAdListing();
         return $this->responseService->success($result);
     }
+
 }

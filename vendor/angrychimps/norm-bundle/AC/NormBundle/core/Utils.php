@@ -25,6 +25,10 @@ class Utils {
         return $propertyName;
     }
 
+    public static function property2field($propetyName) {
+        return strtolower(self::camel2TrainCase($propetyName));
+    }
+
     public static function table2class($tableName) {
         return ucfirst(self::field2property($tableName));
     }
@@ -57,7 +61,7 @@ class Utils {
             if($i===0) {
                 $words[0] = ucfirst($letters[$i]);
             }
-            elseif($letters[$i] === ucfirst($letters[$i])) {
+            elseif($letters[$i] === ucfirst($letters[$i]) && !is_numeric($letters[$i])) {
                 array_push($words, $letters[$i]);
             }
             else {

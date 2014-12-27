@@ -69,6 +69,7 @@ services:
             - "@ac_norm.norm.riak"
             - "@ac_norm.norm.mysql"
             - "@angry_chimps_media.media"
+            - "@angry_chimps_geo.time"
     angry_chimps_api.provider_ad:
         class: "%angry_chimps_api.provider_ad.class%"
         arguments:
@@ -85,6 +86,7 @@ services:
         arguments: ["@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
     angry_chimps_api.search:
         class: "%angry_chimps_api.search.class%"
+        arguments: ["@ac_norm.norm.es"]
 
 ##############################################################
 ###                  Controllers                           ###

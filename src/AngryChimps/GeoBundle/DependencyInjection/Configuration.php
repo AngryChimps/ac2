@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->scalarNode('google_api_key')->end()
             ->scalarNode('google_maps_api_address')->end()
+            ->scalarNode('google_maps_time_address')->end()
             ->end()
         ;
 

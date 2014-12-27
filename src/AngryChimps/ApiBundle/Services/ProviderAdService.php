@@ -106,7 +106,8 @@ class ProviderAdService {
 
         //Create ProviderAdListing object
         $listing = new ProviderAdListing();
-        $listing->adId = $im->id;
+        $listing->providerAdImmutableId = $im->id;
+        $listing->providerAdId = $im->providerAd->id;
         $listing->title = $ad->title;
         $listing->companyName = $company->name;
         if(!empty($ad->photos)) {
@@ -115,7 +116,7 @@ class ProviderAdService {
         $listing->address = $location->address;
         $listing->rating = $company->ratingAvg;
         $listing->availabilities = $calendar->availabilities;
-        $this->es->create($listing);
+        $this->es->publish($listing);
 
         //Set the ad status
         $ad->status = ProviderAd::PUBLISHED_STATUS;

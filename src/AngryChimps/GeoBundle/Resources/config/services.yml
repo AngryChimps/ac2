@@ -4,4 +4,14 @@ services:
 #        arguments: [@service_id, "plain_value", %parameter%]
     angry_chimps_geo.geolocation:
         class: AngryChimps\GeoBundle\Services\GeolocationService
-        arguments: ["@angry_chimps_guzzle.guzzle", "%angry_chimps_geo.google_api_key%", "%angry_chimps_geo.google_maps_api_address%"]
+        arguments:
+            - "@angry_chimps_guzzle.guzzle"
+            - "%angry_chimps_geo.google_api_key%"
+            - "%angry_chimps_geo.google_maps_api_address%"
+            - "%angry_chimps_geo.google_maps_time_address%"
+            - "@ac_norm.norm.riak"
+    angry_chimps_geo.time:
+        class: AngryChimps\GeoBundle\Services\TimeService
+        arguments:
+            - "@angry_chimps_geo.geolocation"
+            - "@ac_norm.norm.riak"

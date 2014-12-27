@@ -37,7 +37,8 @@ class AbstractController {
         $this->responseService = $responseService;
 
         //Check session information
-        if($this->getRequest()->getBaseUrl() !== 'session' && $this->getRequest()->getMethod() !== 'GET') {
+        if(static::class !== 'AngryChimps\ApiBundle\Controller\SessionController'
+            || $this->getRequest()->getMethod() !== 'GET') {
             $this->sessionService->checkToken();
         }
 
