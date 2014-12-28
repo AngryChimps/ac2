@@ -27,8 +27,7 @@ class ServiceService {
     }
 
     public function createService($name, $companyId, $discountedPrice,
-                                  $originalPrice, $minsForService, $minsNotice, $category,
-                                  array $errors)
+                                  $originalPrice, $minsForService, $minsNotice, array $errors)
     {
         $service = new Service();
         $service->name = $name;
@@ -37,7 +36,6 @@ class ServiceService {
         $service->originalPrice = $originalPrice;
         $service->minsForService = $minsForService;
         $service->minsNotice = $minsNotice;
-        $service->category = $category;
 
         $errors = $this->validator->validate($service);
         if(count($errors) > 0) {
@@ -50,7 +48,7 @@ class ServiceService {
     }
 
     public function updateService(Service $service, $name, $discountedPrice,
-                                  $originalPrice, $minsForService, $minsNotice, $category,
+                                  $originalPrice, $minsForService, $minsNotice,
                                   array $errors)
     {
         $service->name = $name;
@@ -58,7 +56,6 @@ class ServiceService {
         $service->originalPrice = $originalPrice;
         $service->minsForService = $minsForService;
         $service->minsNotice = $minsNotice;
-        $service->category = $category;
 
         $errors = $this->validator->validate($service);
         if(count($errors) > 0) {

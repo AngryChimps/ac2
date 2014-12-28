@@ -73,7 +73,7 @@ class ServiceController extends AbstractController
             $arr['mins_notice'] = $service->minsNotice;
         }
         return $this->responseService->success(array('service' => $arr));
-=    }
+    }
 
     /**
      * @Route("/")
@@ -88,7 +88,6 @@ class ServiceController extends AbstractController
         $originalPrice = $payload['original_price'];
         $minsForService = $payload['mins_for_service'];
         $minsNotice = $payload['mins_notice'];
-        $category = $payload['category'];
 
         $company = $this->companyService->getByPk($companyId);
 
@@ -110,7 +109,7 @@ class ServiceController extends AbstractController
 
         $errors = array();
         $service = $this->serviceService->createService($name, $companyId, $discountedPrice,
-            $originalPrice, $minsForService, $minsNotice, $category, $errors);
+            $originalPrice, $minsForService, $minsNotice, $errors);
         if($service === false) {
             $errors = array(
                 'human' => 'Error validating service fields',
@@ -135,7 +134,6 @@ class ServiceController extends AbstractController
         $originalPrice = $payload['original_price'];
         $minsForService = $payload['mins_for_service'];
         $minsNotice = $payload['mins_notice'];
-        $category = $payload['category'];
 
         $service = $this->serviceService->getService($id);
 
@@ -167,8 +165,7 @@ class ServiceController extends AbstractController
 
         $errors = array();
         $company = $this->serviceService->updateService($service, $name, $discountedPrice,
-            $originalPrice, $minsForService, $minsNotice, $category,
-            $errors);
+            $originalPrice, $minsForService, $minsNotice, $errors);
         if($company === false) {
             $errors = array(
                 'human' => 'Unable to validate location inputs',

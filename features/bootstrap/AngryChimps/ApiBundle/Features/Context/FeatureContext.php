@@ -676,7 +676,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iGetTheServiceDataForTheTestService()
     {
-        throw new PendingException();
+        $this->getData('service/' . $this->testService->id);
     }
 
     /**
@@ -753,6 +753,82 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
             $this->addObject($this->testCompany);
             $this->addObject($this->testLocation);
         }
+    }
+
+    /**
+     * @Given I have a valid service array
+     */
+    public function iHaveAValidServiceArray()
+    {
+        $arr = [];
+        $arr['name'] = 'Tire rotation';
+        $arr['company_id'] = $this->testCompany->id;
+        $arr['discounted_price'] = 24.99;
+        $arr['original_price'] = 49.99;
+        $arr['mins_for_service'] = 30;
+        $arr['mins_notice'] = 15;
+
+        $this->requestArray = array('payload' => $arr);
+    }
+
+    /**
+     * @When I post the service data array
+     */
+    public function iPostTheServiceDataArray()
+    {
+        $this->postData('service');
+
+        if($this->response->getStatusCode() === 200) {
+            $this->testService = $this->riak->getService($this->getResponseFieldValue("payload.service.id"));
+        }
+    }
+
+    /**
+     * @Given I change the test service's :arg1 field to :arg2
+     */
+    public function iChangeTheTestServiceSFieldTo($arg1, $arg2)
+    {
+        $this->testService->$arg1 = $arg2;
+    }
+
+    /**
+     * @When I put changes to the service
+     */
+    public function iPutChangesToTheService()
+    {
+        $arr = [];
+        $arr['id'] = $this->testService->id;
+        $arr['name'] = $this->testService->name;
+        $arr['company_id'] = $this->testCompany->id;
+        $arr['discounted_price'] = $this->testService->discountedPrice;
+        $arr['original_price'] = $this->testService->originalPrice;
+        $arr['mins_for_service'] = $this->testService->minsForService;
+        $arr['mins_notice'] = $this->testService->minsNotice;
+
+        $this->requestArray = array('payload' => $arr);
+
+        $this->putData('service/' . $this->testService->id);
+    }
+
+    /**
+     * @Then The value of the :arg1 field of the test service is :arg2
+     */
+    public function theValueOfTheFieldOfTheTestServiceIs($arg1, $arg2)
+    {
+        $id = $this->testService->id;
+        $this->riak->invalidate($this->testService);
+
+        $this->testService = $this->riak->getService($id);
+
+        $this->assertEquals($this->testService->$arg1, $arg2, "The test service's $arg1 field is supposed to be $arg2 but actually is " . $this->testService->$arg1);
+    }
+
+    /**
+     * @When I delete the test service
+     */
+    public function iDeleteTheTestService()
+    {
+        $this->deleteData('service/' . $this->testService->id);
     }
 
 }
