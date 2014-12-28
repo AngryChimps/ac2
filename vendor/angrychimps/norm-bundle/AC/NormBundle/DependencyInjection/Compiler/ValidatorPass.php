@@ -20,7 +20,12 @@ class ValidatorPass implements CompilerPassInterface
         foreach($realms as $realm) {
             foreach ($finder->files()->in(__DIR__ . "/../../../../../../../app/cache/" . $container->getParameter('kernel.environment')
                 . "/angrychimps/norm/realms/$realm/validations") as $file) {
-                $validatorFiles[] = $file->getRealPath();
+                try {
+                    $validatorFiles[] = $file->getRealPath();
+                }
+                catch(\Exception $ex) {
+                    //do nothing
+                }
             }
         }
 
