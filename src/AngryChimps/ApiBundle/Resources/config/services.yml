@@ -11,6 +11,8 @@ parameters:
     angry_chimps_api.provider_ad.class: AngryChimps\ApiBundle\Services\ProviderAdService
     angry_chimps_api.calendar.class: AngryChimps\ApiBundle\Services\CalendarService
     angry_chimps_api.search.class: AngryChimps\ApiBundle\Services\SearchService
+    angry_chimps_api.company_media.class: AngryChimps\ApiBundle\Services\CompanyMediaService
+    angry_chimps_api.provider_ad_immutable.class: AngryChimps\ApiBundle\Services\ProviderAdImmutableService
 
     angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
     angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
@@ -21,6 +23,8 @@ parameters:
     angry_chimps_api.controller.categories.class: AngryChimps\ApiBundle\Controller\CategoriesController
     angry_chimps_api.controller.signup.class: AngryChimps\ApiBundle\Controller\SignupController
     angry_chimps_api.controller.search.class: AngryChimps\ApiBundle\Controller\SearchController
+    angry_chimps_api.controller.company_media.class: AngryChimps\ApiBundle\Controller\CompanyMediaController
+    angry_chimps_api.controller.provider_ad_immutable.class: AngryChimps\ApiBundle\Controller\ProviderAdImmutableController
 
 services:
 
@@ -87,6 +91,15 @@ services:
     angry_chimps_api.search:
         class: "%angry_chimps_api.search.class%"
         arguments: ["@ac_norm.norm.es"]
+    angry_chimps_api.company_media:
+        class: "%angry_chimps_api.company_media.class%"
+        arguments:
+            - "@angry_chimps_media.media"
+            - "@ac_norm.norm.riak"
+    angry_chimps_api.provider_ad_immutable:
+        class: "%angry_chimps_api.provider_ad_immutable.class%"
+        arguments:
+            - "@ac_norm.norm.riak"
 
 ##############################################################
 ###                  Controllers                           ###
@@ -134,6 +147,23 @@ services:
     angry_chimps_api.search.controller:
             class:     "%angry_chimps_api.controller.search.class%"
             arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.search"]
+
+    angry_chimps_api.company_media.controller:
+            class:     "%angry_chimps_api.controller.company_media.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.company"
+                - "@angry_chimps_api.company_media"
+
+    angry_chimps_api.provider_ad_immutable.controller:
+            class:     "%angry_chimps_api.controller.provider_ad_immutable.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.provider_ad_immutable"
 
 
 ##############################################################

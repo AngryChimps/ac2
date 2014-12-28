@@ -108,6 +108,17 @@ angry_chimps_api_search_post:
     methods: ["POST"]
     defaults: { _controller: angry_chimps_api.search.controller:indexPostAction }
 
+#company_media
+angry_chimps_api_company_media_post:
+    path:     /companyMedia/{companyId}/{providerAdId}
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.search.company_media:indexPostAction , providerAdId: false}
+
+#provider_ad_immutable
+angry_chimps_api_provider_ad_immutable_post:
+    path:     /providerAdImmutable/{providerAdImmutableId}
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.provider_ad_immutable.controller:indexGetAction}
 
 #api:
 #    resource: "@AngryChimpsApiBundle/Controller"

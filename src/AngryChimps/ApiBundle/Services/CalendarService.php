@@ -33,6 +33,40 @@ class CalendarService {
         $this->mysql = $mysql;
     }
 
+    public function getCalendar($calendarId) {
+        return $this->riak->getCalendar($calendarId);
+    }
+
+    public function getData(Calendar $calendar, $isOwner = false) {
+        $arr = [];
+        $arr['name'] = $calendar->name;
+
+        foreach($calendar->availabilities as $availability) {
+            $arr2 = [];
+            $arr2['start'] = $availability->start;
+            $arr2['end'] = $availability->end;
+            $arr['availabilities'][] = $arr2;
+        }
+
+        foreach($calendar->bookings as $booking) {
+            $arr2 = [];
+            $arr2['title'] = $booking->title;
+            $arr2['start'] = $booking->start;
+            $arr2['end'] = $booking->end;
+
+            if($isOwner && !empty($booking->bookingDetailId)) {
+                $arr2['booking_detail_id'] = $booking->bookingDetailId;
+            }
+            $arr['bookings'][] = $arr2;
+        }
+
+        return $arr;
+    }
+
+    public function markDeleted(Calendar $calendar) {
+        $calendar->status = Calendar::DISABED_STATUS;
+        $this->riak->update($calendar);
+    }
     public function createNew(Location $location, $name) {
         $calendar = new Calendar();
         $calendar->locationId = $location->id;
@@ -49,40 +83,40 @@ class CalendarService {
 
     public function addAvailability(Calendar $calendar, Availability $availability) {
         //If the availability overlaps a booking, then add it to the overlaps array
-        $overlaps = array();
-        foreach($calendar->bookings as $booking) {
-            if(($availability->start < $booking->end && $availability->end > $booking->start)
-                    || ($booking->start < $availability->end && $booking->end > $availability->start)) {
-                $overlaps[] = $booking;
-            }
-        }
-
-        //If any bookings overlap, return them so the FE can delete them first
-        if(!empty($overlaps)) {
-            return $overlaps;
-        }
-
-        //If the availability overlaps another availability, merge the two
-        foreach($calendar->availabilities as $cdAvail) {
-            if(($availability->start < $cdAvail->end && $availability->end > $cdAvail->start)
-                || ($cdAvail->start < $availability->end && $cdAvail->end > $availability->start)) {
-                $overlaps[] = $cdAvail;
-            }
-        }
-
-        if(count($overlaps) == 0) {
+//        $overlaps = array();
+//        foreach($calendar->bookings as $booking) {
+//            if(($availability->start < $booking->end && $availability->end > $booking->start)
+//                    || ($booking->start < $availability->end && $booking->end > $availability->start)) {
+//                $overlaps[] = $booking;
+//            }
+//        }
+//
+//        //If any bookings overlap, return them so the FE can delete them first
+//        if(!empty($overlaps)) {
+//            return $overlaps;
+//        }
+//
+//        //If the availability overlaps another availability, merge the two
+//        foreach($calendar->availabilities as $cdAvail) {
+//            if(($availability->start < $cdAvail->end && $availability->end > $cdAvail->start)
+//                || ($cdAvail->start < $availability->end && $cdAvail->end > $availability->start)) {
+//                $overlaps[] = $cdAvail;
+//            }
+//        }
+//
+//        if(count($overlaps) == 0) {
+//            $calendar->availabilities[] = $availability;
+//        }
+//        else {
+//            for($i = 0; $i < count($overlaps); $i++) {
+//                list($newStart, $newEnd) = $this->mergeDateRanges($availability->start, $availability->end,
+//                    $overlaps[$i]->start, $overlaps[$i]->end);
+//                $availability->start = $newStart;
+//                $availability->end = $newEnd;
+//                unset($calendar->availabilities[$overlaps[$i]->id]);
+//            }
             $calendar->availabilities[] = $availability;
-        }
-        else {
-            for($i = 0; $i < count($overlaps); $i++) {
-                list($newStart, $newEnd) = $this->mergeDateRanges($availability->start, $availability->end,
-                    $overlaps[$i]->start, $overlaps[$i]->end);
-                $availability->start = $newStart;
-                $availability->end = $newEnd;
-                unset($calendar->availabilities[$overlaps[$i]->id]);
-            }
-            $calendar->availabilities[] = $availability;
-        }
+//        }
 
         $this->riak->update($calendar);
     }

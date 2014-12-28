@@ -208,7 +208,7 @@ class SignupService {
         $avail = new Availability();
         $avail->start = $this->timeService->getTime($calendar->availabilities[0]->start, $zip);
         $avail->end = $this->timeService->getTime($calendar->availabilities[0]->end, $zip);
-        $calendar->availabilities[] = $avail;
+        $calendar->availabilities = [$avail];
         $this->riak->update($calendar);
 
         $providerAd = $this->providerAdService->getProviderAd($companyAds->publishedAdIds[0]);
