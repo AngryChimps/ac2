@@ -18,13 +18,11 @@ class ValidatorPass implements CompilerPassInterface
         $realms = array('riak', 'mysql', 'es');
 
         foreach($realms as $realm) {
-            foreach ($finder->files()->in(__DIR__ . "/../../../../../../../app/cache/" . $container->getParameter('kernel.environment')
-                . "/angrychimps/norm/realms/$realm/validations") as $file) {
-                try {
+            if(file_exists(__DIR__ . "/../../../../../../../app/cache/" . $container->getParameter('kernel.environment')
+                                   . "/angrychimps/norm/realms/$realm/validations")) {
+                foreach ($finder->files()->in(__DIR__ . "/../../../../../../../app/cache/" . $container->getParameter('kernel.environment')
+                    . "/angrychimps/norm/realms/$realm/validations") as $file) {
                     $validatorFiles[] = $file->getRealPath();
-                }
-                catch(\Exception $ex) {
-                    //do nothing
                 }
             }
         }

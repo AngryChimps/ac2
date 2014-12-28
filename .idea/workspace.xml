@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3689bbd9-d2b9-48ad-920c-675fe0f9a3e5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/DependencyInjection/Compiler/ValidatorPass.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/DependencyInjection/Compiler/ValidatorPass.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ac.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,7 +26,7 @@
     <favorites_list name="ac" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.3510862">
+    <splitter split-orientation="horizontal" split-proportion="0.1779958">
       <split-first>
         <leaf>
           <file leaf-file-name="LocationController.php" pinned="false" current-in-tab="false">
@@ -63,7 +62,7 @@
           <file leaf-file-name="services.yml" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/GeoBundle/Resources/config/services.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.22757697" vertical-offset="0" max-vertical-offset="747">
+                <state vertical-scroll-proportion="0.26771653" vertical-offset="0" max-vertical-offset="635">
                   <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
                   <folding />
                 </state>
@@ -167,8 +166,8 @@
           <file leaf-file-name="ValidatorPass.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/DependencyInjection/Compiler/ValidatorPass.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.52509654" vertical-offset="0" max-vertical-offset="777">
-                  <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
+                <state vertical-scroll-proportion="0.5195599" vertical-offset="0" max-vertical-offset="818">
+                  <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
@@ -2762,7 +2761,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/GeoBundle/Resources/config/services.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22757697" vertical-offset="0" max-vertical-offset="747">
+        <state vertical-scroll-proportion="0.26771653" vertical-offset="0" max-vertical-offset="635">
           <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
           <folding />
         </state>
@@ -2786,8 +2785,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/DependencyInjection/Compiler/ValidatorPass.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52509654" vertical-offset="0" max-vertical-offset="777">
-          <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.5195599" vertical-offset="0" max-vertical-offset="818">
+          <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
           <folding />
         </state>
       </provider>
