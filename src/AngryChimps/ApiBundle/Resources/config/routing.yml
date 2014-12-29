@@ -112,7 +112,7 @@ angry_chimps_api_search_post:
 angry_chimps_api_company_media_post:
     path:     /companyMedia/{companyId}/{providerAdId}
     methods: ["POST"]
-    defaults: { _controller: angry_chimps_api.search.company_media:indexPostAction , providerAdId: false}
+    defaults: { _controller: angry_chimps_api.company_media.controller:indexPostAction , providerAdId: false}
 
 #provider_ad_immutable
 angry_chimps_api_provider_ad_immutable_post:

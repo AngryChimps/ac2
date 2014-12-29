@@ -7,7 +7,7 @@ namespace AngryChimps\ApiBundle\Services;
 use AngryChimps\MediaBundle\Services\MediaService;
 use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
 use Norm\riak\Company;
-use NormTests\riak\ProviderAd;
+use Norm\riak\ProviderAd;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class CompanyMediaService {
@@ -22,8 +22,8 @@ class CompanyMediaService {
         $this->mediaService = $mediaService;
         $this->riak = $riak;
     }
-    public function postMedia(Company $company, ProviderAd $providerAd, UploadedFile $file) {
-        $filename = $this->mediaService->persist('company_image_fs', $file);
+    public function postMedia(UploadedFile $file, Company $company, ProviderAd $providerAd = null) {
+        $filename = $this->mediaService->persist('company_images_fs', $file);
 
         $companyPhotos = $this->riak->getCompanyPhotos($company->id);
         $companyPhotos->photos[] = $filename;

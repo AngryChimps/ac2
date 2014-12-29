@@ -120,6 +120,7 @@ class ProviderAdService {
 
         //Set the ad status
         $ad->status = ProviderAd::PUBLISHED_STATUS;
+        $ad->currentImmutableId = $im->id;
         $this->riak->update($ad);
 
         //Update CompanyAds data

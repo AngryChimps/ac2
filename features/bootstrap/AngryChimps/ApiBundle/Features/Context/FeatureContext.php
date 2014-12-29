@@ -541,7 +541,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $arr['street2'] = $this->testLocation->address->street2;
         $arr['zip'] = $this->testLocation->address->zip;
         $arr['companyId'] = $this->testLocation->companyId;
-        $arr['phone'] = $this->testLocation->phone;
+        $arr['phone'] = $this->testLocation->address->phone;
         $arr['is_mobile'] = $this->testLocation->isMobile;
 
         $this->requestArray = array('payload' => $arr);
@@ -559,7 +559,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $arr['street2'] = $this->testLocation->address->street2;
         $arr['zip'] = $this->testLocation->address->zip;
         $arr['companyId'] = $this->testCompany->id;
-        $arr['phone'] = $this->testLocation->phone;
+        $arr['phone'] = $this->testLocation->address->phone;
         $arr['is_mobile'] = $this->testLocation->isMobile;
 
         $this->requestArray = array('payload' => $arr);

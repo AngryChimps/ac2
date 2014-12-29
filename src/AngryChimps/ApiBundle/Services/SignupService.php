@@ -101,12 +101,6 @@ class SignupService {
         $location = $this->locationService->createEmpty($company);
         $calendar = $this->calendarService->createNew($location, 'My First Calendar');
 
-        $member->managedCompanyIds[] = $company->id;
-        $this->riak->update($member);
-
-        $company->administerMemberIds[] = $member->id;
-        $this->riak->update($company);
-
         $availability = new Availability();
         $availability->start = $start;
         $availability->end = $end;
@@ -150,6 +144,8 @@ class SignupService {
 
         return array(
             'member' => array('id' => $member->id),
+            'company' => array('id' => $company->id),
+            'provider_ad' => array('id' => $ad->id),
         );
     }
 

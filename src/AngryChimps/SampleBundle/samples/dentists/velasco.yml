@@ -35,3 +35,6 @@ steps:
             zip: 94102
             phone: #<Auto-Inserted>
             mobile_phone: #<Auto-Inserted>
+    -
+        name: companyMedia-post
+        filename: velasco2.jpg

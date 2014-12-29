@@ -20,6 +20,7 @@ class GeneratorService {
     protected $authenticatedUserId;
     protected $providerAdId;
     protected $consumerAdId;
+    protected $companyId;
 
     public function __construct(GuzzleService $guzzleService, $sessionHeaderName, $baseUrl, NormEsService $es) {
         $this->guzzle = $guzzleService;
@@ -72,6 +73,9 @@ class GeneratorService {
                         case 'signup-uploadFirstAdPhoto':
                             $this->doSignupUploadFirstAdPhoto($step['filename']);
                             break;
+                        case 'companyMedia-post':
+                            $this->doCompanyMediaPost($step['filename']);
+                            break;
                         default:
                             throw new \Exception('Unable to process step named: ' . $step['name']);
                     }
@@ -93,6 +97,8 @@ class GeneratorService {
         $response = $this->postData('signup/registerProviderAd', $payload);
         $arr = $response->json();
         $this->authenticatedUserId = $arr['payload']['member']['id'];
+        $this->companyId = $arr['payload']['company']['id'];
+        $this->providerAdId = $arr['payload']['provider_ad']['id'];
     }
 
     protected function doSignupRegisterProviderCompany($payload) {
@@ -111,7 +117,12 @@ class GeneratorService {
 
     protected function doSignupUploadFirstAdPhoto($filename) {
         $fullFilename = __DIR__ . '/../samples/_images/' . $filename;
-        $this->postFile('signup/uploadFirstAdPhoto', $fullFilename);
+        $this->postPhoto('signup/uploadFirstAdPhoto', $fullFilename);
+    }
+
+    protected function doCompanyMediaPost($filename) {
+        $fullFilename = __DIR__ . '/../samples/_images/' . $filename;
+        $this->postFile('companyMedia/' . $this->companyId . '/' . $this->providerAdId, $fullFilename);
     }
 
     protected function getData($url) {
@@ -163,6 +174,24 @@ class GeneratorService {
     }
 
     protected function postFile($url, $filename) {
+        if($this->authenticatedUserId !== null){
+            $url = $this->baseUrl . '/' . $url . '?userId=' . $this->authenticatedUserId;
+        }
+        else {
+            $url = $this->baseUrl . '/' . $url;
+        }
+
+        $request = $this->guzzle->createRequest('POST', $url, [
+            'headers' => [$this->sessionHeaderName => $this->sessionId,
+                'content-type' => 'application/json'],
+            'body' => array('media' => fopen($filename, 'r')),
+            'exceptions' => false,
+        ]);
+
+        return $this->guzzle->send($request);
+    }
+
+    protected function postPhoto($url, $filename) {
         if($this->authenticatedUserId !== null){
             $url = $this->baseUrl . '/' . $url . '?userId=' . $this->authenticatedUserId;
         }

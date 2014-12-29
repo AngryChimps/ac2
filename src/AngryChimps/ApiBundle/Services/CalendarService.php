@@ -48,16 +48,18 @@ class CalendarService {
             $arr['availabilities'][] = $arr2;
         }
 
-        foreach($calendar->bookings as $booking) {
-            $arr2 = [];
-            $arr2['title'] = $booking->title;
-            $arr2['start'] = $booking->start;
-            $arr2['end'] = $booking->end;
+        if($isOwner) {
+            foreach ($calendar->bookings as $booking) {
+                $arr2 = [];
+                $arr2['title'] = $booking->title;
+                $arr2['start'] = $booking->start;
+                $arr2['end'] = $booking->end;
 
-            if($isOwner && !empty($booking->bookingDetailId)) {
-                $arr2['booking_detail_id'] = $booking->bookingDetailId;
+                if (!empty($booking->bookingDetailId)) {
+                    $arr2['booking_detail_id'] = $booking->bookingDetailId;
+                }
+                $arr['bookings'][] = $arr2;
             }
-            $arr['bookings'][] = $arr2;
         }
 
         return $arr;
@@ -81,50 +83,111 @@ class CalendarService {
         return $calendar;
     }
 
-    public function addAvailability(Calendar $calendar, Availability $availability) {
-        //If the availability overlaps a booking, then add it to the overlaps array
-//        $overlaps = array();
-//        foreach($calendar->bookings as $booking) {
-//            if(($availability->start < $booking->end && $availability->end > $booking->start)
-//                    || ($booking->start < $availability->end && $booking->end > $availability->start)) {
-//                $overlaps[] = $booking;
-//            }
-//        }
-//
-//        //If any bookings overlap, return them so the FE can delete them first
-//        if(!empty($overlaps)) {
-//            return $overlaps;
-//        }
-//
-//        //If the availability overlaps another availability, merge the two
-//        foreach($calendar->availabilities as $cdAvail) {
-//            if(($availability->start < $cdAvail->end && $availability->end > $cdAvail->start)
-//                || ($cdAvail->start < $availability->end && $cdAvail->end > $availability->start)) {
-//                $overlaps[] = $cdAvail;
-//            }
-//        }
-//
-//        if(count($overlaps) == 0) {
-//            $calendar->availabilities[] = $availability;
-//        }
-//        else {
-//            for($i = 0; $i < count($overlaps); $i++) {
-//                list($newStart, $newEnd) = $this->mergeDateRanges($availability->start, $availability->end,
-//                    $overlaps[$i]->start, $overlaps[$i]->end);
-//                $availability->start = $newStart;
-//                $availability->end = $newEnd;
-//                unset($calendar->availabilities[$overlaps[$i]->id]);
-//            }
-            $calendar->availabilities[] = $availability;
-//        }
+    public function update(Calendar $calendar, $changes) {
+        foreach($changes as $field => $value) {
+            switch($field) {
+                case 'name':
+                    $calendar->name = $value;
+                    break;
+                default:
+                    return false;
+            }
+        }
 
         $this->riak->update($calendar);
+        return true;
     }
 
-    protected function mergeDateRanges($start1, $end1, $start2, $end2) {
-        $arr = array();
-        $arr['start'] = ($start1 <= $start2) ? $start1 : $start2;
-        $arr['end'] = ($end1 >= $end2) ? $end1 : $end2;
-        return $arr;
+    public function addAvailability(Calendar $calendar, Availability $newAvailability) {
+        //If the availability overlaps a booking, return false
+        $overlaps = array();
+        foreach($calendar->bookings as $booking) {
+            if(($newAvailability->start < $booking->end && $newAvailability->end > $booking->start)
+                    || ($booking->start < $newAvailability->end && $booking->end > $newAvailability->start)) {
+               return false;
+            }
+        }
+
+        $availabilities = [];
+        $ignoreNewAvailability = false;
+        foreach($calendar->availabilities as $availability) {
+            //If there is no overlap, add to the $availabilities array to save unmodified
+            if($availability->end < $newAvailability->start || $availability->start > $newAvailability->end) {
+                $availabilities[] = $availability;
+            }
+            //If the end of the availability overlaps the start of the new availability, merge the two
+            elseif($availability->start < $newAvailability->start && $availability->end >= $newAvailability->start) {
+                $newAvailability->start = $availability->start;
+            }
+            //If the start of the availability overlaps the end of the new availability, merge the two
+            elseif($availability->start <= $newAvailability->end && $availability->end > $newAvailability->start) {
+                $newAvailability->end = $availability->end;
+            }
+            //If the new availability is encompassed by another availability, ignore the new availability
+            elseif($availability->start <= $newAvailability->start && $availability->end >= $newAvailability->end) {
+                $ignoreNewAvailability = true;
+                $availabilities[] = $availability;
+            }
+            //If the new availability encompasses another availability, ignore the other availability
+            elseif($availability->start >= $newAvailability->start && $availability->end <= $newAvailability->end) {
+                //Just ignore the availability since it's merged with the new one
+            }
+            else {
+                throw new \Exception('Unable to add availability; unknown overlap');
+            }
+        }
+
+        if(!$ignoreNewAvailability) {
+            $availabilities[] = $newAvailability;
+        }
+
+        $calendar->availabilities = $availabilities;
+        $this->riak->update($calendar);
+
+        return true;
+    }
+
+    public function removeAvailability(Calendar $calendar, Availability $availabilityToRemove) {
+        $availabilities = [];
+        foreach($calendar->availabilities as $availability) {
+            //If there is no overlap, add to the $availabilities array to save unmodified
+            if($availability->end < $availabilityToRemove->start || $availability->start > $availabilityToRemove->end) {
+                $availabilities[] = $availability;
+            }
+            //If the end of the availability overlaps the start of the new availability, reduce size of availability
+            elseif($availability->start < $availabilityToRemove->start && $availability->end >= $availabilityToRemove->start) {
+                $availability->end = $availabilityToRemove->start;
+                $availabilities[] = $availability;
+            }
+            //If the start of the availability overlaps the end of the new availability, reduce size of availability
+            elseif($availability->start <= $availabilityToRemove->end && $availability->end > $availabilityToRemove->start) {
+                $availability->start = $availabilityToRemove->end;
+                $availabilities[] = $availability;
+            }
+            //If the availability to remove is encompassed by another availability, break the availability into two
+            elseif($availability->start <= $availabilityToRemove->start && $availability->end >= $availabilityToRemove->end) {
+                $a1 = new Availability();
+                $a1->start = $availability->start;
+                $a1->end = $availabilityToRemove->start;
+                $availabilities[] = $a1;
+
+                $a2 = new Availability();
+                $a2->start = $availabilityToRemove->end;
+                $a2->end = $availability->end;
+                $availabilities[] = $a2;
+            }
+            //If the new availability encompasses another availability, ignore the other availability
+            elseif($availability->start >= $availabilityToRemove->start && $availability->end <= $availabilityToRemove->end) {
+                //Just ignore the availability since it's within the removed time
+            }
+            else {
+                throw new \Exception('Unable to add availability; unknown overlap');
+            }
+        }
+
+        $calendar->availabilities = $availabilities;
+        $this->riak->update($calendar);
+
+        return true;
     }
 }

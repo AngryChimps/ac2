@@ -19,8 +19,6 @@ fields:
             max: 25
   - name: address
     type: \Norm\riak\Address
-  - name: phone
-    type: string
   - name: is_mobile
     type: bool
   - name: status

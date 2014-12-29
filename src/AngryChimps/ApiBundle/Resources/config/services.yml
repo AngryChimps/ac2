@@ -156,6 +156,7 @@ services:
                 - "@angry_chimps_api.response"
                 - "@angry_chimps_api.company"
                 - "@angry_chimps_api.company_media"
+                - "@angry_chimps_api.provider_ad"
 
     angry_chimps_api.provider_ad_immutable.controller:
             class:     "%angry_chimps_api.controller.provider_ad_immutable.class%"

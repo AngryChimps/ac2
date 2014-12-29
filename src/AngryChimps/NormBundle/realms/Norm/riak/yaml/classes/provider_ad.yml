@@ -11,8 +11,6 @@ fields:
     type: string
   - name: calendar_id
     type: string
-  - name: author_id
-    type: string
   - name: category_id
     type: int
   - name: current_immutable_id
@@ -53,10 +51,6 @@ foreign_keys:
   - name: fk_ad_calendar
     column_name: calendar_id
     referenced_table_name: calendar
-    referenced_column_name: id
-  - name: fk_ad_author
-    column_name: author_id
-    referenced_table_name: member
     referenced_column_name: id
   - name: fk_ad_service
     column_name: service_id

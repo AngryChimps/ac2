@@ -69,7 +69,7 @@ class LocationController extends AbstractController
         $arr['id'] = $location->id;
         $arr['name'] = $location->name;
         $arr['address'] = (array) $location->address;
-        $arr['phone'] = $location->phone;
+        $arr['phone'] = $location->address->phone;
         $arr['is_mobile'] = $location->isMobile;
 
         $user = $this->getAuthenticatedUser();

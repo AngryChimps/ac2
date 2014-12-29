@@ -66,12 +66,12 @@ class CompanyMediaController extends AbstractController
         }
 
         try {
-            $filename = $this->companyMediaService->postMedia($company, $providerAd, $media);
+            $filename = $this->companyMediaService->postMedia($media, $company, $providerAd);
         }
         catch(\Exception $ex) {
             $error = array('code' => 'Api.CompanyMediaController.indexPostAction.4',
                 'human' => 'Unknown error occurred processing the image');
-            return $this->responseService->failure(400, $error);
+            return $this->responseService->failure(400, $error, $ex);
         }
 
         return $this->responseService->success(array('payload' => array('filename' => 'ci/' . $filename)));
