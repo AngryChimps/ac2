@@ -295,6 +295,7 @@ class AbstractFeatureContext {
             $request = $this->guzzle->createRequest('DELETE', $url, [
                 'headers' => [$this->sessionHeaderName => $this->sessionId,
                     'content-type' => 'application/json'],
+                'json' => $this->requestArray,
                 'exceptions' => false,
             ]);
 

@@ -48,4 +48,24 @@ class AvailabilityController extends AbstractController
 
         return $this->responseService->success();
     }
+
+    public function indexDeleteAction() {
+        $payload = $this->getPayload();
+
+        $calendar = $this->calendarService->getCalendar($payload['calendar_id']);
+
+        if($calendar === null) {
+            $error = array('code' => 'Api.AvailabilityController.indexPostAction.1',
+                'human' => 'Unable to find the specified calendar');
+            return $this->responseService->failure(400, $error);
+        }
+
+        $availability = new Availability();
+        $availability->start = new \DateTime($payload['start']);
+        $availability->end = new \DateTime($payload['end']);
+
+        $this->calendarService->removeAvailability($calendar, $availability);
+
+        return $this->responseService->success();
+    }
 }

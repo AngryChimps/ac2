@@ -932,5 +932,30 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
     }
 
+    /**
+     * @Given The test calendar has an availability starting :arg1 at :arg2 until :arg3 at :arg4
+     */
+    public function theTestCalendarHasAnAvailabilityStartingAtUntilAt($arg1, $arg2, $arg3, $arg4)
+    {
+        list($startHour, $startMinute) = explode(':', $arg2);
+        list($endHour, $endMinute) = explode(':', $arg4);
+
+        $availability = new Availability();
+        $availability->start = $this->getDate($arg1, $startHour, $startMinute);
+        $availability->end = $this->getDate($arg3, $endHour, $endMinute);
+
+        $this->testCalendar->availabilities[] = $availability;
+        $this->riak->update($this->testCalendar);
+    }
+
+    /**
+     * @When I delete the availability
+     */
+    public function iDeleteTheAvailability()
+    {
+        $this->deleteData('availability');
+    }
+
+
 }
 
