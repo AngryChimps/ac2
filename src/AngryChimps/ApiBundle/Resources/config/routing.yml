@@ -114,6 +114,12 @@ angry_chimps_api_company_media_post:
     methods: ["POST"]
     defaults: { _controller: angry_chimps_api.company_media.controller:indexPostAction , providerAdId: false}
 
+#availability
+availability:
+    path:     /availability
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.availability.controller:indexPostAction}
+
 #provider_ad_immutable
 angry_chimps_api_provider_ad_immutable_post:
     path:     /providerAdImmutable/{providerAdImmutableId}

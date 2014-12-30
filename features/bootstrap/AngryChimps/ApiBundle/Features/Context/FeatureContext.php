@@ -10,6 +10,8 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Norm\riak\Address;
+use Norm\riak\Availability;
+use Norm\riak\Calendar;
 use Norm\riak\Company;
 use Norm\riak\Location;
 use Norm\riak\Member;
@@ -829,6 +831,105 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iDeleteTheTestService()
     {
         $this->deleteData('service/' . $this->testService->id);
+    }
+
+    /**
+     * @Given The test location has a test calendar
+     */
+    public function theTestLocationHasATestCalendar()
+    {
+        $calendar = new Calendar();
+        $calendar->name = "Joe's Calendar";
+        $calendar->locationId = $this->testLocation->id;
+        $calendar->companyId = $this->testCompany->id;
+        $this->riak->create($calendar);
+
+        $this->testCalendar = $calendar;
+    }
+
+    /**
+     * @Given The test calendar has a test availability
+     */
+    public function theTestCalendarHasATestAvailability()
+    {
+        $availability = new Availability();
+        $availability->start = $this->getDate('tomorrow', 9, 0);
+        $availability->end = $this->getDate('tomorrow', 12, 0);
+
+        $this->testCalendar->availabilities[] = $availability;
+        $this->riak->update($this->testCalendar);
+    }
+
+    /**
+     * @Given I have a valid non-conflicting availability array
+     */
+    public function iHaveAValidNonConflictingAvailabilityArray()
+    {
+        $arr = [];
+        $arr['calendar_id'] = $this->testCalendar->id;
+        $arr['start'] = $this->getDate('tomorrow', 13, 0)->format('Y-m-d H:i:s');
+        $arr['end'] = $this->getDate('tomorrow', 14, 0)->format('Y-m-d H:i:s');
+
+        $this->requestArray = array('payload' => $arr);
+    }
+
+    /**
+     * @When I post the availability array
+     */
+    public function iPostTheAvailabilityArray()
+    {
+        $this->postData('availability');
+    }
+
+    /**
+     * @Then I reload the test calendar
+     */
+    public function iReloadTheTestCalendar()
+    {
+        $id = $this->testCalendar->id;
+        $this->riak->invalidate($this->testCalendar);
+
+        $this->testCalendar = $this->riak->getCalendar($id);
+    }
+
+    /**
+     * @Then The test calendar has :arg1 availabilities
+     */
+    public function theTestCalendarHasAvailabilities($arg1)
+    {
+        $this->assertEquals(count($this->testCalendar->availabilities), $arg1,
+            'There were ' . count($this->testCalendar->availabilities) . ' availabilities when there should have  been ' . $arg1);
+    }
+
+    /**
+     * @Given I have a valid availability array starting :arg1 at :arg2 until :arg3 at :arg4
+     */
+    public function iHaveAValidAvailabilityArrayStartingAtUntilAt($arg1, $arg2, $arg3, $arg4)
+    {
+        list($startHour, $startMinute) = explode(':', $arg2);
+        list($endHour, $endMinute) = explode(':', $arg4);
+
+        $arr = [];
+        $arr['calendar_id'] = $this->testCalendar->id;
+        $arr['start'] = $this->getDate($arg1, $startHour, $startMinute)->format('Y-m-d H:i:s');
+        $arr['end'] = $this->getDate($arg3, $endHour, $endMinute)->format('Y-m-d H:i:s');
+
+        $this->requestArray = array('payload' => $arr);
+    }
+
+    /**
+     * @Then The calendar's first availability starts :arg1 at :arg2 and ends :arg3 at :arg4
+     */
+    public function theCalendarSFirstAvailabilityStartsAtAndEndsAt($arg1, $arg2, $arg3, $arg4)
+    {
+        list($startHour, $startMinute) = explode(':', $arg2);
+        list($endHour, $endMinute) = explode(':', $arg4);
+
+        $this->assertEquals($this->testCalendar->availabilities[0]->start, $this->getDate($arg1, $startHour, $startMinute),
+            "The first availability start time is incorrect: " . $this->testCalendar->availabilities[0]->start->format('Y-m-d H:i:s'));
+        $this->assertEquals($this->testCalendar->availabilities[0]->end, $this->getDate($arg3, $endHour, $endMinute),
+            "The first availability end time is incorrect: " . $this->testCalendar->availabilities[0]->end->format('Y-m-d H:i:s'));
+
     }
 
 }

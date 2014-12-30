@@ -25,6 +25,7 @@ parameters:
     angry_chimps_api.controller.search.class: AngryChimps\ApiBundle\Controller\SearchController
     angry_chimps_api.controller.company_media.class: AngryChimps\ApiBundle\Controller\CompanyMediaController
     angry_chimps_api.controller.provider_ad_immutable.class: AngryChimps\ApiBundle\Controller\ProviderAdImmutableController
+    angry_chimps_api.controller.availability.class: AngryChimps\ApiBundle\Controller\AvailabilityController
 
 services:
 
@@ -165,6 +166,14 @@ services:
                 - "@angry_chimps_api.session"
                 - "@angry_chimps_api.response"
                 - "@angry_chimps_api.provider_ad_immutable"
+
+    angry_chimps_api.availability.controller:
+            class:     "%angry_chimps_api.controller.availability.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.calendar"
 
 
 ##############################################################

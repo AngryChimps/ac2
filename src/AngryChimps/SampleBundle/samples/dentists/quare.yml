@@ -1,36 +1,36 @@
 steps:
     -
         name: session-get
-#    -
-#        name: signup-registerProviderAd
-#        payload:
-#            ad_title: "New Customer Special: Basic Cleaning With X-Rays"
-#            ad_description:
-#                - We are always welcoming new patients and we would love to have you as part of our dental family.  Please explore our web site to learn more about us.  You can find information about our staff, our office, the procedures and services that we offer.
-#                - We are proud to provide a the highest quality dental care available. It is one of our top priorities to protect the well-being of our valued patients. For this reason, our office meets and surpasses all OSHA (Occupational Safety and Health Administration) and CDC (Center for Disease Control) standards. We are confident that you will feel right at home in our office as we welcome all patients as if they were family.
-#                - If you have any questions please feel free to call us.  We love hearing from our patients and anyone who may be interested in becoming one.
-#            start: today 10:00:00
-#            end: today 15:00:00
-#            service_name: Basic Cleaning With X-Rays
-#            discounted_price: 99
-#            original_price: 149
-#            mins_for_service: 60
-#            mins_notice: 60
-#            category_id: 201
-#    -
-#        name: signup-uploadFirstAdPhoto
-#        filename: qare.jpg
-#    -
-#        name: signup-registerProviderCompany
-#        payload:
-#            member_id: #<Auto-Inserted>
-#            company_name: Elias Qare, D.D.S.
-#            member_name: Elias Qare
-#            email: #<Auto-Inserted>
-#            password: #<Auto-Inserted>
-#            dob: #<Auto-Inserted>
-#            street1: 2480 Mission Street
-#            street2: "Suite #326"
-#            zip: 94110
-#            phone: #<Auto-Inserted>
-#            mobile_phone: #<Auto-Inserted>
+    -
+        name: signup-registerProviderAd
+        payload:
+            ad_title: "New Customer Special: Basic Cleaning With X-Rays"
+            ad_description:
+                - We are always welcoming new patients and we would love to have you as part of our dental family.  Please explore our web site to learn more about us.  You can find information about our staff, our office, the procedures and services that we offer.
+                - We are proud to provide a the highest quality dental care available. It is one of our top priorities to protect the well-being of our valued patients. For this reason, our office meets and surpasses all OSHA (Occupational Safety and Health Administration) and CDC (Center for Disease Control) standards. We are confident that you will feel right at home in our office as we welcome all patients as if they were family.
+                - If you have any questions please feel free to call us.  We love hearing from our patients and anyone who may be interested in becoming one.
+            start: today 10:00:00
+            end: today 15:00:00
+            service_name: Basic Cleaning With X-Rays
+            discounted_price: 99
+            original_price: 149
+            mins_for_service: 60
+            mins_notice: 60
+            category_id: 201
+    -
+        name: signup-uploadFirstAdPhoto
+        filename: qare.jpg
+    -
+        name: signup-registerProviderCompany
+        payload:
+            member_id: #<Auto-Inserted>
+            company_name: Elias Qare, D.D.S.
+            member_name: Elias Qare
+            email: #<Auto-Inserted>
+            password: #<Auto-Inserted>
+            dob: #<Auto-Inserted>
+            street1: 2480 Mission Street
+            street2: "Suite #326"
+            zip: 94110
+            phone: #<Auto-Inserted>
+            mobile_phone: #<Auto-Inserted>

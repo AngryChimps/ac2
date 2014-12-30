@@ -40,7 +40,7 @@ class CompanyMediaController extends AbstractController
 
         if($media === null) {
             $error = array('code' => 'Api.CompanyMediaController.indexPostAction.1',
-                'human' => 'No photo was attached');
+                'human' => 'No media was attached');
             return $this->responseService->failure(400, $error);
         }
 

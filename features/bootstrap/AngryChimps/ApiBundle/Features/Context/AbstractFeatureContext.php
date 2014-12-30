@@ -54,6 +54,9 @@ class AbstractFeatureContext {
     /** @var  \Norm\riak\Service */
     protected $testService;
 
+    /** @var  \Norm\riak\Calendar */
+    protected $testCalendar;
+
     private $baseUrl;
     private $sessionHeaderName;
 
@@ -336,5 +339,19 @@ class AbstractFeatureContext {
 
     public function assertNotEmpty($arg1, $msg) {
         $this->assertTrue(!empty($arg1), $msg);
+    }
+
+    public function getDate($day, $hour, $minute) {
+        switch($day) {
+            case 'today':
+                $dt = new \DateTime();
+                $dt->setTime($hour, $minute, 0);
+                return $dt;
+            case 'tomorrow':
+                $dt = new \DateTime();
+                $dt->add(new \DateInterval('P1D'));
+                $dt->setTime($hour, $minute, 0);
+                return $dt;
+        }
     }
 }

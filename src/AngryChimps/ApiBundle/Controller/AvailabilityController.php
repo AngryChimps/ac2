@@ -31,7 +31,7 @@ class AvailabilityController extends AbstractController
         if($calendar === null) {
             $error = array('code' => 'Api.AvailabilityController.indexPostAction.1',
                 'human' => 'Unable to find the specified calendar');
-            return $this->responseService->failure(404, $error);
+            return $this->responseService->failure(400, $error);
         }
 
         $availability = new Availability();
@@ -43,7 +43,7 @@ class AvailabilityController extends AbstractController
         if($success === false) {
             $error = array('code' => 'Api.AvailabilityController.indexPostAction.2',
                 'human' => 'Unable to create the availability due to a conflicting booking');
-            return $this->responseService->failure(404, $error);
+            return $this->responseService->failure(400, $error);
         }
 
         return $this->responseService->success();

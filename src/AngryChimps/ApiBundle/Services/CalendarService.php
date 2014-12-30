@@ -111,8 +111,17 @@ class CalendarService {
         $availabilities = [];
         $ignoreNewAvailability = false;
         foreach($calendar->availabilities as $availability) {
+            //If the new availability is encompassed by another availability, ignore the new availability
+            if($availability->start <= $newAvailability->start && $availability->end >= $newAvailability->end) {
+                $ignoreNewAvailability = true;
+                $availabilities[] = $availability;
+            }
+            //If the new availability encompasses another availability, ignore the other availability
+            elseif($availability->start >= $newAvailability->start && $availability->end <= $newAvailability->end) {
+                //Just ignore the new availability
+            }
             //If there is no overlap, add to the $availabilities array to save unmodified
-            if($availability->end < $newAvailability->start || $availability->start > $newAvailability->end) {
+            elseif($availability->end < $newAvailability->start || $availability->start > $newAvailability->end) {
                 $availabilities[] = $availability;
             }
             //If the end of the availability overlaps the start of the new availability, merge the two
@@ -122,15 +131,6 @@ class CalendarService {
             //If the start of the availability overlaps the end of the new availability, merge the two
             elseif($availability->start <= $newAvailability->end && $availability->end > $newAvailability->start) {
                 $newAvailability->end = $availability->end;
-            }
-            //If the new availability is encompassed by another availability, ignore the new availability
-            elseif($availability->start <= $newAvailability->start && $availability->end >= $newAvailability->end) {
-                $ignoreNewAvailability = true;
-                $availabilities[] = $availability;
-            }
-            //If the new availability encompasses another availability, ignore the other availability
-            elseif($availability->start >= $newAvailability->start && $availability->end <= $newAvailability->end) {
-                //Just ignore the availability since it's merged with the new one
             }
             else {
                 throw new \Exception('Unable to add availability; unknown overlap');
