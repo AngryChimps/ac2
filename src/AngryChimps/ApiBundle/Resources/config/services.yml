@@ -37,7 +37,13 @@ services:
         arguments: ["@angry_chimps_mailer.mailer", "@templating", "@validator", "@angry_chimps_api.member"]
     angry_chimps_api.member:
         class: "%angry_chimps_api.member.class%"
-        arguments: ["@angry_chimps_mailer.mailer", "@templating", "@validator", "@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
+        arguments:
+            - "@angry_chimps_mailer.mailer"
+            - "@templating"
+            - "@validator"
+            - "@ac_norm.norm.riak"
+            - "@ac_norm.norm.mysql"
+            - "@angry_chimps_task.tasker"
     angry_chimps_api.company:
         class: "%angry_chimps_api.company.class%"
         arguments: ["@validator", "@ac_norm.norm.riak", "@ac_norm.norm.mysql"]

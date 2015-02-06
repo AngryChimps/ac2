@@ -16,62 +16,54 @@ trait RiakBlobTrait {
         }
         $obj = new $className();
 
-        if($obj instanceof NormBaseObject) {
-            if($debug !== null) {
-                $debug = array();
-                $debug['method'] = 'getObjectBySecondaryIndex';
-                $debug['className'] = $className;
-                $debug['indexName'] = $indexName;
-                $debug['indexValue'] = $value;
-                $timer = microtime(true);
-            }
-
-            /** @var RiakBlobDatastore $ds */
-            $ds = DatastoreManager::getDatastore($className::$primaryDatastoreName);
-            $ds->populateObjectBySecondaryIndex($obj, $indexName, $value, $debug);
-
-            if($debug !== null) {
-                $debug['time'] = microtime(true) - $timer;
-                parent::addDebugData($debug);
-            }
-        }
-        else {
-            throw new UnsupportedObjectTypeException('class not supported: ' . get_class($obj));
+        if($debug !== null) {
+            $debug = array();
+            $debug['method'] = 'getObjectBySecondaryIndex';
+            $debug['className'] = $className;
+            $debug['indexName'] = $indexName;
+            $debug['indexValue'] = $value;
         }
 
+        /** @var RiakBlobDatastore $ds */
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className));
+        $success = $ds->populateObjectBySecondaryIndex($obj, $indexName, $value, $debug);
+
+        if(!$success) {
+            return null;
+        }
         return $obj;
     }
 
-    public function getCollectionBySecondaryIndex($className, $indexName, $value, &$debug = null)
-    {
-        if (!class_exists($className)) {
-            throw new \Exception('Invalid class name');
-        }
-        $coll = new $className();
-
-
-        if ($coll instanceof NormBaseObject) {
-            if ($debug !== null) {
-                $debug = array();
-                $debug['method'] = 'getCollectionBySecondaryIndex';
-                $debug['className'] = $className;
-                $debug['indexName'] = $indexName;
-                $debug['indexValue'] = $value;
-                $timer = microtime(true);
-            }
-
-            /** @var RiakBlobDatastore $ds */
-            $ds = DatastoreManager::getDatastore($className::$primaryDatastoreName);
-            $ds->populateCollectionBySecondaryIndex($coll, $indexName, $value, $debug);
-
-            if ($debug !== null) {
-                $debug['time'] = microtime(true) - $timer;
-                parent::addDebugData($debug);
-            }
-        } else {
-            throw new UnsupportedObjectTypeException('class not supported: ' . get_class($obj));
-        }
-
-        return $coll;
-    }
+//    public function getCollectionBySecondaryIndex($className, $indexName, $value, &$debug = null)
+//    {
+//        if (!class_exists($className)) {
+//            throw new \Exception('Invalid class name');
+//        }
+//        $coll = new $className();
+//
+//
+//        if ($coll instanceof NormBaseObject) {
+//            if ($debug !== null) {
+//                $debug = array();
+//                $debug['method'] = 'getCollectionBySecondaryIndex';
+//                $debug['className'] = $className;
+//                $debug['indexName'] = $indexName;
+//                $debug['indexValue'] = $value;
+//                $timer = microtime(true);
+//            }
+//
+//            /** @var RiakBlobDatastore $ds */
+//            $ds = DatastoreManager::getDatastore($className::$primaryDatastoreName, $this->realmInfoService, $this->logger);
+//            $ds->populateCollectionBySecondaryIndex($coll, $indexName, $value, $debug);
+//
+//            if ($debug !== null) {
+//                $debug['time'] = microtime(true) - $timer;
+//                parent::addDebugData($debug);
+//            }
+//        } else {
+//            throw new UnsupportedObjectTypeException('class not supported: ' . get_class($coll));
+//        }
+//
+//        return $coll;
+//    }
 }

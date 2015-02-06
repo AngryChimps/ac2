@@ -10,20 +10,13 @@ use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
 use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
 use AngryChimps\GeoBundle\Classes\Address;
 use AngryChimps\GeoBundle\Services\GeolocationService;
-use AngryChimps\MailerBundle\Messages\BasicMessage;
-use AngryChimps\MailerBundle\Services\MailerService;
 use Armetiz\FacebookBundle\FacebookSessionPersistence;
 use Norm\riak\Availability;
 use Norm\riak\Company;
 use Norm\riak\CompanyAds;
-use Norm\riak\CompanyServices;
 use Norm\riak\Location;
 use Norm\riak\Member;
-use Norm\riak\ProviderAd;
 use Norm\riak\Service;
-use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -153,6 +146,12 @@ class SignupService {
                                             $companyName, $memberName, $email, $password,
                                             \DateTime $dob, $street1, $street2, $zip, Address $address,
                                             $phone, $mobilePhone, array &$errors) {
+        $mysqlMember = $this->mysql->getMember($member->mysqlId);
+        $mysqlMember->name = $memberName;
+        $mysqlMember->email = $email;
+        $this->mysql->update($mysqlMember);
+        $this->mysql->update($mysqlMember);
+
         $company->name = $companyName;
 
         $errors = $this->validator->validate($company);

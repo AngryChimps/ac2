@@ -114,10 +114,12 @@ class SignupController extends AbstractController
         }
 
         $errors = array();
+        $street2 = isset($payload['street2']) ? $payload['street2'] : null;
+        $mobile_phone = isset($payload['mobile_phone']) ? $payload['mobile_phone'] : null;
         $result = $this->signupService->registerProviderCompany($this->getAuthenticatedUser(), $company,
             $location, $payload['company_name'], $payload['member_name'], $payload['email'],
             $payload['password'], new \DateTime($payload['dob']), $payload['street1'],
-            $payload['street2'], $payload['zip'], $address, $payload['phone'], $payload['mobile_phone'],
+            $street2, $payload['zip'], $address, $payload['phone'], $mobile_phone,
             $errors);
 
         if(!$result) {

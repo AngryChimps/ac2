@@ -1,11 +1,11 @@
 <?php
 
 
-namespace AngryChimps\AdminBundle\Services;
+namespace AngryChimps\AdminBundle\FormEntities;
 
 
-class RiakQueryService {
-    protected $index;
+class RiakQueryFormEntity {
+    protected $class;
     protected $function;
     protected $argument;
 
@@ -28,17 +28,17 @@ class RiakQueryService {
     /**
      * @return mixed
      */
-    public function getIndex()
+    public function getClass()
     {
-        return $this->index;
+        return $this->class;
     }
 
     /**
      * @param mixed $index
      */
-    public function setIndex($index)
+    public function setClass($class)
     {
-        $this->index = $index;
+        $this->class = $class;
     }
 
     /**

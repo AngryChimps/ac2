@@ -46,19 +46,4 @@ class ACNormBundle extends Bundle
 
         $container->addCompilerPass(new ValidatorPass());
     }
-
-//    protected function getConfig() {
-//        $env = $this->container->get('kernel')->getEnvironment();
-//
-//        $config = array();
-//        $filenames = array('ac_norm.yml', 'ac_norm_' . $env . '.yml');
-//
-//        foreach($filenames as $filename){
-//            $yaml = file_get_contents(__DIR__ . '/../../../../../app/config/' . $filename);
-//            $arr = yaml_parse($yaml);
-//            $config = array_merge($config, $arr);
-//        }
-//
-//        return $config;
-//    }
 }

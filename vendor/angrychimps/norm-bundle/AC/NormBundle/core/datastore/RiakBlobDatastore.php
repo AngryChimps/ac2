@@ -39,6 +39,40 @@ class RiakBlobDatastore extends AbstractRiakDatastore {
         $bucket->put($riakObj);
     }
 
+    public function createObjectWithIndexes($obj, $indexes, &$debug) {
+        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
+
+        //Deal with created_at if necessary
+        if(property_exists($obj, 'createdAt')) {
+            $obj->createdAt = new \DateTime();
+        }
+        $data = $this->getAsArray($obj);
+        $bucket = $this->getBucket($tableInfo['realmName'], $tableInfo['name']);
+        $key = $this->getKeyName($this->getIdentifier($obj));
+        $data = json_encode($data);
+
+
+        if($debug !== null) {
+            $arr = [];
+            $arr['bucket'] = $bucket->getName();
+            $arr['key'] = $key;
+            $arr['data'] = $data;
+            $debug['createObject'][] = $arr;
+            $this->loggerService->info('Creating object: ' . json_encode($debug));
+        }
+
+        $riakObj = new \Riak\Object($key);
+        $riakObj->setContent($data);
+
+        foreach($indexes as $index) {
+            if ($index[1] !== null) {
+                $riakObj->addIndex($index[0], $index[1]);
+            }
+        }
+        $bucket->put($riakObj);
+
+    }
+
     public function createCollection($coll, &$debug)
     {
         for($i = 0; $i < count($coll); $i++) {
@@ -260,25 +294,28 @@ class RiakBlobDatastore extends AbstractRiakDatastore {
         }
     }
 
-//    public function populateObjectBySecondaryIndex(NormBaseObject $obj, $indexName, $value, &$debug = null) {
-//        $bucket = $this->getBucket($obj::$realm, $obj::$tableName);
-//
-//        $response = $bucket->index($indexName, $value);
-//
-//        if(empty($response)) {
-//            return null;
-//        }
-//
-//        if($response->hasObject()) {
-//            $content = $response->getFirstObject();
-//            $json = $content->getContent();
-//            $this->populateObjectByOrderedArray($obj, json_decode($json, true));
-//        }
-//        else {
-//            return null;
-//        }
-//    }
-//
+    public function populateObjectBySecondaryIndex($obj, $indexName, $value, &$debug = null) {
+        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
+        $bucket = $this->getBucket($tableInfo['realmName'], $tableInfo['name']);
+//        $key = $this->getKeyName($pks);
+
+        $response = $bucket->index($indexName, $value);
+
+        if(empty($response)) {
+            return false;
+        }
+
+        if($response->hasObject()) {
+            $content = $response->getFirstObject();
+            $json = $content->getContent();
+            $this->populateObjectByOrderedArray($obj, json_decode($json, true));
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 //    public function populateCollectionBySecondaryIndex(NormBaseCollection $coll, $indexName, $value, &$debug = null) {
 //        $bucket = $this->getBucket($coll::$realm, $coll::$tableName);
 //

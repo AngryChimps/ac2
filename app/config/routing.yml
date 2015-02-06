@@ -1,3 +1,7 @@
+angry_chimps_task:
+    resource: "@AngryChimpsTaskBundle/Resources/config/routing.yml"
+    prefix:   /task
+
 angry_chimps_media:
     resource: "@AngryChimpsMediaBundle/Resources/config/routing.yml"
     prefix:   /media

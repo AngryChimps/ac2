@@ -3,16 +3,23 @@
 namespace AngryChimps\AdminBundle\Controller;
 
 use AC\NormBundle\core\Utils;
+use AngryChimps\AdminBundle\FormEntities\RiakQueryFormEntity;
+use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 /**
  * Class RiakController
  *
  * @Route("/riak")
  */
-class RiakController extends Controller
+class RiakController
 {
     const PREFIX = '__norm';
     const REALM = 'riak';
@@ -20,14 +27,81 @@ class RiakController extends Controller
     /** @var \Riak\Connection  */
     private static $conn = null;
 
+    /** @var  RiakQueryFormEntity */
+    protected $riakQueryService;
+
+    /** @var FormFactory  */
+    protected $formFactory;
+
+    /** @var RequestStack  */
+    protected $requestStack;
+
+    /** @var TimedTwigEngine  */
+    protected $templating;
+
+    /** @var  NormRiakService */
+    protected $riak;
+
+    public function __construct(RiakQueryFormEntity $riakQueryService, FormFactory $formFactory,
+                                RequestStack $requestStack, TimedTwigEngine $templating, NormRiakService $riak) {
+        $this->riakQueryService = $riakQueryService;
+        $this->formFactory = $formFactory;
+        $this->requestStack = $requestStack;
+        $this->templating = $templating;
+        $this->riak = $riak;
+    }
+
     /**
      * @Route("/")
-     * @Method({"GET"})
+     * @Method({"GET","POST"})
      * @Template()
      */
     public function indexAction()
     {
-        return $this->render('AngryChimpsAdminBundle:Riak:index.html.twig', array());
+        $result = '';
+
+        $query = new RiakQueryFormEntity();
+        $query->setFunction('GetById');
+        $query->setClass('Member');
+
+        $form = $this->formFactory->createBuilder('form', $query)
+            ->add('class', 'choice', array('choices' => array('Member' => 'Member', 'Company' => 'Company')))
+            ->add('function', 'choice', array('choices' => array('GetById' => 'GetById',
+                'GetByEmail' => 'GetByEmail', 'Post' => 'Post')))
+            ->add('argument', 'textarea')
+            ->add('save', 'submit', array('label' => 'Query'))
+            ->getForm();
+
+        $form->handleRequest($this->requestStack->getCurrentRequest());
+
+        if($form->isValid()) {
+            $data = $form->getData();
+
+            $result = [
+                'class' => $data->getClass(),
+                'function' => $data->getFunction(),
+                'argument' => $data->getArgument(),
+            ];
+            $result = json_encode($result);
+
+            switch($data->getFunction()) {
+                case 'GetById':
+                    $func = 'get' . $data->getClass();
+                    $obj = $this->riak->$func($data->getArgument());
+                    $result = json_encode($obj, JSON_PRETTY_PRINT);
+                    break;
+                case 'GetByEmail':
+                    $func = 'get' . $data->getClass() . 'ByEmail';
+                    $obj = $this->riak->$func($data->getArgument());
+                    $result = json_encode($obj, JSON_PRETTY_PRINT);
+                    break;
+            }
+        }
+
+        return $this->templating->renderResponse('AngryChimpsAdminBundle:Riak:index.html.twig', array(
+            'form' => $form->createView(),
+            'result' => $result,
+        ));
     }
 
     /**

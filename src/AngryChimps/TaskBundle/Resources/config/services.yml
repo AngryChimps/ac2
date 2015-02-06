@@ -1,0 +1,18 @@
+services:
+#    angry_chimps_task.example:
+#        class: AngryChimps\TaskBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+    angry_chimps_task.tasker:
+        class: AngryChimps\TaskBundle\Services\TaskerService
+        arguments: [ "@ac_norm.norm.riak", "@ac_norm.norm.mysql",  "@ac_norm.norm.es", "@angry_chimps_geo.geolocation"]
+
+##############################################################
+###                  Listeners                             ###
+##############################################################
+    kernel.listener.angry_chimps_task_kernel_terminate_listener:
+        class: AngryChimps\TaskBundle\EventListener\KernelTerminateListener
+        arguments: ["@angry_chimps_task.tasker", "@logger"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate, priority: 255 }
+

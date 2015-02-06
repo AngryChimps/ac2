@@ -4,6 +4,9 @@
 namespace AngryChimps\ApiBundle\Services;
 
 
+use AngryChimps\TaskBundle\Services\TaskerService;
+use AngryChimps\TaskBundle\Services\Tasks\MemberCreateTask;
+use AngryChimps\TaskBundle\Services\Tasks\MemberUpdateTask;
 use Norm\riak\Member;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -26,8 +29,11 @@ class MemberService {
     /** @var  NormRiakService */
     protected $riak;
 
-    /** @var  NormMysqlService */
+    /** @var NormMysqlService */
     protected $mysql;
+
+    /** @var  TaskerService */
+    protected $tasker;
 
     protected $userModifiableFields = ['name', 'email'];
 
@@ -35,77 +41,34 @@ class MemberService {
                                 TimedTwigEngine $templating,
                                 ValidatorInterface $validator,
                                 NormRiakService $riak,
-                                NormMysqlService $mysql)
+                                NormMysqlService $mysql,
+                                TaskerService $tasker)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->validator = $validator;
         $this->riak = $riak;
         $this->mysql = $mysql;
+        $this->tasker = $tasker;
     }
 
-    public function update(Member $member, array $changes, array &$errors, $isAdmin = false) {
-        $objectsToSave = array();
-        $mysqlMember = null;
+    public function update(Member $member, array $changes, array &$errors) {
 
         foreach($changes as $fieldName => $value) {
-            switch ($fieldName) {
-                case 'email':
-                case 'name':
-                    $member->$fieldName = $value;
-                    if ($mysqlMember === null) {
-                        $mysqlMember = $this->mysql->getMember($member->mysqlId);
-                        $objectsToSave[] = $mysqlMember;
-                    }
-                    $mysqlMember->$fieldName = $value;
-                    break;
-                case 'dob':
-                case 'status':
-                case 'password':
-                case 'role':
-                case 'last_activity_date':
-                case 'blocked_company_ids':
-                case 'ad_flag_keys':
-                case 'ad_message_keys':
-                    if (!$isAdmin) {
-                        throw new \Exception('The ' . $fieldName . ' field is not user updatable');
-                    }
-                    $member->$fieldName = $value;
-                    if ($mysqlMember === null) {
-                        $mysqlMember = $this->mysql->getMember($member->mysqlId);
-                        $objectsToSave[] = $mysqlMember;
-                    }
-                    $mysqlMember->$fieldName = $value;
-                    break;
-                case 'photo':
-                case 'mobile':
-                    $member->$fieldName = $value;
-                    break;
-                case 'id':
-                case 'mysql_id':
-                    throw new \Exception('The ' . $fieldName . ' field is immutable');
-                case 'created_at':
-                case 'updated_at':
-                    //Do nothing, these are updated automatically
-                    break;
-                default:
-                    throw new \Exception('Unknown field name: ' . $fieldName . ' in MemberService::update');
-            }
+            $member->$fieldName = $value;
         }
 
-//        $errors = $this->validator->validate($member);
-//
-//        if(count($errors) > 0) {
-//            return false;
-//        }
-
-        foreach($objectsToSave as $obj) {
-            $this->mysql->update($obj);
+        $errors = $this->validator->validate($member);
+        if(count($errors) > 0) {
+            return false;
         }
 
         $this->riak->update($member);
 
-        //Tell the controller that everything was valid
+        //Update Mysql and ElasticSearch
+        $task = new MemberUpdateTask($member, $changes);
+        $this->tasker->store($task);
+
         return true;
     }
 
@@ -124,18 +87,9 @@ class MemberService {
 
         $this->riak->create($member);
 
-        $mysqlMember = new \Norm\mysql\Member();
-        $mysqlMember->id = $member->id;
-        $mysqlMember->email = $member->email;
-        $mysqlMember->name = $member->name;
-        $mysqlMember->mobile = $member->mobile;
-        $mysqlMember->dob = $member->dob;
-        $mysqlMember->status = $member->status;
-        $mysqlMember->role = $member->role;
-        $this->mysql->create($mysqlMember);
-
-        $member->mysqlId = $mysqlMember->mysqlId;
-        $this->riak->update($member);
+        //Update Mysql and ElasticSearch
+        $task = new MemberCreateTask($member);
+        $this->tasker->store($task);
 
         return $member;
     }
@@ -146,24 +100,16 @@ class MemberService {
         $member->status = Member::PARTIAL_REGISTRATION_STATUS;
         $this->riak->create($member);
 
-        $mysqlMember = new \Norm\mysql\Member();
-        $mysqlMember->id = $member->id;
-        $mysqlMember->status = $member->status;
-        $mysqlMember->role = $member->role;
-        $this->mysql->create($mysqlMember);
-
-        $member->mysqlId = $mysqlMember->mysqlId;
-        $this->riak->update($member);
+        //Create Mysql and ElasticSearch
+        $task = new MemberCreateTask($member);
+        $this->tasker->store($task);
 
         return $member;
     }
 
     public function getMemberByEmailEnabled($email) {
-        $mysqlMember = $this->mysql->getMemberByEmail($email);
-        if($mysqlMember->status == Member::ACTIVE_STATUS) {
-            return $this->riak->getMember($mysqlMember->id);
-        }
-        return null;
+        $member = $this->riak->getObjectBySecondaryIndex('Norm\\riak\\Member', 'email_bin', $email);
+        return $member;
     }
 
     public function getMember($id) {

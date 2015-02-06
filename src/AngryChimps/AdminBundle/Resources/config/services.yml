@@ -1,4 +1,13 @@
 services:
-#    angry_chimps_admin.example:
-#        class: AngryChimps\AdminBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    angry_chimps_admin.riak_query_form_entity:
+        class: AngryChimps\AdminBundle\FormEntities\RiakQueryFormEntity
+
+    angry_chimps_admin.riak.controller:
+        class:     AngryChimps\AdminBundle\Controller\RiakController
+        arguments:
+            - "@angry_chimps_admin.riak_query_form_entity"
+            - "@form.factory"
+            - "@request_stack"
+            - "@templating"
+            - "@ac_norm.norm.riak"
+

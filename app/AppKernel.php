@@ -33,10 +33,11 @@ class AppKernel extends Kernel
             new AngryChimps\ElasticsearchBundle\AngryChimpsElasticsearchBundle(),
             new AngryChimps\SampleBundle\AngryChimpsSampleBundle(),
             new AngryChimps\MediaBundle\AngryChimpsMediaBundle(),
-            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+            new AngryChimps\TaskBundle\AngryChimpsTaskBundle(),
         );
 
-        if (in_array($this->getEnvironment(), array('dev', 'test', 'local', 'behat', 'behat_dev'))) {
+        if (true || in_array($this->getEnvironment(), array('dev', 'test', 'local', 'behat', 'behat_dev'))) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();

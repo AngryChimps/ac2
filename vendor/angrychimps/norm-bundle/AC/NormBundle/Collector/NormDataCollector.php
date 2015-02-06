@@ -13,8 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class NormDataCollector extends DataCollector {
-    /** @var  NormService */
-    protected $norm;
+    protected $lastQueryStartTime = null;
+    protected $lastQueryData = [];
+    protected $data = [];
+    protected $totalTime = 0;
 
     /**
      * Collects data for the given Request and Response.
@@ -27,7 +29,88 @@ class NormDataCollector extends DataCollector {
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-//        $this->data['collector'] = $this->norm->collectDebugData();
+        if(isset($this->data['queries'])) {
+            $this->data['time'] = $this->totalTime;
+            $this->data['querycount'] = count($this->data['queries']);
+            $this->data['collector'] = $this->data;
+        }
+        else {
+            $this->data['time'] = 0;
+            $this->data['querycount'] = 0;
+            $this->data['collector'] = $this->data;
+        }
+    }
+
+    protected function startQuery($data) {
+        //If the last query start time isn't null, then we had an exception during our query
+        if($this->lastQueryStartTime !== null) {
+            $this->lastQueryData['title'] = 'FAILED :: ' . $this->lastQueryData['class'] . ' -- '
+                . $this->lastQueryData['method'];
+            $this->lastQueryData['time'] = 0;
+            $this->data['queries'][] = $this->lastQueryData;
+            $this->lastQueryData = [];
+            $this->lastQueryStartTime = null;
+        }
+
+        $this->lastQueryStartTime = microtime(true);
+        $this->lastQueryData = $data;
+
+        return $data;
+    }
+
+    public function startCreateQuery($obj) {
+        $data = [];
+        $data['className'] = get_class($obj);
+        $data['method'] = 'CREATE';
+        $data['obj'] = (array) $obj;
+        return $this->startQuery($data);
+    }
+
+    public function startReadQuery($class, $pks) {
+        $data = [];
+        $data['className'] = $class;
+        $data['method'] = 'READ';
+        $data['pks'] = $pks;
+        return $this->startQuery($data);
+    }
+
+    public function startUpdateQuery($obj) {
+        $data = [];
+        $data['className'] = get_class($obj);
+        $data['method'] = 'UPDATE';
+        $data['obj'] = (array) $obj;
+        return $this->startQuery($data);
+    }
+
+    public function startDeleteQuery($obj) {
+        $data = [];
+        $data['className'] = get_class($obj);
+        $data['method'] = 'DELETE';
+        $data['obj'] = (array) $obj;
+        return $this->startQuery($data);
+    }
+
+    public function endQuery($debug, $result = null) {
+        $this->lastQueryData = $debug;
+        $this->lastQueryData['title'] = $this->lastQueryData['className'] . ' -- ' . $this->lastQueryData['method'];
+        $this->lastQueryData['time'] = microtime(true) - $this->lastQueryStartTime;
+        $this->lastQueryData['result'] = $result;
+        $this->data['queries'][] = $this->lastQueryData;
+        $this->totalTime += $this->lastQueryData['time'];
+        $this->lastQueryData = [];
+        $this->lastQueryStartTime = null;
+    }
+
+    public function endQueryFailed($debug, $result = null) {
+        $this->lastQueryData = $debug;
+        $this->lastQueryData['title'] = 'FAILED :: ' . $this->lastQueryData['className'] . ' -- '
+            . $this->lastQueryData['method'];
+        $this->lastQueryData['time'] = microtime(true) - $this->lastQueryStartTime;
+        $this->lastQueryData['result'] = $result;
+        $this->data['queries'][] = $this->lastQueryData;
+        $this->totalTime += $this->lastQueryData['time'];
+        $this->lastQueryData = [];
+        $this->lastQueryStartTime = null;
     }
 
     /**

@@ -3,7 +3,14 @@
 {% block title %}AngryChimpsAdminBundle:Riak:index{% endblock %}
 
 {% block body %}
-    <h1>Riak Admin Page</h1>
+    <h1>Select Your Poison</h1>
 
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <pre>
+    {{ result }}
+    </pre>
 
 {% endblock %}

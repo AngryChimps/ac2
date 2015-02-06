@@ -1,0 +1,3 @@
+angry_chimps_task_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: AngryChimpsTaskBundle:Default:index }

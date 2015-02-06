@@ -27,24 +27,26 @@ class NormService
     /** @var DatastoreService */
     protected $datastoreService;
 
+    /** @var NormDataCollector */
+    protected $dataCollector;
+
     /**
      * @param $debug bool Whether to enable the data collection for the profiler
      * @param $realmInfo RealmInfoService Injected through dependency injection
      */
     public function __construct($debug, RealmInfoService $realmInfo, LoggerInterface $loggerService,
-                                DatastoreService $datastoreService) {
+                                DatastoreService $datastoreService, NormDataCollector $dataCollector) {
         $this->debug = $debug;
         $this->realmInfo = $realmInfo;
         $this->loggerService = $loggerService;
         $this->datastoreService = $datastoreService;
+        $this->dataCollector = $dataCollector;
     }
 
     public function create($obj) {
         //Setup Debugging
         if ($this->debug) {
-            $debug = $this->getObjDebug($obj);
-            $debug['method'] = 'create';
-            $timer = microtime(true);
+            $debug = $this->dataCollector->startCreateQuery($obj);
         }
         else {
             $debug = null;
@@ -62,19 +64,14 @@ class NormService
 
         //Store debugging data
         if ($this->debug) {
-            $debug['time'] = microtime(true) - $timer;
-            $this->loggerService->info('Creating object: ' . json_encode($debug));
-            $this->addDebugData($debug);
-            $this->loggerService->info('Created object: ' . json_encode($debug));
+            $this->dataCollector->endQuery($debug);
         }
     }
 
     public function update($obj)
     {
         if ($this->debug) {
-            $debug = $this->getObjDebug($obj);
-            $debug['method'] = 'update';
-            $timer = microtime(true);
+            $debug = $this->dataCollector->startUpdateQuery($obj);
         }
         else {
             $debug = null;
@@ -93,17 +90,13 @@ class NormService
 
         //Store debugging data
         if ($this->debug) {
-            $debug['time'] = microtime(true) - $timer;
-            $this->addDebugData($debug);
-            $this->loggerService->info('Updated object: ' . json_encode($debug));
+            $this->dataCollector->endQuery($debug);
         }
     }
 
     public function delete($obj) {
         if ($this->debug) {
-            $debug = $this->getObjDebug($obj);
-            $debug['method'] = 'deleteObject';
-            $timer = microtime(true);
+            $debug = $this->dataCollector->startDeleteQuery($obj);
         }
         else {
             $debug = null;
@@ -121,10 +114,8 @@ class NormService
                 $this->realmInfo->getTableName($class), $debug);
         }
 
-        if($this->debug) {
-            $debug['time'] = microtime(true) - $timer;
-            $this->addDebugData($debug);
-            $this->loggerService->info('Deleted object: ' . json_encode($debug));
+        if ($this->debug) {
+            $this->dataCollector->endQuery($debug);
         }
     }
 
@@ -169,11 +160,7 @@ class NormService
         $obj = new $className();
 
         if ($this->debug) {
-            $debug = array();
-            $debug['method'] = 'getObjectByPks';
-            $debug['className'] = $className;
-            $debug['pks'] = $pks;
-            $timer = microtime(true);
+            $debug = $this->dataCollector->startReadQuery($className, $pks);
         }
         else {
             $debug = null;
@@ -193,19 +180,13 @@ class NormService
 
         if($ds->populateObjectByPks($obj, $pkData, $debug) === false) {
             if ($this->debug) {
-                $debug['time'] = microtime(true) - $timer;
-                $debug['obj'] = $this->getObjDebug($obj)['obj'];
-                $this->addDebugData($debug);
-                $this->loggerService->info('Got object by pks: ' . json_encode($debug));
+                $this->dataCollector->endQueryFailed($debug, (array) $obj);
             }
             return null;
         }
 
         if ($this->debug) {
-            $debug['time'] = microtime(true) - $timer;
-            $debug['obj'] = $this->getObjDebug($obj)['obj'];
-            $this->addDebugData($debug);
-            $this->loggerService->info('Got object by pks: ' . json_encode($debug));
+            $this->dataCollector->endQuery($debug, (array) $obj);
         }
 
         return $obj;
@@ -225,39 +206,6 @@ class NormService
         }
 
         return $coll;
-    }
-
-    //Debug data is used by the NormDataCollector class to populate debugging profile info
-    public function collectDebugData() {
-        $count = count(self::$debugData);
-
-        if($count === 0) {
-            return ['querycount' => 0, 'time' => 0, 'queries' => []];
-        }
-
-        $time = 0;
-        foreach(self::$debugData['queries'] as $query) {
-            $time += $query['time'];
-        }
-        self::$debugData['time'] = $time;
-        self::$debugData['querycount'] = $count;
-        return self::$debugData;
-    }
-
-    protected function addDebugData(array $value) {
-        self::$debugData['queries'][] = $value;
-    }
-
-    protected function getObjDebug($obj) {
-        $debug = array();
-        $debug['className'] = get_class($obj);
-        if($this->isCollection($obj)) {
-            $debug['collectionCount'] = count($obj);
-        }
-
-        $debug['obj'] = $obj;
-
-        return $debug;
     }
 
     public function isCollection($obj) {

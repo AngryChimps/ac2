@@ -6,24 +6,26 @@ namespace AngryChimps\TaskBundle\Services\Tasks;
 
 use Norm\riak\Member;
 
-class MemberUpdateTask extends AbstractTask {
+class MemberCreateTask extends AbstractTask {
     protected $member;
 
-    public function __construct(Member $member, $changes) {
+    public function __construct(Member $member) {
         $this->member = $member;
-        $this->changes = $changes;
     }
 
     public function execute()
     {
-        $mysqlMember = $this->mysql->getMember($this->member->id);
+        $mysqlMember = new \Norm\mysql\Member();
 
-        foreach ($this->changes as $fieldName => $value) {
+        foreach ($this->member as $fieldName => $value) {
             if(property_exists($mysqlMember, $fieldName)) {
                 $mysqlMember->$fieldName = $value;
             }
         }
 
-        $this->mysql->update($mysqlMember);
+        $this->mysql->create($mysqlMember);
+
+        $this->member->mysqlId = $mysqlMember->mysqlId;
+        $this->riak->update($this->member);
     }
 }

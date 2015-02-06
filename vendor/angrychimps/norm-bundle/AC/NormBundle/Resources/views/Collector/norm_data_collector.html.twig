@@ -91,6 +91,12 @@ iVBORw0KGgoAAAANSUhEUgAAACoAAAAeCAQAAADwIURrAAAACXBIWXMAAAsTAAALEwEAmpwYAAADGGlD
                         <td><pre>{{ query.obj|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td>
                     </tr>
                 {% endif %}
+                {% if query.result is defined %}
+                    <tr>
+                        <td>Result</td>
+                        <td><pre>{{ query.result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td>
+                    </tr>
+                {% endif %}
 
 
             </table>

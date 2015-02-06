@@ -1,7 +1,7 @@
 angry_chimps_admin_homepage:
     path:     /hello/{name}
     defaults: { _controller: AngryChimpsAdminBundle:Default:index }
-# import routes from a controller directory
-admin:
-    resource: "@AngryChimpsAdminBundle/Controller"
-    type:     annotation
+angry_chimps_admin_riak_query:
+    path:     /riak
+    methods: ["GET", "POST"]
+    defaults: { _controller: angry_chimps_admin.riak.controller:indexAction }

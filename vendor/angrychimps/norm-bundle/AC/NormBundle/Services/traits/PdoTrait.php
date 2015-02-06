@@ -10,28 +10,25 @@ use AC\NormBundle\core\NormBaseObject;
 use AC\NormBundle\core\datastore\AbstractPdoDatastore;
 
 trait PdoTrait {
-    abstract protected function addDebugData(array $debug);
-
     protected function getObjectByWhere($className, $where, $params = array(), &$debug = null) {
-    if(!class_exists($className)) {
-        throw new \Exception('Invalid class name');
-    }
-    $obj = new $className();
+        if(!class_exists($className)) {
+            throw new \Exception('Invalid class name');
+        }
+        $obj = new $className();
 
         if($debug !== null) {
-            $debug = array();
-            $debug['method'] = 'getByWhere';
-            $debug['className'] = $className;
-            $timer = microtime(true);
+            $debug = $this->dataCollector->startReadQuery($obj);
+        }
+        else {
+            $debug = null;
         }
 
         /** @var AbstractPdoDatastore $ds */
         $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService);
         $ds->populateObjectByWhere($obj, $where, $params, $debug);
 
-        if($debug !== null) {
-            $debug['time'] = microtime(true) - $timer;
-            $this->addDebugData($debug);
+        if ($this->debug) {
+            $this->dataCollector->endQuery($debug, (array) $obj);
         }
 
         return $obj;
@@ -43,25 +40,19 @@ trait PdoTrait {
         }
         $obj = new $className();
 
-        if($obj instanceof NormBaseObject) {
-            if($debug !== null) {
-                $debug = array();
-                $debug['method'] = 'getObjectBySql';
-                $debug['className'] = $className;
-                $timer = microtime(true);
-            }
-
-            /** @var AbstractPdoDatastore $ds */
-            $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className));
-            $ds->populateObjectBySql($obj, $sql, $params, $debug);
-
-            if($debug !== null) {
-                $debug['time'] = microtime(true) - $timer;
-                $this->addDebugData($debug);
-            }
+        if($debug !== null) {
+            $debug = $this->dataCollector->startReadQuery($obj);
         }
         else {
-            throw new UnsupportedObjectTypeException('class not supported: ' . get_class($obj));
+            $debug = null;
+        }
+
+        /** @var AbstractPdoDatastore $ds */
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className));
+        $ds->populateObjectBySql($obj, $sql, $params, $debug);
+
+        if ($this->debug) {
+            $this->dataCollector->endQuery($debug, (array) $obj);
         }
 
         return $obj;
@@ -73,25 +64,19 @@ trait PdoTrait {
         }
         $coll = new $className();
 
-        if($coll instanceof NormBaseCollection) {
-            if($debug !== null) {
-                $debug = array();
-                $debug['method'] = 'getCollectionBySql';
-                $debug['className'] = $className;
-                $timer = microtime(true);
-            }
-
-            /** @var AbstractPdoDatastore $ds */
-            $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className));
-            $ds->populateCollectionBySql($coll, $sql, $params, $debug);
-
-            if($debug !== null) {
-                $debug['time'] = microtime(true) - $timer;
-                $this->addDebugData($debug);
-            }
+        if($debug !== null) {
+            $debug = $this->dataCollector->startReadQuery($coll);
         }
         else {
-            throw new UnsupportedObjectTypeException('class not supported: ' . get_class($coll));
+            $debug = null;
+        }
+
+        /** @var AbstractPdoDatastore $ds */
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className));
+        $ds->populateCollectionBySql($coll, $sql, $params, $debug);
+
+        if ($this->debug) {
+            $this->dataCollector->endQuery($debug, (array) $coll);
         }
 
         return $coll;
@@ -103,25 +88,19 @@ trait PdoTrait {
         }
         $coll = new $className();
 
-        if($coll instanceof NormBaseCollection) {
-            if($debug !== null) {
-                $debug = array();
-                $debug['method'] = 'getCollectionByWhere';
-                $debug['className'] = $className;
-                $timer = microtime(true);
-            }
-
-            /** @var AbstractPdoDatastore $ds */
-            $ds = DatastoreManager::getDatastore($this->realmInfo->getDatastore($className));
-            $ds->populateCollectionByWhere($coll, $where, $params, $debug);
-
-            if($debug !== null) {
-                $debug['time'] = microtime(true) - $timer;
-                $this->addDebugData($debug);
-            }
+        if($debug !== null) {
+            $debug = $this->dataCollector->startReadQuery($className, array_merge(array('where' => $where), $params));;
         }
         else {
-            throw new UnsupportedObjectTypeException('class not supported: ' . get_class($coll));
+            $debug = null;
+        }
+
+        /** @var AbstractPdoDatastore $ds */
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className));
+        $ds->populateCollectionByWhere($coll, $where, $params, $debug);
+
+        if ($this->debug) {
+            $this->dataCollector->endQuery($debug, (array) $coll);
         }
 
         return $coll;
