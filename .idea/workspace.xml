@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3689bbd9-d2b9-48ad-920c-675fe0f9a3e5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/Resources/config/services.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -35,27 +35,27 @@
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/TaskBundle/Resources/config/services.yml">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
-                  <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+                  <caret line="16" column="110" selection-start-line="16" selection-start-column="95" selection-end-line="16" selection-end-column="110" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="KernelTerminateListener.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="KernelTerminateListener.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="442">
-                  <caret line="25" column="2" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
+                <state vertical-scroll-proportion="0.45721272" vertical-offset="0" max-vertical-offset="818">
+                  <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="composer.json" pinned="false" current-in-tab="true">
+          <file leaf-file-name="composer.json" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/composer.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="1.5378973" vertical-offset="0" max-vertical-offset="1428">
-                  <caret line="74" column="30" selection-start-line="74" selection-start-column="30" selection-end-line="74" selection-end-column="30" />
+                <state vertical-scroll-proportion="-11.115385" vertical-offset="255" max-vertical-offset="1428">
+                  <caret line="32" column="36" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
                   <folding />
                 </state>
               </provider>
@@ -126,8 +126,8 @@
           <file leaf-file-name="dev.log" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/logs/dev.log">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-28.16" vertical-offset="1298827" max-vertical-offset="1299633">
-                  <caret line="76443" column="0" selection-start-line="76443" selection-start-column="0" selection-end-line="76443" selection-end-column="0" />
+                <state vertical-scroll-proportion="-28.16" vertical-offset="1299167" max-vertical-offset="1299973">
+                  <caret line="76463" column="0" selection-start-line="76463" selection-start-column="0" selection-end-line="76463" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -292,7 +292,6 @@
         <option value="$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/HttpKernel/Client.php" />
         <option value="$PROJECT_DIR$/app/config/routing_dev.yml" />
         <option value="$PROJECT_DIR$/web/pre_app.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php" />
         <option value="$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/HttpKernel/HttpKernel.php" />
         <option value="$PROJECT_DIR$/web/app_local.php" />
         <option value="$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/HttpKernel/Kernel.php" />
@@ -304,8 +303,9 @@
         <option value="$PROJECT_DIR$/app/cache/local/angrychimps/norm/realmProperties.php" />
         <option value="$PROJECT_DIR$/app/AppKernel.php" />
         <option value="$PROJECT_DIR$/app/console" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/TaskBundle/Resources/config/services.yml" />
         <option value="$PROJECT_DIR$/composer.json" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/TaskBundle/Resources/config/services.yml" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php" />
       </list>
     </option>
   </component>
@@ -1201,8 +1201,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/logs/dev.log">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-28.16" vertical-offset="1298827" max-vertical-offset="1299633">
-          <caret line="76443" column="0" selection-start-line="76443" selection-start-column="0" selection-end-line="76443" selection-end-column="0" />
+        <state vertical-scroll-proportion="-28.16" vertical-offset="1299167" max-vertical-offset="1299973">
+          <caret line="76463" column="0" selection-start-line="76463" selection-start-column="0" selection-end-line="76463" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1265,10 +1265,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php">
+    <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="442">
-          <caret line="25" column="2" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
+        <state vertical-scroll-proportion="-11.115385" vertical-offset="255" max-vertical-offset="1428">
+          <caret line="32" column="36" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
           <folding />
         </state>
       </provider>
@@ -1276,15 +1276,15 @@
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/TaskBundle/Resources/config/services.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <caret line="16" column="110" selection-start-line="16" selection-start-column="95" selection-end-line="16" selection-end-column="110" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.5378973" vertical-offset="0" max-vertical-offset="1428">
-          <caret line="74" column="30" selection-start-line="74" selection-start-column="30" selection-end-line="74" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.45721272" vertical-offset="0" max-vertical-offset="818">
+          <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
           <folding />
         </state>
       </provider>

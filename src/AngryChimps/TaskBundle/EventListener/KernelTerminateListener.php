@@ -21,6 +21,11 @@ class KernelTerminateListener {
 
     public function onKernelTerminate(FilterResponseEvent $event)
     {
-        $this->taskerService->runTasks($this->logger);
+        try {
+            $this->taskerService->runTasks($this->logger);
+        }
+        catch (\Exception $ex) {
+            //Do nothing
+        }
     }
 } 
