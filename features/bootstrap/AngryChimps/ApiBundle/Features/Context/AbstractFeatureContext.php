@@ -37,7 +37,6 @@ class AbstractFeatureContext {
     /** @var Response  */
     protected $response;
 
-    protected $authToken;
     protected $sessionId;
     protected $authenticatedUserId;
     protected $rand;
@@ -245,6 +244,7 @@ class AbstractFeatureContext {
             else {
                 $url = $this->baseUrl . '/' . $url;
             }
+            $this->logTime('behat start');
 
             $request = $this->guzzle->createRequest('POST', $url, [
                 'headers' => [$this->sessionHeaderName => $this->sessionId,
@@ -252,12 +252,20 @@ class AbstractFeatureContext {
                 'json' => $this->requestArray,
                 'exceptions' => false,
             ]);
+            $this->logTime('behat sending');
 
             $this->response = $this->guzzle->send($request);
+            $this->logTime('behat response received');
         }
         catch(\Exception $ex) {
             //Ignore this exception, we'll test the return status separately
         }
+    }
+    protected function logTime($tag) {
+        $fd = fopen('/tmp/ac/timer.txt', 'a');
+        fwrite($fd, microtime(true) . ' -- ' . $tag . "\n");
+        fflush($fd);
+        fclose($fd);
     }
 
     protected function putData($url) {

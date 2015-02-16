@@ -6,7 +6,10 @@ framework:
     router:
         resource: "%kernel.root_dir%/config/routing_dev.yml"
         strict_requirements: true
-    profiler: { only_exceptions: false }
+    profiler:
+        enabled: true
+        only_exceptions: false
+        dsn: file:/tmp/profiler
 
 web_profiler:
     toolbar: "%debug_toolbar%"
@@ -46,10 +49,10 @@ assetic:
 #            default: true
 angry_chimps_api:
     debug: true
-    base_url: http://ubu2.angrychimps.com/api/v1
+    base_url: http://127.0.0.1:8000/api/v1
 
 angry_chimps_sample:
-    base_url: http://ubu2.angrychimps.com/api/v1
+    base_url: http://127.0.0.1:8000/api/v1
 
 
 ac_norm:
@@ -62,7 +65,7 @@ ac_norm:
         mysql_ds:
             driver: "mysql"
             db_name: "ac"
-            host: "localhost"
+            host: localhost
             port: 3306
             user: "root"
             password: ""

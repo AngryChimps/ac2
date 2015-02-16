@@ -14,5 +14,5 @@ services:
         class: AngryChimps\TaskBundle\EventListener\KernelTerminateListener
         arguments: ["@angry_chimps_task.tasker", "@logger"]
         tags:
-            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate, priority: 255 }
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelTerminate, priority: -255 }
 

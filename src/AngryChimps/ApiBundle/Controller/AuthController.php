@@ -65,19 +65,20 @@ class AuthController extends AbstractController
             'auth_token' => $this->authService->generateToken()));
     }
 
-    /**
-     * @Route("/login")
-     * @Method({"POST"})
-     */
     public function loginAction()
     {
+        $this->logTime('start');
         $payload = $this->getPayload();
         $auth = $this->authService;
 
+        $this->logTime('start login');
         $user = $auth->loginFormUser($payload['email'], $payload['password']);
+        $this->logTime('end login');
         if($user !== false && $user !== null && $user->id !== null) {
             //Set the userId in the session
+            $this->logTime('pre session');
             $this->getSessionService()->setSessionUser($user);
+            $this->logTime('post session set');
 
             $data = array('member' => array('id'=> $user->id,
                                             'name' => $user->name,
@@ -85,6 +86,7 @@ class AuthController extends AbstractController
                                             'email' => $user->email,
                                             'company_ids' => $user->managedCompanyIds,
                 ));
+            $this->logTime('pre-response');
             return $this->responseService->success($data);
         }
         else {
@@ -102,6 +104,13 @@ class AuthController extends AbstractController
 
             return $this->responseService->failure(400, $error);
         }
+    }
+
+    protected function logTime($tag) {
+        $fd = fopen('/tmp/ac/timer.txt', 'a');
+        fwrite($fd, microtime(true) . ' -- ' . $tag . "\n");
+        fflush($fd);
+        fclose($fd);
     }
 
 //    public function fbLoginRegisterAction() {
@@ -139,10 +148,6 @@ class AuthController extends AbstractController
 //        return $this->responseService->success($data);
 //    }
 
-    /**
-     * @Route("/logout")
-     * @Method({"GET"})
-     */
     public function logoutAction()
     {
         $this->getSessionService()->logoutUser();
@@ -150,10 +155,6 @@ class AuthController extends AbstractController
         return $this->responseService->success();
     }
 
-    /**
-     * @Route("/changePassword")
-     * @Method({"POST"})
-     */
     public function changePasswordAction()
     {
         $auth = $this->authService;
@@ -174,10 +175,6 @@ class AuthController extends AbstractController
         return $this->responseService->success();
     }
 
-    /**
-     * @Route("/forgotPassword")
-     * @Method({"POST"})
-     */
     public function forgotPasswordAction()
     {
         $auth = $this->authService;
@@ -189,11 +186,6 @@ class AuthController extends AbstractController
         return $this->responseService->success();
     }
 
-    /**
-     * @Route("/forgotPasswordReset")
-     * @Method({"POST"})
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function forgotPasswordReset() {
         $auth = $this->authService;
         $payload = $this->getPayload();

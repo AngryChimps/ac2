@@ -32,20 +32,32 @@ class AbstractController {
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
                                 ResponseService $responseService)
     {
+        $this->logTime('abs start');
         $this->request = $requestStack->getCurrentRequest();
+        $this->logTime('abs request gotten');
         $this->sessionService = $sessionService;
         $this->responseService = $responseService;
 
         //Check session information
         if(static::class !== 'AngryChimps\ApiBundle\Controller\SessionController'
             || $this->getRequest()->getMethod() !== 'GET') {
+            $this->logTime('checking token');
             $this->sessionService->checkToken();
+            $this->logTime('token checked');
         }
 
         //Get the authenticated user if there is one
         if($this->request->query->get('userId')) {
+            $this->logTime('abs getting session user');
             $this->user = $this->sessionService->getSessionUser();
+            $this->logTime('abs got session user');
         }
+    }
+    protected function logTime($tag) {
+        $fd = fopen('/tmp/ac/timer.txt', 'a');
+        fwrite($fd, microtime(true) . ' -- ' . $tag . "\n");
+        fflush($fd);
+        fclose($fd);
     }
 
     protected function getPayload()

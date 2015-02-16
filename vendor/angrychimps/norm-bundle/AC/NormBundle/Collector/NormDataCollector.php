@@ -29,15 +29,25 @@ class NormDataCollector extends DataCollector {
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        if(isset($this->data['queries'])) {
-            $this->data['time'] = $this->totalTime;
-            $this->data['querycount'] = count($this->data['queries']);
-            $this->data['collector'] = $this->data;
+        try {
+            if (isset($this->data['queries'])) {
+                $this->data['time'] = $this->totalTime;
+                if(!isset($this->data['queries'])) {
+                    $this->data['querycount'] = 0;
+                    $this->data['queries'] = [];
+                }
+                else {
+                    $this->data['querycount'] = count($this->data['queries']);
+                }
+                $this->data['collector'] = $this->data;
+            } else {
+                $this->data['time'] = 0;
+                $this->data['querycount'] = 0;
+                $this->data['collector'] = $this->data;
+            }
         }
-        else {
-            $this->data['time'] = 0;
-            $this->data['querycount'] = 0;
-            $this->data['collector'] = $this->data;
+        catch(\Exception $ex) {
+            //Do nothing.
         }
     }
 

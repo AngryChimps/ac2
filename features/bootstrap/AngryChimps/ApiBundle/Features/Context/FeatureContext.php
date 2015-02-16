@@ -53,7 +53,10 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
         //Lookup member and add it to the objects array to be deleted after we're done
         if(isset($this->getContentArray()['payload']['member'])) {
-            $this->addObject($this->riak->getMember($this->getResponseFieldValue('payload.member.id')));
+            $member = $this->riak->getMember($this->getResponseFieldValue('payload.member.id'));
+            $this->addObject($member);
+            $this->testUser = $member;
+            $this->authenticatedUserId = $member->id;
         }
     }
 
@@ -122,28 +125,15 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iHaveATestUser()
     {
-
         try {
-            $this->rand = rand(1, 99999999999);
+            $this->iGetANewSessionToken();
+            $this->iHaveAValidSignupAdArray();
+            $this->iRegisterAProviderAd();
+            $this->iHaveAValidSignupCompanyArray();
+            $this->iRegisterAProviderAdCompany();
 
-            $member = $this->memberService->createEmpty();
-
-            $changes = array(
-                'email' => 'trash' . $this->rand . '@seangallavan.com',
-                'name' => 'Trashy ' . $this->rand,
-                'dob' => new \DateTime('1940-01-05'),
-                'password' => $this->getAuthService()->hashPassword('abcdabcd'),
-                'status' => Member::ACTIVE_STATUS,
-            );
-
-            $errors = array();
-            $this->memberService->update($member, $changes, $errors, true);
-
-            //Save the user for future use
-            $this->testUser = $member;
-
-            //Add it to the objects array so it gets cleaned up
-            $this->addObject($member);
+            //Get a new session so we are no longer authenticated
+            $this->iGetANewSessionToken();
         }
         catch(\Exception $ex) {
             echo 'message: ' . $ex->getMessage() . "\n";
@@ -161,7 +151,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iHaveAValidFormLoginArray()
     {
         $arr = array();
-        $arr['email'] = 'trash' . $this->rand . '@seangallavan.com';
+        $arr['email'] = $this->testUser->email;
         $arr['password'] = 'abcdabcd';
         $this->requestArray = array('payload' => $arr);
     }
@@ -195,6 +185,9 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
         //Set sessionId for future calls
         $this->sessionId = $this->getResponseFieldValue('payload.session_id');
+
+        //Reset the authenticated user id if there is one
+        $this->authenticatedUserId = null;
 
         //Add to objects so it gets cleaned up
         $this->addObject($this->riak->getSession($this->sessionId));
@@ -722,11 +715,13 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iHaveAValidSignupCompanyArray()
     {
+        $this->rand = rand(1,99999999999);
+
         $arr = array();
         $arr['member_id'] = $this->authenticatedUserId;
         $arr['company_name'] = 'Acme Auto Repair';
         $arr['member_name'] = 'James Williams';
-        $arr['email'] = 'testio' . $this->rand . '@seangallavan.com';
+        $arr['email'] = 'testy' . $this->rand . '@seangallavan.com';
         $arr['password'] = 'abcdabcd';
         $arr['dob'] = '1950-01-03';
         $arr['street1'] = '440 Castro Street';

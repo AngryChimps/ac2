@@ -44,15 +44,10 @@ class AuthService {
     }
 
     public function register($name, $email, $password, \DateTime $dob, array &$errors) {
-        if(strlen($password) < 8) {
-            $errors[] = 'The password must be at least 8 characters long';
-            return false;
-        }
-
         $data = array(
             'name' => $name,
             'email' => $email,
-            'password' => $this->hashPassword($password),
+            'password' => $password,
             'dob' => $dob,
         );
 
@@ -83,7 +78,9 @@ class AuthService {
 //    }
 
     public function loginFormUser($email, $password) {
+        $this->logTime('start get by email');
         $user = $this->memberService->getMemberByEmailEnabled($email);
+        $this->logTime('end get by email');
 
         if($user === null) {
             return null;
@@ -94,6 +91,12 @@ class AuthService {
         }
 
         return $user;
+    }
+    protected function logTime($tag) {
+        $fd = fopen('/tmp/ac/timer.txt', 'a');
+        fwrite($fd, microtime(true) . ' -- ' . $tag . "\n");
+        fflush($fd);
+        fclose($fd);
     }
 
     public function isPasswordCorrect(Member $user, $password) {
