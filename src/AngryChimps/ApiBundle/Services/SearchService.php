@@ -25,7 +25,7 @@ class SearchService {
         $arr['count'] = $results->getTotalHits();
         $arr['results'] = [];
         foreach($results->getResults() as $result) {
-            $arr['results'][] = $result->getSource();
+            $arr['results'][] = array_merge($result->getSource(), array('distance' => 0.5));
         }
 
         return $arr;

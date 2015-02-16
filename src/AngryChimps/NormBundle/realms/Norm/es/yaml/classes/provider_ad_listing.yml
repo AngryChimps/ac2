@@ -6,8 +6,6 @@ fields:
     type: string
   - name: provider_ad_id
     type: string
-  - name: company_name
-    type: string
   - name: title
     type: string
   - name: photo
@@ -16,7 +14,11 @@ fields:
     type: \Norm\riak\Address
   - name: rating
     type: float
-  - name: availabilities
-    type: \Norm\riak\AvailabilityCollection
+  - name: ratingCount
+    type: int
+  - name: discountedPrice
+    type: float
+  - name: discountPercentage
+    type: float
   - name: updated_at
     type: DateTime

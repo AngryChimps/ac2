@@ -126,7 +126,7 @@ class GeneratorService {
     }
 
     protected function getData($url) {
-        try {
+//        try {
             if($this->authenticatedUserId !== null){
                 $url = $this->baseUrl . '/' . $url . '?userId=' . $this->authenticatedUserId;
             }
@@ -140,14 +140,14 @@ class GeneratorService {
                     $this->sessionHeaderName => $this->sessionId,
                     'content-type' => 'application/json',
                 ],
-                'exceptions' => false,
+//                'exceptions' => false,
             ]);
 
             return $this->guzzle->send($request);
-        }
-        catch(\Exception $ex) {
-            //Ignore this exception, we'll test the return status separately
-        }
+//        }
+//        catch(\Exception $ex) {
+//            //Ignore this exception, we'll test the return status separately
+//        }
     }
 
     protected function postData($url, $requestArray) {

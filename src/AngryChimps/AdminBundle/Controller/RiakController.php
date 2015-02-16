@@ -65,7 +65,7 @@ class RiakController
         $query->setClass('Member');
 
         $form = $this->formFactory->createBuilder('form', $query)
-            ->add('class', 'choice', array('choices' => array('Member' => 'Member', 'Company' => 'Company')))
+            ->add('class', 'choice', array('choices' => array('Member' => 'Member', 'Company' => 'Company', 'ProviderAdImmutable' => 'ProviderAdImmutable')))
             ->add('function', 'choice', array('choices' => array('GetById' => 'GetById',
                 'GetByEmail' => 'GetByEmail', 'Post' => 'Post')))
             ->add('argument', 'textarea')

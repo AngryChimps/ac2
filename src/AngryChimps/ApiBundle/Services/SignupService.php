@@ -119,7 +119,7 @@ class SignupService {
         $this->riak->update($companyServices);
 
         $errors = array();
-        $ad = $this->providerAdService->create($adTitle, $adDescription, $company, $location, $calendar, $categoryId, $errors);
+        $ad = $this->providerAdService->create($adTitle, $adDescription, $company, $location, $calendar, $categoryId, [$service->id], $errors);
 
         //If it fails validation; destroy what we've created
         if($ad === false) {

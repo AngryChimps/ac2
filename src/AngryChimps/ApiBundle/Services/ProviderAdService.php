@@ -68,7 +68,7 @@ class ProviderAdService {
     }
 
     public function create($adTitle, $adDescription, Company $company,
-                           Location $location, Calendar $calendar, $category, array &$errors) {
+                           Location $location, Calendar $calendar, $category, $serviceIds, array &$errors) {
         $ad = new ProviderAd();
         $ad->title = $adTitle;
         $ad->description = $adDescription;
@@ -76,6 +76,7 @@ class ProviderAdService {
         $ad->locationId = $location->id;
         $ad->calendarId = $calendar->id;
         $ad->categoryId = $category;
+        $ad->serviceIds = $serviceIds;
         $ad->status = ProviderAd::UN_PUBISHED_STATUS;
 
         $errors = $this->validator->validate($ad);
@@ -95,6 +96,10 @@ class ProviderAdService {
         $calendar = $this->riak->getCalendar($ad->calendarId);
         $services = $this->riak->getServiceCollection($ad->serviceIds);
 
+        if(empty($services)) {
+            throw new \Exception('asdfasdf');
+        }
+
         //Create ProviderAdImmutable object
         $im = new ProviderAdImmutable();
         $im->providerAd = $ad;
@@ -109,13 +114,23 @@ class ProviderAdService {
         $listing->providerAdImmutableId = $im->id;
         $listing->providerAdId = $im->providerAd->id;
         $listing->title = $ad->title;
-        $listing->companyName = $company->name;
         if(!empty($ad->photos)) {
             $listing->photo = $ad->photos[0];
         }
-        $listing->address = $location->address;
         $listing->rating = $company->ratingAvg;
-        $listing->availabilities = $calendar->availabilities;
+        $listing->ratingCount = $company->ratingCount;
+
+        $minPrice = 0;
+        $discount = 0;
+        /** @var \Norm\riak\Service $service */
+        foreach($services as $service) {
+            if($service->discountedPrice < $minPrice || $minPrice == 0) {
+                $minPrice = $service->discountedPrice;
+                $discount = 100 - (($service->discountedPrice / $service->originalPrice) * 100);
+            }
+        }
+        $listing->discountedPrice = $minPrice;
+        $listing->discountPercentage = $discount;
         $this->es->publish($listing);
 
         //Set the ad status

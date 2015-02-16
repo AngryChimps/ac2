@@ -17,23 +17,13 @@ class NormEsService extends NormEsBaseService {
         if($obj instanceof ProviderAdListing) {
             $arr['provider_ad_immutable_id'] = $obj->providerAdImmutableId;
             $arr['provider_ad_id'] = $obj->providerAdId;
-            $arr['company_name'] = $obj->companyName;
             $arr['title'] = $obj->title;
             $arr['photo'] = $obj->photo;
-            $arr['address']['street1'] = $obj->address->street1;
-            $arr['address']['city'] = $obj->address->city;
-            $arr['address']['state'] = $obj->address->state;
-            $arr['address']['zip'] = $obj->address->zip;
-            $arr['address']['lat'] = $obj->address->lat;
-            $arr['address']['long'] = $obj->address->long;
+            $arr['rating'] = $obj->rating;
+            $arr['ratingCount'] = $obj->ratingCount;
+            $arr['discountedPrice'] = $obj->discountedPrice;
+            $arr['discountPercentage'] = $obj->discountPercentage;
 
-            /** @var \Norm\riak\Availability $availability */
-            foreach($obj->availabilities as $availability) {
-                $arr2 = [];
-                $arr2['start'] = $availability->start->format('c');
-                $arr2['end'] = $availability->end->format('c');
-                $arr['availabilities'][] = $arr2;
-            }
         }
         else {
             throw new \Exception('Unable to publish unknown type: ' . get_class($obj));
