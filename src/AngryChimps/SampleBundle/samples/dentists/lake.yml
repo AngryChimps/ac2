@@ -1,0 +1,34 @@
+steps:
+    -
+        name: session-get
+    -
+        name: signup-registerProviderAd
+        payload:
+            ad_title: "Cosmetic Evaluation"
+            ad_description:
+                - "Dr. Lake offers a full range of general, cosmetic, and advanced dental services for all ages. We take pride in making your visit as carefree and relaxed as possible. We like to think of your appointment like a visit from a family member or good friend. It’s an environment to be yourself. There’s no selling, no lecturing. We encourage questions and help you make the decisions that fit your time and priorities."
+            start: tomorrow 12:00:00
+            end: tomorrow 17:00:00
+            service_name: Cosmetic Evaluation
+            discounted_price: 99.95
+            original_price: 145
+            mins_for_service: 45
+            mins_notice: 180
+            category_id: 201
+    -
+        name: signup-uploadFirstAdPhoto
+        filename: lake.jpg
+    -
+        name: signup-registerProviderCompany
+        payload:
+            member_id: #<Auto-Inserted>
+            company_name: Paul-Ryan Lake, DDS
+            member_name: Paul-Ryan Lake
+            email: #<Auto-Inserted>
+            password: #<Auto-Inserted>
+            dob: #<Auto-Inserted>
+            street1: 260 Stockton St.
+            street2: 4th Floor
+            zip: 94108
+            phone: #<Auto-Inserted>
+            mobile_phone: #<Auto-Inserted>

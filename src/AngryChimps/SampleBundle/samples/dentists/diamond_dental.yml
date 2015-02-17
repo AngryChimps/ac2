@@ -1,0 +1,37 @@
+steps:
+    -
+        name: session-get
+    -
+        name: signup-registerProviderAd
+        payload:
+            ad_title: "New Patient Special with X-Rays"
+            ad_description:
+                - "Welcome to Diamond Dental. We are committed to providing you with top-notch dental care in a friendly, comfortable office. If you're looking for a dental office with a highly competent and caring dentist, state-of-the-art equipment, and personable staff, you've found it at Diamond Dental. Conveniently located a block away from the Glen Park Bart Station, we can be easily accessed by BART, Muni, or Highway 280. We look forward to seeing you. Please call us at 415-333-1877 for an appointment today."
+            start: today 13:00:00
+            end: today 16:00:00
+            service_name: New Patient Special with X-Rays
+            discounted_price: 99
+            original_price: 199
+            mins_for_service: 90
+            mins_notice: 180
+            category_id: 201
+    -
+        name: signup-uploadFirstAdPhoto
+        filename: diamond_dental.jpg
+    -
+        name: signup-registerProviderCompany
+        payload:
+            member_id: #<Auto-Inserted>
+            company_name: Diamond Dental
+            member_name: Hao Kha
+            email: #<Auto-Inserted>
+            password: #<Auto-Inserted>
+            dob: #<Auto-Inserted>
+            street1: 2790 Diamond Street
+            street2: null
+            zip: 94131
+            phone: #<Auto-Inserted>
+            mobile_phone: #<Auto-Inserted>
+    -
+        name: companyMedia-post
+        filename: diamond_dental2.jpg
