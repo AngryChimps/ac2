@@ -16,6 +16,9 @@ class Column {
     public $length;
     public $comments;
     public $validations;
+    public $includeInAll;
+    public $esType;
+    public $indexName;
 
     public function getPropertyName() {
         return Utils::field2property($this->name);

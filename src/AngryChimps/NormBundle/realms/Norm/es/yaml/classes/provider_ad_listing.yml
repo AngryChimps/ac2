@@ -2,23 +2,60 @@ primary_keys:
   - provider_ad_immutable_id
 
 fields:
+# To be returned to the client
   - name: provider_ad_immutable_id
     type: string
+    include_in_all: false
   - name: provider_ad_id
     type: string
+    include_in_all: false
   - name: title
     type: string
   - name: photo
     type: string
-  - name: address
-    type: \Norm\riak\Address
+    include_in_all: false
   - name: rating
     type: float
+    include_in_all: false
   - name: ratingCount
     type: int
+    include_in_all: false
   - name: discountedPrice
     type: float
+    include_in_all: false
   - name: discountPercentage
     type: float
+    include_in_all: false
+  - name: location
+    type: geo_point
+    include_in_all: false
+  - name: long
+    type: float
+    include_in_all: false
+# Used for indexing/searching
+  - name: company_name
+    type: string
+  - name: category_name
+    type: string
+  - name: category_id
+    type: int
+    include_in_all: false
+  - name: city
+    type: string
+  - name: state
+    type: string
+  - name: description
+    type: string
+  - name: service_names
+    type: string[]
+    index_name: service_name
+  - name: service_descriptions
+    type: string[]
+    index_name: service_description
+  - name: start_times
+    type: DateTime[]
+    include_in_all: false
+    index_name: start_time
   - name: updated_at
     type: DateTime
+    include_in_all: false

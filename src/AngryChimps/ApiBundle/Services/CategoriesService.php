@@ -5,6 +5,8 @@ namespace AngryChimps\ApiBundle\Services;
 
 
 class CategoriesService {
+    protected $categoryHash;
+
     public function getCategories() {
         return array(
             array("id" => 100, "name" => 'Home Needs'),
@@ -22,4 +24,20 @@ class CategoriesService {
             array("id" => 303, "name" => 'Tanning'),
         );
     }
+
+    public function getCategoryName($categoryId) {
+        if($this->categoryHash === null){
+            $this->createCategoryHash();
+        }
+        return $this->categoryHash[$categoryId];
+    }
+
+    protected function createCategoryHash() {
+        $categories = $this->getCategories();
+        foreach($categories as $category) {
+            $this->categoryHash[$category['id']] = $category['name'];
+        }
+    }
+
+
 } 

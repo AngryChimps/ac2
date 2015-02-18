@@ -5,6 +5,11 @@ $realms['{{realmName}}']['namespace'] = '{{namespace}}';
 $realms['{{realmName}}']['primaryDatastore'] = '{{primaryDatastoreName}}';
 $realms['{{realmName}}']['driver'] = '{{driver}}';
 $realms['{{realmName}}']['tableNames'] = [{{#each tables}}'{{tableName}}', {{/each}}];
+{{#if driverIsElasticsearch}}
+$realms['{{realmName}}']['default_analyzer'] = '{{default_analyzer}}';
+$realms['{{realmName}}']['shards'] = '{{shards}}';
+$realms['{{realmName}}']['replicas'] = '{{replicas}}';
+{{/if}}
 
     {{#each tables}}
         $realms['{{realmName}}']['{{tableName}}']['name'] = '{{tableName}}';

@@ -53,10 +53,14 @@ class ProviderAdService {
     /** @var  ServiceService */
     protected $serviceService;
 
+    /** @var CategoriesService */
+    protected $categoriesService;
+
     public function __construct(ValidatorInterface $validator, NormRiakService $riak,
                                 NormMysqlService $mysql, NormEsService $es,
                                 CompanyService $companyService, LocationService $locationService,
-                                CalendarService $calendarService, ServiceService $serviceService) {
+                                CalendarService $calendarService, ServiceService $serviceService,
+                                CategoriesService $categoriesService) {
         $this->validator = $validator;
         $this->riak = $riak;
         $this->mysql = $mysql;
@@ -65,6 +69,7 @@ class ProviderAdService {
         $this->locationService = $locationService;
         $this->calendarService = $calendarService;
         $this->serviceService = $serviceService;
+        $this->categoriesService = $categoriesService;
     }
 
     public function create($adTitle, $adDescription, Company $company,
@@ -114,6 +119,15 @@ class ProviderAdService {
         $listing->providerAdImmutableId = $im->id;
         $listing->providerAdId = $im->providerAd->id;
         $listing->title = $ad->title;
+        $listing->city = $location->address->city;
+        $listing->state = $location->address->state;
+        $listing->lat = $location->address->lat;
+        $listing->long = $location->address->long;
+        $listing->companyName = $company->name;
+        $listing->categoryId = $ad->categoryId;
+        $listing->categoryName = $this->categoriesService->getCategoryName($ad->categoryId);
+        $listing->description = $ad->description;
+
         if(!empty($ad->photos)) {
             $listing->photo = $ad->photos[0];
         }
@@ -122,13 +136,21 @@ class ProviderAdService {
 
         $minPrice = 0;
         $discount = 0;
+        $minTimeRequired = 0;
         /** @var \Norm\riak\Service $service */
         foreach($services as $service) {
             if($service->discountedPrice < $minPrice || $minPrice == 0) {
                 $minPrice = $service->discountedPrice;
                 $discount = 100 - (($service->discountedPrice / $service->originalPrice) * 100);
             }
+            if($service->minsForService < $minTimeRequired || $minTimeRequired === 0) {
+                $minTimeRequired = $service->minsForService;
+            }
+            $listing->serviceNames[] = $service->name;
+            $listing->serviceDescriptions[] = $service->description;
         }
+
+        $listing->startTimes = $this->calendarService->getAvailableStartTimes($calendar->availabilities, $minTimeRequired);
         $listing->discountedPrice = $minPrice;
         $listing->discountPercentage = $discount;
         $this->es->publish($listing);

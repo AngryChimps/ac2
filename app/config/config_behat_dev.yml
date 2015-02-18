@@ -70,6 +70,9 @@ ac_norm:
         es_ds:
             driver: "elasticsearch"
             index_name: ac
+            default_analyzer: english
+            shards: 4
+            replicas: 1
             servers:
                 - host: "localhost"
                   port: 9200

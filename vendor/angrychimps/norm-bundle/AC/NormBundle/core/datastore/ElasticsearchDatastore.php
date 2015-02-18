@@ -30,12 +30,15 @@ class ElasticsearchDatastore extends AbstractDatastore {
     protected $loggerService;
     protected $realmInfo;
 
+    protected $defaultAnalyzer;
+
     public function __construct($configParams, RealmInfoService $realmInfo, LoggerInterface $loggerService) {
 
         $this->client = new Client(array('servers' => $configParams['servers']));
         $this->index = $this->client->getIndex($configParams['index_name']);
         $this->realmInfo = $realmInfo;
         $this->loggerService = $loggerService;
+        $this->defaultAnalyzer = $configParams['default_analyzer'];
     }
 
     public function createObject($obj, &$debug)
@@ -189,6 +192,30 @@ class ElasticsearchDatastore extends AbstractDatastore {
         $type = $this->index->getType($indexName);
         $type->delete();
     }
+
+    public function defineMapping($indexName, $properties) {
+        //Create a type
+        $elasticaType = $this->index->getType($indexName);
+
+        // Define mapping
+        $mapping = new \Elastica\Type\Mapping();
+        $mapping->setType($elasticaType);
+        $mapping->setParam('index_analyzer', $this->defaultAnalyzer);
+        $mapping->setParam('search_analyzer', $this->defaultAnalyzer);
+
+        $mapping->setProperties($properties);
+        $mapping->send();
+    }
+
+    public function createIndex($shards, $replicas) {
+        $this->index->create(
+            [
+                'number_of_shards' => $shards,
+                'number_of_replicas' => $replicas,
+            ]
+        );
+    }
+
 //    public function update($realm, $tableName, $primaryKeys, $fieldDataWithoutPrimaryKeys)
 //    {
 //        $fData = $this->normalizeFieldData($fieldDataWithoutPrimaryKeys);

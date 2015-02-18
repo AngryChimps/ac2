@@ -468,6 +468,7 @@ class Generator {
         return $data;
     }
 
+
     public function dump_schema($realm) {
         $ds = DatastoreManager::getReferenceDatastore($realm);
         $gen = new MysqlGenerator($ds);

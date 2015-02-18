@@ -22,7 +22,7 @@ trait ElasticsearchTrait {
      * @param $className
      * @param $query
      * @param int $limit
-     * @param int $of   fset
+     * @param int $offset
      * @return \Elastica\ResultSet
      */
     public function search($className, $query, $limit = 10, $offset = 0)
@@ -40,5 +40,15 @@ trait ElasticsearchTrait {
     public function deleteIndex($className, $indexName) {
         $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService);
         return $ds->deleteIndex($indexName);
+    }
+
+    public function defineMapping($className, $properties){
+        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService);
+        return $ds->defineMapping($this->realmInfo->getTableName($className), $properties);
+    }
+
+    public function createEsIndex($datastoreName, $shards, $replicas){
+        $ds = $this->datastoreService->getDatastore($datastoreName, $this->realmInfo, $this->loggerService);
+        return $ds->createIndex($shards, $replicas);
     }
 }

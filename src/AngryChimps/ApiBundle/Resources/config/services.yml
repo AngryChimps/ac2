@@ -92,6 +92,7 @@ services:
             - "@angry_chimps_api.location"
             - "@angry_chimps_api.calendar"
             - "@angry_chimps_api.service"
+            - "@angry_chimps_api.categories"
     angry_chimps_api.calendar:
         class: "%angry_chimps_api.calendar.class%"
         arguments: ["@ac_norm.norm.riak", "@ac_norm.norm.mysql"]

@@ -143,6 +143,8 @@ class RealmInfoCreatorService {
             $data['primaryDatastoreName'] = $this->realms[$schemaName]['primary_datastore'];
             $data['driver'] = $this->realms[$schemaName]['dsInfo']['driver'];
             $data['driverIsMysql'] = $this->realms[$schemaName]['dsInfo']['driver'] === 'mysql';
+            $data['driverIsElasticsearch'] = $this->realms[$schemaName]['dsInfo']['driver'] === 'elasticsearch';
+            $data['driverIsRiak'] = $this->realms[$schemaName]['dsInfo']['driver'] === 'riak_blob';
 
             switch($data['driver']) {
                 case 'riak_blob':
@@ -161,12 +163,16 @@ class RealmInfoCreatorService {
                     $data['traitNames'] = [
                         ['traitName' => 'AC\NormBundle\Services\traits\ElasticsearchTrait', 'traitShortName' => 'ElasticsearchTrait']
                     ];
+                    $data['default_analyzer'] = $this->realms[$schemaName]['dsInfo']['default_analyzer'];
+                    $data['shards'] = $this->realms[$schemaName]['dsInfo']['shards'];
+                    $data['replicas'] = $this->realms[$schemaName]['dsInfo']['replicas'];
                     break;
             }
 
             foreach ($schemaInfo->tables as $table) {
                 $tableData = [];
                 $tableData['realmName'] = $schemaName;
+                $tableData['driverIsElasticsearch'] = $data['driverIsElasticsearch'];
                 $tableData['driverIsMysql'] = $this->realms[$schemaName]['dsInfo']['driver'] === 'mysql';
                 $tableData['realmName'] = $schemaInfo->realm;
                 $tableData['tableName'] = $table->name;
@@ -194,6 +200,9 @@ class RealmInfoCreatorService {
                     $columnData['realmName'] = $schemaInfo->realm;
                     $columnData['propertyName'] = $column->getPropertyName();
                     $columnData['type'] = $column->type;
+                    $columnData['esType'] = $column->esType;
+                    $columnData['includeInAll'] = $column->includeInAll ? 'true' : 'false';
+                    $columnData['indexName'] = $column->indexName;
 
                     $fieldNames[] = $column->name;
                     $propertyNames[] = $column->getPropertyName();
@@ -203,7 +212,7 @@ class RealmInfoCreatorService {
                         $tableData['defaults'][] = array('statement' => '$this->' .
                             Utils::field2property($column->name) . ' = ' . $column->default . ';');
                     }
-                    elseif(strpos($column->type, 'Collection') == strlen($column->type) - 10) {
+                    elseif(strpos($column->type, 'Collection') === strlen($column->type) - 10) {
                         $tableData['defaults'][] = array('statement' => '$this->' .
                             Utils::field2property($column->name) . ' = new ' . $column->type . '();');
                     }

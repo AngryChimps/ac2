@@ -46,6 +46,10 @@ class RealmInfoService {
         return self::$classInfo[$className]['primary_datastore'];
     }
 
+    public function getDatastoreByRealm($realmName) {
+        return self::$realmInfo[$realmName]['primaryDatastore'];
+    }
+
     public function getRealm($className) {
         if(strpos($className, "\\") === 0) {
             $className = substr($className, 1);
@@ -60,6 +64,14 @@ class RealmInfoService {
         }
 
         return self::$classInfo[$className]['tableName'];
+    }
+
+    public function getTableNames($realmName) {
+        return self::$realmInfo[$realmName]['tableNames'];
+    }
+
+    public function getClassName($realmName, $tableName) {
+        return self::$realmInfo[$realmName][$tableName]['objectName'];
     }
 
     public function getPkData($obj) {

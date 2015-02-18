@@ -65,6 +65,8 @@ class YamlGenerator extends AbstractGenerator {
                     $column->type = $fieldData['type'];
                 }
 
+                $column->esType = $this->getElasticsearchType($column->type);
+
                 if(isset($fieldData['length'])) {
                     $column->length = $fieldData['length'];
                 }
@@ -76,6 +78,18 @@ class YamlGenerator extends AbstractGenerator {
                 }
                 if(isset($fieldData['validations'])) {
                     $column->validations = $fieldData['validations'];
+                }
+                if(isset($fieldData['include_in_all'])) {
+                    $column->includeInAll = $fieldData['include_in_all'];
+                }
+                else {
+                    $column->includeInAll = true;
+                }
+                if(isset($fieldData['index_name'])) {
+                    $column->indexName = $fieldData['index_name'];
+                }
+                else {
+                    $column->indexName = null;
                 }
 
                 $table->columns[$column->name] = $column;
@@ -105,6 +119,23 @@ class YamlGenerator extends AbstractGenerator {
         }
 
         return $schema;
+    }
+
+    protected function getElasticsearchType($type) {
+        switch($type) {
+            case 'int':
+                return 'integer';
+            case 'bool':
+                return 'boolean';
+            case 'string[]':
+                return 'string';
+            case 'DateTime':
+                return 'date';
+            case 'DateTime[]':
+                return 'date';
+            default:
+                return $type;
+        }
     }
 
     protected function getTableNames() {

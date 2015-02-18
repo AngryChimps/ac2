@@ -193,47 +193,33 @@ class CalendarService {
         $this->riak->update($calendar);
     }
 
-//    public function removeAvailability(Calendar $calendar, Availability $availabilityToRemove) {
-//        $availabilities = [];
-//        foreach($calendar->availabilities as $availability) {
-//            //If there is no overlap, add to the $availabilities array to save unmodified
-//            if($availability->end < $availabilityToRemove->start || $availability->start > $availabilityToRemove->end) {
-//                $availabilities[] = $availability;
-//            }
-//            //If the end of the availability overlaps the start of the new availability, reduce size of availability
-//            elseif($availability->start < $availabilityToRemove->start && $availability->end >= $availabilityToRemove->start) {
-//                $availability->end = $availabilityToRemove->start;
-//                $availabilities[] = $availability;
-//            }
-//            //If the start of the availability overlaps the end of the new availability, reduce size of availability
-//            elseif($availability->start <= $availabilityToRemove->end && $availability->end > $availabilityToRemove->start) {
-//                $availability->start = $availabilityToRemove->end;
-//                $availabilities[] = $availability;
-//            }
-//            //If the availability to remove is encompassed by another availability, break the availability into two
-//            elseif($availability->start <= $availabilityToRemove->start && $availability->end >= $availabilityToRemove->end) {
-//                $a1 = new Availability();
-//                $a1->start = $availability->start;
-//                $a1->end = $availabilityToRemove->start;
-//                $availabilities[] = $a1;
-//
-//                $a2 = new Availability();
-//                $a2->start = $availabilityToRemove->end;
-//                $a2->end = $availability->end;
-//                $availabilities[] = $a2;
-//            }
-//            //If the new availability encompasses another availability, ignore the other availability
-//            elseif($availability->start >= $availabilityToRemove->start && $availability->end <= $availabilityToRemove->end) {
-//                //Just ignore the availability since it's within the removed time
-//            }
-//            else {
-//                throw new \Exception('Unable to add availability; unknown overlap');
-//            }
-//        }
-//
-//        $calendar->availabilities = $availabilities;
-//        $this->riak->update($calendar);
-//
-//        return true;
-//    }
+    /**
+     * @param $availabilities Availability[]
+     * @param $minsForServices int
+     * @return \DateTime[]
+     */
+    public function getAvailableStartTimes($availabilities, $minsForServices) {
+        $startTimes = [];
+
+        /** @var Availability $availability */
+        foreach($availabilities as $availability) {
+            $lastStartTime = $availability->end->sub(new \DateInterval('P' . $minsForServices . 'M'));
+
+            if($lastStartTime >= $availability->start) {
+                for ($start = $availability->start;
+                     $start < $lastStartTime;
+                     $start += new \DateInterval('P15iM')) {
+                    if ($start === $availability->start) {
+                        if ($start + new \DateInterval('P' . $minsForServices . 'M') < $availability->end) {
+                            $startTimes[] = $start;
+                        }
+                    } else {
+                        $startTimes[] = $start;
+                    }
+                }
+            }
+        }
+
+        return $startTimes;
+    }
 }

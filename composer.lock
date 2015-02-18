@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fced67e28012089827dfa6263a8fee70",
+    "hash": "36c22c3428a1e07a6abf5d0e636d3315",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.7.17",
+            "version": "2.7.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "eddf89846ed0f15e8e2b8cbe6d08125eaa20ad80"
+                "reference": "470ca90e2d511f64f082c569864f22f2c18fdc38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/eddf89846ed0f15e8e2b8cbe6d08125eaa20ad80",
-                "reference": "eddf89846ed0f15e8e2b8cbe6d08125eaa20ad80",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/470ca90e2d511f64f082c569864f22f2c18fdc38",
+                "reference": "470ca90e2d511f64f082c569864f22f2c18fdc38",
                 "shasum": ""
             },
             "require": {
@@ -71,7 +71,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2015-01-27 20:14:01"
+            "time": "2015-02-12 20:56:39"
         },
         {
             "name": "behat/behat",
@@ -1026,17 +1026,17 @@
         },
         {
             "name": "friendsofsymfony/rest-bundle",
-            "version": "1.5.0",
+            "version": "1.5.3",
             "target-dir": "FOS/RestBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "a9377f6a05fb516423d6adf9079c6e5fb41e4799"
+                "reference": "fdd21c4c0cb6222ae37efc9362c6a96bd1432412"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/a9377f6a05fb516423d6adf9079c6e5fb41e4799",
-                "reference": "a9377f6a05fb516423d6adf9079c6e5fb41e4799",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/fdd21c4c0cb6222ae37efc9362c6a96bd1432412",
+                "reference": "fdd21c4c0cb6222ae37efc9362c6a96bd1432412",
                 "shasum": ""
             },
             "require": {
@@ -1100,7 +1100,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2015-01-27 09:39:58"
+            "time": "2015-02-16 15:26:12"
         },
         {
             "name": "guzzle/guzzle",
@@ -2305,27 +2305,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruflin/Elastica.git",
-                "reference": "0db1e7e0536dcc9f88259e63b92ac0e44b62c9c0"
+                "reference": "bfa9363bf2aa62af5907135863661c6c78a68ee4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/0db1e7e0536dcc9f88259e63b92ac0e44b62c9c0",
-                "reference": "0db1e7e0536dcc9f88259e63b92ac0e44b62c9c0",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/bfa9363bf2aa62af5907135863661c6c78a68ee4",
+                "reference": "bfa9363bf2aa62af5907135863661c6c78a68ee4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0",
+                "php": ">=5.3.3",
                 "psr/log": "~1.0"
             },
             "require-dev": {
                 "fabpot/php-cs-fixer": "~1.4",
-                "guzzlehttp/guzzle": "4.2.*",
                 "munkie/elasticsearch-thrift-php": "1.4.*",
                 "phpunit/phpunit": "4.1.*"
             },
             "suggest": {
                 "egeloen/http-adapter": "Allow using httpadapter transport",
-                "guzzlehttp/guzzle": "Allow using guzzle 4.x as the http transport",
+                "guzzlehttp/guzzle": "Allow using guzzle 4.x as the http transport (Requires php 5.4)",
                 "monolog/monolog": "Logging request",
                 "munkie/elasticsearch-thrift-php": "Allow using thrift transport"
             },
@@ -2357,7 +2356,7 @@
                 "client",
                 "search"
             ],
-            "time": "2015-02-06 21:30:20"
+            "time": "2015-02-17 19:57:36"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -3024,6 +3023,56 @@
             "time": "2014-10-06 11:00:55"
         },
         {
+            "name": "voodoophp/handlebars",
+            "version": "2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mardix/Handlebars.git",
+                "reference": "cfd8efa3a02573e9cefc9adc05aa7df097a9691d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mardix/Handlebars/zipball/cfd8efa3a02573e9cefc9adc05aa7df097a9691d",
+                "reference": "cfd8efa3a02573e9cefc9adc05aa7df097a9691d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Handlebars": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "fzerorubigd",
+                    "email": "fzerorubigd@gmail.com"
+                },
+                {
+                    "name": "Behrooz Shabani (everplays)",
+                    "email": "everplays@gmail.com"
+                },
+                {
+                    "name": "Mardix",
+                    "homepage": "https://github.com/mardix"
+                }
+            ],
+            "description": "Handlebars processor for php",
+            "homepage": "http://voodoophp.org/docs/handlebars",
+            "keywords": [
+                "handlebars",
+                "mustache",
+                "templating"
+            ],
+            "time": "2014-02-21 04:28:49"
+        },
+        {
             "name": "willdurand/jsonp-callback-validator",
             "version": "v1.1.0",
             "source": {
@@ -3111,48 +3160,6 @@
                 "negotiation"
             ],
             "time": "2014-10-02 07:26:00"
-        },
-        {
-            "name": "xamin/handlebars.php",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/XaminProject/handlebars.php.git",
-                "reference": "382938b82e97e169294cc55d0e9e3fe282056edb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/XaminProject/handlebars.php/zipball/382938b82e97e169294cc55d0e9e3fe282056edb",
-                "reference": "382938b82e97e169294cc55d0e9e3fe282056edb",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.4",
-                "squizlabs/php_codesniffer": "~1.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Handlebars": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "fzerorubigd",
-                    "email": "fzerorubigd@gmail.com"
-                },
-                {
-                    "name": "Behrooz Shabani (everplays)",
-                    "email": "everplays@gmail.com"
-                }
-            ],
-            "description": "Handlebars processor for php",
-            "homepage": "https://github.com/XaminProject/handlebars.php",
-            "time": "2015-01-29 18:58:38"
         }
     ],
     "packages-dev": [
@@ -3195,17 +3202,17 @@
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "v2.5.1",
+            "version": "v2.5.2",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
-                "reference": "9e23fc3de265ae013690d84aab98e7a84f46edcd"
+                "reference": "4b09746520a826a7bf34a466ba31c7d8740fef7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/9e23fc3de265ae013690d84aab98e7a84f46edcd",
-                "reference": "9e23fc3de265ae013690d84aab98e7a84f46edcd",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/4b09746520a826a7bf34a466ba31c7d8740fef7e",
+                "reference": "4b09746520a826a7bf34a466ba31c7d8740fef7e",
                 "shasum": ""
             },
             "require": {
@@ -3239,7 +3246,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2015-01-13 07:33:46"
+            "time": "2015-02-11 07:21:23"
         }
     ],
     "aliases": [],
@@ -3249,7 +3256,6 @@
         "jms/serializer-bundle": 20,
         "behat/symfony2-extension": 20,
         "ruflin/elastica": 20,
-        "xamin/handlebars.php": 20,
         "knplabs/knp-gaufrette-bundle": 20,
         "massivescale/celery-php": 20,
         "bach-pedersen/php-riak-stubs": 20
