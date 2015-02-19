@@ -29,7 +29,7 @@ class GeneratorService {
         $this->es = $es;
     }
 
-    public function generate($folderToProcess = null) {
+    public function generate($folderToProcess = null, $fileToProcess = null) {
         if($folderToProcess !== null) {
             $folders = [$folderToProcess];
         }
@@ -42,7 +42,12 @@ class GeneratorService {
                 continue;
             }
 
-            $files = scandir(__DIR__ . '/../samples/' . $folder);
+            if($fileToProcess !== null) {
+                $files = [$fileToProcess];
+            }
+            else {
+                $files = scandir(__DIR__ . '/../samples/' . $folder);
+            }
 
             foreach($files as $file) {
                 if($file === '.' || $file === '..') {

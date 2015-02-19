@@ -26,8 +26,27 @@ class SearchController extends AbstractController
     }
 
     public function indexPostAction() {
-        $result = $this->searchService->getSampleProviderAdListing();
-        return $this->responseService->success($result);
+//        $result = $this->searchService->getSampleProviderAdListing();
+//        return $this->responseService->success($result);
+
+        $payload = $this->getPayload();
+        $text = isset($payload['text']) ? $payload['text'] : null;
+        $categories = isset($payload['categories']) ? $payload['categories'] : null;
+
+        $lat = isset($payload['lat']) ? $payload['lat'] : null;
+        $long = isset($payload['long']) ? $payload['long'] : null;
+        $radius = isset($payload['radius_miles']) ? $payload['radius_miles'] : null;
+        $consumerTravels = isset($payload['consumer_travels']) ? $payload['consumer_travels'] : null;
+        $startingAt = isset($payload['starting_at']) ? $payload['starting_at'] : null;
+        $endingAt = isset($payload['ending_at']) ? $payload['ending_at'] : null;
+        $sort = isset($payload['sort']) ? $payload['sort'] : null;
+        $limit = isset($payload['limit']) ? $payload['limit'] : 10;
+        $offset = isset($payload['offset']) ? $payload['offset'] : 0;
+
+        $results = $this->searchService->search($text, $categories, $lat, $long, $radius, $consumerTravels,
+            $startingAt, $endingAt, $sort, $limit, $offset);
+
+        return $this->responseService->success($results);
     }
 
 }

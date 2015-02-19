@@ -23,7 +23,16 @@ class NormEsService extends NormEsBaseService {
             $arr['ratingCount'] = $obj->ratingCount;
             $arr['discountedPrice'] = $obj->discountedPrice;
             $arr['discountPercentage'] = $obj->discountPercentage;
-
+            $arr['location'] = $obj->location;
+            $arr['company_name'] = $obj->companyName;
+            $arr['category_name'] = $obj->categoryName;
+            $arr['category_id'] = $obj->categoryId;
+            $arr['city'] = $obj->city;
+            $arr['state'] = $obj->state;
+            $arr['description'] = $obj->description;
+            $arr['service_names'] = $obj->serviceNames;
+            $arr['service_descriptions'] = $obj->serviceDescriptions;
+            $arr['start_times'] = $obj->startTimes;
         }
         else {
             throw new \Exception('Unable to publish unknown type: ' . get_class($obj));

@@ -206,16 +206,8 @@ class CalendarService {
             $lastStartTime = $availability->end->sub(new \DateInterval('P' . $minsForServices . 'M'));
 
             if($lastStartTime >= $availability->start) {
-                for ($start = $availability->start;
-                     $start < $lastStartTime;
-                     $start += new \DateInterval('P15iM')) {
-                    if ($start === $availability->start) {
-                        if ($start + new \DateInterval('P' . $minsForServices . 'M') < $availability->end) {
-                            $startTimes[] = $start;
-                        }
-                    } else {
-                        $startTimes[] = $start;
-                    }
+                for ($start = $availability->start;  $start < $lastStartTime; $start += new \DateInterval('P15iM')) {
+                    $startTimes[] = $start;
                 }
             }
         }

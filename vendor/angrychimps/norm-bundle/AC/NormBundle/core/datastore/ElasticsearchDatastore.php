@@ -164,8 +164,8 @@ class ElasticsearchDatastore extends AbstractDatastore {
      */
     public function search($tableName, $query, $limit = 10, $offset = 0)
     {
-        $query = new Builder($query);
-        $query = new Query($query->toArray());
+//        $query = new Builder($query);
+//        $query = new Query($query->toArray());
         $search = new Search($this->client);
         $resultSet = $search->addIndex($this->index->getName())
                             ->addType($tableName)
