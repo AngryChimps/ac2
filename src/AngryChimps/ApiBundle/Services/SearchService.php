@@ -4,7 +4,10 @@
 namespace AngryChimps\ApiBundle\Services;
 
 use AngryChimps\NormBundle\realms\Norm\es\services\NormEsService;
+use Elastica\Query\FunctionScore;
 use Norm\riak\Availability;
+use Location\Coordinate;
+use Location\Distance\Haversine;
 
 class SearchService {
     /** @var NormEsService */
@@ -39,15 +42,13 @@ class SearchService {
     public function search($text, $categories, $lat, $long, $radiusMiles, $consumerTravels,
                            $startingAt, $endingAt,
                            $sort, $limit, $offset) {
-        //Create the query builder
-        $qb = new \Elastica\QueryBuilder();
 
         //Create the function score query
         $functionScore = new \Elastica\Query\FunctionScore();
 
         //Configure full text search
         if($text === null) {
-            $topQuery = $qb->query()->match_all();
+            $topQuery = new \Elastica\Query\MatchAll();
         }
         else {
             $topQuery = new \Elastica\Query\Term(array('_all' => $text));
@@ -74,26 +75,39 @@ class SearchService {
         }
 
         //Create the query from the query builder
-        $query = new \Elastica\Query();
+//        $query = new \Elastica\Query();
+//        $query->setFrom($offset);
+//        $query->setSize($limit);
+//        $query->setQuery(
+//            new \Elastica\Query\Filtered(
+//                $topQuery,
+//                $topBoolFilter
+//            )
+//        );
+
+
+
+        $functionScore->setQuery($topQuery);
+        $functionScore->setFilter($topBoolFilter);
+        $functionScore->addDecayFunction(FunctionScore::DECAY_LINEAR, 'location', $lat . ',' . $long,
+            "2mi");
+
+        $query = new \Elastica\Query($functionScore);
         $query->setFrom($offset);
         $query->setSize($limit);
-        $query->setQuery(
-            $qb->query()->filtered(
-                $topQuery,
-                $topBoolFilter
-            )
-        );
+//        $query->setFields(['provider_ad_immutable_id', 'provider_ad_id', 'title', 'photo', 'rating', 'ratingCount',
+//                           'discountedPrice', 'discountPercentage', 'location']);
 
         //Sort the query results
-        if($sort === null || $sort === 'relevance' || $sort === 'distance') {
-            $query->addSort(
-                ['_geo_distance' => [
-                    'location' => [$lat, $long],
-                    'order' => 'asc',
-                    'unit' => 'mi']
-                ]
-            );
-        }
+//        if($sort === null || $sort === 'relevance' || $sort === 'distance') {
+//            $query->addSort(
+//                ['_geo_distance' => [
+//                    'location' => [$lat, $long],
+//                    'order' => 'asc',
+//                    'unit' => 'mi']
+//                ]
+//            );
+//        }
 
         //Get the results
         $results = $this->es->search('Norm\\es\\ProviderAdListing', $query, $limit, $offset);
@@ -103,9 +117,42 @@ class SearchService {
         $arr['count'] = $results->getTotalHits();
         $arr['results'] = [];
         foreach($results->getResults() as $result) {
-            $arr['results'][] = array_merge($result->getSource(), array('distance' => 0.5));
+            $sourceArray = $result->getSource();
+
+            //Calculate the distance
+            $geopoint = explode(',', $sourceArray['location']);
+            $distance = $this->calculateDistance($lat, $long, $geopoint[0], $geopoint[1]);
+            $data = array_merge($sourceArray,
+                [
+                    'distance' => $distance,
+                    'lat' => $geopoint[0],
+                    'long' => $geopoint[1],
+                ]
+            );
+
+            //Unset data we don't want
+            unset($data['location']);
+            unset($data['company_name']);
+            unset($data['category_name']);
+            unset($data['category_id']);
+            unset($data['city']);
+            unset($data['state']);
+            unset($data['description']);
+            unset($data['service_names']);
+            unset($data['service_descriptions']);
+            unset($data['start_times']);
+
+            $arr['results'][] = $data;
         }
 
         return $arr;
+    }
+
+    public function calculateDistance($lat1, $long1, $lat2, $long2) {
+        $coordinate1 = new Coordinate($lat1, $long1);
+        $coordinate2 = new Coordinate($lat2, $long2);
+
+        $meters = $coordinate1->getDistance($coordinate2, new Haversine());
+        return $meters * 0.000621371;
     }
 } 

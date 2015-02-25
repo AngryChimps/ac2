@@ -121,8 +121,7 @@ class ProviderAdService {
         $listing->title = $ad->title;
         $listing->city = $location->address->city;
         $listing->state = $location->address->state;
-        $listing->lat = $location->address->lat;
-        $listing->long = $location->address->long;
+        $listing->location = $location->address->lat . ',' . $location->address->long;
         $listing->companyName = $company->name;
         $listing->categoryId = $ad->categoryId;
         $listing->categoryName = $this->categoriesService->getCategoryName($ad->categoryId);

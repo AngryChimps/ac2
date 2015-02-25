@@ -35,7 +35,8 @@
         "knplabs/knp-gaufrette-bundle": "*@dev",
         "aws/aws-sdk-php": "2.*",
         "imagine/imagine": "~0.5.0",
-        "massivescale/celery-php": "*@dev"
+        "massivescale/celery-php": "*@dev",
+        "mjaschen/phpgeo": "*@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

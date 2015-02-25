@@ -26,9 +26,9 @@ class EsMapCommand extends ContainerAwareCommand
                 'Which realm should we map?'
             )
             ->addArgument(
-                'indexName',
+                'typeName',
                 InputArgument::OPTIONAL,
-                'Which index should we map (defaults to all)?'
+                'Which type should we map (defaults to all)?'
             )
         ;
     }
@@ -36,13 +36,13 @@ class EsMapCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $realmName = $input->getArgument('realmName');
-        $indexName = $input->getArgument('indexName');
+        $typeName = $input->getArgument('typeName');
 
         /** @var RealmInfoService $realmInfo */
         $realmInfo = $this->getContainer()->get('ac_norm.realm_info');
         $realmService = $this->getContainer()->get('ac_norm.norm.' . $realmName);
 
-        if(empty($indexName)) {;
+        if(empty($typeName)) {;
             foreach($realmInfo->getTableNames($realmName) as $tableName) {
                 $fullClassName = $realmInfo->getClassName($realmName, $tableName);
                 $classParts = explode('\\', $fullClassName);
@@ -52,7 +52,7 @@ class EsMapCommand extends ContainerAwareCommand
             }
         }
         else {
-            $fullClassName = $realmInfo->getClassName($realmName, $indexName);
+            $fullClassName = $realmInfo->getClassName($realmName, $typeName);
             $classParts = explode('\\', $fullClassName);
             $shortClassName = $classParts[count($classParts) - 1];
             $func = 'define' . $shortClassName . 'Mapping';
