@@ -203,15 +203,16 @@ class CalendarService {
 
         /** @var Availability $availability */
         foreach($availabilities as $availability) {
-            $lastStartTime = $availability->end->sub(new \DateInterval('P' . $minsForServices . 'M'));
+            $lastStartTime = $availability->end->sub(new \DateInterval('PT' . $minsForServices . 'M'));
 
             if($lastStartTime >= $availability->start) {
-                for ($start = $availability->start;  $start < $lastStartTime; $start += new \DateInterval('P15iM')) {
-                    $startTimes[] = $start;
+                for ($start = $availability->start;
+                     $start <= $lastStartTime;
+                     $start = $start->add(new \DateInterval('PT15M'))) {
+                    $startTimes[] = $start->format('c');
                 }
             }
         }
-
         return $startTimes;
     }
 }

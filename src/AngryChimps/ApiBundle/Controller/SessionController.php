@@ -25,7 +25,9 @@ class SessionController extends AbstractController
     public function indexGetAction() {
         $session = $this->getSessionService()->getNewSession();
 
-        return $this->responseService->success(array('session_id' => $session->id));
+        return $this->responseService->success(array(
+            'session_id' => $session->id,
+        ));
     }
 
 }

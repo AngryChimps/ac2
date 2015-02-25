@@ -7,9 +7,7 @@ angry_chimps_sample_generate:
         fileToProcess: ~
 
 angry_chimps_sample_reset:
-    path:     /reset/{folderToProcess}/{fileToProcess}
+    path:     /reset
     methods: ["GET"]
     defaults:
         _controller: angry_chimps_sample.default.controller:resetAction
-        folderToProcess: ~
-        fileToProcess: ~

@@ -4,13 +4,18 @@
 namespace AngryChimps\ApiBundle\Services;
 
 use AngryChimps\NormBundle\realms\Norm\es\services\NormEsService;
+use Norm\riak\Availability;
 
 class SearchService {
     /** @var NormEsService */
     protected $es;
 
-    public function __construct(NormEsService $es) {
+    /** @var CalendarService */
+    protected $calendarService;
+
+    public function __construct(NormEsService $es, CalendarService $calendarService) {
         $this->es = $es;
+        $this->calendarService = $calendarService;
     }
 
     public function getSampleProviderAdListing($limit = 10, $offset = 0)
@@ -31,11 +36,16 @@ class SearchService {
         return $arr;
     }
 
-    public function search($text, $categories, $lat, $long, $radiusMiles, $consumerTravels, $startingAt, $endingAt,
+    public function search($text, $categories, $lat, $long, $radiusMiles, $consumerTravels,
+                           $startingAt, $endingAt,
                            $sort, $limit, $offset) {
-
+        //Create the query builder
         $qb = new \Elastica\QueryBuilder();
 
+        //Create the function score query
+        $functionScore = new \Elastica\Query\FunctionScore();
+
+        //Configure full text search
         if($text === null) {
             $topQuery = $qb->query()->match_all();
         }
@@ -43,24 +53,30 @@ class SearchService {
             $topQuery = new \Elastica\Query\Term(array('_all' => $text));
         }
 
+        //Create a top level boolean filter
         $topBoolFilter = new \Elastica\Filter\Bool();
 
-
+        //Categories search
         if($categories !== null) {
             $terms = new \Elastica\Filter\Terms('category_id', $categories);
             $topBoolFilter->addMust($terms);
         }
-        if($lat !== null && $long !== null) {
 
+        //Availability Search
+//        if($startingAt !== null && $endingAt !== null) {
+//            $avail = new Availability();
+//            $avail->start = $startingAt->add(new \DateInterval('PT30M'));
+//            $avail->end = $endingAt;
+//            $startTimes = $this->calendarService->getAvailableStartTimes([$avail], 30);
+//            $range = new \Elastica\Filter\Range('start_times',
+//                [
+//                    'gte' => $avail->start,
+//                    'lt' => $avail->end
+//                ]);
+//            $topBoolFilter->addMust($range);
+//        }
 
-        }
-
-
-
-        if($sort !== null) {
-
-        }
-
+        //Create the query from the query builder
         $query = new \Elastica\Query();
         $query->setFrom($offset);
         $query->setSize($limit);
@@ -71,8 +87,18 @@ class SearchService {
             )
         );
 
+        //Sort the query results
+        if($sort === null || $sort === 'relevance' || $sort === 'distance') {
+            $query->addSort(
+                ['_geo_distance' => [
+                    'location' => [$lat, $long],
+                    'order' => 'asc',
+                    'unit' => 'mi']
+                ]
+            );
+        }
 
-
+        //Get the results
         $results = $this->es->search('Norm\\es\\ProviderAdListing', $query, $limit, $offset);
 
         //Extract the data to return

@@ -37,8 +37,8 @@ class SearchController extends AbstractController
         $long = isset($payload['long']) ? $payload['long'] : null;
         $radius = isset($payload['radius_miles']) ? $payload['radius_miles'] : null;
         $consumerTravels = isset($payload['consumer_travels']) ? $payload['consumer_travels'] : null;
-        $startingAt = isset($payload['starting_at']) ? $payload['starting_at'] : null;
-        $endingAt = isset($payload['ending_at']) ? $payload['ending_at'] : null;
+        $startingAt = isset($payload['starting_at']) ? new \DateTime($payload['starting_at']) : null;
+        $endingAt = isset($payload['ending_at']) ? new \DateTime($payload['ending_at']) : null;
         $sort = isset($payload['sort']) ? $payload['sort'] : null;
         $limit = isset($payload['limit']) ? $payload['limit'] : 10;
         $offset = isset($payload['offset']) ? $payload['offset'] : 0;

@@ -28,8 +28,6 @@ class ACNormExtension extends Extension
         $container->setParameter('ac_norm.realms', $config['realms']);
         $container->setParameter('ac_norm.datastores', $config['datastores']);
 
-//        DatastoreManager::setDatastores($config['datastores']);
-
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

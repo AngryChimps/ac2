@@ -26,6 +26,7 @@ parameters:
     angry_chimps_api.controller.company_media.class: AngryChimps\ApiBundle\Controller\CompanyMediaController
     angry_chimps_api.controller.provider_ad_immutable.class: AngryChimps\ApiBundle\Controller\ProviderAdImmutableController
     angry_chimps_api.controller.availability.class: AngryChimps\ApiBundle\Controller\AvailabilityController
+    angry_chimps_api.controller.test.class: AngryChimps\ApiBundle\Controller\TestController
 
 services:
 
@@ -98,7 +99,9 @@ services:
         arguments: ["@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
     angry_chimps_api.search:
         class: "%angry_chimps_api.search.class%"
-        arguments: ["@ac_norm.norm.es"]
+        arguments:
+            - "@ac_norm.norm.es"
+            - "@angry_chimps_api.calendar"
     angry_chimps_api.company_media:
         class: "%angry_chimps_api.company_media.class%"
         arguments:
@@ -181,6 +184,16 @@ services:
                 - "@angry_chimps_api.session"
                 - "@angry_chimps_api.response"
                 - "@angry_chimps_api.calendar"
+
+    angry_chimps_api.test.controller:
+            class:     "%angry_chimps_api.controller.test.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - %kernel.debug%
+                - "@kernel"
+
 
 
 ##############################################################

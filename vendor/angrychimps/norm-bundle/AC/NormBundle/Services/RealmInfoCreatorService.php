@@ -331,6 +331,12 @@ class RealmInfoCreatorService {
 
     protected function createRealmFolders() {
         foreach($this->realmNames as $realmName) {
+            if(!file_exists(__DIR__ . "/../../../../../../src/AngryChimps")) {
+                mkdir(__DIR__ . "/../../../../../../src/AngryChimps");
+                mkdir(__DIR__ . "/../../../../../../src/AngryChimps/NormBundle");
+                mkdir(__DIR__ . "/../../../../../../src/AngryChimps/NormBundle/realms");
+                mkdir(__DIR__ . "/../../../../../../src/AngryChimps/NormBundle/realms/Norm");
+            }
             if (!file_exists(__DIR__ . "/../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $realmName)) {
                 mkdir(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $realmName);
                 mkdir(__DIR__ . "/../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $realmName . '/services');

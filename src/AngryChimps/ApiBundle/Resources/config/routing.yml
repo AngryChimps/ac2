@@ -133,3 +133,9 @@ angry_chimps_api_provider_ad_immutable_post:
 #api:
 #    resource: "@AngryChimpsApiBundle/Controller"
 #    type:     annotation
+
+#test
+angry_chimps_api_test_env:
+    path:     /test/env
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.test.controller:envAction}

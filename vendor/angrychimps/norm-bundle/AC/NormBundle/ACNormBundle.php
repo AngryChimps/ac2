@@ -9,7 +9,8 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use AC\NormBundle\DependencyInjection\Compiler\ValidatorPass;
-class ACNormBundle extends Bundle
+use AC\NormBundle\Services\RealmInfoCreatorService;
+    class ACNormBundle extends Bundle
 {
     /**
      * Boots the Bundle.
@@ -30,6 +31,13 @@ class ACNormBundle extends Bundle
         spl_autoload_register(function ($class) {
             if(strpos($class, 'AC\\NormBundle\\cached') === 0) {
                 $class_parts = explode('\\', $class);
+                if(!file_exists(__DIR__ . '/../../../../../app/cache/'
+                        . $this->container->get('kernel')->getEnvironment() . '/angrychimps/norm/'
+                        . implode("/", array_slice($class_parts, 3)) . '.php')) {
+                    /** @var RealmInfoCreatorService $rics */
+                    $rics = $this->container->get('ac_norm.realm_info_creator');
+                    $rics->createIfNecessary();
+                }
                 require_once(__DIR__ . '/../../../../../app/cache/'
                     . $this->container->get('kernel')->getEnvironment() . '/angrychimps/norm/'
                     . implode("/", array_slice($class_parts, 3)) . '.php');

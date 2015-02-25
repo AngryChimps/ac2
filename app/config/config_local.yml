@@ -8,7 +8,6 @@ framework:
         strict_requirements: true
     profiler:
         only_exceptions: false
-        dsn: file:/tmp/profiler
 
 web_profiler:
     toolbar: "%debug_toolbar%"
