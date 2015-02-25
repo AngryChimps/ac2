@@ -63,18 +63,15 @@ class SearchService {
         }
 
         //Availability Search
-//        if($startingAt !== null && $endingAt !== null) {
-//            $avail = new Availability();
-//            $avail->start = $startingAt->add(new \DateInterval('PT30M'));
-//            $avail->end = $endingAt;
-//            $startTimes = $this->calendarService->getAvailableStartTimes([$avail], 30);
-//            $range = new \Elastica\Filter\Range('start_times',
-//                [
-//                    'gte' => $avail->start,
-//                    'lt' => $avail->end
-//                ]);
-//            $topBoolFilter->addMust($range);
-//        }
+        if($startingAt !== null && $endingAt !== null) {
+            $startingAt = $startingAt->add(new \DateInterval('PT30M'));
+            $range = new \Elastica\Filter\Range('start_times',
+                [
+                    'gte' => $startingAt->format('c'),
+                    'lt' => $endingAt->format('c')
+                ]);
+            $topBoolFilter->addMust($range);
+        }
 
         //Create the query from the query builder
         $query = new \Elastica\Query();
