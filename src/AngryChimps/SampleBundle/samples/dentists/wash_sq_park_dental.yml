@@ -8,8 +8,8 @@ steps:
             ad_description:
                 - "We are a group of passionate dental professionals excited to care for your dental needs. At Washington Square Park Dental we are committed to providing our patients with exceptional dental care in a modern and relaxing environment. An emphasis is placed on patient education and preventative care as we utilize the latest dental technology and equipment."
                 - "Our goal is to partner with our patients to help them achieve and maintain a lifetime of excellent oral health. Washington Square Park Dental is located in North Beach, San Francisco. The business was built to provide a superior dental experience. Situated in a LEED-certified space, WSPD offers cutting-edge technology, including handheld digital x-rays."
-            start: today 09:00:00
-            end: tomorrow 17:00:00
+            start: today 09:00:00-08:00
+            end: tomorrow 17:00:00-08:00
             service_name: Invisilign Evaluation
             discounted_price: 49
             original_price: 155

@@ -7,8 +7,8 @@ steps:
             ad_title: "New Patient Special with X-Rays"
             ad_description:
                 - "Welcome to Diamond Dental. We are committed to providing you with top-notch dental care in a friendly, comfortable office. If you're looking for a dental office with a highly competent and caring dentist, state-of-the-art equipment, and personable staff, you've found it at Diamond Dental. Conveniently located a block away from the Glen Park Bart Station, we can be easily accessed by BART, Muni, or Highway 280. We look forward to seeing you. Please call us at 415-333-1877 for an appointment today."
-            start: today 13:00:00
-            end: today 16:00:00
+            start: today 13:00:00-08:00
+            end: today 16:00:00-08:00
             service_name: New Patient Special with X-Rays
             discounted_price: 99
             original_price: 199

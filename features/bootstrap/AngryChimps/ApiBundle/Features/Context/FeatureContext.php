@@ -682,8 +682,9 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $arr = array();
         $arr['ad_title'] = 'My Nifty Ad Title';
         $arr['ad_description'] = 'And a description';
-        $arr['start'] = '2014-12-03';
-        $arr['end'] = '2014-12-03 05:00:00';
+        $arr['availabilities'] = [];
+        $avail = ['start'=> 'today 09:00:00-08:00', 'end'=> 'today 17:00:00-08:00'];
+        $arr['availabilities'][] = $avail;
         $arr['service_name'] = 'Long Haircut';
         $arr['discounted_price'] = 70.00;
         $arr['original_price'] = 129.00;

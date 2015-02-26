@@ -10,8 +10,8 @@ steps:
                 - "Sakiko is our receptionist and she has been been with us since I started the practice. She speaks Japanese fluently and this has been a great asset to the office as well as to our Japanese speaking patients."
                 - "Our dental hygienist, Janice (or Jan), has been in her profession for 30 years. Her soft hands and gentle touch make patients feel every visit a painless and pleasant experience."
                 - "Vanessa has been with us since 2007. She grew up in Oregon and graduated from Oregon Health and Sciences University with a BS in Dental Hygiene. She enjoys traveling, reading, and spending time with her fiance."
-            start: tomorrow 10:00:00
-            end: tomorrow 15:00:00
+            start: tomorrow 10:00:00-08:00
+            end: tomorrow 15:00:00-08:00
             service_name: Full dental cleaning
             discounted_price: 69
             original_price: 115

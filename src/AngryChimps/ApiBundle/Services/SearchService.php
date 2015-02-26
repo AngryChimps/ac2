@@ -122,6 +122,13 @@ class SearchService {
             //Calculate the distance
             $geopoint = explode(',', $sourceArray['location']);
             $distance = $this->calculateDistance($lat, $long, $geopoint[0], $geopoint[1]);
+
+            if($radiusMiles !== null) {
+                if($distance > $radiusMiles) {
+                    $arr['count']--;
+                    continue;
+                }
+            }
             $data = array_merge($sourceArray,
                 [
                     'distance' => $distance,

@@ -143,7 +143,7 @@ class ProviderAdService {
                 $discount = 100 - (($service->discountedPrice / $service->originalPrice) * 100);
             }
             if($service->minsForService < $minTimeRequired || $minTimeRequired === 0) {
-                $minTimeRequired = $service->minsForService;
+                $minTimeRequired = $service->minsForService + $service->minsNotice;
             }
             $listing->serviceNames[] = $service->name;
             $listing->serviceDescriptions[] = $service->description;

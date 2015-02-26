@@ -195,7 +195,7 @@ class CalendarService {
 
     /**
      * @param $availabilities Availability[]
-     * @param $minsForServices int
+     * @param $minsForServices int This is the number of minutes for the service plus notice required
      * @return \DateTime[]
      */
     public function getAvailableStartTimes($availabilities, $minsForServices) {
@@ -203,7 +203,7 @@ class CalendarService {
 
         /** @var Availability $availability */
         foreach($availabilities as $availability) {
-            $lastStartTime = $availability->end->sub(new \DateInterval('PT' . $minsForServices . 'M'));
+            $lastStartTime = $availability->end->sub(new \DateInterval('PT' . ($minsForServices) . 'M'));
 
             if($lastStartTime >= $availability->start) {
                 for ($start = $availability->start;

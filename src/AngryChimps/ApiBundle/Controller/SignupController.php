@@ -7,6 +7,7 @@ use AngryChimps\ApiBundle\Services\LocationService;
 use AngryChimps\ApiBundle\Services\ProviderAdService;
 use AngryChimps\ApiBundle\Services\SignupService;
 use AngryChimps\GeoBundle\Services\GeolocationService;
+use Norm\riak\Availability;
 use Norm\riak\Company;
 use Norm\riak\Location;
 use Norm\riak\ProviderAd;
@@ -50,9 +51,17 @@ class SignupController extends AbstractController
     {
         $payload = $this->getPayload();
 
+        $availabilities = [];
+        foreach($payload['availabilities'] as $availability) {
+            $avail = new Availability();
+            $avail->start = new \DateTime($availability['start']);
+            $avail->end = new \DateTime($availability['end']);
+            $availabilities[] = $avail;
+        }
+
         $errors = array();
         $data = $this->signupService->registerProviderAd($payload['ad_title'], $payload['ad_description'],
-            new \DateTime($payload['start']), new \DateTime($payload['end']), $payload['service_name'],
+            $availabilities, $payload['service_name'],
             $payload['discounted_price'], $payload['original_price'],
             $payload['mins_for_service'], $payload['mins_notice'], $payload['category_id'], $errors);
 

@@ -85,7 +85,7 @@ class SignupService {
         $this->timeService = $timeService;
     }
 
-    public function registerProviderAd($adTitle, $adDescription, \DateTime $start, \DateTime $end,
+    public function registerProviderAd($adTitle, $adDescription, array $availabilities,
                                        $serviceName, $discountedPrice, $originalPrice,
                                        $minsForService, $minsNotice, $categoryId, array &$errors) {
 
@@ -94,11 +94,9 @@ class SignupService {
         $location = $this->locationService->createEmpty($company);
         $calendar = $this->calendarService->createNew($location, 'My First Calendar');
 
-        $availability = new Availability();
-        $availability->start = $start;
-        $availability->end = $end;
-        //No need to check for overlaps since it's a new calendar
-        $this->calendarService->addAvailability($calendar, $availability);
+        foreach($availabilities as $availability) {
+            $this->calendarService->addAvailability($calendar, $availability);
+        }
 
         $service = new Service();
         $service->name = $serviceName;
