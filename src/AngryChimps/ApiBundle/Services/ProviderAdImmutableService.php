@@ -28,7 +28,7 @@ class ProviderAdImmutableService {
         $arr['company']['name'] = $providerAdImmutable->company->name;
         $arr['title'] = $providerAdImmutable->providerAd->title;
         $arr['description'] = $providerAdImmutable->providerAd->description;
-        $arr['phone'] = $providerAdImmutable->location->phone;
+        $arr['address']['phone'] = $providerAdImmutable->location->address->phone;
         $arr['address']['street1'] = $providerAdImmutable->location->address->street1;
         $arr['address']['street2'] = $providerAdImmutable->location->address->street2;
         $arr['address']['city'] = $providerAdImmutable->location->address->city;
@@ -36,13 +36,6 @@ class ProviderAdImmutableService {
         $arr['address']['zip'] = $providerAdImmutable->location->address->zip;
         $arr['address']['lat'] = $providerAdImmutable->location->address->lat;
         $arr['address']['long'] = $providerAdImmutable->location->address->long;
-
-        foreach($providerAdImmutable->calendar->availabilities as $availability) {
-            $arr2 = [];
-            $arr2['start'] = $availability->start;
-            $arr2['end'] = $availability->end;
-            $arr['availabilities'][] = $arr2;
-        }
 
         foreach($providerAdImmutable->services as $service) {
             $arr2 = [];

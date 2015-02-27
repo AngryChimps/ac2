@@ -682,15 +682,22 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $arr = array();
         $arr['ad_title'] = 'My Nifty Ad Title';
         $arr['ad_description'] = 'And a description';
+
         $arr['availabilities'] = [];
         $avail = ['start'=> 'today 09:00:00-08:00', 'end'=> 'today 17:00:00-08:00'];
         $arr['availabilities'][] = $avail;
-        $arr['service_name'] = 'Long Haircut';
-        $arr['discounted_price'] = 70.00;
-        $arr['original_price'] = 129.00;
-        $arr['mins_for_service'] = 60;
-        $arr['mins_notice'] = 180;
-        $arr['category_id'] = 101;
+        $avail = ['start'=> 'tomorrow 10:00:00-08:00', 'end'=> 'tomorrow 14:00:00-08:00'];
+        $arr['availabilities'][] = $avail;
+
+        $arr['services'] = [];
+        $svc = [];
+        $svc['service_name'] = 'Long Haircut';
+        $svc['discounted_price'] = 70.00;
+        $svc['original_price'] = 129.00;
+        $svc['mins_for_service'] = 60;
+        $svc['mins_notice'] = 180;
+        $svc['category_id'] = 101;
+        $arr['services'][] = $svc;
 
         $this->requestArray = array('payload'=>$arr);
     }

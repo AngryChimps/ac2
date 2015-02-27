@@ -13,6 +13,7 @@ use AngryChimps\ApiBundle\Services\SessionService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use AngryChimps\ApiBundle\Services\ResponseService;
+use AngryChimps\ApiBundle\Services\ServiceService;
 
 class CalendarController extends AbstractController
 {
@@ -25,16 +26,21 @@ class CalendarController extends AbstractController
     /** @var  LocationService */
     protected $locationService;
 
+    /** @var ServiceService */
+    protected $serviceService;
+
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
                                 ResponseService $responseService, CalendarService $calendarService,
-                                CompanyService $companyService, LocationService $locationService) {
+                                CompanyService $companyService, LocationService $locationService,
+                                ServiceService $serviceService) {
         parent::__construct($requestStack, $sessionService, $responseService);
         $this->calendarService = $calendarService;
         $this->companyService = $companyService;
         $this->locationService = $locationService;
+        $this->serviceService = $serviceService;
     }
 
-    public function indexGetAction($calendarId) {
+    public function indexGetAction($calendarId, $serviceId = null) {
         $calendar = $this->calendarService->getCalendar($calendarId);
 
         if($calendar === null) {
@@ -45,11 +51,25 @@ class CalendarController extends AbstractController
 
         $company = $this->companyService->getByPk($calendar->companyId);
 
-        if($this->isAuthorizedSelf($company->administerMemberIds)) {
-            $data = $this->calendarService->getData($calendar, true);
+        if($serviceId === null) {
+            if ($this->isAuthorizedSelf($company->administerMemberIds)) {
+                $data = $this->calendarService->getData($calendar, true);
+            }
+            else {
+                $data = $this->calendarService->getData($calendar);
+            }
         }
         else {
-            $data = $this->calendarService->getData($calendar);
+            $service = $this->serviceService->getService($serviceId);
+
+            if($service === null) {
+                $error = array('code' => 'Api.CalendarController.indexGetAction.2',
+                    'human' => 'Unable to find the specified service');
+                return $this->responseService->failure(400, $error);
+            }
+
+            $data = $this->calendarService->getAvailableTimeWindows($calendar->availabilities,
+                $service->minsForService, $service->minsNotice);
         }
 
         return $this->responseService->success(array('payload' => $data));

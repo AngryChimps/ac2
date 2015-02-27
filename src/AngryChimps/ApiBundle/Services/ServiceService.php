@@ -67,6 +67,10 @@ class ServiceService {
         return $service;
     }
 
+    /**
+     * @param $id
+     * @return Service
+     */
     public function getService($id) {
         return $this->riak->getService($id);
     }

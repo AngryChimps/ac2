@@ -2,18 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3689bbd9-d2b9-48ad-920c-675fe0f9a3e5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.txt" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CalendarController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CalendarController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CalendarService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CalendarService.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" afterPath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdService.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdImmutableService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdImmutableService.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RiakBlobDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RiakBlobDatastore.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SearchService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SearchService.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ServiceService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ServiceService.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SignupController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SignupController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SignupService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SignupService.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/diamond_dental.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/diamond_dental.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/lake.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/lake.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/quare.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/quare.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/velasco.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/velasco.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/wash_sq_park_dental.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/wash_sq_park_dental.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ac.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,54 +43,74 @@
     <favorites_list name="ac" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5003494">
+    <splitter split-orientation="horizontal" split-proportion="0.24318658">
       <split-first>
         <leaf>
-          <file leaf-file-name="lake.yml" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/lake.yml">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
-                  <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="SignupController.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SignupController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-8.5" vertical-offset="459" max-vertical-offset="2669">
-                  <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
+                <state vertical-scroll-proportion="-9.576923" vertical-offset="431" max-vertical-offset="2720">
+                  <caret line="58" column="40" selection-start-line="58" selection-start-column="26" selection-end-line="58" selection-end-column="40" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="AbstractFeatureContext.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/AbstractFeatureContext.php">
+          <file leaf-file-name="diamond_dental.yml" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/diamond_dental.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-8.576923" vertical-offset="5591" max-vertical-offset="6035">
-                  <caret line="358" column="18" selection-start-line="358" selection-start-column="18" selection-end-line="358" selection-end-column="18" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
+                  <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="signup-registerProviderAd.feature" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/signup-registerProviderAd.feature">
+          <file leaf-file-name="RiakBlobDatastore.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RiakBlobDatastore.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
-                  <caret line="7" column="23" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+                <state vertical-scroll-proportion="-0.15384616" vertical-offset="3328" max-vertical-offset="6664">
+                  <caret line="201" column="20" selection-start-line="201" selection-start-column="20" selection-end-line="201" selection-end-column="20" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="FeatureContext.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php">
+          <file leaf-file-name="RiakController.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/AdminBundle/Controller/RiakController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.49259758" vertical-offset="10922" max-vertical-offset="16048">
-                  <caret line="683" column="25" selection-start-line="683" selection-start-column="25" selection-end-line="683" selection-end-column="25" />
+                <state vertical-scroll-proportion="0.7739403" vertical-offset="901" max-vertical-offset="3094">
+                  <caret line="92" column="34" selection-start-line="92" selection-start-column="34" selection-end-line="92" selection-end-column="34" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AbstractDatastore.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractDatastore.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-9.615385" vertical-offset="532" max-vertical-offset="2516">
+                  <caret line="46" column="30" selection-start-line="46" selection-start-column="22" selection-end-line="46" selection-end-column="30" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="NormEsService.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-19.615385" vertical-offset="0" max-vertical-offset="1377">
+                  <caret line="35" column="56" selection-start-line="35" selection-start-column="56" selection-end-line="35" selection-end-column="56" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="lake.yml" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/lake.yml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
+                  <caret line="13" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -93,8 +119,8 @@
           <file leaf-file-name="quare.yml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/quare.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
-                  <caret line="12" column="37" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+                  <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -103,8 +129,8 @@
           <file leaf-file-name="velasco.yml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/velasco.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
-                  <caret line="13" column="40" selection-start-line="13" selection-start-column="40" selection-end-line="13" selection-end-column="40" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
+                  <caret line="16" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -113,28 +139,8 @@
           <file leaf-file-name="wash_sq_park_dental.yml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/wash_sq_park_dental.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
-                  <caret line="11" column="40" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GeneratorService.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/Services/GeneratorService.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-21.076923" vertical-offset="540" max-vertical-offset="4573">
-                  <caret line="66" column="28" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="28" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DefaultController.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/Controller/DefaultController.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="799">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+                  <caret line="13" column="21" selection-start-line="12" selection-start-column="20" selection-end-line="13" selection-end-column="21" />
                   <folding />
                 </state>
               </provider>
@@ -144,43 +150,53 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="TestController.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php">
+          <file leaf-file-name="SignupService.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SignupService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="782">
-                  <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+                <state vertical-scroll-proportion="-6.3461537" vertical-offset="1620" max-vertical-offset="4063">
+                  <caret line="105" column="36" selection-start-line="97" selection-start-column="63" selection-end-line="97" selection-end-column="76" />
                   <folding>
-                    <element signature="e#52#100#0#PHP" expanded="true" />
+                    <element signature="e#52#99#0#PHP" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ProfilerPass.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Compiler/ProfilerPass.php">
+          <file leaf-file-name="ServiceService.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ServiceService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="124" max-vertical-offset="918">
-                  <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+                <state vertical-scroll-proportion="-19.692308" vertical-offset="661" max-vertical-offset="1394">
+                  <caret line="74" column="36" selection-start-line="74" selection-start-column="36" selection-end-line="74" selection-end-column="36" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="FrameworkExtension.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php">
+          <file leaf-file-name="NormRiakBaseService.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/cache/local/angrychimps/norm/realms/riak/services/NormRiakBaseService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="5997" max-vertical-offset="14654">
-                  <caret line="384" column="27" selection-start-line="384" selection-start-column="27" selection-end-line="384" selection-end-column="27" />
+                <state vertical-scroll-proportion="-9.846154" vertical-offset="67" max-vertical-offset="8058">
+                  <caret line="47" column="7" selection-start-line="47" selection-start-column="7" selection-end-line="47" selection-end-column="7" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Profiler.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/HttpKernel/Profiler/Profiler.php">
+          <file leaf-file-name="CalendarService.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CalendarService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-9.153846" vertical-offset="3094" max-vertical-offset="4930">
-                  <caret line="207" column="15" selection-start-line="207" selection-start-column="15" selection-end-line="207" selection-end-column="15" />
+                <state vertical-scroll-proportion="0.64669925" vertical-offset="3262" max-vertical-offset="4080">
+                  <caret line="238" column="13" selection-start-line="238" selection-start-column="13" selection-end-line="238" selection-end-column="13" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="GeneratorService.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/Services/GeneratorService.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-6.6923075" vertical-offset="1356" max-vertical-offset="4573">
+                  <caret line="92" column="46" selection-start-line="92" selection-start-column="46" selection-end-line="92" selection-end-column="46" />
                   <folding />
                 </state>
               </provider>
@@ -189,31 +205,9 @@
           <file leaf-file-name="ElasticsearchDatastore.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/ElasticsearchDatastore.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="34.576923" vertical-offset="2378" max-vertical-offset="6154">
-                  <caret line="101" column="23" selection-start-line="101" selection-start-column="23" selection-end-line="101" selection-end-column="23" />
+                <state vertical-scroll-proportion="-5.3076925" vertical-offset="2514" max-vertical-offset="6154">
+                  <caret line="170" column="28" selection-start-line="170" selection-start-column="28" selection-end-line="170" selection-end-column="28" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="NormEsService.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="1343">
-                  <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="SignupService.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SignupService.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.33333334" vertical-offset="1390" max-vertical-offset="4063">
-                  <caret line="97" column="76" selection-start-line="97" selection-start-column="63" selection-end-line="97" selection-end-column="76" />
-                  <folding>
-                    <element signature="e#52#99#0#PHP" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -221,28 +215,38 @@
           <file leaf-file-name="ProviderAdService.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-22.038462" vertical-offset="1603" max-vertical-offset="2771">
-                  <caret line="151" column="72" selection-start-line="151" selection-start-column="72" selection-end-line="151" selection-end-column="72" />
+                <state vertical-scroll-proportion="-16.153847" vertical-offset="1756" max-vertical-offset="2771">
+                  <caret line="151" column="62" selection-start-line="151" selection-start-column="62" selection-end-line="151" selection-end-column="62" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="CalendarService.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CalendarService.php">
+          <file leaf-file-name="provider_ad.yml" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-11.576923" vertical-offset="2759" max-vertical-offset="3536">
-                  <caret line="195" column="7" selection-start-line="195" selection-start-column="7" selection-end-line="195" selection-end-column="7" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="1190">
+                  <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ElasticsearchTrait.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Services/traits/ElasticsearchTrait.php">
+          <file leaf-file-name="location.yml" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/location.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="1.2692307" vertical-offset="152" max-vertical-offset="901">
-                  <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+                  <caret line="21" column="19" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="19" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="address.yml" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/address.yml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
+                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -263,14 +267,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/config/config_behat_dev.yml" />
-        <option value="$PROJECT_DIR$/app/config/config_dev.yml" />
-        <option value="$PROJECT_DIR$/app/config/config_prod.yml" />
-        <option value="$PROJECT_DIR$/app/config/config_test.yml" />
-        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Column.php" />
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php" />
         <option value="$PROJECT_DIR$/vendor/xamin/handlebars.php/src/Handlebars/Helpers.php" />
-        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.txt" />
         <option value="$PROJECT_DIR$/app/cache/behat/angrychimps/norm/realms/es/services/NormEsBaseService.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CategoriesService.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/Services/GeneratorService.php" />
@@ -284,9 +282,7 @@
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/ACNormBundle.php" />
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Collector/NormDataCollector.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SessionController.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/AbstractController.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml" />
         <option value="$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php" />
         <option value="$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/DataCollector/RouterDataCollector.php" />
         <option value="$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/DataCollector/AjaxDataCollector.php" />
@@ -301,19 +297,27 @@
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/ElasticsearchDatastore.php" />
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/yaml/classes/provider_ad_listing.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SearchService.php" />
-        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RiakBlobDatastore.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/lake.yml" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SignupService.php" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdService.php" />
+        <option value="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SignupController.php" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ServiceService.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.txt" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CalendarController.php" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad.yml" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/location.yml" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdImmutableService.php" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/diamond_dental.yml" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/lake.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/quare.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/velasco.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/wash_sq_park_dental.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SignupService.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdService.php" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RiakBlobDatastore.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CalendarService.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SignupController.php" />
-        <option value="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" />
       </list>
     </option>
   </component>
@@ -1348,6 +1352,40 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="NormBundle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ac" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ac" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vendor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="angrychimps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="norm-bundle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AC" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NormBundle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Services" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2602,6 +2640,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Framework" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5071315" sideWeight="0.78983957" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4345898" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994652" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4345898" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -2609,15 +2648,14 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32941177" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23475936" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3280507" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5071315" sideWeight="0.78983957" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973261" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3991131" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2716,140 +2754,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/DebugBundle.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="844">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1105" max-vertical-offset="2244">
-          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
-          <folding>
-            <element signature="e#297#343#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/DataCollector/AjaxDataCollector.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="527">
-          <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/DataCollector/RouterDataCollector.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="818">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2686" max-vertical-offset="3655">
-          <caret line="171" column="54" selection-start-line="171" selection-start-column="54" selection-end-line="171" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1656" max-vertical-offset="2499">
-          <caret line="138" column="21" selection-start-line="138" selection-start-column="21" selection-end-line="138" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/cache/local/appLocalDebugProjectContainer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5780" max-vertical-offset="82943">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1424903256000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1424903256000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1424903256000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1424903256000" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/cache/local/appLocalDebugProjectContainer.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="10242" max-vertical-offset="60928">
-          <caret line="590" column="32" selection-start-line="590" selection-start-column="32" selection-end-line="590" selection-end-column="32" />
-          <folding>
-            <marker date="1424903256000" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/config/profiling.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/config/collectors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="370" max-vertical-offset="1173">
-          <caret line="44" column="40" selection-start-line="44" selection-start-column="40" selection-end-line="44" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="612" max-vertical-offset="782">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="e#52#100#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/DependencyInjection/Reference.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34362933" vertical-offset="209" max-vertical-offset="1207">
-          <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Compiler/ProfilerPass.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="124" max-vertical-offset="918">
-          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
-          <caret line="14" column="23" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/routing_dev.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="747">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1071">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/logs/local.log">
       <provider selected="true" editor-type-id="LargeFileEditor">
         <state />
@@ -2929,14 +2833,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1088" max-vertical-offset="1904">
-          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/ruflin/elastica/lib/Elastica/Result.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="12.423077" vertical-offset="544" max-vertical-offset="3774">
@@ -2985,30 +2881,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="1343">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RiakBlobDatastore.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-146.46153" vertical-offset="0" max-vertical-offset="6664">
-          <caret line="229" column="42" selection-start-line="229" selection-start-column="42" selection-end-line="229" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/ElasticsearchDatastore.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="34.576923" vertical-offset="2378" max-vertical-offset="6154">
-          <caret line="101" column="23" selection-start-line="101" selection-start-column="23" selection-end-line="101" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SearchService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.769231" vertical-offset="1626" max-vertical-offset="2890">
@@ -3019,50 +2891,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/diamond_dental.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
-          <caret line="10" column="37" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/quare.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
-          <caret line="12" column="37" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/velasco.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
-          <caret line="13" column="40" selection-start-line="13" selection-start-column="40" selection-end-line="13" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/wash_sq_park_dental.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697">
-          <caret line="11" column="40" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/Controller/DefaultController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="803">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/Services/GeneratorService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.076923" vertical-offset="540" max-vertical-offset="4573">
-          <caret line="66" column="28" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="28" />
           <folding />
         </state>
       </provider>
@@ -3075,14 +2907,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/lake.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
-          <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/signup-registerProviderAd.feature">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
@@ -3091,44 +2915,254 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdService.php">
+    <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-22.038462" vertical-offset="1603" max-vertical-offset="2771">
-          <caret line="151" column="72" selection-start-line="151" selection-start-column="72" selection-end-line="151" selection-end-column="72" />
+        <state vertical-scroll-proportion="-10.633333" vertical-offset="10922" max-vertical-offset="16167">
+          <caret line="699" column="34" selection-start-line="699" selection-start-column="34" selection-end-line="699" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CalendarService.php">
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdImmutableService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.576923" vertical-offset="2759" max-vertical-offset="3536">
-          <caret line="195" column="7" selection-start-line="195" selection-start-column="7" selection-end-line="195" selection-end-column="7" />
+        <state vertical-scroll-proportion="0.16666667" vertical-offset="0" max-vertical-offset="1122">
+          <caret line="9" column="7" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SignupService.php">
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/Generator.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="1390" max-vertical-offset="4063">
-          <caret line="97" column="76" selection-start-line="97" selection-start-column="63" selection-end-line="97" selection-end-column="76" />
+        <state vertical-scroll-proportion="79.76923" vertical-offset="2074" max-vertical-offset="8092">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="15.692307" vertical-offset="408" max-vertical-offset="2873">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad_immutable.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+          <caret line="13" column="18" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="782" max-vertical-offset="1904">
+          <caret line="72" column="43" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/cache/local/angrychimps/norm/realms/riak/services/NormRiakBaseService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.846154" vertical-offset="67" max-vertical-offset="8058">
+          <caret line="47" column="7" selection-start-line="47" selection-start-column="7" selection-end-line="47" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ServiceService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.692308" vertical-offset="661" max-vertical-offset="1394">
+          <caret line="74" column="36" selection-start-line="74" selection-start-column="36" selection-end-line="74" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Services/RealmInfoCreatorService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.6923075" vertical-offset="3235" max-vertical-offset="5899">
+          <caret line="206" column="32" selection-start-line="206" selection-start-column="32" selection-end-line="206" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="1190">
+          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/location.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+          <caret line="21" column="19" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/address.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdImmutableService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.769231" vertical-offset="213" max-vertical-offset="1003">
+          <caret line="30" column="23" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1757" max-vertical-offset="2601">
+          <caret line="138" column="0" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3893">
+          <caret line="30" column="89" selection-start-line="30" selection-start-column="89" selection-end-line="30" selection-end-column="89" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CalendarController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-22.23077" vertical-offset="544" max-vertical-offset="2397">
+          <caret line="66" column="68" selection-start-line="66" selection-start-column="32" selection-end-line="66" selection-end-column="68" />
           <folding>
-            <element signature="e#52#99#0#PHP" expanded="true" />
+            <element signature="e#52#103#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SignupController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.5" vertical-offset="459" max-vertical-offset="2669">
-          <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
+        <state vertical-scroll-proportion="-9.576923" vertical-offset="431" max-vertical-offset="2720">
+          <caret line="58" column="40" selection-start-line="58" selection-start-column="26" selection-end-line="58" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php">
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/lake.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49259758" vertical-offset="10922" max-vertical-offset="16048">
-          <caret line="683" column="25" selection-start-line="683" selection-start-column="25" selection-end-line="683" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
+          <caret line="13" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/quare.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/velasco.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
+          <caret line="16" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/wash_sq_park_dental.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+          <caret line="13" column="21" selection-start-line="12" selection-start-column="20" selection-end-line="13" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/diamond_dental.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
+          <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/Services/GeneratorService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.6923075" vertical-offset="1356" max-vertical-offset="4573">
+          <caret line="92" column="46" selection-start-line="92" selection-start-column="46" selection-end-line="92" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/SignupService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.3461537" vertical-offset="1620" max-vertical-offset="4063">
+          <caret line="105" column="36" selection-start-line="97" selection-start-column="63" selection-end-line="97" selection-end-column="76" />
+          <folding>
+            <element signature="e#52#99#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.615385" vertical-offset="0" max-vertical-offset="1377">
+          <caret line="35" column="56" selection-start-line="35" selection-start-column="56" selection-end-line="35" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/ElasticsearchDatastore.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.3076925" vertical-offset="2514" max-vertical-offset="6154">
+          <caret line="170" column="28" selection-start-line="170" selection-start-column="28" selection-end-line="170" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/ProviderAdService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.153847" vertical-offset="1756" max-vertical-offset="2771">
+          <caret line="151" column="62" selection-start-line="151" selection-start-column="62" selection-end-line="151" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractDatastore.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.615385" vertical-offset="532" max-vertical-offset="2516">
+          <caret line="46" column="30" selection-start-line="46" selection-start-column="22" selection-end-line="46" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RiakBlobDatastore.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.15384616" vertical-offset="3328" max-vertical-offset="6664">
+          <caret line="201" column="20" selection-start-line="201" selection-start-column="20" selection-end-line="201" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/AdminBundle/Controller/RiakController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7739403" vertical-offset="901" max-vertical-offset="3094">
+          <caret line="92" column="34" selection-start-line="92" selection-start-column="34" selection-end-line="92" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Services/CalendarService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.64669925" vertical-offset="3262" max-vertical-offset="4080">
+          <caret line="238" column="13" selection-start-line="238" selection-start-column="13" selection-end-line="238" selection-end-column="13" />
           <folding />
         </state>
       </provider>

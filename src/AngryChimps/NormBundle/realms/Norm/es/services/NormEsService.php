@@ -32,7 +32,9 @@ class NormEsService extends NormEsBaseService {
             $arr['description'] = $obj->description;
             $arr['service_names'] = $obj->serviceNames;
             $arr['service_descriptions'] = $obj->serviceDescriptions;
-            $arr['start_times'] = $obj->startTimes;
+            foreach($obj->startTimes as $time) {
+                $arr['start_times'][] = $time->format('c');
+            }
         }
         else {
             throw new \Exception('Unable to publish unknown type: ' . get_class($obj));

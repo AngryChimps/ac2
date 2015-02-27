@@ -7,8 +7,10 @@ steps:
             ad_title: "Cosmetic Evaluation"
             ad_description:
                 - "Dr. Lake offers a full range of general, cosmetic, and advanced dental services for all ages. We take pride in making your visit as carefree and relaxed as possible. We like to think of your appointment like a visit from a family member or good friend. It’s an environment to be yourself. There’s no selling, no lecturing. We encourage questions and help you make the decisions that fit your time and priorities."
-            start: tomorrow 12:00:00-08:00
-            end: tomorrow 17:00:00-08:00
+            availabilities:
+                -
+                    start: tomorrow 12:00:00-08:00
+                    end: tomorrow 17:00:00-08:00
             service_name: Cosmetic Evaluation
             discounted_price: 99.95
             original_price: 145

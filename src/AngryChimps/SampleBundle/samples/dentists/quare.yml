@@ -9,8 +9,10 @@ steps:
                 - We are always welcoming new patients and we would love to have you as part of our dental family.  Please explore our web site to learn more about us.  You can find information about our staff, our office, the procedures and services that we offer.
                 - We are proud to provide a the highest quality dental care available. It is one of our top priorities to protect the well-being of our valued patients. For this reason, our office meets and surpasses all OSHA (Occupational Safety and Health Administration) and CDC (Center for Disease Control) standards. We are confident that you will feel right at home in our office as we welcome all patients as if they were family.
                 - If you have any questions please feel free to call us.  We love hearing from our patients and anyone who may be interested in becoming one.
-            start: today 10:00:00-08:00
-            end: today 15:00:00-08:00
+            availabilities:
+                -
+                    start: today 10:00:00-08:00
+                    end: today 15:00:00-08:00
             service_name: Basic Cleaning With X-Rays
             discounted_price: 99
             original_price: 149

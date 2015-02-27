@@ -20,6 +20,7 @@ use AngryChimps\ApiBundle\Services\ResponseService;
 use Symfony\Component\HttpFoundation\RequestStack;
 use AngryChimps\ApiBundle\Services\SessionService;
 use AngryChimps\ApiBundle\Services\AuthService;
+use AngryChimps\ApiBundle\Services\ServiceService;
 
 /**
  * Class SignupController
@@ -33,11 +34,13 @@ class SignupController extends AbstractController
     protected $providerAdService;
     protected $companyService;
     protected $locationService;
+    protected $serviceService;
 
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
                                 ResponseService $responseService, SignupService $signupService,
                                 GeolocationService $geolocationService, ProviderAdService $providerAdService,
-                                CompanyService $companyService, LocationService $locationService)
+                                CompanyService $companyService, LocationService $locationService,
+                                ServiceService $serviceService)
     {
         parent::__construct($requestStack, $sessionService, $responseService);
         $this->signupService = $signupService;
@@ -45,6 +48,7 @@ class SignupController extends AbstractController
         $this->providerAdService = $providerAdService;
         $this->companyService = $companyService;
         $this->locationService = $locationService;
+        $this->serviceService = $serviceService;
     }
 
     public function registerProviderAdAction()

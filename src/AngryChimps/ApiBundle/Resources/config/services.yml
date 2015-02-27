@@ -13,6 +13,7 @@ parameters:
     angry_chimps_api.search.class: AngryChimps\ApiBundle\Services\SearchService
     angry_chimps_api.company_media.class: AngryChimps\ApiBundle\Services\CompanyMediaService
     angry_chimps_api.provider_ad_immutable.class: AngryChimps\ApiBundle\Services\ProviderAdImmutableService
+    angry_chimps_api.calendar.class: AngryChimps\ApiBundle\Services\CalendarService
 
     angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
     angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
@@ -27,6 +28,7 @@ parameters:
     angry_chimps_api.controller.provider_ad_immutable.class: AngryChimps\ApiBundle\Controller\ProviderAdImmutableController
     angry_chimps_api.controller.availability.class: AngryChimps\ApiBundle\Controller\AvailabilityController
     angry_chimps_api.controller.test.class: AngryChimps\ApiBundle\Controller\TestController
+    angry_chimps_api.controller.calendar.class: AngryChimps\ApiBundle\Controller\CalendarController
 
 services:
 
@@ -154,6 +156,7 @@ services:
                 - "@angry_chimps_api.provider_ad"
                 - "@angry_chimps_api.company"
                 - "@angry_chimps_api.location"
+                - "@angry_chimps_api.service"
 
     angry_chimps_api.search.controller:
             class:     "%angry_chimps_api.controller.search.class%"
@@ -184,6 +187,17 @@ services:
                 - "@angry_chimps_api.session"
                 - "@angry_chimps_api.response"
                 - "@angry_chimps_api.calendar"
+
+    angry_chimps_api.calendar.controller:
+            class:     "%angry_chimps_api.controller.calendar.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.calendar"
+                - "@angry_chimps_api.company"
+                - "@angry_chimps_api.location"
+                - "@angry_chimps_api.service"
 
     angry_chimps_api.test.controller:
             class:     "%angry_chimps_api.controller.test.class%"

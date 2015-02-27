@@ -33,6 +33,10 @@ class CalendarService {
         $this->mysql = $mysql;
     }
 
+    /**
+     * @param $calendarId
+     * @return Calendar
+     */
     public function getCalendar($calendarId) {
         return $this->riak->getCalendar($calendarId);
     }
@@ -209,10 +213,38 @@ class CalendarService {
                 for ($start = $availability->start;
                      $start <= $lastStartTime;
                      $start = $start->add(new \DateInterval('PT15M'))) {
-                    $startTimes[] = $start->format('c');
+                    $startTimes[] = $start;
                 }
             }
         }
         return $startTimes;
+    }
+
+    public function getAvailableTimeWindows($availabilities, $minsForService, $minsNotice)
+    {
+        $windows = [];
+
+        /** @var Availability $availability */
+        foreach ($availabilities as $availability) {
+            $startTime = $availability->start;
+            $endTime = $availability->end;
+
+            if($startTime->add(new \DateInterval('PT' . $minsNotice . 'M')) > new \DateTime('now')) {
+                $startTime = new \DateTime('now');
+                $startTime->add(new \DateInterval('PT' . $minsNotice . 'M'));
+            }
+
+            if($endTime->sub(new \DateInterval('PT' . $minsForService . 'M')) <= $startTime) {
+                continue;
+            }
+            else {
+                $window = [];
+                $window['start'] = $availability->start->format('c');
+                $window['end'] = $availability->end->format('c');
+                $windows[] = $window;
+            }
+        }
+
+        return ['availabilities' => $windows ];
     }
 }

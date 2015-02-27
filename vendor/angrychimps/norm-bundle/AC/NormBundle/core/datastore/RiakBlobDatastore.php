@@ -226,7 +226,7 @@ class RiakBlobDatastore extends AbstractRiakDatastore {
                     }
                     return $arr;
                 }
-                elseif (get_class($obj) == 'DateTime') {
+                elseif ($obj instanceof \DateTime) {
                     return $obj->format('c');
                 }
                 else {

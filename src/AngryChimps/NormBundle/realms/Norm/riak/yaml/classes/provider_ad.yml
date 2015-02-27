@@ -34,6 +34,8 @@ fields:
       - Published
       - UnPubished
       - Deleted
+  - name: notification_phone
+    type: string
   - name: created_at
     type: DateTime
   - name: updated_at

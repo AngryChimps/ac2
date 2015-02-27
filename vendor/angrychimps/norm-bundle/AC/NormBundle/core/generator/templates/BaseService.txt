@@ -20,7 +20,7 @@ class Norm{{realmNameCapitalized}}BaseService extends NormService {
     {{#each tables}}
     /**
      * @param $pks array|int|string|\DateTime The primary key/keys values
-     * @return {{propertyClassWithNamespace}}
+     * @return {{objectNameWithoutNamespace}}
      * @throws \Exception
      */
     public function get{{objectNameWithoutNamespace}}($pks) {
@@ -29,7 +29,7 @@ class Norm{{realmNameCapitalized}}BaseService extends NormService {
 
     /**
      * @param $pks array An array of primary keys
-     * @return {{propertyClassWithNamespace}}Collection
+     * @return {{objectNameWithoutNamespace}}
      * @throws \Exception
      */
     public function get{{objectNameWithoutNamespace}}Collection($pks) {
@@ -40,7 +40,7 @@ class Norm{{realmNameCapitalized}}BaseService extends NormService {
     /**
      * @param $where string The WHERE clause
      * @param $params array The parameter values array
-     * @return {{propertyClassWithNamespace}}
+     * @return {{objectNameWithoutNamespace}}
      * @throws \Exception
      */
     public function get{{objectNameWithoutNamespace}}ByWhere($where, $params = array()) {
@@ -50,7 +50,7 @@ class Norm{{realmNameCapitalized}}BaseService extends NormService {
     /**
      * @param $sql string The entire SQL clause
      * @param $params array The parameter values array
-     * @return {{propertyClassWithNamespace}}
+     * @return {{objectNameWithoutNamespace}}
      * @throws \Exception
      */
     public function get{{objectNameWithoutNamespace}}BySql($sql, $params = array()) {
@@ -60,7 +60,7 @@ class Norm{{realmNameCapitalized}}BaseService extends NormService {
     /**
      * @param $where string The WHERE clause
      * @param $params array The parameter values array
-     * @return {{propertyClassWithNamespace}}Collection
+     * @return {{objectNameWithoutNamespace}}Collection
      * @throws \Exception
      */
     public function get{{objectNameWithoutNamespace}}CollectionByWhere($where, $params = array()) {
@@ -70,7 +70,7 @@ class Norm{{realmNameCapitalized}}BaseService extends NormService {
     /**
      * @param $sql string The entire SQL clause
      * @param $params array The parameter values array
-     * @return {{propertyClassWithNamespace}}Collection
+     * @return {{objectNameWithoutNamespace}}Collection
      * @throws \Exception
      */
     public function get{{objectNameWithoutNamespace}}CollectionBySql($sql, $params = array()) {
