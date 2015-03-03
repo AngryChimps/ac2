@@ -34,7 +34,7 @@ class SearchController extends AbstractController
         $categories = isset($payload['categories']) ? $payload['categories'] : null;
 
         $lat = isset($payload['lat']) ? $payload['lat'] : null;
-        $long = isset($payload['long']) ? $payload['long'] : null;
+        $lon = isset($payload['lon']) ? $payload['lon'] : null;
         $radius = isset($payload['radius_miles']) ? $payload['radius_miles'] : null;
         $consumerTravels = isset($payload['consumer_travels']) ? $payload['consumer_travels'] : null;
         $startingAt = isset($payload['starting_at']) ? new \DateTime($payload['starting_at']) : null;
@@ -43,7 +43,7 @@ class SearchController extends AbstractController
         $limit = isset($payload['limit']) ? $payload['limit'] : 10;
         $offset = isset($payload['offset']) ? $payload['offset'] : 0;
 
-        $results = $this->searchService->search($text, $categories, $lat, $long, $radius, $consumerTravels,
+        $results = $this->searchService->search($text, $categories, $lat, $lon, $radius, $consumerTravels,
             $startingAt, $endingAt, $sort, $limit, $offset);
 
         return $this->responseService->success($results);

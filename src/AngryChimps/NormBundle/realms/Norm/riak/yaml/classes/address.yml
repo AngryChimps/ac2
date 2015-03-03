@@ -35,5 +35,5 @@ fields:
             max: 25
   - name: lat
     type: float
-  - name: long
+  - name: lon
     type: float

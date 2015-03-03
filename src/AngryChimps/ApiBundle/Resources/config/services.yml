@@ -14,6 +14,7 @@ parameters:
     angry_chimps_api.company_media.class: AngryChimps\ApiBundle\Services\CompanyMediaService
     angry_chimps_api.provider_ad_immutable.class: AngryChimps\ApiBundle\Services\ProviderAdImmutableService
     angry_chimps_api.calendar.class: AngryChimps\ApiBundle\Services\CalendarService
+    angry_chimps_api.purchase.class: AngryChimps\ApiBundle\Services\PurchaseService
 
     angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
     angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
@@ -29,6 +30,7 @@ parameters:
     angry_chimps_api.controller.availability.class: AngryChimps\ApiBundle\Controller\AvailabilityController
     angry_chimps_api.controller.test.class: AngryChimps\ApiBundle\Controller\TestController
     angry_chimps_api.controller.calendar.class: AngryChimps\ApiBundle\Controller\CalendarController
+    angry_chimps_api.controller.purchase.class: AngryChimps\ApiBundle\Controller\PurchaseController
 
 services:
 
@@ -111,6 +113,10 @@ services:
             - "@ac_norm.norm.riak"
     angry_chimps_api.provider_ad_immutable:
         class: "%angry_chimps_api.provider_ad_immutable.class%"
+        arguments:
+            - "@ac_norm.norm.riak"
+    angry_chimps_api.purchase:
+        class: "%angry_chimps_api.purchase.class%"
         arguments:
             - "@ac_norm.norm.riak"
 

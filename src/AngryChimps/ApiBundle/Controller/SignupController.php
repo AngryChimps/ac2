@@ -11,6 +11,7 @@ use Norm\riak\Availability;
 use Norm\riak\Company;
 use Norm\riak\Location;
 use Norm\riak\ProviderAd;
+use Norm\riak\Service;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -63,11 +64,20 @@ class SignupController extends AbstractController
             $availabilities[] = $avail;
         }
 
+        $services = [];
+        foreach($payload['services'] as $service) {
+            $svc = new Service();
+            $svc->name = $service['name'];
+            $svc->discountedPrice = $service['discounted_price'];
+            $svc->originalPrice = $service['original_price'];
+            $svc->minsForService = $service['mins_for_service'];
+            $svc->minsNotice = $service['mins_notice'];
+            $services[] = $svc;
+        }
+
         $errors = array();
         $data = $this->signupService->registerProviderAd($payload['ad_title'], $payload['ad_description'],
-            $availabilities, $payload['service_name'],
-            $payload['discounted_price'], $payload['original_price'],
-            $payload['mins_for_service'], $payload['mins_notice'], $payload['category_id'], $errors);
+            $availabilities, $services, $payload['category_id'], $errors);
 
         if($data === false) {
             $error = array('code' => 'Api.SignupController.registerProviderAd.1',

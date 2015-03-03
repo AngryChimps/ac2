@@ -91,7 +91,7 @@ class CalendarController extends AbstractController
         return $this->responseService->success();
     }
 
-    public function indexPutAction() {
+    public function indexPutAction($calendarId) {
         $payload = $this->getPayload();
 
         $changes = [];
@@ -99,15 +99,15 @@ class CalendarController extends AbstractController
             $changes['name'] = $payload['name'];
         }
 
-        $location = $this->locationService->getByPk($payload['location_id']);
+        $calendar = $this->calendarService->getByPk($calendarId);
 
-        if($location === null) {
+        if($calendar === null) {
             $error = array('code' => 'Api.CalendarController.indexPutAction.1',
-                'human' => 'Unable to find the specified location');
-            return $this->responseService->failure(400, $error);
+                'human' => 'Unable to find the specified calendar');
+            return $this->responseService->failure(404, $error);
         }
 
-        $valid = $this->calendarService->update($location, $changes);
+        $valid = $this->calendarService->update($calendar, $changes);
 
         if($valid) {
             return $this->responseService->success();

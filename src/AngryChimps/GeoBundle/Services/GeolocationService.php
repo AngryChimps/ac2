@@ -56,7 +56,7 @@ class GeolocationService {
         $now = new \DateTime();
         $year = $now->format('Y');
         $dstTime = new \DateTime($year . '-07-01');
-        $url = $this->googleMapsTimeAddress . '?location=' . $address->lat . ',' . $address->long . '&timestamp='
+        $url = $this->googleMapsTimeAddress . '?location=' . $address->lat . ',' . $address->lon . '&timestamp='
              . $dstTime->format('U') . '&key=' . $this->googleMapsApiKey;
         $request = $this->guzzleService->createRequest('GET', $url);
         $response = $this->guzzleService->send($request);
@@ -71,7 +71,7 @@ class GeolocationService {
         $zipcode->timezoneId = $timeData['timeZoneId'];
         $zipcode->timezoneName = $timeData['timeZoneName'];
         $zipcode->lat = $address->lat;
-        $zipcode->long = $address->long;
+        $zipcode->lon = $address->lon;
         $zipcode->northLat = $json['results'][0]['geometry']['bounds']['northeast']['lat'];
         $zipcode->southLat = $json['results'][0]['geometry']['bounds']['southwest']['lat'];
         $zipcode->eastLong = $json['results'][0]['geometry']['bounds']['northeast']['lng'];

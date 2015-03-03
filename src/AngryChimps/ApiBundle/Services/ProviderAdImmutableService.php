@@ -35,7 +35,7 @@ class ProviderAdImmutableService {
         $arr['address']['state'] = $providerAdImmutable->location->address->state;
         $arr['address']['zip'] = $providerAdImmutable->location->address->zip;
         $arr['address']['lat'] = $providerAdImmutable->location->address->lat;
-        $arr['address']['long'] = $providerAdImmutable->location->address->long;
+        $arr['address']['lon'] = $providerAdImmutable->location->address->lon;
 
         foreach($providerAdImmutable->services as $service) {
             $arr2 = [];

@@ -2,6 +2,7 @@
 
 namespace AngryChimps\ApiBundle\Controller;
 
+use AngryChimps\ApiBundle\Services\PurchaseService;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use FOS\RestBundle\View\ViewHandler;
@@ -9,17 +10,14 @@ use AngryChimps\ApiBundle\Services\SessionService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use AngryChimps\ApiBundle\Services\ResponseService;
-use AngryChimps\ApiBundle\Services\CalendarService;
 
-class BookingController extends AbstractController
+class PurchaseController extends AbstractController
 {
-    /** @var CalendarService  */
-    protected $calendarService;
-
+    protected $purchaseService;
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
-                                ResponseService $responseService, CalendarService $calendarService) {
+                                   ResponseService $responseService, PurchaseService $purchaseService) {
         parent::__construct($requestStack, $sessionService, $responseService);
-        $this->calendarService = $calendarService;
+        $this->purchaseService = $purchaseService;
     }
 
     public function indexGetAction($purchaseId) {
@@ -37,5 +35,4 @@ class BookingController extends AbstractController
     public function indexDeleteAction($purchaseId) {
 
     }
-
 }

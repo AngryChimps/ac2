@@ -18,15 +18,15 @@ fields:
     type: string
   - name: lat
     type: float
-  - name: long
+  - name: lon
     type: float
   - name: north_lat
     type: float
   - name: south_lat
     type: float
-  - name: east_long
+  - name: east_lon
     type: float
-  - name: west_long
+  - name: west_lon
     type: float
   - name: created_at
     type: DateTime

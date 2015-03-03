@@ -39,7 +39,7 @@ class SearchService {
         return $arr;
     }
 
-    public function search($text, $categories, $lat, $long, $radiusMiles, $consumerTravels,
+    public function search($text, $categories, $lat, $lon, $radiusMiles, $consumerTravels,
                            $startingAt, $endingAt,
                            $sort, $limit, $offset) {
 
@@ -89,7 +89,7 @@ class SearchService {
 
         $functionScore->setQuery($topQuery);
         $functionScore->setFilter($topBoolFilter);
-        $functionScore->addDecayFunction(FunctionScore::DECAY_LINEAR, 'location', $lat . ',' . $long,
+        $functionScore->addDecayFunction(FunctionScore::DECAY_LINEAR, 'location', $lat . ',' . $lon,
             "2mi");
 
         $query = new \Elastica\Query($functionScore);
@@ -121,7 +121,7 @@ class SearchService {
 
             //Calculate the distance
             $geopoint = explode(',', $sourceArray['location']);
-            $distance = $this->calculateDistance($lat, $long, $geopoint[0], $geopoint[1]);
+            $distance = $this->calculateDistance($lat, $lon, $geopoint[0], $geopoint[1]);
 
             if($radiusMiles !== null) {
                 if($distance > $radiusMiles) {
@@ -155,9 +155,9 @@ class SearchService {
         return $arr;
     }
 
-    public function calculateDistance($lat1, $long1, $lat2, $long2) {
-        $coordinate1 = new Coordinate($lat1, $long1);
-        $coordinate2 = new Coordinate($lat2, $long2);
+    public function calculateDistance($lat1, $lon1, $lat2, $lon2) {
+        $coordinate1 = new Coordinate($lat1, $lon1);
+        $coordinate2 = new Coordinate($lat2, $lon2);
 
         $meters = $coordinate1->getDistance($coordinate2, new Haversine());
         return $meters * 0.000621371;

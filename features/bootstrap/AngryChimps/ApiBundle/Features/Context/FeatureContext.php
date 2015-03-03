@@ -594,7 +594,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->testLocation->address->zip = 94110;
         $this->testLocation->address->phone = '(415) 555-1213';
         $this->testLocation->address->lat = 37.762822;
-        $this->testLocation->address->long = -122.437239;
+        $this->testLocation->address->lon = -122.437239;
         $this->testLocation->phone = '(415) 555-1212';
         $this->testLocation->isMobile = false;
         $this->riak->create($this->testLocation);
@@ -682,6 +682,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $arr = array();
         $arr['ad_title'] = 'My Nifty Ad Title';
         $arr['ad_description'] = 'And a description';
+        $arr['category_id'] = 201;
 
         $arr['availabilities'] = [];
         $avail = ['start'=> 'today 09:00:00-08:00', 'end'=> 'today 17:00:00-08:00'];
@@ -691,7 +692,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
         $arr['services'] = [];
         $svc = [];
-        $svc['service_name'] = 'Long Haircut';
+        $svc['name'] = 'Long Haircut';
         $svc['discounted_price'] = 70.00;
         $svc['original_price'] = 129.00;
         $svc['mins_for_service'] = 60;
@@ -754,6 +755,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
             $this->riak->invalidate($this->testCompany);
             $this->testCompany = $this->riak->getCompany($this->testUser->managedCompanyIds[0]);
             $this->testLocation = $this->riak->getLocation($this->testCompany->locationIds[0]);
+            $this->calendar = $this->riak->getCalendar($this->testLocation->calendarIds[0]);
             $this->addObject($this->testUser);
             $this->addObject($this->testCompany);
             $this->addObject($this->testLocation);
@@ -959,6 +961,76 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->deleteData('availability');
     }
 
+    /**
+     * @Given Another user has a calendar
+     */
+    public function anotherUserHasACalendar()
+    {
+        $this->iGetANewSessionToken();
+    }
+
+    /**
+     * @When I get the calendar data for the calendar
+     */
+    public function iGetTheCalendarDataForTheCalendar()
+    {
+        $this->getData('calendar/' . $this->calendar->id);
+    }
+
+    /**
+     * @Given The authenticated user has a calendar
+     */
+    public function theAuthenticatedUserHasACalendar()
+    {
+        //Nothing to do here, the creator is already authenticated
+        return;
+    }
+
+    /**
+     * @When I get the calendar data for myself
+     */
+    public function iGetTheCalendarDataForMyself()
+    {
+        $this->getData('calendar/' . $this->calendar->id);
+    }
+
+    /**
+     * @Given I have a valid new calendar array
+     */
+    public function iHaveAValidNewCalendarArray()
+    {
+        $arr = [];
+        $arr['location_id'] = $this->testLocation->id;
+        $arr['name'] = 'My Second Calendar';
+
+        $this->requestArray = array('payload' => $arr);
+    }
+
+    /**
+     * @When I post the calendar data for the calendar
+     */
+    public function iPostTheCalendarDataForTheCalendar()
+    {
+        $this->postData('calendar');
+    }
+
+    /**
+     * @When I delete the test calendar
+     */
+    public function iDeleteTheTestCalendar()
+    {
+        $this->deleteData('calendar/' . $this->testCalendar->id);
+    }
+
+    /**
+     * @When I put changes to the test calendar's name field to :arg1
+     */
+    public function iPutChangesToTheTestCalendarSNameFieldTo($arg1)
+    {
+        $arr['name'] = 'My Super Calendar';
+        $this->requestArray = array("payload" => $arr);
+        $this->putData('calendar/' . $this->testCalendar->id);
+    }
 
 }
 

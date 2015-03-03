@@ -59,7 +59,7 @@ class LocationService {
         $location->address->city = $address->city;
         $location->address->state = $address->state;
         $location->address->lat = $address->lat;
-        $location->address->long = $address->long;
+        $location->address->lon = $address->lon;
 
         $location->companyId = $company->id;
         $location->isMobile = $isMobile;
@@ -89,7 +89,7 @@ class LocationService {
         $location->address->city = $address->city;
         $location->address->state = $address->state;
         $location->address->lat = $address->lat;
-        $location->address->long = $address->long;
+        $location->address->lon = $address->lon;
 
         $errors = $this->validator->validate($location);
         if(count($errors) > 0) {

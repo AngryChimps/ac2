@@ -113,18 +113,9 @@ class MemberService {
 
     public function getMemberByEmailEnabled($email) {
 //        $member = $this->riak->getObjectBySecondaryIndex('Norm\\riak\\Member', 'email_bin', $email);
-        $this->logTime('pre getMemberByEmail');
         $mysqlMember = $this->mysql->getMemberByEmail($email);
-        $this->logTime('post getMemberByEmail');
         $member = $this->riak->getMember($mysqlMember->id);
-        $this->logTime('post riak get');
         return $member;
-    }
-    protected function logTime($tag) {
-        $fd = fopen('/tmp/ac/timer.txt', 'a');
-        fwrite($fd, microtime(true) . ' -- ' . $tag . "\n");
-        fflush($fd);
-        fclose($fd);
     }
 
     public function getMember($id) {

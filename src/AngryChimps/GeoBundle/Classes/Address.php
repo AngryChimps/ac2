@@ -11,7 +11,7 @@ class Address {
     public $state;
     public $zip;
     public $lat;
-    public $long;
+    public $lon;
 
     public static function getFromGoogleMapsArray($arr) {
         $firstResult = $arr['results'][0];
@@ -38,7 +38,7 @@ class Address {
         }
 
         $address->lat = $firstResult['geometry']['location']['lat'];
-        $address->long = $firstResult['geometry']['location']['lng'];
+        $address->lon = $firstResult['geometry']['location']['lng'];
 
         return $address;
     }

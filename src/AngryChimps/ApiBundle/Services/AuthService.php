@@ -78,9 +78,7 @@ class AuthService {
 //    }
 
     public function loginFormUser($email, $password) {
-        $this->logTime('start get by email');
         $user = $this->memberService->getMemberByEmailEnabled($email);
-        $this->logTime('end get by email');
 
         if($user === null) {
             return null;
@@ -92,13 +90,6 @@ class AuthService {
 
         return $user;
     }
-    protected function logTime($tag) {
-        $fd = fopen('/tmp/ac/timer.txt', 'a');
-        fwrite($fd, microtime(true) . ' -- ' . $tag . "\n");
-        fflush($fd);
-        fclose($fd);
-    }
-
     public function isPasswordCorrect(Member $user, $password) {
         return password_verify($password, $user->password);
     }

@@ -86,8 +86,7 @@ class SignupService {
     }
 
     public function registerProviderAd($adTitle, $adDescription, array $availabilities,
-                                       $serviceName, $discountedPrice, $originalPrice,
-                                       $minsForService, $minsNotice, $categoryId, array &$errors) {
+                                       array $services, $categoryId, array &$errors) {
 
         $member = $this->memberService->createEmpty();
         $company = $this->companyService->createEmpty($member);
@@ -98,19 +97,15 @@ class SignupService {
             $this->calendarService->addAvailability($calendar, $availability);
         }
 
-        $service = new Service();
-        $service->name = $serviceName;
-        $service->discountedPrice = $discountedPrice;
-        $service->originalPrice = $originalPrice;
-        $service->minsForService = $minsForService;
-        $service->minsNotice = $minsNotice;
+        foreach($services as $service) {
+            $errors = $this->validator->validate($service);
+            if(count($errors) > 0) {
+                return false;
+            }
 
-        $errors = $this->validator->validate($service);
-        if(count($errors) > 0) {
-            return false;
+            $this->riak->create($service);
         }
 
-        $this->riak->create($service);
 
         $companyServices = $this->riak->getCompanyServices($company->id);
         $companyServices->services->offsetSet($service->id, $service);
@@ -181,7 +176,7 @@ class SignupService {
         $location->address->city = $address->city;
         $location->address->state = $address->state;
         $location->address->lat = $address->lat;
-        $location->address->long = $address->long;
+        $location->address->lon = $address->lon;
 
         $errors = $this->validator->validate($location);
         if(count($errors) > 0) {

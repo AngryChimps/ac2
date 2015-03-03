@@ -67,18 +67,13 @@ class AuthController extends AbstractController
 
     public function loginAction()
     {
-        $this->logTime('start');
         $payload = $this->getPayload();
         $auth = $this->authService;
 
-        $this->logTime('start login');
         $user = $auth->loginFormUser($payload['email'], $payload['password']);
-        $this->logTime('end login');
         if($user !== false && $user !== null && $user->id !== null) {
             //Set the userId in the session
-            $this->logTime('pre session');
             $this->getSessionService()->setSessionUser($user);
-            $this->logTime('post session set');
 
             $data = array('member' => array('id'=> $user->id,
                                             'name' => $user->name,
@@ -86,7 +81,6 @@ class AuthController extends AbstractController
                                             'email' => $user->email,
                                             'company_ids' => $user->managedCompanyIds,
                 ));
-            $this->logTime('pre-response');
             return $this->responseService->success($data);
         }
         else {
@@ -104,13 +98,6 @@ class AuthController extends AbstractController
 
             return $this->responseService->failure(400, $error);
         }
-    }
-
-    protected function logTime($tag) {
-        $fd = fopen('/tmp/ac/timer.txt', 'a');
-        fwrite($fd, microtime(true) . ' -- ' . $tag . "\n");
-        fflush($fd);
-        fclose($fd);
     }
 
 //    public function fbLoginRegisterAction() {
