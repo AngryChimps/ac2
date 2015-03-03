@@ -72,7 +72,7 @@ class CalendarController extends AbstractController
                 $service->minsForService, $service->minsNotice);
         }
 
-        return $this->responseService->success(array('payload' => $data));
+        return $this->responseService->success($data);
     }
 
     public function indexPostAction() {
@@ -86,9 +86,9 @@ class CalendarController extends AbstractController
             return $this->responseService->failure(400, $error);
         }
 
-        $this->calendarService->createNew($location, $payload['name']);
+        $cal = $this->calendarService->createNew($location, $payload['name']);
 
-        return $this->responseService->success();
+        return $this->responseService->success(['calendar' => ['id' => $cal->id]]);
     }
 
     public function indexPutAction($calendarId) {

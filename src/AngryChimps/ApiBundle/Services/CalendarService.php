@@ -43,12 +43,13 @@ class CalendarService {
 
     public function getData(Calendar $calendar, $isOwner = false) {
         $arr = [];
+        $arr['id'] = $calendar->id;
         $arr['name'] = $calendar->name;
 
         foreach($calendar->availabilities as $availability) {
             $arr2 = [];
-            $arr2['start'] = $availability->start;
-            $arr2['end'] = $availability->end;
+            $arr2['start'] = $availability->start->format('c');
+            $arr2['end'] = $availability->end->format('c');
             $arr['availabilities'][] = $arr2;
         }
 
@@ -56,8 +57,8 @@ class CalendarService {
             foreach ($calendar->bookings as $booking) {
                 $arr2 = [];
                 $arr2['title'] = $booking->title;
-                $arr2['start'] = $booking->start;
-                $arr2['end'] = $booking->end;
+                $arr2['start'] = $booking->start->format('c');
+                $arr2['end'] = $booking->end->format('c');
 
                 if (!empty($booking->bookingDetailId)) {
                     $arr2['booking_detail_id'] = $booking->bookingDetailId;
@@ -66,7 +67,7 @@ class CalendarService {
             }
         }
 
-        return $arr;
+        return ['calendar' => $arr];
     }
 
     public function markDeleted(Calendar $calendar) {
