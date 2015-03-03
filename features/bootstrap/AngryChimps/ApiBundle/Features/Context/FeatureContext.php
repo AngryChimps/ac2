@@ -714,8 +714,12 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
             $this->authenticatedUserId = $this->getResponseFieldValue('payload.member.id');
             $this->testUser = $this->riak->getMember($this->authenticatedUserId);
             $this->testCompany = $this->riak->getCompany($this->testUser->managedCompanyIds[0]);
+            $this->testLocation = $this->riak->getLocation($this->testCompany->locationIds[0]);
+            $this->testCalendar = $this->riak->getCalendar($this->testLocation->calendarIds[0]);
             $this->addObject($this->testUser);
             $this->addObject($this->testCompany);
+            $this->addObject($this->testLocation);
+            $this->addObject($this->testCalendar);
         }
     }
 
@@ -1027,7 +1031,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
      */
     public function iPutChangesToTheTestCalendarSNameFieldTo($arg1)
     {
-        $arr['name'] = 'My Super Calendar';
+        $arr['name'] = $arg1;
         $this->requestArray = array("payload" => $arr);
         $this->putData('calendar/' . $this->testCalendar->id);
     }

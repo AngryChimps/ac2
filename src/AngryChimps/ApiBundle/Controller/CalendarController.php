@@ -99,7 +99,7 @@ class CalendarController extends AbstractController
             $changes['name'] = $payload['name'];
         }
 
-        $calendar = $this->calendarService->getByPk($calendarId);
+        $calendar = $this->calendarService->getCalendar($calendarId);
 
         if($calendar === null) {
             $error = array('code' => 'Api.CalendarController.indexPutAction.1',

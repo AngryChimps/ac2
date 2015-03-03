@@ -10,7 +10,4 @@ Feature: calendar-put
     When I put changes to the test calendar's name field to "My Second Calendar"
     Then I get a status code "200"
     And I get back a valid json object
-    And The response contains a field named "payload.calendar_id.id"
-    And The value of the "payload.calendar_id.id" field returned is of type "string"
-    And The string length of the "payload.calendar_id.id" field is "32"
     And Finally, I clean up my objects
