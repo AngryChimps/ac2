@@ -159,9 +159,13 @@ class CalendarService {
             if($availability->end <= $availabilityToRemove->start || $availability->start >= $availabilityToRemove->end) {
                 $availabilities[] = $availability;
             }
-            //If the availability is encompassed by the one to remove (or is the same), skip it
-            elseif($availability->start >= $availabilityToRemove->start && $availability->end <= $availabilityToRemove->end) {
+            //If the availability is the same, skip it
+            elseif($availability->start == $availabilityToRemove->start && $availability->end == $availabilityToRemove->end) {
                 //Skip it
+            }
+            //If the availability is encompassed by the one to remove, then part of that the is already booked
+            elseif($availability->start >= $availabilityToRemove->start && $availability->end <= $availabilityToRemove->end) {
+                throw new \Exception('Booking time is not available');
             }
             //If the availability fully encompassses the one to remove, split it into two
             elseif($availability->start < $availabilityToRemove->start && $availability->end > $availabilityToRemove->end) {

@@ -26,9 +26,6 @@ class SearchController extends AbstractController
     }
 
     public function indexPostAction() {
-//        $result = $this->searchService->getSampleProviderAdListing();
-//        return $this->responseService->success($result);
-
         $payload = $this->getPayload();
         $text = isset($payload['text']) ? $payload['text'] : null;
         $categories = isset($payload['categories']) ? $payload['categories'] : null;

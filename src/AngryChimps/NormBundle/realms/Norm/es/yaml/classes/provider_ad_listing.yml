@@ -17,13 +17,13 @@ fields:
   - name: rating
     type: float
     include_in_all: false
-  - name: ratingCount
+  - name: rating_count
     type: int
     include_in_all: false
-  - name: discountedPrice
+  - name: discounted_price
     type: float
     include_in_all: false
-  - name: discountPercentage
+  - name: discount_percentage
     type: float
     include_in_all: false
   - name: location

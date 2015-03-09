@@ -7,20 +7,36 @@ fields:
     auto_generate: true
   - name: title
     type: string
-  - name: booking_detail_id
-    type: string
   - name: type
     type: enum
     values:
-      - ShortBooking
+      - ManualBooking
       - SystemBooking
   - name: start
     type: DateTime
   - name: end
     type: DateTime
-
-foreign_keys:
-  - name: fk_booking_booking_detail
-    column_name: booking_detail_id
-    referenced_table_name: booking_detail
-    referenced_column_name: id
+  - name: provider_ad_immutable_id
+    type: string
+  - name: service_id
+    type: string
+  - name: member_id
+    type: string
+  - name: payment_type
+    type: enum
+    values:
+      - Stripe
+  - name: stripe_token
+    type: string
+  - name: stripe_customer_id
+    type: string
+  - name: status
+    type: enum
+    values:
+      - Pending
+      - Completed
+      - Canceled
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

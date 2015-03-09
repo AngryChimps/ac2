@@ -42,6 +42,11 @@ class AbstractFeatureContext {
     protected $calendar;
     protected $rand;
 
+    protected $providerAdImmutableId;
+
+    /** @var \Norm\riak\ProviderAd */
+    protected $providerAd;
+
     /** @var  \Norm\riak\Member */
     protected $testUser;
 
@@ -347,11 +352,13 @@ class AbstractFeatureContext {
             case 'today':
                 $dt = new \DateTime();
                 $dt->setTime($hour, $minute, 0);
+                $dt->setTimezone(new \DateTimeZone('PST'));
                 return $dt;
             case 'tomorrow':
                 $dt = new \DateTime();
                 $dt->add(new \DateInterval('P1D'));
                 $dt->setTime($hour, $minute, 0);
+                $dt->setTimezone(new \DateTimeZone('PST'));
                 return $dt;
         }
     }

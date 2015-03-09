@@ -117,7 +117,7 @@ class ProviderAdService {
         //Create ProviderAdListing object
         $listing = new ProviderAdListing();
         $listing->providerAdImmutableId = $im->id;
-        $listing->providerAdId = $im->providerAd->id;
+        $listing->providerAdId = $ad->id;
         $listing->title = $ad->title;
         $listing->city = $location->address->city;
         $listing->state = $location->address->state;
@@ -125,6 +125,7 @@ class ProviderAdService {
         $listing->companyName = $company->name;
         $listing->categoryId = $ad->categoryId;
         $listing->categoryName = $this->categoriesService->getCategoryName($ad->categoryId);
+
         $listing->description = $ad->description;
 
         if(!empty($ad->photos)) {
@@ -168,6 +169,8 @@ class ProviderAdService {
             }
         }
         $this->riak->update($companyAds);
+
+        return $ad;
     }
 
     public function getProviderAd($id) {

@@ -148,23 +148,19 @@ angry_chimps_api_calendar_delete:
     methods: ["DELETE"]
     defaults: { _controller: angry_chimps_api.calendar.controller:indexDeleteAction}
 
-#purchase
-angry_chimps_api_purchase_get:
-    path:     /purchase/{calendarId}/{serviceId}
+#booking
+angry_chimps_api_booking_get:
+    path:     /booking/{calendarId}/{serviceId}
     methods: ["GET"]
-    defaults: { _controller: angry_chimps_api.purchase.controller:indexGetAction}
-angry_chimps_api_purchase_post:
-    path:     /purchase
+    defaults: { _controller: angry_chimps_api.booking.controller:indexGetAction}
+angry_chimps_api_booking_post:
+    path:     /booking
     methods: ["POST"]
-    defaults: { _controller: angry_chimps_api.purchase.controller:indexPostAction}
-angry_chimps_api_purchase_put:
-    path:     /purchase/{purchaseId}
-    methods: ["PUT"]
-    defaults: { _controller: angry_chimps_api.purchase.controller:indexPutAction}
-angry_chimps_api_purchase_delete:
-    path:     /purchase/{purchaseId}
+    defaults: { _controller: angry_chimps_api.booking.controller:indexPostAction}
+angry_chimps_api_booking_delete:
+    path:     /booking/{bookingId}
     methods: ["DELETE"]
-    defaults: { _controller: angry_chimps_api.purchase.controller:indexDeleteAction}
+    defaults: { _controller: angry_chimps_api.booking.controller:indexDeleteAction}
 
 #api:
 #    resource: "@AngryChimpsApiBundle/Controller"

@@ -20,9 +20,9 @@ class NormEsService extends NormEsBaseService {
             $arr['title'] = $obj->title;
             $arr['photo'] = $obj->photo;
             $arr['rating'] = $obj->rating;
-            $arr['ratingCount'] = $obj->ratingCount;
-            $arr['discountedPrice'] = $obj->discountedPrice;
-            $arr['discountPercentage'] = $obj->discountPercentage;
+            $arr['rating_count'] = $obj->ratingCount;
+            $arr['discounted_price'] = $obj->discountedPrice;
+            $arr['discount_percentage'] = $obj->discountPercentage;
             $arr['location'] = $obj->location;
             $arr['company_name'] = $obj->companyName;
             $arr['category_name'] = $obj->categoryName;

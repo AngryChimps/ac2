@@ -20,10 +20,15 @@ class ServiceService {
     /** @var  NormMysqlService */
     protected $mysql;
 
-    public function __construct(ValidatorInterface $validator, NormRiakService $riak, NormMysqlService $mysql) {
+    /** @var CompanyService a */
+    protected $companyService;
+
+    public function __construct(ValidatorInterface $validator, NormRiakService $riak, NormMysqlService $mysql,
+                                CompanyService $companyService) {
         $this->validator = $validator;
         $this->riak = $riak;
         $this->mysql = $mysql;
+        $this->companyService = $companyService;
     }
 
     public function createService($name, $companyId, $discountedPrice,
@@ -43,6 +48,11 @@ class ServiceService {
         }
 
         $this->riak->create($service);
+
+        //Add to services list in company
+        $company = $this->riak->getCompany($companyId);
+        $company->serviceIds[] = $service->id;
+        $this->riak->update($company);
 
         return $service;
     }
@@ -78,5 +88,23 @@ class ServiceService {
     public function markServiceDeleted(Service $service) {
         $service->status = Service::DISABLED_STATUS;
         $this->riak->update($service);
+
+        //remove from list of services
+        $company = $this->companyService->getByPk($service->companyId);
+        for($i=0; count($company->serviceIds) < $i; $i++) {
+            if($company->serviceIds[$i] == $service->id) {
+                    $index = $i;
+            }
+        }
+
+        $serviceIds1 =  array_slice($company->serviceIds, 0, count($company->serviceIds));
+        $serviceIds2 = array_slice($company->serviceIds, count($company->serviceIds),
+            count($company->serviceIds) - $index);
+        $company->serviceIds = array_merge($serviceIds1, $serviceIds2);
+
+        //Add to list of deleted services
+        $company->serviceDeletedIds[] = $service->id;
+        $this->riak->update($company);
+
     }
 } 

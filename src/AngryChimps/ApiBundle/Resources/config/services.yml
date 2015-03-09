@@ -14,7 +14,7 @@ parameters:
     angry_chimps_api.company_media.class: AngryChimps\ApiBundle\Services\CompanyMediaService
     angry_chimps_api.provider_ad_immutable.class: AngryChimps\ApiBundle\Services\ProviderAdImmutableService
     angry_chimps_api.calendar.class: AngryChimps\ApiBundle\Services\CalendarService
-    angry_chimps_api.purchase.class: AngryChimps\ApiBundle\Services\PurchaseService
+    angry_chimps_api.booking.class: AngryChimps\ApiBundle\Services\BookingService
 
     angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
     angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
@@ -30,7 +30,7 @@ parameters:
     angry_chimps_api.controller.availability.class: AngryChimps\ApiBundle\Controller\AvailabilityController
     angry_chimps_api.controller.test.class: AngryChimps\ApiBundle\Controller\TestController
     angry_chimps_api.controller.calendar.class: AngryChimps\ApiBundle\Controller\CalendarController
-    angry_chimps_api.controller.purchase.class: AngryChimps\ApiBundle\Controller\PurchaseController
+    angry_chimps_api.controller.booking.class: AngryChimps\ApiBundle\Controller\BookingController
 
 services:
 
@@ -54,10 +54,19 @@ services:
         arguments: ["@validator", "@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
     angry_chimps_api.location:
         class: "%angry_chimps_api.location.class%"
-        arguments: ["@validator", "@angry_chimps_geo.geolocation", "@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
+        arguments:
+            - "@validator"
+            - "@angry_chimps_geo.geolocation"
+            - "@ac_norm.norm.riak"
+            - "@ac_norm.norm.mysql"
+            - "@angry_chimps_api.company"
     angry_chimps_api.service:
         class: "%angry_chimps_api.service.class%"
-        arguments: ["@validator", "@ac_norm.norm.riak", "@ac_norm.norm.mysql"]
+        arguments:
+            - "@validator"
+            - "@ac_norm.norm.riak"
+            - "@ac_norm.norm.mysql"
+            - "@angry_chimps_api.company"
     angry_chimps_api.response:
         class: "%angry_chimps_api.response.class%"
         arguments: ["@request_stack", "@logger", "@fos_rest.view_handler"]
@@ -115,8 +124,8 @@ services:
         class: "%angry_chimps_api.provider_ad_immutable.class%"
         arguments:
             - "@ac_norm.norm.riak"
-    angry_chimps_api.purchase:
-        class: "%angry_chimps_api.purchase.class%"
+    angry_chimps_api.booking:
+        class: "%angry_chimps_api.booking.class%"
         arguments:
             - "@ac_norm.norm.riak"
 
@@ -214,6 +223,16 @@ services:
                 - %kernel.debug%
                 - "@kernel"
 
+    angry_chimps_api.booking.controller:
+            class:     "%angry_chimps_api.controller.booking.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.booking"
+                - "@angry_chimps_api.provider_ad_immutable"
+                - "@angry_chimps_api.calendar"
+                - "@angry_chimps_api.service"
 
 
 ##############################################################

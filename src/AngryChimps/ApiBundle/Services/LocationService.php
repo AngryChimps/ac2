@@ -25,11 +25,16 @@ class LocationService {
     /** @var  NormMysqlService */
     protected $mysql;
 
-    public function __construct(ValidatorInterface $validator, GeolocationService $geo, NormRiakService $riak, NormMysqlService $mysql) {
+    /** @var CompanyService  */
+    protected $companyService;
+
+    public function __construct(ValidatorInterface $validator, GeolocationService $geo, NormRiakService $riak,
+                                NormMysqlService $mysql, CompanyService $companyService) {
         $this->validator = $validator;
         $this->geo = $geo;
         $this->riak = $riak;
         $this->mysql = $mysql;
+        $this->companyService = $companyService;
     }
 
     public function createEmpty(Company $company) {
@@ -108,5 +113,24 @@ class LocationService {
     public function markLocationDeleted(Location $location) {
         $location->status = Location::DISABLED_STATUS;
         $this->riak->update($location);
+
+        $company = $this->companyService->getByPk($location->companyId);
+
+        //remove from list of locations
+        $index = 0;
+        for($i=0; count($company->locationIds) < $i; $i++) {
+            if($company->locationIds[$i] == $location->id) {
+                $index = $i;
+            }
+        }
+
+        $locationIds1 =  array_slice($company->locationIds, 0, count($company->locationIds));
+        $locationIds2 = array_slice($company->locationIds, count($company->locationIds),
+            count($company->locationIds) - $index);
+        $company->locationIds = array_merge($locationIds1, $locationIds2);
+
+        //Add to list of deleted services
+        $company->locationDeletedIds[] = $location->id;
+        $this->riak->update($company);
     }
 }

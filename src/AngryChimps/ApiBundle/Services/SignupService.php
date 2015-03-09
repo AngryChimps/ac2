@@ -102,10 +102,15 @@ class SignupService {
             if(count($errors) > 0) {
                 return false;
             }
-
             $this->riak->create($service);
+
+            $company->serviceIds[] = $service->id;
         }
 
+        foreach($company->locationIds as $locationId) {
+            $company->locationIds[] = $locationId;
+        }
+        $this->riak->update($company);
 
         $companyServices = $this->riak->getCompanyServices($company->id);
         $companyServices->services->offsetSet($service->id, $service);
@@ -142,7 +147,6 @@ class SignupService {
         $mysqlMember = $this->mysql->getMember($member->mysqlId);
         $mysqlMember->name = $memberName;
         $mysqlMember->email = $email;
-        $this->mysql->update($mysqlMember);
         $this->mysql->update($mysqlMember);
 
         $company->name = $companyName;
@@ -200,9 +204,9 @@ class SignupService {
         $this->riak->update($calendar);
 
         $providerAd = $this->providerAdService->getProviderAd($companyAds->publishedAdIds[0]);
-        $this->providerAdService->publish($providerAd);
+        $ad = $this->providerAdService->publish($providerAd);
 
-        return array('providerAd' => array('id' => $companyAds->publishedAdIds[0]));
+        return array('provider_ad' => array('id' => $ad->id));
     }
 
     public function uploadPhoto(Member $member, UploadedFile $photo) {

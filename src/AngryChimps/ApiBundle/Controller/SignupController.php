@@ -153,7 +153,7 @@ class SignupController extends AbstractController
         }
 
         //Publish the ad
-        $this->providerAdService->publish($this->providerAdService->getProviderAd($result['providerAd']['id']));
+        $this->providerAdService->publish($this->providerAdService->getProviderAd($result['provider_ad']['id']));
 
         return $this->responseService->success($result);
     }

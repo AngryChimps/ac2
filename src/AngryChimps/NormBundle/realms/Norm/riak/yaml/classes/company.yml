@@ -30,6 +30,12 @@ fields:
     type: string[]
   - name: location_ids
     type: string[]
+  - name: location_deleted_ids
+    type: string[]
+  - name: service_ids
+    type: string[]
+  - name: service_deleted_ids
+    type: string[]
   - name: flag_ids
     type: string[]
   - name: status

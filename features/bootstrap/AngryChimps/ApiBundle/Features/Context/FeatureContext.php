@@ -11,6 +11,7 @@ use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Norm\riak\Address;
 use Norm\riak\Availability;
+use Norm\riak\Booking;
 use Norm\riak\Calendar;
 use Norm\riak\Company;
 use Norm\riak\Location;
@@ -720,6 +721,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
             $this->addObject($this->testCompany);
             $this->addObject($this->testLocation);
             $this->addObject($this->testCalendar);
+            $this->addObject($this->providerAd);
         }
     }
 
@@ -749,7 +751,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     /**
      * @Given I register a provider ad company
      */
-    public function iRegisterAProviderAdCompany()
+    public function     iRegisterAProviderAdCompany()
     {
         $this->postData('signup/registerProviderCompany');
 
@@ -760,9 +762,12 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
             $this->testCompany = $this->riak->getCompany($this->testUser->managedCompanyIds[0]);
             $this->testLocation = $this->riak->getLocation($this->testCompany->locationIds[0]);
             $this->calendar = $this->riak->getCalendar($this->testLocation->calendarIds[0]);
+            $this->providerAd = $this->riak->getProviderAd($this->getResponseFieldValue('payload.provider_ad.id'));
+            $this->providerAdImmutableId = $this->providerAd->currentImmutableId;
             $this->addObject($this->testUser);
             $this->addObject($this->testCompany);
             $this->addObject($this->testLocation);
+            $this->addObject($this->providerAd);
         }
     }
 
@@ -876,8 +881,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     {
         $arr = [];
         $arr['calendar_id'] = $this->testCalendar->id;
-        $arr['start'] = $this->getDate('tomorrow', 13, 0)->format('Y-m-d H:i:s');
-        $arr['end'] = $this->getDate('tomorrow', 14, 0)->format('Y-m-d H:i:s');
+        $arr['start'] = $this->getDate('tomorrow', 13, 0)->format('c');
+        $arr['end'] = $this->getDate('tomorrow', 14, 0)->format('c');
 
         $this->requestArray = array('payload' => $arr);
     }
@@ -888,6 +893,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iPostTheAvailabilityArray()
     {
         $this->postData('availability');
+
+
     }
 
     /**
@@ -920,8 +927,8 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
         $arr = [];
         $arr['calendar_id'] = $this->testCalendar->id;
-        $arr['start'] = $this->getDate($arg1, $startHour, $startMinute)->format('Y-m-d H:i:s');
-        $arr['end'] = $this->getDate($arg3, $endHour, $endMinute)->format('Y-m-d H:i:s');
+        $arr['start'] = $this->getDate($arg1, $startHour, $startMinute)->format('c');
+        $arr['end'] = $this->getDate($arg3, $endHour, $endMinute)->format('c');
 
         $this->requestArray = array('payload' => $arr);
     }
@@ -935,9 +942,9 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         list($endHour, $endMinute) = explode(':', $arg4);
 
         $this->assertEquals($this->testCalendar->availabilities[0]->start, $this->getDate($arg1, $startHour, $startMinute),
-            "The first availability start time is incorrect: " . $this->testCalendar->availabilities[0]->start->format('Y-m-d H:i:s'));
+            "The first availability start time is incorrect: " . $this->testCalendar->availabilities[0]->start->format('c'));
         $this->assertEquals($this->testCalendar->availabilities[0]->end, $this->getDate($arg3, $endHour, $endMinute),
-            "The first availability end time is incorrect: " . $this->testCalendar->availabilities[0]->end->format('Y-m-d H:i:s'));
+            "The first availability end time is incorrect: " . $this->testCalendar->availabilities[0]->end->format('c'));
 
     }
 
@@ -1034,6 +1041,33 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $arr['name'] = $arg1;
         $this->requestArray = array("payload" => $arr);
         $this->putData('calendar/' . $this->testCalendar->id);
+    }
+
+    /**
+     * @Given I have a valid booking array starting :arg1 at :arg2 until :arg3 at :arg4
+     */
+    public function iHaveAValidBookingArrayStartingAtUntilAt($arg1, $arg2, $arg3, $arg4)
+    {
+        list($startHour, $startMinute) = explode(':', $arg2);
+        list($endHour, $endMinute) = explode(':', $arg4);
+
+        $arr = [];
+        $arr['type'] = 'system';
+        $arr['provider_ad_immutable_id'] = $this->providerAdImmutableId;
+        $arr['service_id'] = $this->testCompany->serviceIds[0];
+        $arr['starting_at'] = $this->getDate($arg1, $startHour, $startMinute)->format('c');
+        $arr['ending_at'] = $this->getDate($arg3, $endHour, $endMinute)->format('c');
+        $arr['stripe_token'] = 'token';
+
+        $this->requestArray = ['payload' => $arr];
+    }
+
+    /**
+     * @When I post the booking array
+     */
+    public function iPostTheBookingArray()
+    {
+        $this->postData('booking');
     }
 
 }
