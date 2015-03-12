@@ -1068,6 +1068,11 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iPostTheBookingArray()
     {
         $this->postData('booking');
+
+        if($this->response->getStatusCode() === 200) {
+            $this->testBooking = $this->riak->getBooking($this->getResponseFieldValue('payload.booking.id'));
+            $this->addObject($this->testBooking);
+        }
     }
 
     /**
@@ -1102,6 +1107,14 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
 
         $this->assertEquals($arg1, $this->testCompany->ratingCount, 'The test company should have ' . $arg1
             . ' comments but actually has ' . $this->testCompany->ratingCount . ' comments');
+    }
+
+    /**
+     * @When I get the test booking
+     */
+    public function iGetTheTestBooking()
+    {
+        $this->getData('booking/' . $this->testBooking->id);
     }
 
 }

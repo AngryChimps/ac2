@@ -44,6 +44,9 @@ class AbstractFeatureContext {
 
     protected $providerAdImmutableId;
 
+    /** @var  \Norm\riak\Booking */
+    protected $testBooking;
+
     /** @var \Norm\riak\ProviderAd */
     protected $providerAd;
 

@@ -26,6 +26,6 @@ Feature: booking-post
     And I get back a valid json object
     And The response contains a field named "error.code"
     And The value of the "error.code" field returned is of type "string"
-    And The value of the "error.code" field is "Api.PurchaseController.indexPostAction.5"
+    And The value of the "error.code" field is "Api.BookingController.indexPostAction.5"
     And Finally, I clean up my objects
 

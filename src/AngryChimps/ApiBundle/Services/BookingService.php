@@ -17,7 +17,7 @@ class BookingService {
         $this->riak = $riak;
     }
 
-    public function getBookingData($bookingId) {
+    public function getBooking($bookingId) {
         return $this->riak->getBooking($bookingId);
     }
 
@@ -34,6 +34,7 @@ class BookingService {
         $booking->memberId = $user->id;
         $booking->paymentType = Booking::STRIPE_PAYMENT__TYPE;
         $booking->status = Booking::PENDING_STATUS;
+        $booking->stripeToken = $stripeToken;
         $this->riak->create($booking);
 
         return $booking;

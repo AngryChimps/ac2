@@ -241,6 +241,7 @@ services:
                 - "@angry_chimps_api.provider_ad_immutable"
                 - "@angry_chimps_api.calendar"
                 - "@angry_chimps_api.service"
+                - "@angry_chimps_api.member"
 
     angry_chimps_api.comment.controller:
             class:     "%angry_chimps_api.controller.comment.class%"

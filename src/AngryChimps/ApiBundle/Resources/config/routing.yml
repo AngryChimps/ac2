@@ -150,7 +150,7 @@ angry_chimps_api_calendar_delete:
 
 #booking
 angry_chimps_api_booking_get:
-    path:     /booking/{calendarId}/{serviceId}
+    path:     /booking/{bookingId}
     methods: ["GET"]
     defaults: { _controller: angry_chimps_api.booking.controller:indexGetAction}
 angry_chimps_api_booking_post:
