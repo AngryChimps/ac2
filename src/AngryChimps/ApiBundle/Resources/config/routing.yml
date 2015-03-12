@@ -162,6 +162,12 @@ angry_chimps_api_booking_delete:
     methods: ["DELETE"]
     defaults: { _controller: angry_chimps_api.booking.controller:indexDeleteAction}
 
+#comment
+angry_chimps_api_comment_post:
+    path:     /comment
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.comment.controller:indexPostAction}
+
 #api:
 #    resource: "@AngryChimpsApiBundle/Controller"
 #    type:     annotation

@@ -5,6 +5,7 @@ namespace AngryChimps\NormBundle\realms\Norm\es\services;
 
 use AC\NormBundle\cached\realms\es\services\NormEsBaseService;
 use AC\NormBundle\Services\RealmInfoService;
+use Norm\es\Comment;
 use Norm\es\ProviderAdListing;
 use Norm\es\ProviderAdListingCollection;
 use Elastica\Client;
@@ -12,7 +13,6 @@ use Norm\riak\Address;
 
 class NormEsService extends NormEsBaseService {
     public function publish($obj) {
-        //Store only exactly what we wish to have returned to the client so we don't have to parse as much
         $arr = [];
         if($obj instanceof ProviderAdListing) {
             $arr['provider_ad_immutable_id'] = $obj->providerAdImmutableId;
@@ -35,6 +35,13 @@ class NormEsService extends NormEsBaseService {
             foreach($obj->startTimes as $time) {
                 $arr['start_times'][] = $time->format('c');
             }
+        }
+        elseif($obj instanceof Comment) {
+            $arr['id'] = $obj->id;
+            $arr['rating'] = $obj->rating;
+            $arr['comment'] = $obj->comment;
+            $arr['company_id'] = $obj->companyId;
+            $arr['member_id'] = $obj->memberId;
         }
         else {
             throw new \Exception('Unable to publish unknown type: ' . get_class($obj));

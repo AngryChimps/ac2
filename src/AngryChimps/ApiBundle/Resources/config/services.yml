@@ -15,6 +15,7 @@ parameters:
     angry_chimps_api.provider_ad_immutable.class: AngryChimps\ApiBundle\Services\ProviderAdImmutableService
     angry_chimps_api.calendar.class: AngryChimps\ApiBundle\Services\CalendarService
     angry_chimps_api.booking.class: AngryChimps\ApiBundle\Services\BookingService
+    angry_chimps_api.comment.class: AngryChimps\ApiBundle\Services\CommentService
 
     angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
     angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
@@ -31,6 +32,7 @@ parameters:
     angry_chimps_api.controller.test.class: AngryChimps\ApiBundle\Controller\TestController
     angry_chimps_api.controller.calendar.class: AngryChimps\ApiBundle\Controller\CalendarController
     angry_chimps_api.controller.booking.class: AngryChimps\ApiBundle\Controller\BookingController
+    angry_chimps_api.controller.comment.class: AngryChimps\ApiBundle\Controller\CommentController
 
 services:
 
@@ -128,6 +130,12 @@ services:
         class: "%angry_chimps_api.booking.class%"
         arguments:
             - "@ac_norm.norm.riak"
+
+    angry_chimps_api.comment:
+        class: "%angry_chimps_api.comment.class%"
+        arguments:
+            - "@ac_norm.norm.riak"
+            - "@ac_norm.norm.es"
 
 ##############################################################
 ###                  Controllers                           ###
@@ -233,6 +241,16 @@ services:
                 - "@angry_chimps_api.provider_ad_immutable"
                 - "@angry_chimps_api.calendar"
                 - "@angry_chimps_api.service"
+
+    angry_chimps_api.comment.controller:
+            class:     "%angry_chimps_api.controller.comment.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.comment"
+                - "@angry_chimps_api.member"
+                - "@angry_chimps_api.company"
 
 
 ##############################################################

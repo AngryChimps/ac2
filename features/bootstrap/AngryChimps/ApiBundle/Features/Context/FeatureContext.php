@@ -1070,5 +1070,39 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->postData('booking');
     }
 
+    /**
+     * @Given I have a valid comment array
+     */
+    public function iHaveAValidCommentArray()
+    {
+        $arr = [];
+        $arr['company_id'] = $this->testCompany->id;
+        $arr['rating'] = 4;
+        $arr['comment'] = 'This is a test comment';
+
+        $this->requestArray = ['payload' => $arr];
+    }
+
+    /**
+     * @When I post the comment array
+     */
+    public function iPostTheCommentArray()
+    {
+        $this->postData('comment');
+    }
+
+    /**
+     * @Then the test company has :arg1 comment
+     */
+    public function theTestCompanyHasComment($arg1)
+    {
+        $companyId = $this->testCompany->id;
+        $this->riak->invalidate($this->testCompany);
+        $this->testCompany = $this->riak->getCompany($companyId);
+
+        $this->assertEquals($arg1, $this->testCompany->ratingCount, 'The test company should have ' . $arg1
+            . ' comments but actually has ' . $this->testCompany->ratingCount . ' comments');
+    }
+
 }
 

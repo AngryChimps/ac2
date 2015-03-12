@@ -1,0 +1,25 @@
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+    include_in_all: false
+  - name: company_id
+    type: string
+    include_in_all: false
+  - name: member_id
+    type: string
+    include_in_all: false
+  - name: rating
+    type: float
+    include_in_all: false
+  - name: comment
+    type: string
+  - name: created_at
+    type: DateTime
+    include_in_all: false
+  - name: updated_at
+    type: DateTime
+    include_in_all: false

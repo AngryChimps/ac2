@@ -3,12 +3,9 @@
 namespace {{ namespace }}\Controller;
 
 {% block use_statements %}
-use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\RequestStack;
-use FOS\RestBundle\View\ViewHandler;
 use AngryChimps\ApiBundle\Services\SessionService;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use AngryChimps\ApiBundle\Services\ResponseService;
 {% if 'annotation' == format.routing -%}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
