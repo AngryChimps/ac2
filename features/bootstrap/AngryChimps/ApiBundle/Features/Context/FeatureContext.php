@@ -1117,5 +1117,14 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->getData('booking/' . $this->testBooking->id);
     }
 
+    /**
+     * @When I delete the test booking
+     */
+    public function iDeleteTheTestBooking()
+    {
+        $this->requestArray = ['payload'=>null];
+        $this->deleteData('booking/' . $this->testBooking->id);
+    }
+
 }
 

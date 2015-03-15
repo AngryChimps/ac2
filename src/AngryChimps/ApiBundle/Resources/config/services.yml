@@ -130,6 +130,7 @@ services:
         class: "%angry_chimps_api.booking.class%"
         arguments:
             - "@ac_norm.norm.riak"
+            - "@angry_chimps_api.provider_ad"
 
     angry_chimps_api.comment:
         class: "%angry_chimps_api.comment.class%"
@@ -242,6 +243,7 @@ services:
                 - "@angry_chimps_api.calendar"
                 - "@angry_chimps_api.service"
                 - "@angry_chimps_api.member"
+                - "@angry_chimps_api.provider_ad"
 
     angry_chimps_api.comment.controller:
             class:     "%angry_chimps_api.controller.comment.class%"

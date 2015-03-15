@@ -173,6 +173,12 @@ class ProviderAdService {
         return $ad;
     }
 
+    public function getExpirationDate(ProviderAdImmutable $providerAdImmutable, Service $service) {
+        $now = new \DateTime();
+        $bookBy = $now->sub(new \DateInterval('PT' . $service->minsNotice . 'M'));
+        
+    }
+
     public function getProviderAd($id) {
         return $this->riak->getProviderAd($id);
     }

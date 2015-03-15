@@ -37,7 +37,7 @@ abstract class AbstractRiakDatastore extends AbstractDatastore {
         }
         foreach($primaryKeys as &$primaryKey) {
             if($primaryKey instanceof \DateTime) {
-                $primaryKey = $primaryKey->format('Y-m-d H:i:s');
+                $primaryKey = $primaryKey->format('c');
             }
         }
         return implode('|', $primaryKeys);

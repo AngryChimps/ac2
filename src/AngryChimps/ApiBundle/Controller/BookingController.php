@@ -4,9 +4,11 @@ namespace AngryChimps\ApiBundle\Controller;
 
 use AngryChimps\ApiBundle\Services\BookingService;
 use AngryChimps\ApiBundle\Services\MemberService;
+use AngryChimps\ApiBundle\Services\ProviderAdService;
 use AngryChimps\ApiBundle\Services\ServiceService;
 use Norm\riak\Availability;
 use Norm\riak\Booking;
+use Norm\riak\ProviderAd;
 use Symfony\Component\HttpFoundation\RequestStack;
 use AngryChimps\ApiBundle\Services\SessionService;
 use Psr\Log\LoggerInterface;
@@ -21,18 +23,20 @@ class BookingController extends AbstractController
     protected $calendarService;
     protected $serviceService;
     protected $memberService;
+    protected $providerAdService;
 
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
                                 ResponseService $responseService, BookingService $bookingService,
                                 ProviderAdImmutableService $providerAdImmutableService,
                                 CalendarService $calendarService, ServiceService $serviceService,
-                                MemberService $memberService) {
+                                MemberService $memberService, ProviderAdService $providerAdService) {
         parent::__construct($requestStack, $sessionService, $responseService);
         $this->bookingService = $bookingService;
         $this->providerAdImmutableService = $providerAdImmutableService;
         $this->calendarService = $calendarService;
         $this->serviceService = $serviceService;
         $this->memberService = $memberService;
+        $this->providerAdService = $providerAdService;
     }
 
     public function indexGetAction($bookingId) {
@@ -56,9 +60,9 @@ class BookingController extends AbstractController
         $arr['service']['discounted_price'] = $service->discountedPrice;
         $arr['service']['original_price'] = $service->originalPrice;
         $arr['service']['mins_for_service'] = $service->minsForService;
-        $arr['booking']['created_at'] = $booking->createdAt;
-        $arr['booking']['start'] = $booking->start;
-        $arr['booking']['end'] = $booking->end;
+        $arr['booking']['created_at'] = $booking->createdAt->format('c');
+        $arr['booking']['start'] = $booking->start->format('c');
+        $arr['booking']['end'] = $booking->end->format('c');
         $arr['member']['name'] = $member->name;
         $arr['member']['mobile'] = $member->mobile;
         $arr['location']['name'] = $providerAdImmutable->location->name;
@@ -142,8 +146,11 @@ class BookingController extends AbstractController
             //Add back in the availability window we removed
             $this->calendarService->addAvailability($calendar, $avail);
 
+            //Republish ad
+            $this->providerAdService->publish($providerAdImmutable->providerAd);
+
             $error = array('code' => 'Api.BookingController.indexPostAction.8',
-                'human' => 'Unable to complete purchase');
+                'human' => 'Unable to complete booking');
             return $this->responseService->failure(400, $error);
         }
 
@@ -151,18 +158,18 @@ class BookingController extends AbstractController
     }
 
     public function indexDeleteAction($bookingId) {
-        $booking = $this->bookingService->getBookingData($bookingId);
+        $booking = $this->bookingService->getBooking($bookingId);
 
         if($booking === null) {
             $error = array('code' => 'Api.BookingController.indexDeleteAction.1',
-                'human' => 'Unable to find the given booking detail record');
+                'human' => 'Unable to find the given booking record');
             return $this->responseService->failure(404, $error);
         }
 
         $this->bookingService->deleteBooking($booking);
 
         $providerAdImmutable = $this->providerAdImmutableService->getProviderAdImmutable($booking->providerAdImmutableId);
-        $calendar = $this->calendarService->getCalendar($providerAdImmutable->calendar);
+        $calendar = $providerAdImmutable->calendar;
         $avail = new Availability();
         $avail->start = $booking->start;
         $avail->end = $booking->end;
