@@ -188,7 +188,7 @@ class ElasticsearchDatastore extends AbstractDatastore {
         $type->getIndex()->refresh();
     }
 
-    public function deleteIndex($indexName) {
+    public function deleteType($indexName) {
         $type = $this->index->getType($indexName);
         $type->delete();
     }
@@ -223,6 +223,10 @@ class ElasticsearchDatastore extends AbstractDatastore {
                 'number_of_replicas' => $replicas,
             ]
         );
+    }
+
+    public function deleteIndex() {
+        $this->index->delete();
     }
 
 //    public function update($realm, $tableName, $primaryKeys, $fieldDataWithoutPrimaryKeys)

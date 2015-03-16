@@ -100,7 +100,11 @@ class Norm{{realmNameCapitalized}}BaseService extends NormService {
 
     {{#if driverIsElasticsearch}}
     public function createIndex() {
-        return $this->createIndex('{{primaryDatastoreName}}', {{shards}}, {{replicas}});
+        return $this->createEsIndex('{{primaryDatastoreName}}', {{shards}}, {{replicas}});
+    }
+
+    public function deleteIndex() {
+        return $this->deleteEsIndex('{{primaryDatastoreName}}');
     }
     {{/if}}
 
