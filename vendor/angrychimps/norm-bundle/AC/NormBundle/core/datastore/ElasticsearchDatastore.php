@@ -193,18 +193,18 @@ class ElasticsearchDatastore extends AbstractDatastore {
         $type->delete();
     }
 
-    public function defineMapping($indexName, $properties) {
-        //Create the index
-        $this->index->create(
-            [
-                'number_of_shards' => 4,
-                'number_of_replicas' => 1,
-            ],
-            true
-        );
-
+    public function defineMapping($typeName, $properties) {
+//        //Create the index
+//        $this->index->create(
+//            [
+//                'number_of_shards' => 4,
+//                'number_of_replicas' => 1,
+//            ],
+//            true
+//        );
+//
         //Create a type
-        $elasticaType = $this->index->getType($indexName);
+        $elasticaType = $this->index->getType($typeName);
 
         // Define mapping
         $mapping = new \Elastica\Type\Mapping();

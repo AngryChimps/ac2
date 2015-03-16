@@ -52,8 +52,8 @@ trait ElasticsearchTrait {
         return $ds->createIndex($shards, $replicas);
     }
 
-    public function deleteEsIndex($datastoreName, $shards, $replicas){
+    public function deleteEsIndex($datastoreName){
         $ds = $this->datastoreService->getDatastore($datastoreName, $this->realmInfo, $this->loggerService);
-        return $ds->deleteIndex($shards, $replicas);
+        return $ds->deleteIndex();
     }
 }

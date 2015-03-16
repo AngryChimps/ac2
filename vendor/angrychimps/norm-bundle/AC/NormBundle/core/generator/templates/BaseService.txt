@@ -92,7 +92,7 @@ class Norm{{realmNameCapitalized}}BaseService extends NormService {
                 ],
             {{/each}}
         ];
-        return $this->defineMapping('Norm\es\ProviderAdListingCollection', $props);
+        return $this->defineMapping('{{collectionName}}', $props);
     }
 
     {{/if}}

@@ -33,9 +33,6 @@ class EsDeleteIndexCommand extends ContainerAwareCommand
 
         $realmService = $this->getContainer()->get('ac_norm.norm.' . $realmName);
 
-        /** @var RealmInfoService $realmInfo */
-        $realmInfo = $this->getContainer()->get('ac_norm.realm_info');
-
         $realmService->deleteIndex();
     }
 }
