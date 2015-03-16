@@ -39,7 +39,7 @@ class SearchService {
         return $arr;
     }
 
-    public function search($text, $categories, $lat, $lon, $radiusMiles, $consumerTravels,
+    public function     search($text, $categories, $lat, $lon, $radiusMiles, $consumerTravels,
                            $startingAt, $endingAt,
                            $sort, $limit, $offset) {
 

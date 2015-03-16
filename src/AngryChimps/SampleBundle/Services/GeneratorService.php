@@ -117,7 +117,7 @@ class GeneratorService {
 
         $response = $this->postData('signup/registerProviderCompany', $payload);
         $arr = $response->json();
-        $this->providerAdId = $arr['payload']['providerAd']['id'];
+        $this->providerAdId = $arr['payload']['provider_ad']['id'];
     }
 
     protected function doSignupUploadFirstAdPhoto($filename) {

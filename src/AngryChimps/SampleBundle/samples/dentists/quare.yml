@@ -13,11 +13,13 @@ steps:
                 -
                     start: today 10:00:00-08:00
                     end: today 15:00:00-08:00
-            service_name: Basic Cleaning With X-Rays
-            discounted_price: 99
-            original_price: 149
-            mins_for_service: 60
-            mins_notice: 60
+            services:
+                -
+                    name: Basic Cleaning With X-Rays
+                    discounted_price: 99
+                    original_price: 149
+                    mins_for_service: 60
+                    mins_notice: 60
             category_id: 201
     -
         name: signup-uploadFirstAdPhoto

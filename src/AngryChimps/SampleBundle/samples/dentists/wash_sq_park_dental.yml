@@ -12,11 +12,13 @@ steps:
                 -
                     start: today 09:00:00-08:00
                     end: tomorrow 17:00:00-08:00
-            service_name: Invisilign Evaluation
-            discounted_price: 49
-            original_price: 155
-            mins_for_service: 60
-            mins_notice: 180
+            services:
+                -
+                    name: Invisilign Evaluation
+                    discounted_price: 49
+                    original_price: 155
+                    mins_for_service: 60
+                    mins_notice: 180
             category_id: 201
     -
         name: signup-uploadFirstAdPhoto

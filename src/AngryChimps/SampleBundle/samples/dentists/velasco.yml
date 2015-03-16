@@ -14,11 +14,13 @@ steps:
                 -
                     start: tomorrow 10:00:00-08:00
                     end: tomorrow 15:00:00-08:00
-            service_name: Full dental cleaning
-            discounted_price: 69
-            original_price: 115
-            mins_for_service: 45
-            mins_notice: 120
+            services:
+                -
+                    name: Full dental cleaning
+                    discounted_price: 69
+                    original_price: 115
+                    mins_for_service: 45
+                    mins_notice: 120
             category_id: 201
     -
         name: signup-uploadFirstAdPhoto
