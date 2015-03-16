@@ -139,6 +139,7 @@ class SignupController extends AbstractController
         $errors = array();
         $street2 = isset($payload['street2']) ? $payload['street2'] : null;
         $mobile_phone = isset($payload['mobile_phone']) ? $payload['mobile_phone'] : null;
+
         $result = $this->signupService->registerProviderCompany($this->getAuthenticatedUser(), $company,
             $location, $payload['company_name'], $payload['member_name'], $payload['email'],
             $payload['password'], new \DateTime($payload['dob']), $payload['street1'],
@@ -151,9 +152,6 @@ class SignupController extends AbstractController
                 'debug' => $errors);
             return $this->responseService->failure(400, $error);
         }
-
-        //Publish the ad
-        $this->providerAdService->publish($this->providerAdService->getProviderAd($result['provider_ad']['id']));
 
         return $this->responseService->success($result);
     }

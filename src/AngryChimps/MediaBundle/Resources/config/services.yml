@@ -1,8 +1,6 @@
 parameters:
-    amazon_s3.key: AKIAJMF2N2WGPEIFAINA
-    amazon_s3.secret: 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
-#    amazon_s3.key: AKIAJX62AEO7EEBEE65Q
-#    amazon_s3.secret: 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
+    amazon_s3.key: AKIAIOO2VYJTIR4BS77A
+    amazon_s3.secret: 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
     amazon_s3.region: us-east-1
     angry_chimps_media.controller.default.class: AngryChimps\MediaBundle\Controller\DefaultController
 

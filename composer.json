@@ -32,7 +32,7 @@
         "guzzlehttp/guzzle": "~5.0",
         "ruflin/Elastica": "dev-master",
         "voodoophp/handlebars": "2.*",
-        "knplabs/knp-gaufrette-bundle": "*@dev",
+        "knplabs/knp-gaufrette-bundle": "0.1.*",
         "aws/aws-sdk-php": "2.*",
         "imagine/imagine": "~0.5.0",
         "massivescale/celery-php": "*@dev",

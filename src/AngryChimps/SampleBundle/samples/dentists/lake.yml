@@ -20,7 +20,7 @@ steps:
                     mins_notice: 180
             category_id: 201
     -
-        name: signup-uploadFirstAdPhoto
+        name: companyMedia-post
         filename: lake.jpg
     -
         name: signup-registerProviderCompany
