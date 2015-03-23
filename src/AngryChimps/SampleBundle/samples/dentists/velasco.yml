@@ -23,7 +23,7 @@ steps:
                     mins_notice: 120
             category_id: 201
     -
-        name: signup-uploadFirstAdPhoto
+        name: companyMedia-post
         filename: velasco.jpg
     -
         name: signup-registerProviderCompany

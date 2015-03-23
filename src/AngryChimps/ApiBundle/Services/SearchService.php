@@ -39,7 +39,7 @@ class SearchService {
         return $arr;
     }
 
-    public function     search($text, $categories, $lat, $lon, $radiusMiles, $consumerTravels,
+    public function search($text, $categories, $lat, $lon, $radiusMiles, $consumerTravels,
                            $startingAt, $endingAt,
                            $sort, $limit, $offset) {
 
@@ -54,13 +54,15 @@ class SearchService {
             $topQuery = new \Elastica\Query\Term(array('_all' => $text));
         }
 
-        //Create a top level boolean filter
+        //Create a top level boolean filter but only use it if supplied a must
+        $useTopBoolFilter = false;
         $topBoolFilter = new \Elastica\Filter\Bool();
 
         //Categories search
         if($categories !== null) {
             $terms = new \Elastica\Filter\Terms('category_id', $categories);
             $topBoolFilter->addMust($terms);
+            $useTopBoolFilter = true;
         }
 
         //Availability Search
@@ -72,6 +74,7 @@ class SearchService {
                     'lt' => $endingAt->format('c')
                 ]);
             $topBoolFilter->addMust($range);
+            $useTopBoolFilter = true;
         }
 
         //Create the query from the query builder
@@ -88,7 +91,9 @@ class SearchService {
 
 
         $functionScore->setQuery($topQuery);
-        $functionScore->setFilter($topBoolFilter);
+        if($useTopBoolFilter) {
+            $functionScore->setFilter($topBoolFilter);
+        }
         $functionScore->addDecayFunction(FunctionScore::DECAY_LINEAR, 'location', $lat . ',' . $lon,
             "2mi");
 

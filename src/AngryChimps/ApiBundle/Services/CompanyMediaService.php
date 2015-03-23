@@ -23,7 +23,7 @@ class CompanyMediaService {
         $this->riak = $riak;
     }
     public function postMedia(UploadedFile $file, Company $company, ProviderAd $providerAd = null) {
-        $filename = $this->mediaService->persist('company_images_fs', $file);
+        $filename = 'ci/' . $this->mediaService->persist('company_images_fs', $file);
 
         $companyPhotos = $this->riak->getCompanyPhotos($company->id);
         $companyPhotos->photos[] = $filename;

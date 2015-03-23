@@ -22,7 +22,7 @@ steps:
                     mins_notice: 60
             category_id: 201
     -
-        name: signup-uploadFirstAdPhoto
+        name: companyMedia-post
         filename: qare.jpg
     -
         name: signup-registerProviderCompany
