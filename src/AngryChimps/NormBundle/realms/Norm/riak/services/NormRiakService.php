@@ -6,33 +6,33 @@ namespace AngryChimps\NormBundle\realms\Norm\riak\services;
 use AC\NormBundle\cached\realms\riak\services\NormRiakBaseService;
 
 class NormRiakService extends NormRiakBaseService {
-    public function create($obj)
-    {
-        if(get_class($obj) == 'Norm\\riak\\Member') {
-            $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
-
-            //Setup Debugging
-            if ($this->debug) {
-                $debug = $this->dataCollector->startCreateQuery($obj);
-            }
-            else {
-                $debug = null;
-            }
-
-            $class = get_class($obj);
-            $indexes = [['email_bin', $obj->email]];
-            $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($class));
-            $ds->createObjectWithIndexes($obj, $indexes, $debug);
-
-            //Store debugging data
-            if ($this->debug) {
-                $this->dataCollector->endQuery($debug);
-            }
-        }
-        else {
-            parent::create($obj);
-        }
-    }
+//    public function create($obj)
+//    {
+//        if(get_class($obj) == 'Norm\\riak\\Member') {
+//            $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
+//
+//            //Setup Debugging
+//            if ($this->debug) {
+//                $debug = $this->dataCollector->startCreateQuery($obj);
+//            }
+//            else {
+//                $debug = null;
+//            }
+//
+//            $class = get_class($obj);
+//            $indexes = [['email_bin', $obj->email]];
+//            $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($class));
+//            $ds->createObjectWithIndexes($obj, $indexes, $debug);
+//
+//            //Store debugging data
+//            if ($this->debug) {
+//                $this->dataCollector->endQuery($debug);
+//            }
+//        }
+//        else {
+//            parent::create($obj);
+//        }
+//    }
 
 //    public function update($obj)
 //    {

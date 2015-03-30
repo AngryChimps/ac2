@@ -20,7 +20,7 @@ class KernelTerminateListener {
         $this->logger = $logger;
     }
 
-    public function onKernelTerminate(FilterResponseEvent $event)
+    public function onKernelTerminate(PostResponseEvent $event)
     {
         try {
             touch('/tmp/running');

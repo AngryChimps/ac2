@@ -99,6 +99,12 @@ class Norm{{realmNameCapitalized}}BaseService extends NormService {
     {{/each}}
 
     {{#if driverIsElasticsearch}}
+    public function defineAllMappings() {
+    {{#each tables}}
+        $this->define{{objectNameWithoutNamespace}}Mapping();
+    {{/each}}
+    }
+
     public function createIndex() {
         return $this->createEsIndex('{{primaryDatastoreName}}', {{shards}}, {{replicas}});
     }

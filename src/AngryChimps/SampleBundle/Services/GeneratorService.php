@@ -262,8 +262,7 @@ class GeneratorService {
     public function reset() {
         $this->es->deleteIndex('Norm\\es\\ProviderAdListing', 'provider_ad_listing');
         $this->es->createIndex();
-        $this->es->defineProviderAdListingMapping();
-        $this->es->defineCommentMapping();
+        $this->es->defineAllMappings();
     }
 
 }
