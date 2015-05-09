@@ -1,41 +1,34 @@
 primary_keys:
-  - id
+  - mysql_id
 
 fields:
-  - name: id
+  - name: mysql_id
     type: int
-    autoincrement: true
-  - name: key
+    auto_increment: true
+  - name: id
+    type: string
+  - name: email
     type: string
   - name: name
     type: string
-  - name: description
-    type: string
-  - name: address
-    type: string
-  - name: plan
-    type: enum
-    values:
-      - Basic
-      - Premium
-  - name: rating_count
-    type: int
-  - name: rating_total
-    type: int
-  - name: rating_avg
-    type: float
-  - name: flag_total
-    type: int
-  - name: administer_member_ids
-    type: string[]
-  - name: location_keys
-    type: string[]
   - name: status
     type: enum
     values:
       - Active
-      - Closed
-      - Prohibited
+      - Deleted
+      - Locked
+      - Banned
+      - PartialRegistration
+  - name: role
+    type: enum
+    values:
+      - User
+      - AdminSupport
+      - Admin
+      - SuperAdmin
+  - name: last_activity_date
+    type: Date
+    default: "new \\DateTime()"
   - name: created_at
     type: DateTime
   - name: updated_at

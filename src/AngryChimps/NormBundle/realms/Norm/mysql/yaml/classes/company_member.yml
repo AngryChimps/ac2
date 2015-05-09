@@ -1,0 +1,18 @@
+primary_keys:
+  - company_mysql_id
+  - member_mysql_id
+
+fields:
+  - name: company_mysql_id
+    type: int
+  - name: member_mysql_id
+    type: int
+  - name: role
+    type: enum
+    values:
+      - SuperAdmin
+      - Admin
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime
