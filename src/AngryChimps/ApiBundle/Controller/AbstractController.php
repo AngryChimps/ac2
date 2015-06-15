@@ -15,12 +15,12 @@ class AbstractController {
     private $user;
 
     /** @var  RequestStack */
-    private $request;
+    protected $request;
 
     /**
      * @return \AngryChimps\ApiBundle\Services\SessionService
      */
-    private $sessionService;
+    protected $sessionService;
 
 
     private $payload;

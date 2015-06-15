@@ -1,20 +1,19 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
 
 use AngryChimps\TaskBundle\Services\TaskerService;
 use AngryChimps\TaskBundle\Services\Tasks\MemberCreateTask;
 use AngryChimps\TaskBundle\Services\Tasks\MemberUpdateTask;
-use Norm\riak\Member;
+use Norm\norm\Member;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use AngryChimps\MailerBundle\Messages\BasicMessage;
 use AngryChimps\MailerBundle\Services\MailerService;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
-use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
+use AngryChimps\NormBundle\services\NormService;
 
 class MemberService {
     /** @var  MailerService */
@@ -26,11 +25,8 @@ class MemberService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
     protected $validator;
 
-    /** @var  NormRiakService */
-    protected $riak;
-
-    /** @var NormMysqlService */
-    protected $mysql;
+    /** @var  NormService */
+    protected $norm;
 
     /** @var  TaskerService */
     protected $tasker;
@@ -40,15 +36,13 @@ class MemberService {
     public function __construct(MailerService $mailer,
                                 TimedTwigEngine $templating,
                                 ValidatorInterface $validator,
-                                NormRiakService $riak,
-                                NormMysqlService $mysql,
+                                NormService $norm,
                                 TaskerService $tasker )
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->validator = $validator;
-        $this->riak = $riak;
-        $this->mysql = $mysql;
+        $this->norm = $norm;
         $this->tasker = $tasker;
     }
 
@@ -63,7 +57,7 @@ class MemberService {
             return false;
         }
 
-        $this->riak->update($member);
+        $this->norm->update($member);
 
         //Update Mysql and ElasticSearch
         $task = new MemberUpdateTask($member, $changes);
@@ -89,7 +83,7 @@ class MemberService {
             'cost' => 12,
         ];
         $member->password = $this->password_hash($data['password'], PASSWORD_BCRYPT, $options);
-        $this->riak->create($member);
+        $this->norm->create($member);
 
         //Update Mysql and ElasticSearch
         $task = new MemberCreateTask($member);
@@ -102,7 +96,7 @@ class MemberService {
         $member = new Member();
         $member->role = Member::USER_ROLE;
         $member->status = Member::PARTIAL_REGISTRATION_STATUS;
-        $this->riak->create($member);
+        $this->norm->create($member);
 
         //Create Mysql and ElasticSearch
         $task = new MemberCreateTask($member);
@@ -112,14 +106,14 @@ class MemberService {
     }
 
     public function getMemberByEmailEnabled($email) {
-//        $member = $this->riak->getObjectBySecondaryIndex('Norm\\riak\\Member', 'email_bin', $email);
-        $mysqlMember = $this->mysql->getMemberByEmail($email);
-        $member = $this->riak->getMember($mysqlMember->id);
+//        $member = $this->norm->getObjectBySecondaryIndex('Norm\\norm\\Member', 'email_bin', $email);
+        $mysqlMember = $this->norm->getMemberByEmail($email);
+        $member = $this->norm->getMember($mysqlMember->id);
         return $member;
     }
 
     public function getMember($id) {
-        return $this->riak->getMember($id);
+        return $this->norm->getMember($id);
     }
 
     public function resetPassword($email, $resetCode) {
@@ -127,7 +121,7 @@ class MemberService {
         $now = new \DateTime();
         $member->password = 'reset: ' . $now->format("Y-m-d H:i:s");
         $member->passwordResetCode = $resetCode;
-        $this->riak->update($member);
+        $this->norm->update($member);
     }
 
     public function changePassword($email, $hashedPassword, $resetCode = null) {
@@ -139,12 +133,12 @@ class MemberService {
 
         $member->passwordResetCode = null;
         $member->password = $hashedPassword;
-        $this->riak->update($member);
+        $this->norm->update($member);
         return true;
     }
 
     public function markMemberDeleted(Member $member) {
         $member->status = Member::DELETED_STATUS;
-        $this->riak->update($member);
+        $this->norm->update($member);
     }
 }

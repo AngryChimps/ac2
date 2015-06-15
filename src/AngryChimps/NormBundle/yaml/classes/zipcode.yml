@@ -1,0 +1,37 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: int
+  - name: city
+    type: string
+  - name: state
+    type: string
+  - name: dst_timezone_offset #in seconds
+    type: int
+  - name: raw_timezone_offset #in seconds
+    type: int
+  - name: timezone_id
+    type: string
+  - name: timezone_name
+    type: string
+  - name: lat
+    type: float
+  - name: lon
+    type: float
+  - name: north_lat
+    type: float
+  - name: south_lat
+    type: float
+  - name: east_lon
+    type: float
+  - name: west_lon
+    type: float
+  - name: created_at
+    type: DateTime

@@ -17,8 +17,6 @@ fields:
         - Length:
             min: 2
             max: 25
-  - name: address
-    type: \Norm\riak\Address
   - name: is_mobile
     type: bool
   - name: status
@@ -26,13 +24,39 @@ fields:
     values:
         - Enabled
         - Disabled
+  - name: street1
+    type: string
+    validations:
+        - Length:
+            min: 2
+            max: 25
+  - name: street2
+    type: string
+    validations:
+        - Length:
+            min: 2
+            max: 25
+  - name: city
+    type: string
+  - name: state
+    type: string
+  - name: zip
+    type: string
+    validations:
+        - Length:
+            min: 5
+            max: 10
+  - name: phone
+    type: string
+    validations:
+        - Length:
+            min: 10
+            max: 25
+  - name: lat
+    type: float
+  - name: lon
+    type: float
   - name: created_at
     type: DateTime
   - name: updated_at
     type: DateTime
-
-foreign_keys:
-  - name: fk_location_company
-    column_name: company_id
-    referenced_table_name: company
-    referenced_column_name: id

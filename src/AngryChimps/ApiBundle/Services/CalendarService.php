@@ -1,10 +1,10 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
 
-use AC\NormBundle\Services\NormService;
+use AngryChimps\NormBundle\services\NormService;
 use AngryChimps\MailerBundle\Messages\BasicMessage;
 use AngryChimps\MailerBundle\Services\MailerService;
 use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
@@ -22,15 +22,14 @@ use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CalendarService {
-    /** @var  NormRiakService */
-    protected $riak;
+    /** @var  NormService */
+    protected $norm;
 
     /** @var  NormMysqlService */
     protected $mysql;
 
-    public function __construct(NormRiakService $riak, NormMysqlService $mysql) {
-        $this->riak = $riak;
-        $this->mysql = $mysql;
+    public function __construct(NormService $norm) {
+        $this->norm = $norm;
     }
 
     /**
@@ -38,27 +37,27 @@ class CalendarService {
      * @return Calendar
      */
     public function getCalendar($calendarId) {
-        return $this->riak->getCalendar($calendarId);
+        return $this->norm->getCalendar($calendarId);
     }
 
     public function getData(Calendar $calendar, $isOwner = false) {
         $arr = [];
-        $arr['id'] = $calendar->id;
-        $arr['name'] = $calendar->name;
+        $arr['id'] = $calendar->getId();
+        $arr['name'] = $calendar->getName();
 
-        foreach($calendar->availabilities as $availability) {
+        foreach($calendar->getAvailabilities() as $availability) {
             $arr2 = [];
-            $arr2['start'] = $availability->start->format('c');
-            $arr2['end'] = $availability->end->format('c');
+            $arr2['start'] = $availability->getStart()->format('c');
+            $arr2['end'] = $availability->getEnd()->format('c');
             $arr['availabilities'][] = $arr2;
         }
 
         if($isOwner) {
-            foreach ($calendar->bookings as $booking) {
+            foreach ($calendar->getBookings() as $booking) {
                 $arr2 = [];
-                $arr2['title'] = $booking->title;
-                $arr2['start'] = $booking->start->format('c');
-                $arr2['end'] = $booking->end->format('c');
+                $arr2['title'] = $booking->getTitle();
+                $arr2['start'] = $booking->getStart()->format('c');
+                $arr2['end'] = $booking->getEnd()->format('c');
 
                 if (!empty($booking->bookingDetailId)) {
                     $arr2['booking_detail_id'] = $booking->bookingDetailId;
@@ -71,71 +70,57 @@ class CalendarService {
     }
 
     public function markDeleted(Calendar $calendar) {
-        $calendar->status = Calendar::DISABED_STATUS;
-        $this->riak->update($calendar);
+        $calendar->setStatus(Calendar::DISABED_STATUS);
+        $this->norm->update($calendar);
     }
-    public function createNew(Location $location, $name) {
-        $calendar = new Calendar();
-        $calendar->locationId = $location->id;
-        $calendar->name = $name;
-        $calendar->status = Calendar::ENABLED_STATUS;
-        $calendar->companyId = $location->companyId;
-        $this->riak->create($calendar);
-
-        $location->calendarIds[] = $calendar->id;
-        $this->riak->update($location);
-
-        return $calendar;
-    }
-
     public function update(Calendar $calendar, $changes) {
         foreach($changes as $field => $value) {
             switch($field) {
                 case 'name':
-                    $calendar->name = $value;
+                    $calendar->setName($value);
                     break;
                 default:
                     return false;
             }
         }
 
-        $this->riak->update($calendar);
+        $this->norm->update($calendar);
         return true;
     }
 
     public function addAvailability(Calendar $calendar, Availability $newAvailability) {
         //If the availability overlaps a booking, return false
         $overlaps = array();
-        foreach($calendar->bookings as $booking) {
-            if(($newAvailability->start < $booking->end && $newAvailability->end > $booking->start)
-                    || ($booking->start < $newAvailability->end && $booking->end > $newAvailability->start)) {
-               return false;
+        foreach($calendar->getBookings() as $booking) {
+            if(($newAvailability->getStart() < $booking->getEnd() && $newAvailability->getEnd() > $booking->getStart())
+                || ($booking->getStart() < $newAvailability->getEnd() && $booking->getEnd() > $newAvailability->getStart())) {
+                return false;
             }
         }
 
         $availabilities = [];
         $ignoreNewAvailability = false;
-        foreach($calendar->availabilities as $availability) {
+        foreach($calendar->getAvailabilities() as $availability) {
             //If the new availability is encompassed by another availability, ignore the new availability
-            if($availability->start <= $newAvailability->start && $availability->end >= $newAvailability->end) {
+            if($availability->getStart() <= $newAvailability->getStart() && $availability->getEnd() >= $newAvailability->getEnd()) {
                 $ignoreNewAvailability = true;
                 $availabilities[] = $availability;
             }
             //If the new availability encompasses another availability, ignore the other availability
-            elseif($availability->start >= $newAvailability->start && $availability->end <= $newAvailability->end) {
+            elseif($availability->getStart() >= $newAvailability->getStart() && $availability->getEnd() <= $newAvailability->getEnd()) {
                 //Just ignore the new availability
             }
             //If there is no overlap, add to the $availabilities array to save unmodified
-            elseif($availability->end < $newAvailability->start || $availability->start > $newAvailability->end) {
+            elseif($availability->getEnd() < $newAvailability->getStart() || $availability->getStart() > $newAvailability->getEnd()) {
                 $availabilities[] = $availability;
             }
             //If the end of the availability overlaps the start of the new availability, merge the two
-            elseif($availability->start < $newAvailability->start && $availability->end >= $newAvailability->start) {
-                $newAvailability->start = $availability->start;
+            elseif($availability->getStart() < $newAvailability->getStart() && $availability->getEnd() >= $newAvailability->getStart()) {
+                $newAvailability->setStart($availability->getStart());
             }
             //If the start of the availability overlaps the end of the new availability, merge the two
-            elseif($availability->start <= $newAvailability->end && $availability->end > $newAvailability->start) {
-                $newAvailability->end = $availability->end;
+            elseif($availability->getStart() <= $newAvailability->getEnd() && $availability->getEnd() > $newAvailability->getStart()) {
+                $newAvailability->setEnd($availability->getEnd());
             }
             else {
                 throw new \Exception('Unable to add availability; unknown overlap');
@@ -146,51 +131,65 @@ class CalendarService {
             $availabilities[] = $newAvailability;
         }
 
-        $calendar->availabilities = $availabilities;
-        $this->riak->update($calendar);
+        $calendar->updateAvailabilities($availabilities);
+        $this->norm->update($calendar);
 
         return true;
     }
 
+    public function createNew(Location $location, $name) {
+        $calendar = new Calendar();
+        $calendar->setLocationId($location->getId());
+        $calendar->setName($name);
+        $calendar->setStatus(Calendar::ENABLED_STATUS);
+        $calendar->setCompanyId($location->getCompanyId());
+        $this->norm->create($calendar);
+
+        $location->addToCalendarIds($calendar->getId());
+        $this->norm->update($location);
+
+        return $calendar;
+    }
+
     public function removeAvailability(Calendar $calendar, Availability $availabilityToRemove) {
         $availabilities = [];
-        foreach($calendar->availabilities as $availability) {
+        foreach($calendar->getAvailabilities() as $availability) {
             //If the availability is completely before or after the one to remove, keep it
-            if($availability->end <= $availabilityToRemove->start || $availability->start >= $availabilityToRemove->end) {
+            if($availability->getEnd() <= $availabilityToRemove->getStart() || $availability->getStart() >= $availabilityToRemove->getEnd()) {
                 $availabilities[] = $availability;
             }
             //If the availability is the same, skip it
-            elseif($availability->start == $availabilityToRemove->start && $availability->end == $availabilityToRemove->end) {
+            elseif($availability->getStart() == $availabilityToRemove->getStart() && $availability->getEnd() == $availabilityToRemove->getEnd()) {
                 //Skip it
             }
             //If the availability is encompassed by the one to remove, then part of that the is already booked
-            elseif($availability->start >= $availabilityToRemove->start && $availability->end <= $availabilityToRemove->end) {
+            elseif($availability->getStart() >= $availabilityToRemove->getStart() && $availability->getEnd() <= $availabilityToRemove->getEnd()) {
                 throw new \Exception('Booking time is not available');
             }
             //If the availability fully encompassses the one to remove, split it into two
-            elseif($availability->start < $availabilityToRemove->start && $availability->end > $availabilityToRemove->end) {
+            elseif($availability->getStart() < $availabilityToRemove->getStart() && $availability->getEnd() > $availabilityToRemove->getEnd()) {
                 $a1 = new Availability();
-                $a1->start = $availability->start;
-                $a1->end = $availabilityToRemove->start;
+                $a1->setStart($availability->getStart());
+                $a1->setEnd($availabilityToRemove->getStart());
                 $availabilities[] = $a1;
 
                 $a2 = new Availability();
-                $a2->start = $availabilityToRemove->end;
-                $a2->end = $availability->end;
+                $a2->setStart($availability->getEnd());
+                $a2->setEnd($availabilityToRemove->getEnd());
                 $availabilities[] = $a2;
             }
             //If the end of the availability overlaps the start of the one to remove, adjust it's end date
-            elseif($availability->end > $availabilityToRemove->start && $availability->start < $availabilityToRemove->start) {
+            elseif($availability->getEnd() > $availabilityToRemove->getStart() && $availability->getStart() < $availabilityToRemove->getStart()) {
                 $a1 = new Availability();
-                $a1->start = $availability->start;
-                $a1->end = $availabilityToRemove->start;
+                $a1->setStart($availability->getStart());
+                $a1->setEnd($availabilityToRemove->getStart());
                 $availabilities[] = $a1;
             }
             //If the start of the availability overlaps the end of the one to remove, adjust it's start date
-            elseif($availability->start < $availabilityToRemove->end && $availability->end > $availabilityToRemove->end) {
+            elseif($availability->getStart() < $availabilityToRemove->getEnd() && $availability->getEnd() > $availabilityToRemove->getEnd()) {
                 $a2 = new Availability();
-                $a2->start = $availabilityToRemove->end;
-                $a2->end = $availability->end;
+                $a2->setStart($availability->getEnd());
+                $a2->setEnd($availabilityToRemove->getEnd());
                 $availabilities[] = $a2;
             }
             else {
@@ -198,8 +197,8 @@ class CalendarService {
             }
         }
 
-        $calendar->availabilities = $availabilities;
-        $this->riak->update($calendar);
+        $calendar->updateAvailabilities($availabilities);
+        $this->norm->update($calendar);
     }
 
     /**
@@ -212,10 +211,10 @@ class CalendarService {
 
         /** @var Availability $availability */
         foreach($availabilities as $availability) {
-            $lastStartTime = $availability->end->sub(new \DateInterval('PT' . ($minsForServices) . 'M'));
+            $lastStartTime = $availability->getEnd()->sub(new \DateInterval('PT' . ($minsForServices) . 'M'));
 
-            if($lastStartTime >= $availability->start) {
-                for ($start = $availability->start;
+            if($lastStartTime >= $availability->getStart()) {
+                for ($start = $availability->getStart();
                      $start <= $lastStartTime;
                      $start = $start->add(new \DateInterval('PT15M'))) {
                     $startTimes[] = $start;
@@ -231,8 +230,8 @@ class CalendarService {
 
         /** @var Availability $availability */
         foreach ($availabilities as $availability) {
-            $startTime = $availability->start;
-            $endTime = $availability->end;
+            $startTime = $availability->getStart();
+            $endTime = $availability->getEnd();
 
             if($startTime->add(new \DateInterval('PT' . $minsNotice . 'M')) > new \DateTime('now')) {
                 $startTime = new \DateTime('now');
@@ -244,8 +243,8 @@ class CalendarService {
             }
             else {
                 $window = [];
-                $window['start'] = $availability->start->format('c');
-                $window['end'] = $availability->end->format('c');
+                $window['start'] = $availability->getStart()->format('c');
+                $window['end'] = $availability->getEnd()->format('c');
                 $windows[] = $window;
             }
         }

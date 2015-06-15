@@ -1,21 +1,18 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
 
 use AngryChimps\ApiBundle\Exceptions\InvalidSessionException;
 use AngryChimps\MailerBundle\Messages\BasicMessage;
 use Armetiz\FacebookBundle\FacebookSessionPersistence;
-use Norm\riak\Member;
-use Norm\riak\Session;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Templating\TemplateReferenceInterface;
-use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
+use AngryChimps\NormBundle\services\NormService;
 
 class SessionService {
     protected $sessionHeaderName;
@@ -23,17 +20,13 @@ class SessionService {
     /** @var Request  */
     protected $request;
 
-    /** @var  NormRiakService */
-    protected $riak;
+    /** @var  NormService */
+    protected $norm;
 
-    /** @var  NormMysqlService */
-    protected $mysql;
-
-    public function __construct(RequestStack $request, $sessionHeaderName, NormRiakService $riak, NormMysqlService $mysql) {
+    public function __construct(RequestStack $request, $sessionHeaderName, NormService $norm) {
         $this->request = $request->getCurrentRequest();
         $this->sessionHeaderName = $sessionHeaderName;
-        $this->riak = $riak;
-        $this->mysql = $mysql;
+        $this->norm = $norm;
     }
 
     protected function generateToken($length = 16) {
@@ -53,7 +46,7 @@ class SessionService {
     public function checkToken() {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
-        $session = $this->riak->getSession($sessionToken);
+        $session = $this->norm->getSession($sessionToken);
         if($session === null) {
             $debug = array(
                 'code' => 'Api.SessionService.1a',
@@ -114,37 +107,37 @@ class SessionService {
         $session->id= $token;
         $session->browserHash = $this->getBrowserHash();
 
-        $this->riak->create($session);
+        $this->norm->create($session);
         return $session;
     }
 
     public function getSessionUser() {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
-        $session = $this->riak->getSession($sessionToken);
+        $session = $this->norm->getSession($sessionToken);
 
         if($session->userId === null) {
             return null;
         }
 
-        $user = $this->riak->getMember($session->userId);
+        $user = $this->norm->getMember($session->userId);
         return $user;
     }
 
     public function setSessionUser(Member $user) {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
-        $session = $this->riak->getSession($sessionToken);
+        $session = $this->norm->getSession($sessionToken);
         $session->userId = $user->id;
-        $this->riak->update($session);
+        $this->norm->update($session);
     }
 
     public function logoutUser() {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
-        $session = $this->riak->getSession($sessionToken);
+        $session = $this->norm->getSession($sessionToken);
         $session->userId = null;
         $session->sessionBag = array();
-        $this->riak->update($session);
+        $this->norm->update($session);
     }
 } 

@@ -1,0 +1,24 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: provider_ad
+    type: \Norm\riak\ProviderAd
+  - name: location
+    type: \Norm\riak\Location
+  - name: company
+    type: \Norm\riak\Company
+  - name: calendar
+    type: \Norm\riak\Calendar
+  - name: services
+    type: \Norm\riak\Service[]
+  - name: created_at
+    type: DateTime

@@ -1,0 +1,67 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: mysql_id
+    type: int
+  - name: company_id
+    type: string
+  - name: calendar_ids
+    type: string[]
+  - name: name
+    type: string
+    validations:
+        - Length:
+            min: 2
+            max: 25
+  - name: is_mobile
+    type: bool
+  - name: status
+    type: enum
+    values:
+        - Enabled
+        - Disabled
+  - name: street1
+    type: string
+    validations:
+        - Length:
+            min: 2
+            max: 25
+  - name: street2
+    type: string
+    validations:
+        - Length:
+            min: 2
+            max: 25
+  - name: city
+    type: string
+  - name: state
+    type: string
+  - name: zip
+    type: string
+    validations:
+        - Length:
+            min: 5
+            max: 10
+  - name: phone
+    type: string
+    validations:
+        - Length:
+            min: 10
+            max: 25
+  - name: lat
+    type: float
+  - name: lon
+    type: float
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

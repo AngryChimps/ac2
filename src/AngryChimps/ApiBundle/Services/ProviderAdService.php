@@ -1,45 +1,38 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
 
-use AC\NormBundle\Services\NormService;
 use AngryChimps\MailerBundle\Messages\BasicMessage;
 use AngryChimps\MailerBundle\Services\MailerService;
-use AngryChimps\NormBundle\realms\Norm\es\services\NormEsService;
+use AngryChimps\NormBundle\services\NormService;
 use Armetiz\FacebookBundle\FacebookSessionPersistence;
-use Norm\riak\Ad;
-use Norm\riak\Calendar;
-use Norm\riak\Company;
-use Norm\riak\CompanyAds;
-use Norm\riak\CompanyServices;
-use Norm\riak\Location;
-use Norm\riak\Member;
-use Norm\riak\ProviderAd;
-use Norm\riak\ProviderAdImmutable;
+use Norm\norm\Ad;
+use Norm\norm\Calendar;
+use Norm\norm\Company;
+use Norm\norm\CompanyAds;
+use Norm\norm\CompanyServices;
+use Norm\norm\Location;
+use Norm\norm\Member;
+use Norm\norm\ProviderAd;
+use Norm\norm\ProviderAdImmutable;
 use Norm\es\ProviderAdListing;
-use Norm\riak\Service;
-use Norm\riak\ServiceCollection;
+use Norm\norm\Service;
+use Norm\norm\ServiceCollection;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
+use AngryChimps\NormBundle\realms\Norm\norm\services\NormRiakService;
 
 class ProviderAdService {
     protected $validator;
 
-    /** @var  NormRiakService */
-    protected $riak;
-
-    /** @var  NormMysqlService */
-    protected $mysql;
-
-    /** @var NormEsService */
-    protected $es;
+    /** @var  NormService */
+    protected $norm;
 
     /** @var  CompanyService */
     protected $companyService;
@@ -56,15 +49,12 @@ class ProviderAdService {
     /** @var CategoriesService */
     protected $categoriesService;
 
-    public function __construct(ValidatorInterface $validator, NormRiakService $riak,
-                                NormMysqlService $mysql, NormEsService $es,
+    public function __construct(ValidatorInterface $validator, NormService $norm,
                                 CompanyService $companyService, LocationService $locationService,
                                 CalendarService $calendarService, ServiceService $serviceService,
                                 CategoriesService $categoriesService) {
         $this->validator = $validator;
-        $this->riak = $riak;
-        $this->mysql = $mysql;
-        $this->es = $es;
+        $this->norm = $norm;
         $this->companyService = $companyService;
         $this->locationService = $locationService;
         $this->calendarService = $calendarService;
@@ -90,16 +80,16 @@ class ProviderAdService {
             return false;
         }
 
-        $this->riak->create($ad);
+        $this->norm->create($ad);
 
         return $ad;
     }
 
     public function publish(ProviderAd $ad) {
-        $company = $this->riak->getCompany($ad->companyId);
-        $location = $this->riak->getLocation($ad->locationId);
-        $calendar = $this->riak->getCalendar($ad->calendarId);
-        $services = $this->riak->getServiceCollection($ad->serviceIds);
+        $company = $this->norm->getCompany($ad->companyId);
+        $location = $this->norm->getLocation($ad->locationId);
+        $calendar = $this->norm->getCalendar($ad->calendarId);
+        $services = $this->norm->getServiceCollection($ad->serviceIds);
 
         if(empty($services)) {
             throw new \Exception('asdfasdf');
@@ -112,7 +102,7 @@ class ProviderAdService {
         $im->company = $company;
         $im->calendar = $calendar;
         $im->services = $services;
-        $this->riak->create($im);
+        $this->norm->create($im);
 
         //Create ProviderAdListing object
         $listing = new ProviderAdListing();
@@ -125,7 +115,7 @@ class ProviderAdService {
         $listing->companyName = $company->name;
         $listing->categoryId = $ad->categoryId;
         $listing->categoryName = $this->categoriesService->getCategoryName($ad->categoryId);
-
+        $listing->isMobile = $location->isMobile;
         $listing->description = $ad->description;
 
         if(!empty($ad->photos)) {
@@ -137,7 +127,7 @@ class ProviderAdService {
         $minPrice = 0;
         $discount = 0;
         $minTimeRequired = 0;
-        /** @var \Norm\riak\Service $service */
+        /** @var \Norm\norm\Service $service */
         foreach($services as $service) {
             if($service->discountedPrice < $minPrice || $minPrice == 0) {
                 $minPrice = $service->discountedPrice;
@@ -158,17 +148,17 @@ class ProviderAdService {
         //Set the ad status
         $ad->status = ProviderAd::PUBLISHED_STATUS;
         $ad->currentImmutableId = $im->id;
-        $this->riak->update($ad);
+        $this->norm->update($ad);
 
         //Update CompanyAds data
-        $companyAds = $this->riak->getCompanyAds($ad->companyId);
+        $companyAds = $this->norm->getCompanyAds($ad->companyId);
         $companyAds->publishedAdIds[] = $ad->id;
         foreach($companyAds->unpublishedAdIds as $key => $id) {
             if($id == $ad->id) {
                 unset($companyAds->unpublishedAdIds[$key]);
             }
         }
-        $this->riak->update($companyAds);
+        $this->norm->update($companyAds);
 
         return $ad;
     }
@@ -180,11 +170,11 @@ class ProviderAdService {
     }
 
     public function getProviderAd($id) {
-        return $this->riak->getProviderAd($id);
+        return $this->norm->getProviderAd($id);
     }
 
     public function markProviderAdDeleted(ProviderAd $providerAd) {
         $providerAd->status = ProviderAd::DELETED_STATUS;
-        $this->riak->update($providerAd);
+        $this->norm->update($providerAd);
     }
 }

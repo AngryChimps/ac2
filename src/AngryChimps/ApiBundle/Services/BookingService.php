@@ -1,54 +1,53 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
+use AngryChimps\NormBundle\services\NormService;
 use Norm\riak\Booking;
-use Norm\riak\BookingDetail;
 use Norm\riak\Member;
 use Norm\riak\ProviderAdImmutable;
 use Norm\riak\Service;
 
 class BookingService {
-    protected $riak;
+    protected $norm;
     protected $providerAdService;
 
-    public function __construct(NormRiakService $riak, ProviderAdService $providerAdService) {
-        $this->riak = $riak;
+    public function __construct(NormService $norm, ProviderAdService $providerAdService) {
+        $this->norm = $norm;
         $this->providerAdService = $providerAdService;
     }
 
     public function getBooking($bookingId) {
-        return $this->riak->getBooking($bookingId);
+        return $this->norm->getBooking($bookingId);
     }
 
     public function createBooking(Member $user, ProviderAdImmutable $providerAdImmutable,
                                    Service $service, $type, \DateTime $startingAt, \DateTime $endingAt,
                                    $stripeToken) {
         //Republish the ad
-        $this->providerAdService->publish($providerAdImmutable->providerAd);
+        $this->providerAdService->publish($providerAdImmutable->getProviderAd());
 
         //Create booking
         $booking = new Booking();
-        $booking->title = $service->name;
-        $booking->type = $type;
-        $booking->start = $startingAt;
-        $booking->end = $endingAt;
-        $booking->providerAdImmutableId = $providerAdImmutable->id;
-        $booking->serviceId = $service->id;
-        $booking->memberId = $user->id;
-        $booking->paymentType = Booking::STRIPE_PAYMENT__TYPE;
-        $booking->status = Booking::PENDING_STATUS;
-        $booking->stripeToken = $stripeToken;
-        $this->riak->create($booking);
+        $booking->setTitle($service->getName());
+        $booking->setType($type);
+        $booking->setStart($startingAt);
+        $booking->setEnd($endingAt);
+        $booking->setProviderAdImmutableId($providerAdImmutable->getId());
+        $booking->setServiceId($service->id);
+        $booking->setMemberId($user->getId());
+        $booking->setPaymentType(Booking::STRIPE_PAYMENT__TYPE);
+        $booking->setStatus(Booking::PENDING_STATUS);
+        $booking->setStripeToken($stripeToken);
+        $this->norm->create($booking);
 
         return $booking;
     }
 
     public function deleteBooking(Booking $booking) {
-        $booking->status = Booking::CANCELED_STATUS;
-        $this->riak->update($booking);
+        $booking->setStatus(Booking::CANCELED_STATUS);
+        $this->norm->update($booking);
     }
 
     public function verifyStripeToken($token) {

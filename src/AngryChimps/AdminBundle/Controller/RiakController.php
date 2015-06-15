@@ -4,25 +4,20 @@ namespace AngryChimps\AdminBundle\Controller;
 
 use AC\NormBundle\core\Utils;
 use AngryChimps\AdminBundle\FormEntities\RiakQueryFormEntity;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use AngryChimps\NormBundle\services\NormService;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
 use Symfony\Component\Form\FormFactory;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class RiakController
  *
- * @Route("/riak")
+ * @Route("/norm")
  */
 class RiakController
 {
     const PREFIX = '__norm';
-    const REALM = 'riak';
+    const REALM = 'norm';
 
     /** @var \Riak\Connection  */
     private static $conn = null;
@@ -39,16 +34,16 @@ class RiakController
     /** @var TimedTwigEngine  */
     protected $templating;
 
-    /** @var  NormRiakService */
-    protected $riak;
+    /** @var  NormService */
+    protected $norm;
 
     public function __construct(RiakQueryFormEntity $riakQueryService, FormFactory $formFactory,
-                                RequestStack $requestStack, TimedTwigEngine $templating, NormRiakService $riak) {
+                                RequestStack $requestStack, TimedTwigEngine $templating, NormService $norm) {
         $this->riakQueryService = $riakQueryService;
         $this->formFactory = $formFactory;
         $this->requestStack = $requestStack;
         $this->templating = $templating;
-        $this->riak = $riak;
+        $this->norm = $norm;
     }
 
     /**
@@ -92,12 +87,12 @@ class RiakController
             switch($data->getFunction()) {
                 case 'GetById':
                     $func = 'get' . $data->getClass();
-                    $obj = $this->riak->$func($data->getArgument());
+                    $obj = $this->norm->$func($data->getArgument());
                     $result = json_encode($obj, JSON_PRETTY_PRINT);
                     break;
                 case 'GetByEmail':
                     $func = 'get' . $data->getClass() . 'ByEmail';
-                    $obj = $this->riak->$func($data->getArgument());
+                    $obj = $this->norm->$func($data->getArgument());
                     $result = json_encode($obj, JSON_PRETTY_PRINT);
                     break;
             }
@@ -152,7 +147,7 @@ class RiakController
     public function deleteAction($table_name, $id)
     {
         $class = Utils::table2class($table_name);
-        $fullClass = "\\Norm\\riak\\" . $class;
+        $fullClass = "\\Norm\\norm\\" . $class;
         $obj = $fullClass::getByPk($id);
         $obj->delete();
     }

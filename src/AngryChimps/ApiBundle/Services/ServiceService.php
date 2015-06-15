@@ -1,33 +1,27 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
-use Norm\riak\Member;
-use Norm\riak\Service;
+use Norm\norm\Member;
+use Norm\norm\Service;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
+use AngryChimps\NormBundle\services\NormService;
 
 class ServiceService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
     protected $validator;
 
-    /** @var  NormRiakService */
-    protected $riak;
-
-    /** @var  NormMysqlService */
-    protected $mysql;
+    /** @var  NormService */
+    protected $norm;
 
     /** @var CompanyService a */
     protected $companyService;
 
-    public function __construct(ValidatorInterface $validator, NormRiakService $riak, NormMysqlService $mysql,
-                                CompanyService $companyService) {
+    public function __construct(ValidatorInterface $validator, NormService $riak, CompanyService $companyService) {
         $this->validator = $validator;
-        $this->riak = $riak;
-        $this->mysql = $mysql;
+        $this->norm = $riak;
         $this->companyService = $companyService;
     }
 
@@ -47,12 +41,12 @@ class ServiceService {
             return false;
         }
 
-        $this->riak->create($service);
+        $this->norm->create($service);
 
         //Add to services list in company
-        $company = $this->riak->getCompany($companyId);
+        $company = $this->norm->getCompany($companyId);
         $company->serviceIds[] = $service->id;
-        $this->riak->update($company);
+        $this->norm->update($company);
 
         return $service;
     }
@@ -72,7 +66,7 @@ class ServiceService {
             return false;
         }
 
-        $this->riak->update($service);
+        $this->norm->update($service);
 
         return $service;
     }
@@ -82,12 +76,12 @@ class ServiceService {
      * @return Service
      */
     public function getService($id) {
-        return $this->riak->getService($id);
+        return $this->norm->getService($id);
     }
 
     public function markServiceDeleted(Service $service) {
         $service->status = Service::DISABLED_STATUS;
-        $this->riak->update($service);
+        $this->norm->update($service);
 
         //remove from list of services
         $company = $this->companyService->getByPk($service->companyId);
@@ -104,7 +98,7 @@ class ServiceService {
 
         //Add to list of deleted services
         $company->serviceDeletedIds[] = $service->id;
-        $this->riak->update($company);
+        $this->norm->update($company);
 
     }
 } 

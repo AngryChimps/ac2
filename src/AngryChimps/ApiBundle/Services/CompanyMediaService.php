@@ -1,11 +1,11 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
 
 use AngryChimps\MediaBundle\Services\MediaService;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
+use AngryChimps\NormBundle\services\NormService;
 use Norm\riak\Company;
 use Norm\riak\ProviderAd;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -15,23 +15,23 @@ class CompanyMediaService {
     /** @var MediaService */
     protected $mediaService;
 
-    /** @var NormRiakService */
-    protected $riak;
+    /** @var NormService */
+    protected $norm;
 
-    public function __construct(MediaService $mediaService, NormRiakService $riak) {
+    public function __construct(MediaService $mediaService, NormService $norm) {
         $this->mediaService = $mediaService;
-        $this->riak = $riak;
+        $this->norm = $norm;
     }
     public function postMedia(UploadedFile $file, Company $company, ProviderAd $providerAd = null) {
         $filename = 'ci/' . $this->mediaService->persist('company_images_fs', $file);
 
-        $companyPhotos = $this->riak->getCompanyPhotos($company->id);
-        $companyPhotos->photos[] = $filename;
-        $this->riak->update($companyPhotos);
+        $companyPhotos = $this->norm->getCompanyPhotos($company->getId());
+        $companyPhotos->addToPhotos($filename);
+        $this->norm->update($companyPhotos);
 
         if($providerAd !== null) {
-            $providerAd->photos[] = $filename;
-            $this->riak->update($providerAd);
+            $providerAd->addToPhotos($filename);
+            $this->norm->update($providerAd);
         }
 
         return $filename;

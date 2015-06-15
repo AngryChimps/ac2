@@ -1,3 +1,5 @@
+storage: riak2_map
+
 primary_keys:
   - company_id
 
@@ -9,8 +11,3 @@ fields:
   - name: updated_at
     type: DateTime
 
-foreign_keys:
-  - name: fk_company_reviews_company
-    column_name: company_id
-    referenced_table_name: company
-    referenced_column_name: id

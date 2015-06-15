@@ -1,13 +1,13 @@
 <?php
 
 
-namespace AngryChimps\GeoBundle\Services;
+namespace AngryChimps\GeoBundle\services;
 
 
 use AngryChimps\GeoBundle\Classes\Address;
 use AngryChimps\GuzzleBundle\Services\GuzzleService;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
-use Norm\riak\Zipcode;
+use AngryChimps\NormBundle\services\NormService;
+use Norm\Zipcode;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 class GeolocationService {
@@ -17,21 +17,21 @@ class GeolocationService {
     /** @var  GuzzleService */
     protected $guzzleService;
 
-    /** @var NormRiakService */
-    protected $riak;
+    /** @var NormService */
+    protected $norm;
 
     public function __construct(GuzzleService $guzzleService, $googleApiKey, $googleMapsApiAddress, $googleMapsTimeAddress,
-            NormRiakService $riak) {
+            NormService $norm) {
         $this->guzzleService = $guzzleService;
         $this->googleMapsApiKey = $googleApiKey;
         $this->googleMapsApiAddress = $googleMapsApiAddress;
         $this->googleMapsTimeAddress = $googleMapsTimeAddress;
-        $this->riak = $riak;
+        $this->norm = $norm;
     }
 
     public function lookupZipcode($zip) {
-        //Check to see if we've cached the information in riak
-        $zipcode = $this->riak->getZipcode($zip);
+        //Check to see if we've cached the information in norm
+        $zipcode = $this->norm->getZipcode($zip);
 
         if($zipcode === null) {
             $zipcode = $this->lookupZipcodeFromGoogle($zip);
@@ -76,7 +76,7 @@ class GeolocationService {
         $zipcode->southLat = $json['results'][0]['geometry']['bounds']['southwest']['lat'];
         $zipcode->eastLong = $json['results'][0]['geometry']['bounds']['northeast']['lng'];
         $zipcode->westLong = $json['results'][0]['geometry']['bounds']['southwest']['lng'];
-        $this->riak->create($zipcode);
+        $this->norm->create($zipcode);
 
         return $zipcode;
     }

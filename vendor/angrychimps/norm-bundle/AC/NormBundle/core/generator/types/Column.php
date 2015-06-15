@@ -17,7 +17,6 @@ class Column {
     public $comments;
     public $validations;
     public $includeInAll;
-    public $esType;
     public $indexName;
 
     public function getPropertyName() {

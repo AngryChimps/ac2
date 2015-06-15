@@ -3,25 +3,71 @@
 namespace AC\NormBundle\core\datastore;
 
 use Psr\Log\LoggerInterface;
+use AC\NormBundle\Services\RealmInfoService;
+use AC\NormBundle\core\Utils;
 
 abstract class AbstractDatastore {
-    abstract public function createObject($obj, &$debug);
-    abstract public function createCollection($coll, &$debug);
-    abstract public function updateObject($obj, &$debug);
-    abstract public function updateCollection($coll, &$debug);
-    abstract public function deleteObject($obj, &$debug);
-    abstract public function deleteCollection($coll, &$debug);
-    abstract public function populateObjectByPks($obj, $pks, &$debug);
-    abstract public function populateCollectionByPks($obj, $pks, &$debug);
+    /** @var LoggerInterface  */
+    protected static $loggerService;
 
-    protected function populateObjectWithArray($obj, $arr)
+    /** @var  RealmInfoService */
+    protected static $realmInfo;
+
+    public function __construct(RealmInfoService $realmInfo, LoggerInterface $loggerService) {
+        self::$realmInfo = $realmInfo;
+        self::$loggerService = $loggerService;
+    }
+
+    protected static function getAsArray($obj) {
+        switch (gettype($obj)) {
+            case 'NULL':
+                return null;
+
+            case 'boolean':
+            case 'integer':
+            case 'double':
+            case 'string':
+                return $obj;
+
+            case 'array':
+                $arr = [];
+                foreach ($obj as $object) {
+                    $arr[] = self::getAsArray($object);
+                }
+                return $arr;
+
+            case 'object':
+                if (self::isCollection($obj)) {
+                    $arr = [];
+                    foreach ($obj as $key => $val) {
+                        $arr[$key] = self::getAsArray($val);
+                    }
+                    return $arr;
+                }
+                elseif ($obj instanceof \DateTime) {
+                    return $obj->format('c');
+                }
+                else {
+                    $arr = [];
+                    foreach ($obj as $key => $val) {
+                        $arr[Utils::property2field($key)] = self::getAsArray($val);
+                    }
+                    return $arr;
+                }
+
+            default:
+                throw new \Exception('Unknown object type: ' . gettype($obj));
+        }
+    }
+
+    protected static function populateObjectWithArray($obj, $arr)
     {
-        $this->loggerService->info(print_r($obj, true));
-        $this->loggerService->info(print_r($arr, true));
+        self::$loggerService->info(print_r($obj, true));
+        self::$loggerService->info(print_r($arr, true));
         $class = get_class($obj);
-        $tableInfo = $this->realmInfo->getTableInfo($class);
+        $tableInfo = self::$realmInfo->getTableInfo($class);
 
-        if((is_array($arr) || $this->isCollection($obj)) && empty($arr)) {
+        if((is_array($arr) || self::isCollection($obj)) && empty($arr)) {
             return [];
         }
         for($i = 0; $i < count($tableInfo['fieldNames']); $i++) {
@@ -62,13 +108,13 @@ abstract class AbstractDatastore {
                     break;
                 default:
                     //Norm collection
-                    if ($this->isCollection($fieldName)) {
+                    if (self::isCollection($fieldName)) {
                         $obj->$propertyName = new $fieldType();
                         foreach ($arr[$obj->$tableInfo['fieldNames'][$i]] as $objectArray) {
-                            $tableInfo2 = $this->realmInfo->getTableInfo($fieldType);
+                            $tableInfo2 = self::$realmInfo->getTableInfo($fieldType);
                             $object = new $tableInfo2['objectName']();
-                            $this->populateObjectWithArray($object, $objectArray);
-                            $obj->$tableInfo['propertyNames'][$i]->offsetSet($this->getIdentifier($object), $object);
+                            self::populateObjectWithArray($object, $objectArray);
+                            $obj->$tableInfo['propertyNames'][$i]->offsetSet(self::getIdentifier($object), $object);
                         }
                     }
                     //Empty array of Norm objects
@@ -83,19 +129,19 @@ abstract class AbstractDatastore {
                         $obj->$propertyName = [];
                         foreach($arr[$fieldName] as $object) {
                             $obj2 = new $className();
-                            $this->populateObjectWithArray($obj2, $object);
+                            self::populateObjectWithArray($obj2, $object);
                             $obj->{$propertyName}[] = $obj2;
                         }
 //                        $object = new $className();
 //                        if($arr[$fieldName] !== null) {
-//                            $this->populateObjectWithArray($object, $arr[$fieldName]);
+//                            self::populateObjectWithArray($object, $arr[$fieldName]);
 //                        }
 //                        $obj->$propertyName = $object;
                     }
                     elseif (class_exists($tableInfo['fieldTypes'][$i])) {
                         $object = new $tableInfo['fieldTypes'][$i]();
                         if($arr[$fieldName] !== null) {
-                            $this->populateObjectWithArray($object, $arr[$fieldName]);
+                            self::populateObjectWithArray($object, $arr[$fieldName]);
                         }
                         $obj->$propertyName = $object;
                     }
@@ -111,27 +157,29 @@ abstract class AbstractDatastore {
      * @param $obj
      * @return string
      */
-    protected function getIdentifier($obj) {
+    protected static function getIdentifier($obj) {
         $class = get_class($obj);
-        $tableInfo = $this->realmInfo->getTableInfo($class);
+        $tableInfo = self::$realmInfo->getTableInfo($class);
 
         $pkArray = [];
         for($i = 0; $i < count($tableInfo['primaryKeyPropertyNames']); $i++) {
+            $propertyName = $tableInfo['primaryKeyPropertyNames'][$i];
+            $methodName = 'get' . ucfirst($propertyName);
             if($tableInfo['fieldTypes'][$i] === 'DateTime') {
-                $pkArray[] = $obj->$tableInfo['primaryKeyPropertyNames'][$i]->format('Y-m-d H:i:s');
+                $pkArray[] = $obj->$methodName()->format('c');
             }
             elseif($tableInfo['fieldTypes'][$i] === 'Date') {
-                $pkArray[] = $obj->$tableInfo['primaryKeyPropertyNames'][$i]->format('Y-m-d');
+                $pkArray[] = $obj->$methodName()->format('c');
             }
             else {
-                $pkArray[] = $obj->$tableInfo['primaryKeyPropertyNames'][$i];
+                $pkArray[] = $obj->$methodName();
             }
         }
 
         return implode('|', $pkArray);
     }
 
-    public function isCollection($class) {
+    public static function isCollection($class) {
         if(is_object($class)) {
             $class = get_class($class);
         }

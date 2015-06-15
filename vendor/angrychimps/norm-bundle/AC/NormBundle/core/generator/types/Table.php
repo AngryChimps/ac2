@@ -3,11 +3,6 @@
 
 namespace AC\NormBundle\core\generator\types;
 
-use \AC\NormBundle\core\generator\types\Column;
-use \AC\NormBundle\core\generator\types\ForeignKey;
-use \AC\NormBundle\core\generator\types\Enum;
-use AC\NormBundle\core\Utils;
-
 class Table {
     /** @var  string */
     public $name;
@@ -38,6 +33,12 @@ class Table {
 
     /** @var Enum[] */
     public $enums = array();
+
+    /** @var Datastore[] */
+    public $datastores;
+
+    /** @var Datastore */
+    public $primaryDatastore;
 
     const StatusEnumActive = 1;
 }

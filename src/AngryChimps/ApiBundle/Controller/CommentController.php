@@ -26,6 +26,21 @@ class CommentController extends AbstractController
         $this->memberService = $memberService;
         $this->companyService = $companyService;
     }
+
+    public function indexGetAction($companyId) {
+        $company = $this->companyService->getByPk($companyId);
+        if($company === null) {
+            $error = array('code' => 'Api.CommentController.indexGetAction.1',
+                'human' => 'Invalid company_id');
+            return $this->responseService->failure(404, $error);
+        }
+
+        $limit = ($this->request->query->get('limit') !== null) ? (int) $this->request->query->get('limit') : 10;
+        $offset = ($this->request->query->get('offset') !== null) ? (int) $this->request->query->get('offset') : 0;
+        $comments = $this->commentService->getComments($company, $limit, $offset);
+
+        return $this->responseService->success($comments);
+    }
         
     public function indexPostAction() {
         $payload = $this->getPayload();
@@ -42,7 +57,7 @@ class CommentController extends AbstractController
         if($company === null) {
             $error = array('code' => 'Api.CommentController.indexPostAction.2',
                 'human' => 'Invalid company_id');
-            return $this->responseService->failure(403, $error);
+            return $this->responseService->failure(400, $error);
         }
 
         $this->commentService->recordComment($member, $company, $payload['rating'], $comment);

@@ -23,9 +23,7 @@ class KernelTerminateListener {
     public function onKernelTerminate(PostResponseEvent $event)
     {
         try {
-            touch('/tmp/running');
             $this->taskerService->runTasks($this->logger);
-            touch('/tmp/ran');
         }
         catch (\Exception $ex) {
             //Do nothing

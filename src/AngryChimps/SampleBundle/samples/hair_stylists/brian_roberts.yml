@@ -1,0 +1,56 @@
+steps:
+    -
+        name: session-get
+    -
+        name: signup-registerProviderAd
+        payload:
+            ad_title: "Cut and Color Experts"
+            ad_description:
+                - "Bryan Roberts Salon and Color Bar is the ultimate full-service boutique salon in the Castro. We offer a complete range of hair, color, skin, makeup and body services exclusively using Aveda beauty products. Drawing on the industry's best talent, skill and artistry, we aim to provide exceptional quality and highly specialized customer service designed to enable our guests to bring out the very best in themselves. "
+            availabilities:
+                -
+                    start: today 13:00:00-08:00
+                    end: today 16:00:00-08:00
+            services:
+                -
+                    name: Short Hair Cut
+                    discounted_price: 60
+                    original_price: 80
+                    mins_for_service: 45
+                    mins_notice: 90
+                -
+                    name: Long Hair Cut
+                    discounted_price: 85
+                    original_price: 100
+                    mins_for_service: 60
+                    mins_notice: 90
+                -
+                    name: Short Hair Cut & Full Color
+                    discounted_price: 150
+                    original_price: 200
+                    mins_for_service: 90
+                    mins_notice: 120
+                -
+                    name: Long Hair Cut & Full Color
+                    discounted_price: 200
+                    original_price: 220
+                    mins_for_service: 105
+                    mins_notice: 120
+            category_id: 301
+    -
+        name: companyMedia-post
+        filename: bryan_roberts.jpg
+    -
+        name: signup-registerProviderCompany
+        payload:
+            member_id: #<Auto-Inserted>
+            company_name: Bryan Roberts Salon and Color Bar
+            member_name: Bryan McKay
+            email: #<Auto-Inserted>
+            password: #<Auto-Inserted>
+            dob: #<Auto-Inserted>
+            street1: 561 Castro Street
+            street2: null
+            zip: 94114
+            phone: #<Auto-Inserted>
+            mobile_phone: #<Auto-Inserted>

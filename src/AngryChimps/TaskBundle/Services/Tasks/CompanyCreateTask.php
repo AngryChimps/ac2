@@ -4,28 +4,20 @@
 namespace AngryChimps\TaskBundle\Services\Tasks;
 
 
-use Norm\riak\Member;
+use Norm\riak\Company;
 
-class MemberCreateTask extends AbstractTask {
-    protected $member;
+class CompanyCreateTask extends AbstractTask {
+    protected $company;
 
-    public function __construct(Member $member) {
-        $this->member = $member;
+    public function __construct(Company $company) {
+        $this->company = $company;
     }
 
     public function execute()
     {
-        $mysqlMember = new \Norm\mysql\Member();
+        $this->createMysqlObj($this->company);
 
-        foreach ($this->member as $fieldName => $value) {
-            if(property_exists($mysqlMember, $fieldName)) {
-                $mysqlMember->$fieldName = $value;
-            }
-        }
+        //Create company_member relationship in mysql
 
-        $this->mysql->create($mysqlMember);
-
-        $this->member->mysqlId = $mysqlMember->mysqlId;
-        $this->riak->update($this->member);
     }
 }

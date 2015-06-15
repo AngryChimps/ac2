@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/vendor/angrychimps/norm-bundle" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/app/cache/behat" />
+      <excludeFolder url="file://$MODULE_DIR$/app/cache/behat_dev" />
       <excludeFolder url="file://$MODULE_DIR$/app/cache/dev" />
       <excludeFolder url="file://$MODULE_DIR$/app/cache/prod" />
       <excludeFolder url="file://$MODULE_DIR$/app/cache/test" />

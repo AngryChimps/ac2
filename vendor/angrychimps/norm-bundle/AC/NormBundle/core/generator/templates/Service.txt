@@ -1,9 +1,0 @@
-<?php
-
-
-namespace {{{realmServiceNamespace}}};
-
-use AC\NormBundle\Cached\Norm{{realmNameCapitalized}}BaseService;
-
-class Norm{{realmNameCapitalized}}Service extends Norm{{realmNameCapitalized}}BaseService {
-}

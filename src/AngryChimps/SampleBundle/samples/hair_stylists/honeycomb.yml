@@ -1,0 +1,56 @@
+steps:
+    -
+        name: session-get
+    -
+        name: signup-registerProviderAd
+        payload:
+            ad_title: "Noe Valley's Premier Salon"
+            ad_description:
+                - "Hidden in the heart of San Francisco, Honeycomb is Noe Valley's premier boutique salon. Our staff is dedicated to making you look and feel your best, creating a range of individual looks from classic to contemporary."
+            availabilities:
+                -
+                    start: tomorrow 13:00:00-08:00
+                    end: tomorrow 16:00:00-08:00
+            services:
+                -
+                    name: Basic Hair Cut
+                    discounted_price: 50
+                    original_price: 65
+                    mins_for_service: 45
+                    mins_notice: 90
+                -
+                    name: Shampoo & Blowout
+                    discounted_price: 40
+                    original_price: 45
+                    mins_for_service: 60
+                    mins_notice: 90
+                -
+                    name: Blowout & Curl Set
+                    discounted_price: 50
+                    original_price: 60
+                    mins_for_service: 60
+                    mins_notice: 90
+                -
+                    name: Updo/Upstyle
+                    discounted_price: 60
+                    original_price: 75
+                    mins_for_service: 105
+                    mins_notice: 120
+            category_id: 301
+    -
+        name: companyMedia-post
+        filename: honeycomb.jpg
+    -
+        name: signup-registerProviderCompany
+        payload:
+            member_id: #<Auto-Inserted>
+            company_name: Honeycomb Salon
+            member_name: Jimmy Smitherson
+            email: #<Auto-Inserted>
+            password: #<Auto-Inserted>
+            dob: #<Auto-Inserted>
+            street1: 3915 24th Street
+            street2: Suite C
+            zip: 94114
+            phone: #<Auto-Inserted>
+            mobile_phone: #<Auto-Inserted>

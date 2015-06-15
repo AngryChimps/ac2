@@ -1,41 +1,72 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
 
 use Norm\es\Comment;
-use Norm\riak\Company;
-use Norm\riak\Member;
-use NormTests\riak\CompanyReviews;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
-use AngryChimps\NormBundle\realms\Norm\es\services\NormEsService;
+use Norm\Company;
+use Norm\Member;
+use AngryChimps\NormBundle\services\NormService;
 
 class CommentService {
-    /** @var  NormRiakService */
-    protected $riak;
+    /** @var  NormService */
+    protected $norm;
 
-    /** @var NormEsService */
-    protected $es;
+    public function __construct(NormService $norm) {
+        $this->norm = $norm;
+    }
 
-    public function __construct(NormRiakService $riak, NormEsService $es) {
-        $this->riak = $riak;
-        $this->es = $es;
+    public function getComments(Company $company, $limit, $offset) {
+        //If there are no ratings, return now
+        if($company->getRatingCount() === 0) {
+            return ['count' => 0, 'results' => [] ];
+        }
+
+        $filter = new \Elastica\Filter\Term( [ 'company_id' => $company->getId() ] );
+        $query = new \Elastica\Query();
+        $query->setFrom($offset);
+        $query->setSize($limit);
+        $query->setPostFilter($filter);
+
+        $results = $this->norm->search('Norm\\Comment', $query, $limit, $offset);
+
+        //Extract the data to return
+        $arr = [];
+        $arr['count'] = $results->getTotalHits();
+        $arr['results'] = [];
+        foreach($results->getResults() as $result) {
+            $data = $result->getSource();
+
+            //Add member information
+            $member = $this->norm->getMember($data['member_id']);
+            $data['member'] = [];
+            $data['member']['photo'] = $member->getPhoto() ?: '';
+            $data['member']['display_name'] = $member->getFname() . ' ' . substr($member->getLname(), 0, 1) . '.';
+
+            //Unset data we don't want
+            unset($data['company_id']);
+            unset($data['member_id']);
+
+           $arr['results'][] = $data;
+        }
+
+        return $arr;
     }
 
     public function recordComment(Member $member, Company $company, $rating, $commentText) {
         //Update rating in
-        $company->ratingCount++;
-        $company->ratingTotal += $rating;
-        $company->ratingAvg = $company->ratingTotal / $company->ratingCount;
-        $this->riak->update($company);
+        $company->incrementRatingCount(1);
+        $company->incrementRatingTotal($rating);
+        $company->setRatingAvg($company->getRatingTotal() / $company->getRatingCount());
+        $this->norm->update($company);
 
         //Create comment in Elasticsearch
         $comment = new Comment();
-        $comment->companyId = $company->id;
-        $comment->memberId = $member->id;
-        $comment->rating = $rating;
-        $comment->comment = $commentText;
-        $this->es->publish($comment);
+        $comment->setCompanyId($company->getId());
+        $comment->setMemberId($member->getId());
+        $comment->setRating($rating);
+        $comment->setComment($commentText);
+        $this->norm->publish($comment);
     }
 }

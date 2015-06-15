@@ -6,6 +6,7 @@ namespace AC\NormBundle\core\generator\generators;
 
 use AC\NormBundle\core\datastore\AbstractDatastore;
 use AC\NormBundle\core\exceptions\UnsupportedColumnType;
+use AC\NormBundle\core\generator\types\Datastore;
 use AC\NormBundle\core\generator\types\Enum;
 use AC\NormBundle\core\generator\types\PrimaryKey;
 use AC\NormBundle\core\generator\types\Schema;
@@ -18,12 +19,11 @@ use AC\NormBundle\core\Utils;
 class YamlGenerator extends AbstractGenerator {
     protected $isTest;
     protected $realm;
-    protected $namepsace;
+    protected $namespace;
 
-    public function __construct($realm, $namespace, $isTest = false ) {
-        $this->realm = $realm;
+    public function __construct($namespace, $isTest = false ) {
+        $this->namespace = $namespace;
         $this->isTest = $isTest;
-        $this->namepsace = $namespace;
     }
 
     /**
@@ -31,8 +31,7 @@ class YamlGenerator extends AbstractGenerator {
      */
     public function getSchema() {
         $schema = new Schema();
-        $schema->realm = $this->realm;
-        $schema->namespace = $this->namepsace;
+        $schema->namespace = $this->namespace;
 
         foreach($this->getTableNames() as $tableName) {
             $table = new Table();
@@ -45,6 +44,20 @@ class YamlGenerator extends AbstractGenerator {
                     $table->primaryKeyPropertyNames[] = Utils::field2property($pkName);
                 }
             }
+
+            $table->datastores = [];
+            foreach($tableData['datastores'] as $datastore) {
+                $ds = new Datastore();
+                $ds->name = $datastore['name'];
+                $ds->method = $datastore['method'];
+                $ds->type = $datastore['type'];
+                $table->datastores[] = $ds;
+
+                if($ds->type === 'primary') {
+                    $table->primaryDatastore = $ds;
+                }
+            }
+
             $ordinalPosition = 0;
             foreach($tableData['fields'] as $fieldData) {
                 $column = new Column();
@@ -64,8 +77,6 @@ class YamlGenerator extends AbstractGenerator {
                 else {
                     $column->type = $fieldData['type'];
                 }
-
-                $column->esType = $this->getElasticsearchType($column->type);
 
                 if(isset($fieldData['length'])) {
                     $column->length = $fieldData['length'];
@@ -100,42 +111,7 @@ class YamlGenerator extends AbstractGenerator {
             $schema->tables[$tableName] = $table;
         }
 
-        //Get foreign key info
-        foreach($schema->tables as $table) {
-            if(isset($table->data['foreign_keys'])) {
-                foreach($table->data['foreign_keys'] as $fkName => $fkData) {
-                    $key = new ForeignKey();
-                    $key->name = $fkName;
-                    $key->tableName = $table->name;
-                    $key->columnName = $fkData['column_name'];
-                    $key->referencedTableName = $fkData['referenced_table_name'];
-                    $key->referencedColumnName = $fkData['referenced_column_name'];
-
-                    $schema->foreignKeys[] = $key;
-                    $schema->tables[$key->tableName]->foreignKeys[] = $key;
-                    $schema->tables[$key->referencedTableName]->reverseForeignKeys[] = $key;
-                }
-            }
-        }
-
         return $schema;
-    }
-
-    protected function getElasticsearchType($type) {
-        switch($type) {
-            case 'int':
-                return 'integer';
-            case 'bool':
-                return 'boolean';
-            case 'string[]':
-                return 'string';
-            case 'DateTime':
-                return 'date';
-            case 'DateTime[]':
-                return 'date';
-            default:
-                return $type;
-        }
     }
 
     protected function getTableNames() {
@@ -145,7 +121,7 @@ class YamlGenerator extends AbstractGenerator {
             $handle = opendir(__DIR__ . "/../../../Tests/realms/NormTests/" . $this->realm . "/yaml/classes");
         }
         else {
-            $handle = opendir(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $this->realm . "/yaml/classes");
+            $handle = opendir(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/yaml/classes");
         }
 
         while (false !== ($entry = readdir($handle))) {
@@ -166,7 +142,7 @@ class YamlGenerator extends AbstractGenerator {
             $contents = file_get_contents(__DIR__ . "/../../../Tests/realms/NormTests/" . $this->realm . "/yaml/classes/" . $tableName . '.yml');
         }
         else {
-            $contents = file_get_contents(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/realms/Norm/" . $this->realm . "/yaml/classes/" . $tableName . '.yml');
+            $contents = file_get_contents(__DIR__ . "/../../../../../../../../src/AngryChimps/NormBundle/yaml/classes/" . $tableName . '.yml');
         }
         return yaml_parse($contents);
     }

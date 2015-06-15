@@ -1,21 +1,21 @@
 <?php
 
 
-namespace AngryChimps\GeoBundle\Services;
+namespace AngryChimps\GeoBundle\services;
 
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
+use AngryChimps\NormBundle\services\NormService;
 
 class TimeService {
     protected $geolocationService;
-    protected $riak;
+    protected $norm;
 
-    public function __construct(GeolocationService $geolocationService, NormRiakService $riak) {
+    public function __construct(GeolocationService $geolocationService, NormService $norm) {
         $this->geolocationService = $geolocationService;
-        $this->riak = $riak;
+        $this->norm = $norm;
     }
 
     public function getTime(\DateTime $time, $zipcode) {
-        $zip = $this->riak->getZipcode($zipcode);
+        $zip = $this->norm->getZipcode($zipcode);
 
         if($zip === null) {
             $zip = $this->geolocationService->lookupZipcode($zipcode);

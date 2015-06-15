@@ -1,14 +1,16 @@
+driver: riak2_map
+
 primary_keys:
   - id
 
 fields:
   - name: id
-    type: string
+    type: Uuid
     auto_generate: true
   - name: mysql_id
     type: int
   - name: email
-    type: string
+    type: Email
     validations:
         - Email: ~
   - name: password
@@ -17,14 +19,28 @@ fields:
         - Length:
             min: 6
             max: 25
+    indexed: false
   - name: password_reset_code
     type: string
-  - name: name
+    indexed: false
+  - name: fname
     type: string
     validations:
         - Length:
-            min: 4
+            min: 1
             max: 25
+  - name: lname
+    type: string
+    validations:
+        - Length:
+            min: 1
+            max: 25
+  - name: gender
+    type: enum
+    values:
+      - Male
+      - Female
+      - Other
   - name: mobile
     type: string
   - name: dob
@@ -34,6 +50,7 @@ fields:
   - name: status
     type: enum
     values:
+      - Uninitialized
       - Active
       - Deleted
       - Locked
@@ -46,6 +63,8 @@ fields:
       - Support
       - Admin
       - SuperAdmin
+  - name: device_ids
+    type: string[]
   - name: last_activity_date
     type: Date
     default: "new \\DateTime()"
@@ -53,14 +72,11 @@ fields:
     type: string[]
   - name: managed_company_ids
     type: string[]
-  - name: ad_flag_keys
+  - name: ad_flag_ids
     type: string[]
-  - name: message_flag_keys
+  - name: message_flag_ids
     type: string[]
-  - name: stripe_customer_id
-    type: string
+  - name: address_ids
+    type: string[]
   - name: created_at
     type: DateTime
-  - name: updated_at
-    type: DateTime
-

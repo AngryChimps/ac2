@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "967368ee4e5b8d8588b5e185f49668a4",
+    "hash": "c98b3da7c69fc78e8bfc49acc7583a38",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -311,6 +311,59 @@
                 "transliterator"
             ],
             "time": "2014-05-15 22:08:22"
+        },
+        {
+            "name": "centraldesktop/protobuf-php",
+            "version": "0.6.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/centraldesktop/Protobuf-PHP.git",
+                "reference": "b8a65ac7f9495557b97f05df4a93a5c70e8b1c00"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/centraldesktop/Protobuf-PHP/zipball/b8a65ac7f9495557b97f05df4a93a5c70e8b1c00",
+                "reference": "b8a65ac7f9495557b97f05df4a93a5c70e8b1c00",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.5.0",
+                "phpoption/phpoption": "1.4.*",
+                "symfony/console": "2.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "bin": [
+                "protoc-gen-php.bat",
+                "protoc-gen-php.php"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "DrSlump": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Iván -DrSlump- Montes",
+                    "email": "drslump@pollinimini.net",
+                    "homepage": "https://github.com/drslump/Protobuf-PHP"
+                }
+            ],
+            "description": "PHP implementation of Google's Protocol Buffers",
+            "homepage": "https://github.com/drslump/Protobuf-PHP",
+            "keywords": [
+                "protobuf",
+                "protocol buffer",
+                "serializing"
+            ],
+            "time": "2015-04-29 20:55:53"
         },
         {
             "name": "doctrine/annotations",
@@ -2121,6 +2174,105 @@
             "time": "2015-03-09 09:58:04"
         },
         {
+            "name": "php-riak/riak-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-riak/riak-client.git",
+                "reference": "a40b73ff4e854bf3e3f26977c0ceff67229802f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-riak/riak-client/zipball/a40b73ff4e854bf3e3f26977c0ceff67229802f5",
+                "reference": "a40b73ff4e854bf3e3f26977c0ceff67229802f5",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "~1",
+                "guzzlehttp/guzzle": "~5",
+                "php": ">=5.4.0",
+                "php-riak/riak-client-pb": "~1"
+            },
+            "require-dev": {
+                "instaclick/coding-standard": "~1.1",
+                "instaclick/object-calisthenics-sniffs": "dev-master",
+                "instaclick/symfony2-coding-standard": "dev-remaster",
+                "php-mock/php-mock-phpunit": "^0.2",
+                "phpunit/phpunit": "~4",
+                "satooshi/php-coveralls": "~0.6",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Riak": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabio B. Silva",
+                    "email": "fabio.bat.silva@gmail.com"
+                }
+            ],
+            "description": "PHP Riak Client for PHP 5.4",
+            "homepage": "http://github.com/php-riak/riak-client",
+            "keywords": [
+                "client",
+                "database",
+                "driver",
+                "nosql",
+                "riak"
+            ],
+            "time": "2015-04-23 15:39:45"
+        },
+        {
+            "name": "php-riak/riak-client-pb",
+            "version": "v1.0-beta",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-riak/riak-client-pb.git",
+                "reference": "e9a9761b3d06d5a796db913c0df2f306a61544af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-riak/riak-client-pb/zipball/e9a9761b3d06d5a796db913c0df2f306a61544af",
+                "reference": "e9a9761b3d06d5a796db913c0df2f306a61544af",
+                "shasum": ""
+            },
+            "require": {
+                "centraldesktop/protobuf-php": "0.6.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Riak\\Client\\ProtoBuf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabio B. Silva",
+                    "email": "fabio.bat.silva@gmail.com"
+                }
+            ],
+            "description": "Riak Client PB",
+            "homepage": "http://github.com/php-riak/riak-client-pb",
+            "keywords": [
+                "client",
+                "nosql",
+                "riak"
+            ],
+            "time": "2015-01-27 16:57:53"
+        },
+        {
             "name": "phpcollection/phpcollection",
             "version": "0.4.0",
             "source": {
@@ -3307,7 +3459,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "jms/serializer": 20,
         "jms/serializer-bundle": 20,
@@ -3315,6 +3467,7 @@
         "ruflin/elastica": 20,
         "massivescale/celery-php": 20,
         "mjaschen/phpgeo": 20,
+        "php-riak/riak-client": 20,
         "bach-pedersen/php-riak-stubs": 20
     },
     "prefer-stable": false,

@@ -2,79 +2,57 @@
 
 namespace AngryChimps\ApiBundle\Controller;
 
-use AngryChimps\ApiBundle\Services\CompanyMediaService;
-use AngryChimps\ApiBundle\Services\CompanyService;
-use AngryChimps\ApiBundle\Services\ProviderAdService;
-use AngryChimps\MediaBundle\Services\MediaService;
-use FOS\RestBundle\Controller\FOSRestController;
+use AngryChimps\ApiBundle\Services\MemberMediaService;
+use AngryChimps\ApiBundle\Services\MemberService;
 use Symfony\Component\HttpFoundation\RequestStack;
-use FOS\RestBundle\View\ViewHandler;
 use AngryChimps\ApiBundle\Services\SessionService;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use AngryChimps\ApiBundle\Services\ResponseService;
 
-class CompanyMediaController extends AbstractController
+class MemberMediaController extends AbstractController
 {
-    /** @var CompanyMediaService */
-    protected $companyMediaService;
+    /** @var MemberMediaService */
+    protected $memberMediaService;
 
-    /** @var CompanyService */
-    protected $companyService;
-
-    /** @var ProviderAdService */
-    protected $providerAdService;
+    /** @var MemberService */
+    protected $memberService;
 
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
-                                ResponseService $responseService, CompanyService $companyService,
-                                CompanyMediaService $companyMediaService, ProviderAdService $providerAdService) {
+                                ResponseService $responseService, MemberService $memberService,
+                                MemberMediaService $memberMediaService) {
         parent::__construct($requestStack, $sessionService, $responseService);
-        $this->companyMediaService = $companyMediaService;
-        $this->companyService = $companyService;
-        $this->providerAdService = $providerAdService;
+        $this->memberMediaService = $memberMediaService;
+        $this->memberService = $memberService;
     }
 
-    public function indexPostAction($companyId, $providerAdId) {
+    public function indexPostAction($memberId) {
         /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $photo */
         $media = $this->getRequest()->files->get('media');
 
         if($media === null) {
-            $error = array('code' => 'Api.CompanyMediaController.indexPostAction.1',
+            $error = array('code' => 'Api.MemberMediaController.indexPostAction.1',
                 'human' => 'No media was attached');
             return $this->responseService->failure(400, $error);
         }
 
-        $company = $this->companyService->getByPk($companyId);
+        $member = $this->memberService->getMember($memberId);
 
-        if($company === null) {
-            $error = array('code' => 'Api.CompanyMediaController.indexPostAction.2',
-                'human' => 'Unable to locate requested company');
+        if($member === null) {
+            $error = array('code' => 'Api.MemberMediaController.indexPostAction.2',
+                'human' => 'Unable to locate requested member');
             return $this->responseService->failure(400, $error);
         }
 
-        if($providerAdId !== false) {
-            $providerAd = $this->providerAdService->getProviderAd($providerAdId);
-
-            if($providerAd === null) {
-                $error = array('code' => 'Api.CompanyMediaController.indexPostAction.3',
-                    'human' => 'Unable to locate requested provider ad');
-                return $this->responseService->failure(400, $error);
-            }
-        }
-        else {
-            $providerAd = null;
-        }
-
         try {
-            $filename = $this->companyMediaService->postMedia($media, $company, $providerAd);
+            $filename = $this->memberMediaService->postMedia($media, $member);
         }
         catch(\Exception $ex) {
-            $error = array('code' => 'Api.CompanyMediaController.indexPostAction.4',
+            $error = array('code' => 'Api.MemberMediaController.indexPostAction.3',
                 'human' => 'Unknown error occurred processing the image');
             return $this->responseService->failure(400, $error, $ex);
         }
 
-        return $this->responseService->success(array('payload' => array('filename' => 'ci/' . $filename)));
+        return $this->responseService->success(array('payload' => array('filename' => $filename)));
     }
 
 }

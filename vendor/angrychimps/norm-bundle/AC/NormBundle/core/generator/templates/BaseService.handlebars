@@ -1,0 +1,117 @@
+<?php
+
+namespace {{baseServiceNamespace}};
+
+use AC\NormBundle\services\NormCrudService;
+
+{{#each traitNames}}
+use {{{traitName}}};
+{{/each}}
+
+{{#each tables}}
+use {{objectName}};
+{{/each}}
+
+class NormBaseService extends NormCrudService {
+    {{#each traitNames}}
+    use {{traitShortName}};
+    {{/each}}
+
+    {{#each tables}}
+    /**
+     * @param $pks array|int|string|\DateTime The primary key/keys values
+     * @return {{objectNameWithoutNamespace}}
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}($pks) {
+        return $this->getObjectByPks('{{objectName}}', $pks);
+    }
+
+    /**
+     * @param $pks array An array of primary keys
+     * @return {{objectNameWithoutNamespace}}
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}Collection($pks) {
+        return $this->getCollectionByPks('{{objectNameWithoutNamespace}}Collection', $pks);
+    }
+
+    {{#if isMysql}}
+    /**
+     * @param $where string The WHERE clause
+     * @param $params array The parameter values array
+     * @return {{objectNameWithoutNamespace}}
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}ByWhere($where, $params = array()) {
+        return $this->getObjectByWhere('{{objectNameWithoutNamespace}}', $where, $params);
+    }
+
+    /**
+     * @param $sql string The entire SQL clause
+     * @param $params array The parameter values array
+     * @return {{objectNameWithoutNamespace}}
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}BySql($sql, $params = array()) {
+        return $this->getObjectBySql('{{objectNameWithoutNamespace}}', $sql, $params);
+    }
+
+    /**
+     * @param $where string The WHERE clause
+     * @param $params array The parameter values array
+     * @return {{objectNameWithoutNamespace}}Collection
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}CollectionByWhere($where, $params = array()) {
+        return $this->getCollectionByWhere('{{objectNameWithoutNamespace}}Collection', $where, $params);
+    }
+
+    /**
+     * @param $sql string The entire SQL clause
+     * @param $params array The parameter values array
+     * @return {{objectNameWithoutNamespace}}Collection
+     * @throws \Exception
+     */
+    public function get{{objectNameWithoutNamespace}}CollectionBySql($sql, $params = array()) {
+        return $this->getObjectBySql('{{objectNameWithoutNamespace}}', $sql, $params);
+    }
+
+    {{/if}}
+
+    {{#if isElasticsearch}}
+    public function define{{objectNameWithoutNamespace}}Mapping() {
+        $props = [
+            {{#each columns}}
+                '{{columnName}}' => [
+                    'type' => '{{elasticsearchType}}',
+                    'include_in_all' => {{includeInAll}},
+                    {{#if indexName}}
+                    'index_name' => '{{indexName}}',
+                    {{/if}}
+                ],
+            {{/each}}
+        ];
+        return $this->defineMapping('{{objectNameWithoutNamespace}}Collection', $props);
+    }
+
+    {{/if}}
+    {{/each}}
+
+    {{#if isElasticsearch}}
+    public function defineAllMappings() {
+    {{#each tables}}
+        $this->define{{objectNameWithoutNamespace}}Mapping();
+    {{/each}}
+    }
+
+    public function createIndex() {
+        return $this->createEsIndex('{{primaryDatastoreName}}', {{shards}}, {{replicas}});
+    }
+
+    public function deleteIndex() {
+        return $this->deleteEsIndex('{{primaryDatastoreName}}');
+    }
+    {{/if}}
+
+}

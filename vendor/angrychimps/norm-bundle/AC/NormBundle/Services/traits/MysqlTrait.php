@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AC\NormBundle\Services\traits;
+namespace AC\NormBundle\services\traits;
 
 
 trait MysqlTrait {

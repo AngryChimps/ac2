@@ -35,9 +35,12 @@ ac_norm:
     debug: true
     datastores:
         riak_ds:
-            driver: "riak_blob"
-            host: "localhost"
-            port: 8087
+            driver: "riak_map"
+            servers:
+              -
+                host: "localhost"
+                port: 8087
+            prefix: __norm_classmaps_test_
         mysql_ds:
             driver: "mysql"
             db_name: "ac"

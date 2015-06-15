@@ -1,70 +1,60 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
-
-use Norm\riak\Member;
-use Norm\riak\Company;
-use Norm\riak\CompanyPhotos;
-use Norm\riak\CompanyServices;
-use Norm\riak\CompanyReviews;
+use Norm\Member;
+use Norm\Company;
+use Norm\CompanyPhotos;
+use Norm\CompanyServices;
+use Norm\CompanyReviews;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use AC\NormBundle\Services\NormService;
-use Norm\riak\ServiceCollection;
-use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
+use AngryChimps\NormBundle\services\NormService;
 
 class CompanyService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
     protected $validator;
 
-    /** @var  NormRiakService */
-    protected $riak;
+    /** @var  NormService */
+    protected $norm;
 
-    /** @var  NormMysqlService */
-    protected $mysql;
-
-    public function __construct(ValidatorInterface $validator, NormRiakService $riak, NormMysqlService $mysql) {
+    public function __construct(ValidatorInterface $validator, NormService $norm) {
         $this->validator = $validator;
-        $this->riak = $riak;
-        $this->mysql = $mysql;
+        $this->norm = $norm;
     }
 
     public function createEmpty(Member $member) {
         $company = new Company();
-        $company->status = Company::ENABLED_STATUS;
-        $company->administerMemberIds[] = $member->id;
-        $this->riak->create($company);
+        $company->setStatus(Company::ENABLED_STATUS);
+        $company->addToAdministerMemberIds($member->getId());
+        $this->norm->create($company);
 
-        $member->managedCompanyIds[] = $company->id;
-        $this->riak->update($member);
+        $member->addToManagedCompanyIds($company->getId());
+        $this->norm->update($member);
 
         $companyServices = new CompanyServices();
-        $companyServices->companyId = $company->id;
-        $this->riak->create($companyServices);
+        $companyServices->setCompanyId($company->getId());
+        $this->norm->create($companyServices);
 
         $companyReviews = new CompanyReviews();
-        $companyReviews->companyId = $company->id;
-        $this->riak->create($companyReviews);
+        $companyReviews->setCompanyId($company->getId());
+        $this->norm->create($companyReviews);
 
         $companyPhotos = new CompanyPhotos();
-        $companyPhotos->companyId = $company->id;
-        $companyPhotos->photos = array();
-        $this->riak->create($companyPhotos);
+        $companyPhotos->setCompanyId($company->getId());
+        $this->norm->create($companyPhotos);
 
         $companyServices = new CompanyServices();
-        $companyServices->companyId = $company->id;
-        $companyServices->services = new ServiceCollection();
-        $this->riak->create($companyServices);
+        $companyServices->setCompanyId($company->getId());
+        $this->norm->create($companyServices);
         return $company;
     }
 
     public function createCompany($name, Member $owner, &$errors) {
         $company = $this->createEmpty($owner);
-        $company->name = $name;
-        $company->administerMemberIds = array($owner->id);
+        $company->setName($name);
+        $company->addToAdministerMemberIds($owner->getId());
 
 
         $errors = $this->validator->validate($company);
@@ -73,16 +63,15 @@ class CompanyService {
             return false;
         }
 
-        $this->riak->create($company);
-
-        $owner->managedCompanyIds[] = $company->id;
-        $this->riak->update($owner);
+        $this->norm->create($company);
+        $owner->addToManagedCompanyIds($company->getId());
+        $this->norm->update($owner);
 
         return $company;
     }
 
     public function updateCompany(Company $company, $name, &$errors) {
-        $company->name = $name;
+        $company->setName($name);
 
         $errors = $this->validator->validate($company);
 
@@ -90,16 +79,16 @@ class CompanyService {
             return false;
         }
 
-        $this->riak->update($company);
+        $this->norm->update($company);
         return true;
     }
 
     public function getByPk($pk) {
-        return $this->riak->getCompany($pk);
+        return $this->norm->getCompany($pk);
     }
 
     public function markCompanyDeleted(Company $company) {
-        $company->status = Company::DISABLED_STATUS;
-        $this->riak->update($company);
+        $company->setStatus(Company::DISABLED_STATUS);
+        $this->norm->update($company);
     }
 }

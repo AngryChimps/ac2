@@ -258,7 +258,7 @@ class Generator {
     protected function renderTemplate($templateName, $className, $data, $isTest) {
 
         $engine = new Handlebars(array(
-            'loader' => new \Handlebars\Loader\FilesystemLoader(__DIR__.'/templates/', array('extension' => 'txt')),
+            'loader' => new \Handlebars\Loader\FilesystemLoader(__DIR__.'/templates/', array('extension' => 'handlebars')),
         ));
         $rendered = $engine->render($templateName, $data);
 
@@ -282,42 +282,125 @@ class Generator {
     protected function getHandlebarsData(Table $table) {
         $data = array();
 
-        $data['driver'] = self::$_realms[$this->_realm]['dsInfo']['driver'];
-        $data['tableName'] = $table->name;
-        $data['className'] = Utils::table2class($table->name);
-        $data['realm'] = $this->_realm;
+        //Realm Level
+        $data['realmName'] = $this->_realm;
+        $data['realmNameCapitalized'] = strtoupper($this->_realm);
         $data['namespace'] = $this->_namespace;
         $data['primaryDatastoreName'] = /*!empty($this->_classConfigs[$table->name]['primaryDatastoreName'])
             ? $this->_classConfigs[$table->name]['primaryDatastoreName']
             :*/ self::$_realms[$this->_realm]['primary_datastore'];
+        $data['driver'] = self::$_realms[$this->_realm]['dsInfo']['driver'];
+        $data['isRiak'] = false;
+        $data['isMysql'] = false;
+        $data['isElasticsearch'] = false;
+        switch($data['driver']) {
+            case 'riak_blob':
+            case 'riak_map':
+                $data['isRiak'] = true;
+                break;
+            case 'mysql':
+                $data['isMysql'] = true;
+                break;
+            case 'elasticsearch':
+                $data['isElasticsearch'] = true;
+                break;
+            default:
+                echo "Invalid driver";
+                exit();
+        }
 
-        $data['fullyQualifiedClass'] = $data['namespace'] . "\\" . $data['className'];
-        $data['fullyQualifiedClassWithPrecedingBackslash'] = "\\" . $data['namespace'] . "\\" . $data['className'];
-        $data['classNameDoubleEscaped'] = "\\\\" . $data['namespace'] . "\\\\" . $data['className'];
-        $data['collectionNameDoubleEscaped'] = "\\\\" . $data['namespace'] . "\\\\" . $data['className'] . 'Collection';
-
-        $data['fieldNames'] = array();
-        $data['propertyNames'] = array();
-        $data['propertyTypes'] = array();
-        $data['properties'] = array();
+        //Table Level
+        $data['tableName'] = $table->name;
+        $data['className'] = Utils::table2class($table->name);
+        $data['classNameNamespaced'] = $data['namespace'] . "\\" . $data['className'];
         $data['defaults'] = array();
-        $data['autoIncrementFieldName'] = $table->autoIncrementName;
-        $data['autoIncrementPropertyName'] = Utils::field2property($table->autoIncrementName);
-        $data['autoGenerateFieldName'] = $table->autoGenerateName;
-        $data['autoGeneratePropertyName'] = Utils::field2property($table->autoGenerateName);
+        $data['primaryKeys'] = $table->primaryKeyNames;
         $data['fields'] = [];
+
         foreach($table->columns as $column) {
             /** @var $column Column */
-            $data['fieldNames'][] = $column->name;
-            switch($column->type) {
-                case 'Date':
-                case 'DateTime':
-                    $data['fieldTypes'][] = "\\DateTime";
+
+            //Field Level
+            $fieldData = [];
+            $fieldData['fieldName'] = $column->name;
+            $fieldData['propertyName'] = $column->getPropertyName();
+            $fieldData['propertyNameCapitalized'] = strtoupper($column->getPropertyName());
+            $fieldData['type'] = $column->type;
+            $singleType = rtrim($column->type, '[]');
+            switch($singleType) {
+                case 'Currency':
+                    $fieldData['phpType'] = 'float';
+                    $fieldData['elasticsearchType'] = 'float';
+                    $fieldData['mysqlType'] = 'double';
                     break;
-                default:
-                    $data['fieldTypes'][] = (string) $column->type;
+                case 'Location':
+                    $fieldData['phpType'] = 'string';
+                    $fieldData['elasticsearchType'] = 'geo_point';
+                    $fieldData['mysqlType'] = 'point';
+                    break;
+                case 'Date':
+                    $fieldData['phpType'] = '\\DateTime';
+                    $fieldData['elasticsearchType'] = 'date';
+                    $fieldData['mysqlType'] = 'Date';
+                    break;
+                case 'DateTime':
+                    $fieldData['phpType'] = '\\DateTime';
+                    $fieldData['elasticsearchType'] = 'date';
+                    $fieldData['mysqlType'] = 'DateTime';
+                    break;
+                case 'Uuid':
+                    $fieldData['phpType'] = 'string';
+                    $fieldData['elasticsearchType'] = 'string';
+                    $fieldData['mysqlType'] = 'varchar';
+                    break;
+                case 'Email':
+                    $fieldData['phpType'] = 'string';
+                    $fieldData['elasticsearchType'] = 'string';
+                    $fieldData['mysqlType'] = 'varchar';
+                    break;
+                case 'Address':
+                    $fieldData['phpType'] = 'string';
+                    $fieldData['elasticsearchType'] = 'string';
+                    $fieldData['mysqlType'] = 'text';
+                    break;
+                case 'bool':
+                    $fieldData['phpType'] = 'bool';
+                    $fieldData['elasticsearchType'] = 'boolean';
+                    $fieldData['mysqlType'] = 'bool';
+                    break;
+                case 'string':
+                    $fieldData['phpType'] = 'string';
+                    $fieldData['elasticsearchType'] = 'string';
+                    $fieldData['mysqlType'] = 'varchar';
+                    break;
+                case 'text':
+                    $fieldData['phpType'] = 'string';
+                    $fieldData['elasticsearchType'] = 'string';
+                    $fieldData['mysqlType'] = 'text';
+                    break;
+                case 'int':
+                    $fieldData['phpType'] = 'int';
+                    $fieldData['elasticsearchType'] = 'integer';
+                    $fieldData['mysqlType'] = 'int';
+                    break;
+                case 'float':
+                    $fieldData['phpType'] = 'float';
+                    $fieldData['elasticsearchType'] = 'float';
+                    $fieldData['mysqlType'] = 'float';
+                    break;
+                case 'decimal':
+                    $fieldData['phpType'] = 'float';
+                    $fieldData['elasticsearchType'] = 'float';
+                    $fieldData['mysqlType'] = 'decimal';
+                    break;
+                case 'enum':
+                    $fieldData['phpType'] = 'int';
+                    $fieldData['elasticsearchType'] = 'int';
+                    $fieldData['mysqlType'] = 'int';
+                    break;
             }
 
+            //Defaults
             if($column->default !== null) {
                 $data['defaults'][] = array('statement' => '$this->' .
                     Utils::field2property($column->name) . ' = ' . $column->default . ';');
@@ -331,88 +414,9 @@ class Generator {
                     Utils::field2property($column->name) . ' = array();');
             }
 
-            $data['propertyNames'][] = Utils::field2property($column->name);
-            $data['properties'][] = array(
-                'name' => Utils::field2property($column->name),
-                'type' => $data['fieldTypes'][count($data['fieldTypes']) - 1],
-            );
             $data['validations'] = $column->validations;
 
-            //For the Realm Info Template
-            $fieldData = [];
-            $fieldData['fieldName'] = $column->name;
-            $fieldData['type'] = $column->type;
-            $fieldData['propertyName'] = $column->getPropertyName();
-            $data['fields'][] = $fieldData;
-        }
-
-        $data['fieldNamesQuotedString'] = Utils::array2quotedString($data['fieldNames']);
-        $data['fieldTypesQuotedString'] = Utils::array2quotedString($data['fieldTypes']);
-        $data['propertyNamesQuotedString'] = Utils::array2quotedString($data['propertyNames']);
-        $data['hasAutoIncrement'] = ($data['autoIncrementFieldName'] === null) ? 'false' : 'true';
-
-        $data['primaryKeyFieldNames'] = array();
-        $data['primaryKeyPropertyNames'] = array();
-        if($table->primaryKeyNames !== null) {
-            $data['hasPrimaryKey'] = 'true';
-
-            foreach($table->primaryKeyNames as $pk) {
-                $data['primaryKeyFieldNames'][] = $pk;
-                $data['primaryKeyPropertyNames'][] = Utils::field2property($pk);
-            }
-        }
-        else {
-            $data['hasPrimaryKey'] = 'false';
-        }
-
-        $data['primaryKeyFieldNamesQuotedString'] = Utils::array2quotedString($data['primaryKeyFieldNames']);
-        $data['primaryKeyPropertyNamesQuotedString'] = Utils::array2quotedString($data['primaryKeyPropertyNames']);
-
-        $data['foreignKeys'] = array();
-
-        foreach($table->foreignKeys as $fk) {
-            /** @var $fk ForeignKey */
-            $newFk = array();
-            $newFk['localColumnName'] = $fk->columnName;
-            $newFk['remoteTableName'] = $fk->referencedTableName;
-            $newFk['remoteColumn'] = $fk->referencedColumnName;
-            $newFk['propertyName'] = self::getPropertyFromFkFieldName($fk->columnName);
-            $newFk['propertyClass'] = Utils::table2class($fk->referencedTableName);
-            $newFk['localPropertyIdFieldName'] = Utils::field2property($fk->referencedColumnName);
-            $newFk['remotePropertyClass'] = Utils::table2class($fk->tableName);
-
-            $newFk['remotePropertyIdFieldName'] = Utils::field2property($fk->referencedColumnName);
-            $newFk['propertyClassWithNamespace'] = "\\" . $data['namespace'] . "\\"
-                . Utils::table2class($fk->referencedTableName);
-            $newFk['remotePropertyClassWithNamespace'] = $data['namespace'] . "\\"
-                . Utils::table2class($fk->tableName);
-
-            $data['foreignKeys'][] = $newFk;
-        }
-
-        foreach($table->reverseForeignKeys as $fk) {
-            //Don't allow reverse foreign keys into the same table
-            if($fk->tableName !== $fk->referencedTableName) {
-                /** @var $fk ForeignKey */
-                $newFk = array();
-                $newFk['localColumnName'] = $fk->columnName;
-                $newFk['localTableName'] = $fk->tableName;
-                $newFk['remoteTableName'] = $fk->referencedTableName;
-                $newFk['remoteColumn'] = $fk->referencedColumnName;
-                $newFk['propertyName'] = self::getPropertyFromFkFieldName($fk->columnName);
-                $newFk['localPropertyIdFieldName'] = Utils::field2property($fk->columnName);
-
-                $newFk['remotePropertyClass'] = Utils::table2class($fk->tableName);
-                $newFk['remotePropertyIdFieldName'] = Utils::field2property($fk->referencedColumnName);
-                $newFk['propertyClass'] = Utils::table2class($fk->referencedTableName);
-
-                $newFk['propertyClassWithNamespace'] = $data['namespace'] . "\\"
-                    . Utils::table2class($fk->referencedTableName);
-                $newFk['remotePropertyClassWithNamespace'] = $data['namespace'] . "\\"
-                    . Utils::table2class($fk->tableName);
-
-                $data['reverseForeignKeys'][] = $newFk;
-            }
+             $data['fields'][] = $fieldData;
         }
 
         //Process Enums
@@ -423,7 +427,7 @@ class Generator {
 
             foreach($enum->values as $value) {
                 $valueArray = array();
-                $valueArray['name'] = Utils::camel2TrainCase($value) . '_' .  Utils::camel2TrainCase($enum->name);
+                $valueArray['enumName'] = Utils::camel2TrainCase($value) . '_' .  Utils::camel2TrainCase($enum->name);
                 $valueArray['value'] = $cnt;
                 $enumArray['values'][] = $valueArray;
                 $cnt++;
@@ -431,34 +435,6 @@ class Generator {
 
             $data['enums'][] = $enumArray;
         }
-
-//        if(isset($this->_reverseForeignKeysByTable[$table->getName()])) {
-//            foreach($this->_reverseForeignKeysByTable[$table->getName()] as $fk) {
-//                /** @var $fk \Doctrine\DBAL\Schema\ForeignKeyConstraint */
-//                $localColumns = $fk->getLocalColumns();
-//                $remoteColumns = $fk->getForeignColumns();
-//                $localTableName = $fk->getLocalTableName();
-//                $remoteTableName = $fk->getForeignTableName();
-//
-//                if($this->_tables[$remoteTableName])
-//
-//                if(count($localColumns) != 1 || count($remoteColumns) != 1) {
-//                    throw new \norm\core\exceptions\InvalidForeignKeyMultipleColumns($this->_realm, $fk->getName());
-//                }
-//                $newFk = array();
-//                $newFk['localColumnName'] = $localColumns[0];
-//                $newFk['localTableName'] = localTableName;
-//                $newFk['remoteTableName'] = $remoteTableName;
-//                $newFk['remoteColumn'] = $remoteColumns[0];
-//                $newFk['propertyName'] = self::getPropertyFromFkFieldName($localColumns[0]);
-//                $newFk['propertyClass'] = Utils::table2class($fk->getForeignTableName());
-//                $newFk['propertyClassWithNamespace'] = "\\norm\\realms\\" . $this->_realm . "\\"
-//                    . Utils::table2class($fk->getForeignTableName());
-//                $newFk['localPropertyIdFieldName'] = Utils::field2property($localColumns[0]);
-//
-//                $data['reverseForeignKeys'][] = $newFk;
-//            }
-//        }
 
         $this->_tableNames[] = array(
             'tableName' => $table->name,

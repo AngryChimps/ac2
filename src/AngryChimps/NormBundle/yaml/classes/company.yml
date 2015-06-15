@@ -1,0 +1,54 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: Uuid
+    auto_generate: true
+  - name: mysql_id
+    type: int
+  - name: name
+    type: string
+    validations:
+        - Length:
+            min: 4
+            max: 50
+  - name: description
+    type: string
+  - name: plan
+    type: enum
+    values:
+      - Basic
+      - Premium
+  - name: rating_count
+    type: Counter
+  - name: rating_total
+    type: Counter
+  - name: rating_avg
+    type: float
+  - name: administer_member_ids
+    type: string[]
+  - name: location_ids
+    type: string[]
+  - name: location_deleted_ids
+    type: string[]
+  - name: service_ids
+    type: string[]
+  - name: service_deleted_ids
+    type: string[]
+  - name: flag_ids
+    type: string[]
+  - name: status
+    type: enum
+    values:
+      - Enabled
+      - Disabled
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

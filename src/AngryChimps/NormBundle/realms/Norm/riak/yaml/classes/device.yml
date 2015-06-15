@@ -5,62 +5,18 @@ fields:
   - name: id
     type: string
     auto_generate: true
-  - name: mysql_id
-    type: int
-  - name: email
+  - name: member_id
     type: string
-    validations:
-        - Email: ~
-  - name: password
-    type: string
-    validations:
-        - Length:
-            min: 6
-            max: 25
-  - name: password_reset_code
-    type: string
-  - name: name
-    type: string
-    validations:
-        - Length:
-            min: 4
-            max: 25
-  - name: mobile
-    type: string
-  - name: dob
-    type: Date
-  - name: photo
-    type: string
-  - name: status
+  - name: device_type
     type: enum
     values:
-      - Active
-      - Deleted
-      - Locked
-      - Banned
-      - PartialRegistration
-  - name: role
-    type: enum
-    values:
-      - User
-      - Support
-      - Admin
-      - SuperAdmin
-  - name: last_activity_date
-    type: Date
-    default: "new \\DateTime()"
-  - name: blocked_company_ids
-    type: string[]
-  - name: managed_company_ids
-    type: string[]
-  - name: ad_flag_keys
-    type: string[]
-  - name: message_flag_keys
-    type: string[]
-  - name: stripe_customer_id
+      - Android
+      - iOS
+      - Web
+  - name: push_token
+    type: string
+  - name: description
     type: string
   - name: created_at
-    type: DateTime
-  - name: updated_at
     type: DateTime
 

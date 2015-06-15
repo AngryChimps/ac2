@@ -1,0 +1,85 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: Uuid
+    auto_generate: true
+  - name: mysql_id
+    type: int
+  - name: email
+    type: Email
+    validations:
+        - Email: ~
+  - name: password
+    type: string
+    validations:
+        - Length:
+            min: 6
+            max: 25
+    indexed: false
+  - name: password_reset_code
+    type: string
+    indexed: false
+  - name: fname
+    type: string
+    validations:
+        - Length:
+            min: 1
+            max: 25
+  - name: lname
+    type: string
+    validations:
+        - Length:
+            min: 1
+            max: 25
+  - name: gender
+    type: enum
+    values:
+      - Male
+      - Female
+      - Other
+  - name: mobile
+    type: string
+  - name: dob
+    type: Date
+  - name: photo
+    type: string
+  - name: status
+    type: enum
+    values:
+      - Uninitialized
+      - Active
+      - Deleted
+      - Locked
+      - Banned
+      - PartialRegistration
+  - name: role
+    type: enum
+    values:
+      - User
+      - Support
+      - Admin
+      - SuperAdmin
+  - name: device_ids
+    type: string[]
+  - name: last_activity_date
+    type: Date
+    default: "new \\DateTime()"
+  - name: blocked_company_ids
+    type: string[]
+  - name: managed_company_ids
+    type: string[]
+  - name: ad_flag_ids
+    type: string[]
+  - name: message_flag_ids
+    type: string[]
+  - name: address_ids
+    type: string[]
+  - name: created_at
+    type: DateTime

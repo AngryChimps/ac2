@@ -3,6 +3,10 @@ angry_chimps_api_session:
     path:     /session
     methods: ["GET"]
     defaults: { _controller: angry_chimps_api.session.controller:indexGetAction }
+angry_chimps_api_session_post:
+    path:     /session
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.session.controller:indexPostAction }
 
 #member
 angry_chimps_api_member_get:
@@ -114,6 +118,12 @@ angry_chimps_api_company_media_post:
     methods: ["POST"]
     defaults: { _controller: angry_chimps_api.company_media.controller:indexPostAction , providerAdId: false}
 
+#member_media
+angry_chimps_api_member_media_post:
+    path:     /memberMedia/{memberId}
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.member_media.controller:indexPostAction }
+
 #availability
 angry_chimps_api_availability_post:
     path:     /availability
@@ -163,6 +173,10 @@ angry_chimps_api_booking_delete:
     defaults: { _controller: angry_chimps_api.booking.controller:indexDeleteAction}
 
 #comment
+angry_chimps_api_comment_get:
+    path:     /comment/{companyId}
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.comment.controller:indexGetAction}
 angry_chimps_api_comment_post:
     path:     /comment
     methods: ["POST"]
@@ -173,7 +187,19 @@ angry_chimps_api_comment_post:
 #    type:     annotation
 
 #test
+angry_chimps_api_test_run:
+    path:     /test/run/{methodName}
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.test.controller:runAction}
 angry_chimps_api_test_env:
     path:     /test/env
     methods: ["GET"]
     defaults: { _controller: angry_chimps_api.test.controller:envAction}
+angry_chimps_api_test_create:
+    path:     /test/create
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.test.controller:createAction}
+angry_chimps_api_test_retrieve:
+    path:     /test/retrieve/{id}
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.test.controller:retrieveAction}

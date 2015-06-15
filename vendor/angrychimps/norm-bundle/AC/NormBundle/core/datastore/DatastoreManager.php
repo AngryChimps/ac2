@@ -53,7 +53,11 @@ class DatastoreManager {
                     break;
 
                 case 'riak_blob':
-                    self::$_datastores[$datastoreName] = new RiakBlobDatastore($configParams, $realmInfo, $loggerService);
+                    self::$_datastores[$datastoreName] = new Riak1BlobDatastore($configParams, $realmInfo, $loggerService);
+                    break;
+
+                case 'riak_map':
+                    self::$_datastores[$datastoreName] = new Riak2MapDatastore($configParams, $realmInfo, $loggerService);
                     break;
 
                 case 'elasticsearch':

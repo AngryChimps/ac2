@@ -1,8 +1,7 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
-
+namespace AngryChimps\ApiBundle\services;
 
 use AngryChimps\MailerBundle\Messages\BasicMessage;
 use AngryChimps\MailerBundle\Services\MailerService;

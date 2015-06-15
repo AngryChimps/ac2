@@ -1126,5 +1126,13 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->deleteData('booking/' . $this->testBooking->id);
     }
 
+    /**
+     * @When I get the test company's comments
+     */
+    public function iGetTheTestCompanySComments()
+    {
+        $this->getData('comment/' . $this->testCompany->id);
+    }
+
 }
 

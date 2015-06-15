@@ -1,0 +1,39 @@
+steps:
+    -
+        name: session-get
+    -
+        name: signup-registerProviderAd
+        payload:
+            ad_title: "Family Owned & Operated Plumbing"
+            ad_description:
+                - Looking for a quality plumbing contractor in the San Mateo - Burlingame area? Call James Caccia Plumbing Inc now at (650) 342-5363. We specialize in the installation, repair and maintenance of all of your home's plumbing systems and proudly service all makes and models.
+                - With James Caccia Plumbing Inc you can expect upfront pricing, 100% satisfaction guarantee on all services, and on-time service. You'll have access to a team of highly-trained technicians who are individually specialized in a variety of areas, including water heaters, drain cleaning, clogged toilets, and more, along with extensive experience and knowledge in all areas of plumbing. Whatever issue you come across regarding your home's plumbing system, we have you covered! Click here to learn more about our services.
+            availabilities:
+                -
+                    start: tomorrow 09:00:00-08:00
+                    end: tomorrow 12:00:00-08:00
+            services:
+                -
+                    name: Emergency Plumbing Evaluation
+                    discounted_price: 100
+                    original_price: 100
+                    mins_for_service: 120
+                    mins_notice: 90
+            category_id: 401
+    -
+        name: companyMedia-post
+        filename: caccia.jpg
+    -
+        name: signup-registerProviderCompany
+        payload:
+            member_id: #<Auto-Inserted>
+            company_name: Caccia Plumbing
+            member_name: James Caccia
+            email: #<Auto-Inserted>
+            password: #<Auto-Inserted>
+            dob: #<Auto-Inserted>
+            street1: 917 N Amphlett Blvd
+            street2: null
+            zip: 94401
+            phone: #<Auto-Inserted>
+            mobile_phone: #<Auto-Inserted>

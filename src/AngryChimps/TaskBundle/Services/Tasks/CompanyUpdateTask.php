@@ -6,18 +6,17 @@ namespace AngryChimps\TaskBundle\Services\Tasks;
 
 use Norm\riak\Company;
 
-class CompanyCreateTask extends AbstractTask {
+class CompanyUpdateTask extends AbstractTask {
     protected $company;
+    protected $changes;
 
-    public function __construct(Company $company) {
+    public function __construct(Company $company, array $changes) {
         $this->company = $company;
+        $this->changes = $changes;
     }
 
     public function execute()
     {
-        $this->createMysqlObj($this->company);
-
-        //Create company_member relationship in mysql
-
+        $this->updateMysqlObj($this->company, $this->changes);
     }
 }

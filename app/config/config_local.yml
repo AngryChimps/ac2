@@ -57,9 +57,12 @@ ac_norm:
     debug: true
     datastores:
         riak_ds:
-            driver: "riak_blob"
-            host: "localhost"
-            port: 8087
+            driver: riak2
+            servers:
+              -
+                host: "localhost"
+                port: 8087
+            prefix: __norm_local_
         mysql_ds:
             driver: "mysql"
             db_name: "ac"
@@ -69,7 +72,7 @@ ac_norm:
             password: ""
         es_ds:
             driver: "elasticsearch"
-            index_name: ac
+            index_name: ac_local
             default_analyzer: english
             shards: 4
             replicas: 1

@@ -9,5 +9,5 @@ services:
             - "@form.factory"
             - "@request_stack"
             - "@templating"
-            - "@ac_norm.norm.riak"
+            - "@ac_norm.norm"
 

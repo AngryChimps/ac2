@@ -17,14 +17,6 @@ class MemberUpdateTask extends AbstractTask {
 
     public function execute()
     {
-        $mysqlMember = $this->mysql->getMember($this->member->mysqlId);
-
-        foreach ($this->changes as $fieldName => $value) {
-            if(property_exists($mysqlMember, $fieldName)) {
-                $mysqlMember->$fieldName = $value;
-            }
-        }
-
-        $this->mysql->update($mysqlMember);
+        $this->updateMysqlObj($this->member, $this->changes);
     }
 }

@@ -1,0 +1,68 @@
+steps:
+    -
+        name: session-get
+    -
+        name: signup-registerProviderAd
+        payload:
+            ad_title: "Creative & Unique Hair for San Francisco"
+            ad_description:
+                - "Wrapped around the corner of Haight and Steiner in San Francisco’s vibrantly eclectic Lower Haight district, effortlessly sheek and washed in light, is our little gem called EDO."
+                - EDO Salon merges fashion, design and art. One part boutique hair salon, one part speakeasy gallery space, we pride ourselves in celebrating the special and personal style of each of our clients.
+                - Famous for our unique culture of organic hair cutting and seamless balayage highlighting, Edo is always a style leader.
+                - We carefully choose each stylist with love, then spend time to train and refine their eye. Our team knows how to read your head shape, hair growth patterns and texture, and your personal style. We identify cuts that will naturally accentuate your best features -- your lips, cheekbones or eyes. With rich, beautiful and never brassy color, we can even make your skin tone look more fresh and youthful.
+            availabilities:
+                -
+                    start: tomorrow 09:00:00-08:00
+                    end: tomorrow 12:00:00-08:00
+            services:
+                -
+                    name: Long Hair Cut
+                    discounted_price: 65
+                    original_price: 80
+                    mins_for_service: 60
+                    mins_notice: 90
+                -
+                    name: Short Hair Cut
+                    discounted_price: 55
+                    original_price: 70
+                    mins_for_service: 45
+                    mins_notice: 90
+                -
+                    name: Men's Barbering
+                    discounted_price: 50
+                    original_price: 60
+                    mins_for_service: 60
+                    mins_notice: 90
+                -
+                    name: Shampoo and Blow-Out
+                    discounted_price: 45
+                    original_price: 55
+                    mins_for_service: 105
+                    mins_notice: 120
+            category_id: 301
+    -
+        name: companyMedia-post
+        filename: edo.jpg
+    -
+        name: companyMedia-post
+        filename: edo2.jpg
+    -
+        name: companyMedia-post
+        filename: edo3.jpg
+    -
+        name: companyMedia-post
+        filename: edo4.jpg
+    -
+        name: signup-registerProviderCompany
+        payload:
+            member_id: #<Auto-Inserted>
+            company_name: Edo Salon
+            member_name: Chri Longstreet
+            email: #<Auto-Inserted>
+            password: #<Auto-Inserted>
+            dob: #<Auto-Inserted>
+            street1: 601 Haight St
+            street2: null
+            zip: 94117
+            phone: #<Auto-Inserted>
+            mobile_phone: #<Auto-Inserted>

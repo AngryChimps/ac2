@@ -1,23 +1,23 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
-use AngryChimps\NormBundle\realms\Norm\es\services\NormEsService;
+use AngryChimps\NormBundle\services\NormService;
 use Elastica\Query\FunctionScore;
 use Norm\riak\Availability;
 use Location\Coordinate;
 use Location\Distance\Haversine;
 
 class SearchService {
-    /** @var NormEsService */
-    protected $es;
+    /** @var NormService */
+    protected $norm;
 
     /** @var CalendarService */
     protected $calendarService;
 
-    public function __construct(NormEsService $es, CalendarService $calendarService) {
-        $this->es = $es;
+    public function __construct(NormService $norm, CalendarService $calendarService) {
+        $this->norm = $norm;
         $this->calendarService = $calendarService;
     }
 
@@ -26,7 +26,7 @@ class SearchService {
         $query =    '{
                        "query": { "match_all": {} }
                      }';
-        $results = $this->es->search('Norm\\es\\ProviderAdListing', $query, $limit, $offset);
+        $results = $this->norm->search('Norm\\ProviderAdListing', $query, $limit, $offset);
 
         //Extract the data to return
         $arr = [];
@@ -77,18 +77,11 @@ class SearchService {
             $useTopBoolFilter = true;
         }
 
-        //Create the query from the query builder
-//        $query = new \Elastica\Query();
-//        $query->setFrom($offset);
-//        $query->setSize($limit);
-//        $query->setQuery(
-//            new \Elastica\Query\Filtered(
-//                $topQuery,
-//                $topBoolFilter
-//            )
-//        );
-
-
+        if($consumerTravels !== null) {
+            $term = new \Elastica\Filter\Term(['is_mobile' => !($consumerTravels)]);
+            $topBoolFilter->addMust($term);
+            $useTopBoolFilter = true;
+        }
 
         $functionScore->setQuery($topQuery);
         if($useTopBoolFilter) {
@@ -115,7 +108,7 @@ class SearchService {
 //        }
 
         //Get the results
-        $results = $this->es->search('Norm\\es\\ProviderAdListing', $query, $limit, $offset);
+        $results = $this->norm->search('Norm\\ProviderAdListing', $query, $limit, $offset);
 
         //Extract the data to return
         $arr = [];

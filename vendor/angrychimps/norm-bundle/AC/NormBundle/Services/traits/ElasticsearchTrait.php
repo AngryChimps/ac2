@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AC\NormBundle\Services\traits;
+namespace AC\NormBundle\services\traits;
 
 use AC\NormBundle\core\datastore\DatastoreManager;
 use Elastica\Client;

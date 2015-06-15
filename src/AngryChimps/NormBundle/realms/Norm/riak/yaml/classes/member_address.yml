@@ -1,0 +1,36 @@
+driver: riak2_map
+
+primary_keys:
+  - member_id
+
+fields:
+  - name: member_id
+    type: Uuid
+  - name: name
+    type: string
+  - name: street1
+    type: string
+    validations:
+        - Length:
+            min: 2
+            max: 25
+  - name: street2
+    type: string
+    validations:
+        - Length:
+            min: 2
+            max: 25
+  - name: city
+    type: string
+  - name: state
+    type: string
+  - name: zip
+    type: string
+    validations:
+        - Length:
+            min: 5
+            max: 10
+  - name: lat
+    type: float
+  - name: lon
+    type: float

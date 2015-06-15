@@ -3,15 +3,15 @@ services:
 #        class: AngryChimps\GeoBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
     angry_chimps_geo.geolocation:
-        class: AngryChimps\GeoBundle\Services\GeolocationService
+        class: AngryChimps\GeoBundle\services\GeolocationService
         arguments:
             - "@angry_chimps_guzzle.guzzle"
             - "%angry_chimps_geo.google_api_key%"
             - "%angry_chimps_geo.google_maps_api_address%"
             - "%angry_chimps_geo.google_maps_time_address%"
-            - "@ac_norm.norm.riak"
+            - "@ac_norm.norm"
     angry_chimps_geo.time:
-        class: AngryChimps\GeoBundle\Services\TimeService
+        class: AngryChimps\GeoBundle\services\TimeService
         arguments:
             - "@angry_chimps_geo.geolocation"
-            - "@ac_norm.norm.riak"
+            - "@ac_norm.norm"

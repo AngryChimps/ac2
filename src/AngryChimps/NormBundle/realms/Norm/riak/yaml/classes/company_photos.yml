@@ -1,3 +1,5 @@
+storage: riak2_blob
+
 primary_keys:
   - company_id
 

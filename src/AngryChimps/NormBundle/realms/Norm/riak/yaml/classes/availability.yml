@@ -1,3 +1,7 @@
+storage:
+  - datastore: riak_ds
+  - method: riak2_blob
+
 primary_keys:
   - id
 

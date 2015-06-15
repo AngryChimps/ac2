@@ -29,6 +29,9 @@ fields:
   - name: location
     type: geo_point
     include_in_all: false
+  - name: is_mobile
+    type: bool
+    include_in_all: false
 
 # Used for indexing/searching
   - name: company_name

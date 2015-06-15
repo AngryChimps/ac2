@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use AC\NormBundle\Services\RealmInfoCreatorService;
+use AC\NormBundle\Services\CreatorService;
 
 class GenerateCommand extends ContainerAwareCommand
 {
@@ -31,12 +31,12 @@ class GenerateCommand extends ContainerAwareCommand
     {
         $env = $input->getArgument('environ');
 
-        /** @var RealmInfoCreatorService $rics */
-        $rics = $this->getContainer()->get('ac_norm.realm_info_creator');
+        /** @var CreatorService $cs */
+        $cs = $this->getContainer()->get('ac_norm.creator');
         if($env !== null) {
-            $rics->setEnvironment($env);
+            $cs->setEnvironment($env);
         }
 
-        $rics->createIfNecessary(true);
+        $cs->createIfNecessary(true);
     }
 }

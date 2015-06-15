@@ -1,50 +1,45 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
 
 use AngryChimps\GeoBundle\Services\GeolocationService;
-use Norm\riak\Company;
-use Norm\riak\Location;
-use Norm\riak\Address;
+use Norm\Company;
+use Norm\Location;
+use Norm\Address;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
+use AngryChimps\NormBundle\services\NormService;
 
 class LocationService {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
     protected $validator;
 
-    /** @varAngryChimps\GeoBundle\Services\GeolocationService */
+    /** @varAngryChimps\GeoBundle\services\GeolocationService */
     protected $geo;
 
-    /** @var  NormRiakService */
-    protected $riak;
-
-    /** @var  NormMysqlService */
-    protected $mysql;
+    /** @var  NormService */
+    protected $norm;
 
     /** @var CompanyService  */
     protected $companyService;
 
-    public function __construct(ValidatorInterface $validator, GeolocationService $geo, NormRiakService $riak,
-                                NormMysqlService $mysql, CompanyService $companyService) {
+    public function __construct(ValidatorInterface $validator, GeolocationService $geo, NormService $norm,
+                                CompanyService $companyService) {
         $this->validator = $validator;
         $this->geo = $geo;
-        $this->riak = $riak;
-        $this->mysql = $mysql;
+        $this->norm = $norm;
         $this->companyService = $companyService;
     }
 
     public function createEmpty(Company $company) {
         $location = new Location();
-        $location->companyId = $company->id;
-        $location->status = Location::ENABLED_STATUS;
-        $this->riak->create($location);
+        $location->setCompanyId($company->getId());
+        $location->setStatus(Location::ENABLED_STATUS);
+        $this->norm->create($location);
 
-        $company->locationIds[] = $location->id;
-        $this->riak->update($company);
+        $company->addToLocationIds($location->getId());
+        $this->norm->update($company);
 
         return $location;
     }
@@ -54,12 +49,14 @@ class LocationService {
         $address = $this->geo->lookupAddress($street1, $street2, $zip);
 
         $location = new Location();
-        $location->name = $name;
-        $location->address = new Address();
-        $location->address->street1 = $street1;
-        $location->address->street2 = $street2;
-        $location->address->zip = $zip;
-        $location->address->phone = $phone;
+        $location->setName($name);
+
+        $address = new Address();
+//        $address->set
+        $address->street1 = $street1;
+        $address->street2 = $street2;
+        $address->zip = $zip;
+        $address->phone = $phone;
 
         $location->address->city = $address->city;
         $location->address->state = $address->state;
@@ -75,7 +72,7 @@ class LocationService {
             return false;
         }
 
-        $this->riak->create($location);
+        $this->norm->create($location);
 
         return $location;
     }
@@ -101,18 +98,18 @@ class LocationService {
             return false;
         }
 
-        $this->riak->update($location);
+        $this->norm->update($location);
 
         return $location;
     }
 
     public function getByPk($id) {
-        return $this->riak->getLocation($id);
+        return $this->norm->getLocation($id);
     }
 
     public function markLocationDeleted(Location $location) {
         $location->status = Location::DISABLED_STATUS;
-        $this->riak->update($location);
+        $this->norm->update($location);
 
         $company = $this->companyService->getByPk($location->companyId);
 
@@ -131,6 +128,6 @@ class LocationService {
 
         //Add to list of deleted services
         $company->locationDeletedIds[] = $location->id;
-        $this->riak->update($company);
+        $this->norm->update($company);
     }
 }

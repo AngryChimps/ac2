@@ -1,3 +1,5 @@
+storage: riak2_map
+
 primary_keys:
   - id
 

@@ -1,0 +1,31 @@
+<?php
+        $realms['{{realmName}}']['namespace'] = '{{namespace}}';
+        $realms['{{realmName}}']['primaryDatastore'] = '{{primaryDatastoreName}}';
+        $realms['{{realmName}}']['driver'] = '{{driver}}';
+        $realms['{{realmName}}']['tableNames'] = [{{#each tables}}'{{tableName}}', {{/each}}];
+
+    {{#each tables}}
+        $realms['{{realmName}}']['{{tableName}}']['name'] = '{{tableName}}';
+        $realms['{{realmName}}']['{{tableName}}']['objectName'] = '{{objectName}}';
+        $realms['{{realmName}}']['{{tableName}}']['collectionName'] = '{{objectName}}Collection';
+        $realms['{{realmName}}']['{{tableName}}']['primaryDatastoreName'] = '{{primaryDatastoreName}}';
+    {{#if isElasticsearch}}
+        $realms['{{realmName}}']['{{tableName}}']['default_analyzer'] = '{{default_analyzer}}';
+        $realms['{{realmName}}']['{{tableName}}']['shards'] = '{{shards}}';
+        $realms['{{realmName}}']['{{tableName}}']['replicas'] = '{{replicas}}';
+    {{/if}}
+        $realms['{{realmName}}']['{{tableName}}']['primaryKeyFieldNames'] = {{{primaryKeyFieldNamesString}}};
+        $realms['{{realmName}}']['{{tableName}}']['primaryKeyPropertyNames'] = {{{primaryKeyPropertyNamesString}}};
+        $realms['{{realmName}}']['{{tableName}}']['autoIncrementField'] = '{{autoIncrementField}}';
+        $realms['{{realmName}}']['{{tableName}}']['autoIncrementProperty'] = '{{autoIncrementProperty}}';
+        $realms['{{realmName}}']['{{tableName}}']['autoGenerateField'] = '{{autoGenerateField}}';
+        $realms['{{realmName}}']['{{tableName}}']['autoGenerateProperty'] = '{{autoGenerateProperty}}';
+        $realms['{{realmName}}']['{{tableName}}']['fieldNames'] = {{{fieldNamesString}}};
+        $realms['{{realmName}}']['{{tableName}}']['propertyNames'] = {{{propertyNamesString}}};
+        $realms['{{realmName}}']['{{tableName}}']['fieldTypes'] = {{{fieldTypesString}}};
+
+        $classes['{{objectName}}']['tableName'] = '{{tableName}}';
+        $classes['{{objectName}}']['primary_datastore'] = '{{primaryDatastoreName}}';
+        $classes['{{objectName}}Collection']['tableName'] = '{{tableName}}';
+        $classes['{{objectName}}Collection']['primary_datastore'] = '{{primaryDatastoreName}}';
+    {{/each}}

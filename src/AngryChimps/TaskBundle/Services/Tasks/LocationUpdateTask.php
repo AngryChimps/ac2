@@ -6,15 +6,17 @@ namespace AngryChimps\TaskBundle\Services\Tasks;
 
 use Norm\riak\Location;
 
-class LocationCreateTask extends AbstractTask {
+class LocationUpdateTask extends AbstractTask {
     protected $member;
+    protected $changes;
 
-    public function __construct(Location $location) {
+    public function __construct(Location $location, array $changes) {
         $this->location = $location;
+        $this->changes = $changes;
     }
 
     public function execute()
     {
-        $this->createMysqlObj($this->location);
+        $this->updateMysqlObj($this->location, $this->changes);
     }
 }

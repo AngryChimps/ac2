@@ -1,23 +1,23 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\Services;
+namespace AngryChimps\ApiBundle\services;
 
 
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
-use Norm\riak\ProviderAdImmutable;
+use AngryChimps\NormBundle\services\NormService;
+use Norm\norm\ProviderAdImmutable;
 
 class ProviderAdImmutableService {
 
-    /** @var NormRiakService */
-    protected $riak;
+    /** @var NormService */
+    protected $norm;
 
-    public function __construct(NormRiakService $riak) {
-        $this->riak = $riak;
+    public function __construct(NormService $norm) {
+        $this->norm = $norm;
     }
 
     public function getProviderAdImmutable($providerAdImmutableId) {
-        return $this->riak->getProviderAdImmutable($providerAdImmutableId);
+        return $this->norm->getProviderAdImmutable($providerAdImmutableId);
     }
 
     public function getData(ProviderAdImmutable $providerAdImmutable) {

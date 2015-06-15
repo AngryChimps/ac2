@@ -1,12 +1,11 @@
 <?php
 
 
-namespace AngryChimps\SampleBundle\Services;
+namespace AngryChimps\SampleBundle\services;
 
 
 use AngryChimps\GuzzleBundle\Services\GuzzleService;
-use AngryChimps\NormBundle\realms\Norm\es\services\NormEsService;
-use GuzzleHttp\Post\PostFile;
+use AngryChimps\NormBundle\services\NormService;
 
 class GeneratorService {
     /** @var GuzzleService */
@@ -14,7 +13,7 @@ class GeneratorService {
 
     protected $sessionHeaderName;
     protected $baseUrl;
-    protected $es;
+    protected $norm;
 
     protected $sessionId;
     protected $authenticatedUserId;
@@ -22,11 +21,11 @@ class GeneratorService {
     protected $consumerAdId;
     protected $companyId;
 
-    public function __construct(GuzzleService $guzzleService, $sessionHeaderName, $baseUrl, NormEsService $es) {
+    public function __construct(GuzzleService $guzzleService, $sessionHeaderName, $baseUrl, NormService $norm) {
         $this->guzzle = $guzzleService;
         $this->sessionHeaderName = $sessionHeaderName;
         $this->baseUrl = $baseUrl;
-        $this->es = $es;
+        $this->norm = $norm;
     }
 
     public function generate($folderToProcess = null, $fileToProcess = null) {
@@ -260,9 +259,9 @@ class GeneratorService {
     }
 
     public function reset() {
-        $this->es->deleteIndex('Norm\\es\\ProviderAdListing', 'provider_ad_listing');
-        $this->es->createIndex();
-        $this->es->defineAllMappings();
+        $this->norm->deleteIndex('Norm\\es\\ProviderAdListing', 'provider_ad_listing');
+        $this->norm->createIndex();
+        $this->norm->defineAllMappings();
     }
 
 }

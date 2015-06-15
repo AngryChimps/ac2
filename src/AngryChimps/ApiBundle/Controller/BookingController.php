@@ -88,7 +88,7 @@ class BookingController extends AbstractController
 
         $service = $this->serviceService->getService($payload['service_id']);
 
-        if($providerAdImmutable === null) {
+        if($service === null) {
             $error = array('code' => 'Api.BookingController.indexPostAction.2',
                 'human' => 'Unable to find the given service');
             return $this->responseService->failure(400, $error);

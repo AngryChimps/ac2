@@ -4,19 +4,17 @@
 namespace AngryChimps\TaskBundle\Services\Tasks;
 
 
-use Norm\riak\Member;
+use Norm\riak\Location;
 
-class MemberCreateTask extends AbstractTask {
+class LocationCreateTask extends AbstractTask {
     protected $member;
 
-    public function __construct(Member $member) {
-        $this->member = $member;
+    public function __construct(Location $location) {
+        $this->location = $location;
     }
 
     public function execute()
     {
-        $mysqlMember = new \Norm\mysql\Member();
-
-        $this->createMysqlObj($this->member, $mysqlMember);
+        $this->createMysqlObj($this->location);
     }
 }

@@ -15,17 +15,6 @@ class MemberCreateTask extends AbstractTask {
 
     public function execute()
     {
-        $mysqlMember = new \Norm\mysql\Member();
-
-        foreach ($this->member as $fieldName => $value) {
-            if(property_exists($mysqlMember, $fieldName)) {
-                $mysqlMember->$fieldName = $value;
-            }
-        }
-
-        $this->mysql->create($mysqlMember);
-
-        $this->member->mysqlId = $mysqlMember->mysqlId;
-        $this->riak->update($this->member);
+        $this->createMysqlObj($this->member);
     }
 }

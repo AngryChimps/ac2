@@ -97,16 +97,7 @@ angry_chimps_sample:
 
 
 ac_norm:
-    realms:
-        riak:
-              namespace: "Norm\\riak"
-              primary_datastore: "riak_ds"
-        mysql:
-              namespace: "Norm\\mysql"
-              primary_datastore: "mysql_ds"
-        es:
-              namespace: "Norm\\es"
-              primary_datastore: "es_ds"
+    namespace: Norm
 
 knp_gaufrette:
     adapters:
