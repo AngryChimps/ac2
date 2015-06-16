@@ -45,7 +45,7 @@ class DatastoreService {
                     self::$datastores[$datastoreName] = new Riak1BlobDatastore(self::$datastoreInfo[$datastoreName], self::$infoService, self::$logger);
                     break;
 
-                case 'riak_map':
+                case 'riak2':
                     self::$datastores[$datastoreName] = new Riak2MapDatastore(self::$datastoreInfo[$datastoreName], self::$infoService, self::$logger);
                     break;
 

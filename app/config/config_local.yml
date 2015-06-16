@@ -63,13 +63,6 @@ ac_norm:
                 host: "localhost"
                 port: 8087
             prefix: __norm_local_
-        mysql_ds:
-            driver: "mysql"
-            db_name: "ac"
-            host: "localhost"
-            port: 3306
-            user: "root"
-            password: ""
         es_ds:
             driver: "elasticsearch"
             index_name: ac_local

@@ -41,7 +41,7 @@ class SessionController extends AbstractController
         $session = $this->getSessionService()->getNewSession();
 
         return $this->responseService->success(array(
-            'session_id' => $session->id,
+            'session_id' => $session->getId(),
         ));
     }
 
@@ -51,7 +51,7 @@ class SessionController extends AbstractController
         $device = $this->deviceService->register($session, $payload['type'], $payload['push_token'], $payload['description']);
 
         return $this->responseService->success(array(
-            'session_id' => $session->id,
+            'session_id' => $session->getId(),
         ));
     }
 }

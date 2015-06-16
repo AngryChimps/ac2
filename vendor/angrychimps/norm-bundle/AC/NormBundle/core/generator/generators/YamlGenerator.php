@@ -13,6 +13,7 @@ use AC\NormBundle\core\generator\types\Schema;
 use AC\NormBundle\core\generator\types\Table;
 use AC\NormBundle\core\generator\types\Column;
 use AC\NormBundle\core\generator\types\ForeignKey;
+use AC\NormBundle\core\generator\types\TableDatastore;
 use AC\NormBundle\core\NormBaseCollection;
 use AC\NormBundle\core\Utils;
 
@@ -20,18 +21,47 @@ class YamlGenerator extends AbstractGenerator {
     protected $isTest;
     protected $realm;
     protected $namespace;
+    protected $datastores;
 
-    public function __construct($namespace, $isTest = false ) {
+    public function __construct($namespace, $datastores, $isTest = false ) {
         $this->namespace = $namespace;
         $this->isTest = $isTest;
+        $this->datastores = $datastores;
     }
 
     /**
      * @returns Schema
+     * @throws \Exception
      */
     public function getSchema() {
         $schema = new Schema();
         $schema->namespace = $this->namespace;
+
+        //Create Datastores
+        foreach($this->datastores as $datastoreName => $datastore) {
+            $ds = new Datastore();
+            $ds->name = $datastoreName;
+            $ds->driver = $datastore['driver'];
+            $ds->prefix = isset($datastore['prefix']) ? $datastore['prefix'] : null;
+            $ds->indexName = isset($datastore['indexName']) ? $datastore['indexName'] : null;
+            $ds->shards = isset($datastore['shards']) ? $datastore['shards'] : null;
+            $ds->replicas = isset($datastore['replicas']) ? $datastore['replicas'] : null;
+            $ds->defaultAnalyzer = isset($datastore['defaultAnalyzer']) ? $datastore['defaultAnalyzer'] : null;
+
+            $ds->isRiak2 = false;
+            $ds->isElasticsearch = false;
+            switch($ds->driver) {
+                case 'riak2':
+                    $ds->isRiak2 = true;
+                    break;
+                case 'elasticsearch':
+                    $ds->isElasticsearch = true;
+                    break;
+                default:
+                    throw new \Exception('Unsupported driver type');
+            }
+            $schema->datastores[$ds->name] = $ds;
+        }
 
         foreach($this->getTableNames() as $tableName) {
             $table = new Table();
@@ -47,10 +77,12 @@ class YamlGenerator extends AbstractGenerator {
 
             $table->datastores = [];
             foreach($tableData['datastores'] as $datastore) {
-                $ds = new Datastore();
+                $ds = new TableDatastore();
                 $ds->name = $datastore['name'];
                 $ds->method = $datastore['method'];
                 $ds->type = $datastore['type'];
+                $ds->datastore = $schema->datastores[$ds->name];
+
                 $table->datastores[] = $ds;
 
                 if($ds->type === 'primary') {

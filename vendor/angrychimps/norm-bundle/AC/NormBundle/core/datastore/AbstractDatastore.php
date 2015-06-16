@@ -3,18 +3,18 @@
 namespace AC\NormBundle\core\datastore;
 
 use Psr\Log\LoggerInterface;
-use AC\NormBundle\Services\RealmInfoService;
+use AC\NormBundle\services\InfoService;
 use AC\NormBundle\core\Utils;
 
 abstract class AbstractDatastore {
     /** @var LoggerInterface  */
     protected static $loggerService;
 
-    /** @var  RealmInfoService */
-    protected static $realmInfo;
+    /** @var  InfoService */
+    protected static $infoService;
 
-    public function __construct(RealmInfoService $realmInfo, LoggerInterface $loggerService) {
-        self::$realmInfo = $realmInfo;
+    public function __construct(InfoService $infoService, LoggerInterface $loggerService) {
+        self::$infoService = $infoService;
         self::$loggerService = $loggerService;
     }
 
@@ -65,7 +65,7 @@ abstract class AbstractDatastore {
         self::$loggerService->info(print_r($obj, true));
         self::$loggerService->info(print_r($arr, true));
         $class = get_class($obj);
-        $tableInfo = self::$realmInfo->getTableInfo($class);
+        $tableInfo = self::$infoService->getTableInfo($class);
 
         if((is_array($arr) || self::isCollection($obj)) && empty($arr)) {
             return [];
@@ -111,7 +111,7 @@ abstract class AbstractDatastore {
                     if (self::isCollection($fieldName)) {
                         $obj->$propertyName = new $fieldType();
                         foreach ($arr[$obj->$tableInfo['fieldNames'][$i]] as $objectArray) {
-                            $tableInfo2 = self::$realmInfo->getTableInfo($fieldType);
+                            $tableInfo2 = self::$infoService->getTableInfo($fieldType);
                             $object = new $tableInfo2['objectName']();
                             self::populateObjectWithArray($object, $objectArray);
                             $obj->$tableInfo['propertyNames'][$i]->offsetSet(self::getIdentifier($object), $object);
@@ -159,7 +159,7 @@ abstract class AbstractDatastore {
      */
     protected static function getIdentifier($obj) {
         $class = get_class($obj);
-        $tableInfo = self::$realmInfo->getTableInfo($class);
+        $tableInfo = self::$infoService->getTableInfo($class);
 
         $pkArray = [];
         for($i = 0; $i < count($tableInfo['primaryKeyPropertyNames']); $i++) {

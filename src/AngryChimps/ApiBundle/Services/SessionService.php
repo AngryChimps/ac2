@@ -5,14 +5,13 @@ namespace AngryChimps\ApiBundle\services;
 
 
 use AngryChimps\ApiBundle\Exceptions\InvalidSessionException;
-use AngryChimps\MailerBundle\Messages\BasicMessage;
 use Armetiz\FacebookBundle\FacebookSessionPersistence;
-use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use AngryChimps\NormBundle\services\NormService;
+use Norm\Session;
+use Norm\Member;
 
 class SessionService {
     protected $sessionHeaderName;
@@ -56,7 +55,7 @@ class SessionService {
         }
 
         // Session has user; $_GET has no userId parameter
-        if($session->userId !== null && $this->request->query->get('userId') == null) {
+        if($session->getUserId() !== null && $this->request->query->get('userId') == null) {
             $debug = array(
                 'code' => 'Api.SessionService.1b',
                 'human' => 'Session has authenticated user, but no $_GET["userId"] parameter',
@@ -65,7 +64,7 @@ class SessionService {
         }
 
         // Session has user; $_GET has an empty userId parameter
-        if($session->userId !== null && $this->request->query->get('userId') === '') {
+        if($session->getUserId() !== null && $this->request->query->get('userId') === '') {
             $debug = array(
                 'code' => 'Api.SessionService.1c',
                 'human' => 'Session has authenticated user, but blank $_GET["userId"] parameter',
@@ -74,7 +73,7 @@ class SessionService {
         }
 
         // Session has no user; $_GET has userId parameter
-        if($session->userId === null && !empty($this->request->query->get('userId'))) {
+        if($session->getUserId() === null && !empty($this->request->query->get('userId'))) {
             $debug = array(
                 'code' => 'Api.SessionService.1d',
                 'human' => 'Session has no authenticated user, but $_GET["userId"] parameter does',
@@ -82,8 +81,8 @@ class SessionService {
             throw new InvalidSessionException($debug);
         }
 
-        if($session->userId !== null && $this->request->query->get('userId') !== null
-            && $session->userId != $this->request->query->get('userId'))  {
+        if($session->getUserId() !== null && $this->request->query->get('userId') !== null
+            && $session->getUserId() != $this->request->query->get('userId'))  {
             $debug = array(
                 'code' => 'Api.SessionService.1e',
                 'human' => 'Session and $_GET userIds do not match',
@@ -91,7 +90,7 @@ class SessionService {
             throw new InvalidSessionException($debug);
         }
 
-        if($session->browserHash !== $this->getBrowserHash()) {
+        if($session->getBrowserHash() !== $this->getBrowserHash()) {
             $debug = array(
                 'code' => 'Api.SessionService.1f',
                 'human' => 'Session browser hash does not match',
@@ -104,8 +103,8 @@ class SessionService {
         $token = $this->getNewSessionToken();
 
         $session = new Session();
-        $session->id= $token;
-        $session->browserHash = $this->getBrowserHash();
+        $session->setId($token);
+        $session->setBrowserHash($this->getBrowserHash());
 
         $this->norm->create($session);
         return $session;
@@ -116,11 +115,11 @@ class SessionService {
 
         $session = $this->norm->getSession($sessionToken);
 
-        if($session->userId === null) {
+        if($session->getUserId() === null) {
             return null;
         }
 
-        $user = $this->norm->getMember($session->userId);
+        $user = $this->norm->getMember($session->getUserId());
         return $user;
     }
 
@@ -128,7 +127,7 @@ class SessionService {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
         $session = $this->norm->getSession($sessionToken);
-        $session->userId = $user->id;
+        $session->setUserId($user->getId());
         $this->norm->update($session);
     }
 
@@ -136,8 +135,8 @@ class SessionService {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
         $session = $this->norm->getSession($sessionToken);
-        $session->userId = null;
-        $session->sessionBag = array();
+        $session->setUserId(null);
+        $session->setSessionBag([]);
         $this->norm->update($session);
     }
 } 

@@ -43,7 +43,7 @@ class NormCrudService
         }
 
         $class = get_class($obj);
-        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($class));
+        $ds = $this->datastoreService->getDatastore($this->infoService->getDatastoreName($class));
 
         if($this->isCollection($obj)) {
             $ds->createCollection($obj, $debug);
@@ -69,7 +69,7 @@ class NormCrudService
 
         //Get datastore
         $class = get_class($obj);
-        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($class));
+        $ds = $this->datastoreService->getDatastore($this->infoService->getDatastoreName($class));
 
         if($this->isCollection($obj)) {
             $ds->updateCollection($obj, $debug);
@@ -93,15 +93,13 @@ class NormCrudService
         }
 
         $class = get_class($obj);
-        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($class));
+        $ds = $this->datastoreService->getDatastore($this->infoService->getDatastoreName($class));
 
         if($this->isCollection($obj)) {
-            $ds->deleteCollection($obj, $this->realmInfo->getRealm($class),
-                $this->realmInfo->getTableName($class), $debug);
+            $ds->deleteCollection($obj, $debug);
         }
         else {
-            $ds->deleteObject($obj, $this->realmInfo->getRealm($class),
-                $this->realmInfo->getTableName($class), $debug);
+            $ds->deleteObject($obj, $debug);
         }
 
         if ($this->debug) {
@@ -160,7 +158,7 @@ class NormCrudService
             $pks = [$pks];
         }
 
-        $primaryKeyFieldNames = $this->realmInfo->getPkFieldNames($obj);
+        $primaryKeyFieldNames = $this->infoService->getPkFieldNames($obj);
         $pkData = [];
         for($i = 0; $i < count($pks); $i++) {
             $pkData[array_keys($primaryKeyFieldNames)[$i]] = array_values($pks)[$i];
@@ -169,7 +167,7 @@ class NormCrudService
             $obj->$method(array_values($pks)[$i]);
         }
 
-        $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className));
+        $ds = $this->datastoreService->getDatastore($this->infoService->getDatastoreName($className));
 
         if($ds->populateObjectByPks($obj, $pkData, $debug) === false) {
             if ($this->debug) {
@@ -187,7 +185,7 @@ class NormCrudService
 
     protected function getCollectionByPks($className, $pks) {
         $coll = new $className();
-        $tableInfo = $this->realmInfo->getTableInfo($className);
+        $tableInfo = $this->infoService->getTableInfo($className);
 
         foreach($pks as $pk) {
             $object = $this->getObjectByPks($tableInfo['objectName'], $pk);
@@ -208,7 +206,7 @@ class NormCrudService
 
     protected function getIdentifier($obj) {
         $class = get_class($obj);
-        $tableInfo = $this->realmInfo->getTableInfo($class);
+        $tableInfo = $this->infoService->getTableInfo($class);
 
         $pkArray = [];
         for($i = 0; $i < count($tableInfo['primaryKeyPropertyNames']); $i++) {

@@ -2,270 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3689bbd9-d2b9-48ad-920c-675fe0f9a3e5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak1Datastore.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak2Datastore.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/Tests/AbstractRiakTestCase.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/Tests/AbstractTestCase.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Classes.handlebars" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/CreatorService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Datastore.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/InfoService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/services/NormService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2BlobTrait.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak2MapDatastore.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2Trait.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/RiakCreateTypesCommand.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/RiakSolrEnum.handlebars" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/RiakSolrSchema.handlebars" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/booking.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/booking_detail.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/hair_stylists/brian_roberts.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/plumbers/caccia.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_reviews.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/device.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/hair_stylists/edo.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/hair_stylists/honeycomb.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/member.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member_address.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/member_address.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/member_company.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/member_profile.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/purchase.yml" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\es\base\ProviderAdListingBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\es\base\ProviderAdListingCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\mysql\base\AddressBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\mysql\base\AddressCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\mysql\base\CompanyBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\mysql\base\CompanyCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\mysql\base\CompanyPersonBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\mysql\base\CompanyPersonCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\mysql\base\CustomerBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\mysql\base\CustomerCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\mysql\base\PersonBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\mysql\base\PersonCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Address.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\AddressCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Availability.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\AvailabilityCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Booking.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\BookingCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\BookingDetail.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\BookingDetailCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Calendar.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\CalendarCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Company.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\CompanyAds.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\CompanyAdsCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\CompanyCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\CompanyPhotos.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\CompanyPhotosCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\CompanyReviews.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\CompanyReviewsCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\CompanyServices.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\CompanyServicesCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Location.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\LocationCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Member.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\MemberCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\MemberCompanyRating.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\MemberCompanyRatingCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Message.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\MessageCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\MessageFlag.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\MessageFlagCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ProviderAd.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ProviderAdCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ProviderAdFlag.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ProviderAdFlagCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ProviderAdImmutable.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ProviderAdImmutableCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Review.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ReviewCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ReviewFlag.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ReviewFlagCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Service.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ServiceCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Session.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\SessionCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\Zipcode.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\ZipcodeCollection.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\AddressBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\AddressCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\AvailabilityBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\AvailabilityCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\BookingBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\BookingCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\BookingDetailBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\BookingDetailCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CalendarBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CalendarCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CompanyAdsBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CompanyAdsCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CompanyBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CompanyCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CompanyPhotosBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CompanyPhotosCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CompanyReviewsBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CompanyReviewsCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CompanyServicesBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\CompanyServicesCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\LocationBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\LocationCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\MemberBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\MemberCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\MemberCompanyRatingBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\MemberCompanyRatingCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\MessageBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\MessageCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\MessageFlagBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\MessageFlagCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ProviderAdBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ProviderAdCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ProviderAdFlagBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ProviderAdFlagCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ProviderAdImmutableBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ProviderAdImmutableCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ReviewBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ReviewCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ReviewFlagBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ReviewFlagCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ServiceBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ServiceCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\SessionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\SessionCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ZipcodeBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\base\ZipcodeCollectionBase.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\booking.yml" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\booking_detail.yml" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\company_reviews.yml" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\location.yml" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\member_company_rating.yml" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\datastore\AbstractRiakDatastore.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\generator\templates\Classes.txt" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\generator\types\ForeignKey.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\generator\types\Norm.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\RealmInfoCreatorService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\RealmInfoService.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/ACNormBundle.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/ACNormBundle.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/DependencyInjection/ACNormExtension.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/DependencyInjection/ACNormExtension.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/AbstractController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/AbstractController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractDatastore.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\AbstractTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/AbstractTask.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\AuthService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/AuthService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/BookingController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/BookingController.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\BookingService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/BookingService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CalendarService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/CalendarService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CategoriesService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/CategoriesService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Column.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Column.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CommentController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CommentController.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CommentService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/CommentService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\CompanyCreateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/CompanyCreateTask.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CompanyMediaController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/CompanyMediaController.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CompanyMediaService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/CompanyMediaService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CompanyReviewService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/CompanyReviewService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CompanyService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/CompanyService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\CompanyUpdateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/CompanyUpdateTask.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/DependencyInjection/Configuration.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/DependencyInjection/Configuration.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/DatastoreManager.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/DatastoreManager.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\DatastoreService.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/DatastoreService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\DeviceService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/DeviceService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\ElasticsearchTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/ElasticsearchTrait.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" afterPath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak2Datastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak2Datastore.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Datastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Datastore.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateCommand.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/Generator.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/Generator.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\SampleBundle\services\GeneratorService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/services/GeneratorService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\GeoBundle\services\GeolocationService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/GeoBundle/services/GeolocationService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\GuzzleService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/GuzzleService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\LocationCreateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/LocationCreateTask.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\LocationService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/LocationService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\LocationUpdateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/LocationUpdateTask.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\MemberCreateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/MemberCreateTask.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/MemberMediaController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/MemberMediaController.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\MemberMediaService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/MemberMediaService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\MemberService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/MemberService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\MemberUpdateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/MemberUpdateTask.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\MysqlTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/MysqlTrait.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/cache/local/norm/NormBaseService.php" afterPath="$PROJECT_DIR$/app/cache/local/norm/NormBaseService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\PdoTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/PdoTrait.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\ProviderAdImmutableService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/ProviderAdImmutableService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\ProviderAdService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/ProviderAdService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\ResponseService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/ResponseService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/AdminBundle/Controller/RiakController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/AdminBundle/Controller/RiakController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak2MapDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak2MapDatastore.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/RiakCreateTypesCommand.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/RiakCreateTypesCommand.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Schema.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Schema.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\SearchService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/SearchService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\ServiceService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/ServiceService.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SessionController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SessionController.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\SessionService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/SessionService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\SignupService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/SignupService.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Structure.handlebars" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Structure.handlebars" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Table.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Table.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\TaskerService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/TaskerService.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\GeoBundle\services\TimeService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/GeoBundle/services/TimeService.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ac.iml" afterPath="$PROJECT_DIR$/.idea/ac.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/config/ac_norm.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/config/ac_norm.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/availability.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/availability.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/booking.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/booking.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/booking_detail.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/booking_detail.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/calendar.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/calendar.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/comment-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/comment-get.feature" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_ads.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_ads.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_photos.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_photos.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_reviews.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_reviews.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.json" afterPath="$PROJECT_DIR$/composer.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config.yml" afterPath="$PROJECT_DIR$/app/config/config.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_behat.yml" afterPath="$PROJECT_DIR$/app/config/config_behat.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_behat_dev.yml" afterPath="$PROJECT_DIR$/app/config/config_behat_dev.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_dev.yml" afterPath="$PROJECT_DIR$/app/config/config_dev.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_local.yml" afterPath="$PROJECT_DIR$/app/config/config_local.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_prod.yml" afterPath="$PROJECT_DIR$/app/config/config_prod.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_test.yml" afterPath="$PROJECT_DIR$/app/config/config_test.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/device.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/device.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/location.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/location.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member_company.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member_company.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/yaml/classes/provider_ad_listing.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/yaml/classes/provider_ad_listing.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/sean.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/sean.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/AdminBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/AdminBundle/Resources/config/services.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/GeoBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/GeoBundle/Resources/config/services.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/Resources/config/services.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/Resources/config/services.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Resources/config/services.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/session.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/session.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\realms\Norm\riak\yaml\classes\address.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/address.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\realms\Norm\riak\yaml\classes\member_addresses.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/doc/README.md" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\address.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/location.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\availability.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/availability.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\calendar.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/calendar.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\company.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\company_ads.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_ads.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\company_photos.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_photos.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\company_services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_services.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\member.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/yaml/member.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\message.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/message.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\message_flag.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/message_flag.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\provider_ad.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/provider_ad.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\provider_ad_flag.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/provider_ad_flag.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\provider_ad_immutable.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/provider_ad_immutable.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\review.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/review.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\review_flag.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/review_flag.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\service.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/service.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\session.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/session.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Tests\realms\NormTests\riak\yaml\classes\zipcode.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/zipcode.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\datastore\RiakBlobDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak1BlobDatastore.php" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\generator\templates\BaseService.txt" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.handlebars" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\generator\templates\RealmProperties.txt" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Structure.handlebars" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\generator\templates\Service.txt" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Service.handlebars" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\NormService.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/NormCrudService.php" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\RiakBlobTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak1BlobTrait.php" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\RiakTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2MapTrait.php" />
     </list>
     <ignored path="ac.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -289,104 +39,110 @@
     <favorites_list name="ac" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.39707962">
+    <splitter split-orientation="horizontal" split-proportion="0.47056052">
       <split-first>
         <leaf>
-          <file leaf-file-name="provider_ad_immutable.yml" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/provider_ad_immutable.yml">
+          <file leaf-file-name="Riak2MapDatastore.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak2MapDatastore.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
-                  <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+                <state vertical-scroll-proportion="-7.8461537" vertical-offset="1972" max-vertical-offset="4658">
+                  <caret line="128" column="5" selection-start-line="128" selection-start-column="5" selection-end-line="128" selection-end-column="5" />
+                  <folding>
+                    <element signature="e#48#87#0#PHP" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SessionController.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SessionController.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.78571427" vertical-offset="153" max-vertical-offset="884">
+                  <caret line="53" column="45" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ElasticsearchTrait.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/ElasticsearchTrait.php">
+          <file leaf-file-name="RiakCreateTypesCommand.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/RiakCreateTypesCommand.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="986">
-                  <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+                <state vertical-scroll-proportion="-28.115385" vertical-offset="0" max-vertical-offset="867">
+                  <caret line="43" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#42#85#0#PHP" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AbstractDatastore.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractDatastore.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-0.5483871" vertical-offset="255" max-vertical-offset="3332">
+                  <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+                  <folding>
+                    <element signature="e#48#76#0#PHP" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Datastore.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Datastore.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="476">
+                  <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="MysqlTrait.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/MysqlTrait.php">
+          <file leaf-file-name="TableDatastore.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/TableDatastore.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="221">
-                  <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+                <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="323">
+                  <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="PdoTrait.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/PdoTrait.php">
+          <file leaf-file-name="InfoService.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/InfoService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="1853">
-                  <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+                <state vertical-scroll-proportion="-15.076923" vertical-offset="356" max-vertical-offset="2176">
+                  <caret line="47" column="28" selection-start-line="47" selection-start-column="20" selection-end-line="47" selection-end-column="38" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Riak1BlobTrait.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak1BlobTrait.php">
+          <file leaf-file-name="structure.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/cache/local/norm/structure.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="1190">
-                  <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+                <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="9163">
+                  <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Riak2BlobTrait.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2BlobTrait.php">
+          <file leaf-file-name="member.yml" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/member.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="714">
-                  <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1547">
+                  <caret line="3" column="21" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="21" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Riak2MapTrait.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2MapTrait.php">
+          <file leaf-file-name="YamlGenerator.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="272">
-                  <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Riak2Trait.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2Trait.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="238">
-                  <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="BaseService.handlebars" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.handlebars">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.09912536" vertical-offset="0" max-vertical-offset="2074">
-                  <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Service.handlebars" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Service.handlebars">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="238">
-                  <caret line="7" column="41" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="41" />
+                <state vertical-scroll-proportion="-21.461538" vertical-offset="666" max-vertical-offset="2975">
+                  <caret line="83" column="64" selection-start-line="83" selection-start-column="64" selection-end-line="83" selection-end-column="64" />
                   <folding />
                 </state>
               </provider>
@@ -399,21 +155,9 @@
           <file leaf-file-name="config_local.yml" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="1496">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="637" max-vertical-offset="1377">
+                  <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TestController.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-4.576923" vertical-offset="578" max-vertical-offset="1309">
-                  <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#52#100#0#PHP" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -428,21 +172,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="structure.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/cache/local/norm/structure.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="8160">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="CreatorService.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/CreatorService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-2.2666667" vertical-offset="2363" max-vertical-offset="6222">
-                  <caret line="147" column="42" selection-start-line="147" selection-start-column="42" selection-end-line="147" selection-end-column="42" />
+                <state vertical-scroll-proportion="-8.5" vertical-offset="1938" max-vertical-offset="7242">
+                  <caret line="127" column="33" selection-start-line="127" selection-start-column="33" selection-end-line="127" selection-end-column="33" />
                   <folding>
                     <element signature="e#44#89#0#PHP" expanded="true" />
                   </folding>
@@ -450,56 +184,78 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="Table.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Table.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-18.961538" vertical-offset="119" max-vertical-offset="833">
+                  <caret line="36" column="18" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="GenerateCommand.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateCommand.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="527">
+                  <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="GenerateTestCommand.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateTestCommand.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="1054">
+                  <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="NormCrudService.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/NormCrudService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="3978">
-                  <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ACNormBundle.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/ACNormBundle.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-14.076923" vertical-offset="212" max-vertical-offset="1020">
-                  <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
+                <state vertical-scroll-proportion="-4.204301" vertical-offset="0" max-vertical-offset="3944">
+                  <caret line="23" column="33" selection-start-line="23" selection-start-column="33" selection-end-line="23" selection-end-column="33" />
                   <folding>
-                    <element signature="e#33#80#0#PHP" expanded="true" />
+                    <element signature="e#43#99#0#PHP" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="DatastoreService.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/DatastoreService.php">
+          <file leaf-file-name="Structure.handlebars" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Structure.handlebars">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-2.5591397" vertical-offset="0" max-vertical-offset="1156">
-                  <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+                <state vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="748">
+                  <caret line="13" column="64" selection-start-line="13" selection-start-column="64" selection-end-line="13" selection-end-column="64" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="TestController.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-38.115383" vertical-offset="284" max-vertical-offset="1496">
+                  <caret line="75" column="34" selection-start-line="75" selection-start-column="34" selection-end-line="75" selection-end-column="34" />
                   <folding>
-                    <element signature="e#43#94#0#PHP" expanded="true" />
+                    <element signature="e#52#100#0#PHP" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="SessionService.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/SessionService.php">
+          <file leaf-file-name="AbstractRiak2Datastore.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak2Datastore.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-3.5769231" vertical-offset="60" max-vertical-offset="2516">
-                  <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="NormBaseService.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/cache/local/norm/NormBaseService.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.16666667" vertical-offset="0" max-vertical-offset="9214">
-                  <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
-                  <folding />
+                <state vertical-scroll-proportion="0.48879552" vertical-offset="59" max-vertical-offset="952">
+                  <caret line="24" column="34" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="34" />
+                  <folding>
+                    <element signature="e#49#76#0#PHP" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -519,20 +275,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/AngryChimps/TaskBundle/Resources/config/services.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/TaskerService.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/AbstractTask.php" />
-        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Classes.handlebars" />
-        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateCommand.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/availability.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/booking.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/booking_detail.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/calendar.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_ads.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_photos.yml" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_reviews.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/device.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_services.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/location.yml" />
@@ -551,15 +293,10 @@
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/service.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/session.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/zipcode.yml" />
-        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/SampleBundle/services/GeneratorService.php" />
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Resources/config/services.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/services/NormService.php" />
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/ACNormBundle.php" />
-        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/DatastoreService.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/SessionService.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php" />
-        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/NormCrudService.php" />
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/ElasticsearchTrait.php" />
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/MysqlTrait.php" />
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/PdoTrait.php" />
@@ -568,8 +305,27 @@
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2MapTrait.php" />
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2Trait.php" />
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.handlebars" />
-        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/CreatorService.php" />
         <option value="$PROJECT_DIR$/app/cache/local/norm/NormBaseService.php" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/SessionService.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/NormCrudService.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/DatastoreService.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractDatastore.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak2Datastore.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateCommand.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/InfoService.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/RiakCreateTypesCommand.php" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Schema.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/TableDatastore.php" />
+        <option value="$PROJECT_DIR$/app/config/config_local.yml" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Datastore.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Table.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/CreatorService.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Structure.handlebars" />
+        <option value="$PROJECT_DIR$/app/cache/local/norm/structure.php" />
+        <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak2MapDatastore.php" />
+        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SessionController.php" />
       </list>
     </option>
   </component>
@@ -2295,130 +2051,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cache" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="behat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cache" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="behat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angrychimps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="norm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cache" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="behat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angrychimps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="norm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="realms" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="riak" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cache" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="behat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angrychimps" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="norm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="realms" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -2456,11 +2088,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\generator\types" />
       <recent name="E:\ac\app\cache\local\norm" />
       <recent name="E:\ac\src\AngryChimps\NormBundle\realms\Norm" />
       <recent name="E:\ac\src\AngryChimps\NormBundle\realms\Norm\es" />
       <recent name="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\Command" />
-      <recent name="E:\ac\src\AngryChimps\NormBundle\Tests" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\ac\app\cache\local\norm" />
@@ -2691,7 +2323,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="187" />
+      <option name="time" value="191" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PhpHttpRequestRunConfigurationType">
@@ -2709,120 +2341,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/TaskerService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52025205" vertical-offset="0" max-vertical-offset="1111">
-          <caret line="34" column="44" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
-          <folding>
-            <element signature="e#52#106#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/availability.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
-          <caret line="5" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/booking.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="884">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/booking_detail.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/calendar.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_ads.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_photos.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_services.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/company_reviews.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/device.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/location.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1241">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/member.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1547">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/member_address.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/member_company.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
@@ -2919,30 +2437,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4615383" vertical-offset="292" max-vertical-offset="2448">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/SampleBundle/services/GeneratorService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15874363" vertical-offset="0" max-vertical-offset="4624">
           <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
           <folding>
             <element signature="e#55#107#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateCommand.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.576923" vertical-offset="0" max-vertical-offset="816">
-          <caret line="33" column="27" selection-start-line="33" selection-start-column="27" selection-end-line="33" selection-end-column="27" />
-          <folding>
-            <element signature="e#42#85#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2959,58 +2459,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1003">
           <caret line="14" column="52" selection-start-line="14" selection-start-column="52" selection-end-line="14" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1496">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/cache/local/norm/structure.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="12869">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/DatastoreService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.5591397" vertical-offset="0" max-vertical-offset="1156">
-          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
-          <folding>
-            <element signature="e#43#94#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/SessionService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.5769231" vertical-offset="60" max-vertical-offset="2516">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.576923" vertical-offset="578" max-vertical-offset="1309">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding>
-            <element signature="e#52#100#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/NormCrudService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="3978">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -3084,7 +2532,7 @@
         <state vertical-scroll-proportion="-14.076923" vertical-offset="212" max-vertical-offset="1020">
           <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
           <folding>
-            <element signature="e#33#80#0#PHP" expanded="true" />
+            <element signature="e#33#80#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3097,6 +2545,62 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/SessionService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.076923" vertical-offset="373" max-vertical-offset="2499">
+          <caret line="45" column="33" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="33" />
+          <folding>
+            <element signature="e#52#113#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.handlebars">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="2074">
+          <caret line="8" column="9" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/classes/member.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1547">
+          <caret line="3" column="21" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/DatastoreService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.1505375" vertical-offset="58" max-vertical-offset="1156">
+          <caret line="48" column="71" selection-start-line="48" selection-start-column="71" selection-end-line="48" selection-end-column="71" />
+          <folding>
+            <element signature="e#43#94#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractDatastore.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5483871" vertical-offset="255" max-vertical-offset="3332">
+          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding>
+            <element signature="e#48#76#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/cache/local/norm/NormBaseService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.961538" vertical-offset="5399" max-vertical-offset="9146">
+          <caret line="342" column="16" selection-start-line="342" selection-start-column="15" selection-end-line="342" selection-end-column="16" />
+          <folding>
+            <element signature="e#40#83#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/services/NormService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="1581">
@@ -3105,28 +2609,166 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.handlebars">
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/NormCrudService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09912536" vertical-offset="0" max-vertical-offset="2074">
-          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        <state vertical-scroll-proportion="-4.204301" vertical-offset="0" max-vertical-offset="3944">
+          <caret line="23" column="33" selection-start-line="23" selection-start-column="33" selection-end-line="23" selection-end-column="33" />
+          <folding>
+            <element signature="e#43#99#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/EsMapCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41850594" vertical-offset="0" max-vertical-offset="1178">
+          <caret line="37" column="33" selection-start-line="37" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateTestCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="1054">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/InfoService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.076923" vertical-offset="356" max-vertical-offset="2176">
+          <caret line="47" column="28" selection-start-line="47" selection-start-column="20" selection-end-line="47" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/RiakCreateTypesCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-28.115385" vertical-offset="0" max-vertical-offset="867">
+          <caret line="43" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding>
+            <element signature="e#42#85#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-38.115383" vertical-offset="284" max-vertical-offset="1496">
+          <caret line="75" column="34" selection-start-line="75" selection-start-column="34" selection-end-line="75" selection-end-column="34" />
+          <folding>
+            <element signature="e#52#100#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/TableDatastore.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="323">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="637" max-vertical-offset="1377">
+          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.461538" vertical-offset="666" max-vertical-offset="2975">
+          <caret line="83" column="64" selection-start-line="83" selection-start-column="64" selection-end-line="83" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Datastore.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="476">
+          <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateCommand.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.769231" vertical-offset="0" max-vertical-offset="527">
+          <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-18.961538" vertical-offset="119" max-vertical-offset="833">
+          <caret line="36" column="18" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Schema.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="0" max-vertical-offset="714">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/CreatorService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.2666667" vertical-offset="2363" max-vertical-offset="6222">
-          <caret line="147" column="42" selection-start-line="147" selection-start-column="42" selection-end-line="147" selection-end-column="42" />
+        <state vertical-scroll-proportion="-8.5" vertical-offset="1938" max-vertical-offset="7242">
+          <caret line="127" column="33" selection-start-line="127" selection-start-column="33" selection-end-line="127" selection-end-column="33" />
           <folding>
             <element signature="e#44#89#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/cache/local/norm/NormBaseService.php">
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Structure.handlebars">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16666667" vertical-offset="0" max-vertical-offset="9214">
-          <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+        <state vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="748">
+          <caret line="13" column="64" selection-start-line="13" selection-start-column="64" selection-end-line="13" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/cache/local/norm/structure.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="9163">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak2Datastore.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48879552" vertical-offset="59" max-vertical-offset="952">
+          <caret line="24" column="34" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="34" />
+          <folding>
+            <element signature="e#49#76#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak2MapDatastore.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.8461537" vertical-offset="1972" max-vertical-offset="4658">
+          <caret line="128" column="5" selection-start-line="128" selection-start-column="5" selection-end-line="128" selection-end-column="5" />
+          <folding>
+            <element signature="e#48#87#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SessionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.78571427" vertical-offset="153" max-vertical-offset="884">
+          <caret line="53" column="45" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
           <folding />
         </state>
       </provider>

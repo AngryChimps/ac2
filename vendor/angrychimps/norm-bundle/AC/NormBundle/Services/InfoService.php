@@ -18,8 +18,7 @@ class InfoService {
     /** @var  string The environment */
     protected $environment;
 
-    protected static $realmInfo;
-    protected static $classInfo;
+    protected static $structure;
 
     public function __construct($environment, CreatorService $realmInfoCreatorService)
     {
@@ -30,77 +29,63 @@ class InfoService {
 
         require(__DIR__ . '/../../../../../../app/cache/' . $this->environment . '/norm/structure.php');
 
-        self::$realmInfo = $realms;
-        self::$classInfo = $classes;
+        self::$structure = $structure;
     }
 
-    public function getDatastore($className) {
-        if(strpos($className, "\\") === 0) {
-            $className = substr($className, 1);
-        }
-        return self::$classInfo[$className]['primary_datastore'];
+    public function getTableNames() {
+        return self::$structure['tableNames'];
     }
 
-    public function getDatastoreByRealm($realmName) {
-        return self::$realmInfo[$realmName]['primaryDatastore'];
+    public function getClassName($tableName) {
+        return self::$structure['tables'][$tableName]['tableName'];
     }
 
-    public function getRealm($className) {
-        if(strpos($className, "\\") === 0) {
-            $className = substr($className, 1);
-        }
+    public function getDatastoreName($className) {
+        $className = ltrim($className, '\\');
+        return self::$structure['classes'][$className]['primaryDatastoreName'];
+    }
 
-        return self::$classInfo[$className]['realmName'];
+    public function getDatastorePrefix($datastoreName) {
+        return self::$structure['datastores'][$datastoreName]['prefix'];
     }
 
     public function getTableName($className) {
-        if(strpos($className, "\\") === 0) {
-            $className = substr($className, 1);
-        }
+        $className = ltrim($className, '\\');
 
-        return self::$classInfo[$className]['tableName'];
+        return self::$structure['classes'][$className]['tableName'];
     }
 
-    public function getTableNames($realmName) {
-        return self::$realmInfo[$realmName]['tableNames'];
-    }
-
-    public function getClassName($realmName, $tableName) {
-        return self::$realmInfo[$realmName][$tableName]['objectName'];
-    }
-
-    public function getPkData($obj) {
-        $class = get_class($obj);
-
-        $realm = $this->getRealm($class);
-        $tableName = $this->getTableName($class);
-
-        $pkProperties = self::$realmInfo[$realm][$tableName]['primaryKeyPropertyNames'];
-        $arr = array();
-        if($this->isCollection($obj)) {
-            foreach($obj as $object) {
-                $objArr = array();
-                foreach ($pkProperties as $prop) {
-                    $objArr[$prop] = $object->$prop;
-                }
-                $arr[] = $objArr;
-            }
-        }
-        else {
-            foreach ($pkProperties as $prop) {
-                $arr[$prop] = $obj->$prop;
-            }
-        }
-        return $arr;
-    }
+//    public function getPkData($obj) {
+//        $class = get_class($obj);
+//
+//        $realm = $this->getRealm($class);
+//        $tableName = $this->getTableName($class);
+//
+//        $pkProperties = self::$realmInfo[$realm][$tableName]['primaryKeyPropertyNames'];
+//        $arr = array();
+//        if($this->isCollection($obj)) {
+//            foreach($obj as $object) {
+//                $objArr = array();
+//                foreach ($pkProperties as $prop) {
+//                    $objArr[$prop] = $object->$prop;
+//                }
+//                $arr[] = $objArr;
+//            }
+//        }
+//        else {
+//            foreach ($pkProperties as $prop) {
+//                $arr[$prop] = $obj->$prop;
+//            }
+//        }
+//        return $arr;
+//    }
 
     public function getPkFieldNames($obj) {
         $class = get_class($obj);
 
-        $realm = $this->getRealm($class);
         $tableName = $this->getTableName($class);
 
-        $pkProperties = self::$realmInfo[$realm][$tableName]['primaryKeyPropertyNames'];
+        $pkProperties = self::$structure['tables'][$tableName]['primaryKeyPropertyNames'];
         $arr = array();
         if($this->isCollection($obj)) {
             foreach($obj as $object) {
@@ -123,18 +108,15 @@ class InfoService {
 
     public function getAutoIncrementPropertyName($obj) {
         $class = get_class($obj);
-
-        $realm = $this->getRealm($class);
         $tableName = $this->getTableName($class);
 
-        return self::$realmInfo[$realm][$tableName]['autoIncrementProperty'];
+        return self::$structure['tables'][$tableName]['autoIncrementProperty'];
     }
 
     public function getTableInfo($class) {
-        $realm = $this->getRealm($class);
         $tableName = $this->getTableName($class);
 
-        return self::$realmInfo[$realm][$tableName];
+        return self::$structure['tables'][$tableName];
     }
 
     public function isCollection($obj) {

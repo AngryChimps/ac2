@@ -5,7 +5,7 @@ namespace AC\NormBundle\core\datastore;
 
 use Riak\Client\RiakClient;
 use Riak\Client\RiakClientBuilder;
-use AC\NormBundle\Services\RealmInfoService;
+use AC\NormBundle\services\InfoService;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractRiak2Datastore extends AbstractDatastore {
@@ -14,13 +14,13 @@ abstract class AbstractRiak2Datastore extends AbstractDatastore {
 
     protected static $riakNamespacePrefix;
 
-    public function __construct($configParams, RealmInfoService $realmInfo,
+    public function __construct($configParams, InfoService $infoService,
                                 LoggerInterface $loggerService) {
         if(self::$riakClient === null) {
             self::$riakClient = self::getRiakClient($configParams);
         }
 
-        parent::__construct($realmInfo, $loggerService);
+        parent::__construct($infoService, $loggerService);
 
         self::$riakNamespacePrefix = $configParams['prefix'];
     }

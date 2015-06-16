@@ -64,8 +64,19 @@ class TestController extends AbstractController
     protected function normGenerate() {
         /** @var CreatorService $cs */
         $cs = $this->kernel->getContainer()->get('ac_norm.creator');
-//        $cs->setEnvironment('local');
         $cs->createIfNecessary(true);
         return $this->responseService->success();
     }
+
+    protected function riakCreateType() {
+        $datastoreName = 'riak_ds';
+
+        /** @var InfoService $infoService */
+        $infoService = $this->kernel->getContainer()->get('ac_norm.info');
+        $typeName = $infoService->getDatastorePrefix($datastoreName) . 'class_maps';
+
+        system("riak-admin bucket-type create $typeName '{\"props\":{\"datatype\":\"map\"}}'");
+        system("riak-admin bucket-type activate $typeName");
+    }
+
 }

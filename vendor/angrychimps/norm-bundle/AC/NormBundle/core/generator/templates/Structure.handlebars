@@ -1,31 +1,39 @@
 <?php
-        $realms['{{realmName}}']['namespace'] = '{{namespace}}';
-        $realms['{{realmName}}']['primaryDatastore'] = '{{primaryDatastoreName}}';
-        $realms['{{realmName}}']['driver'] = '{{driver}}';
-        $realms['{{realmName}}']['tableNames'] = [{{#each tables}}'{{tableName}}', {{/each}}];
+        $structure['namespace'] = '{{namespace}}';
+        $structure['tableNames'] = [{{#each tables}}'{{tableName}}', {{/each}}];
+
+    {{#each datastores}}
+        $structure['datastores']['{{name}}']['name'] = '{{name}}';
+        $structure['datastores']['{{name}}']['driver'] = '{{driver}}';
+    {{#if isRiak2}}
+        $structure['datastores']['{{name}}']['prefix'] = '{{prefix}}';
+    {{/if}}
+    {{#if isElasticsearch}}
+        $structure['datastores']['{{name}}']['default_analyzer'] = '{{default_analyzer}}';
+        $structure['datastores']['{{name}}']['shards'] = '{{shards}}';
+        $structure['datastores']['{{name}}']['replicas'] = '{{replicas}}';
+    {{/if}}
+    {{/each}}
 
     {{#each tables}}
-        $realms['{{realmName}}']['{{tableName}}']['name'] = '{{tableName}}';
-        $realms['{{realmName}}']['{{tableName}}']['objectName'] = '{{objectName}}';
-        $realms['{{realmName}}']['{{tableName}}']['collectionName'] = '{{objectName}}Collection';
-        $realms['{{realmName}}']['{{tableName}}']['primaryDatastoreName'] = '{{primaryDatastoreName}}';
-    {{#if isElasticsearch}}
-        $realms['{{realmName}}']['{{tableName}}']['default_analyzer'] = '{{default_analyzer}}';
-        $realms['{{realmName}}']['{{tableName}}']['shards'] = '{{shards}}';
-        $realms['{{realmName}}']['{{tableName}}']['replicas'] = '{{replicas}}';
-    {{/if}}
-        $realms['{{realmName}}']['{{tableName}}']['primaryKeyFieldNames'] = {{{primaryKeyFieldNamesString}}};
-        $realms['{{realmName}}']['{{tableName}}']['primaryKeyPropertyNames'] = {{{primaryKeyPropertyNamesString}}};
-        $realms['{{realmName}}']['{{tableName}}']['autoIncrementField'] = '{{autoIncrementField}}';
-        $realms['{{realmName}}']['{{tableName}}']['autoIncrementProperty'] = '{{autoIncrementProperty}}';
-        $realms['{{realmName}}']['{{tableName}}']['autoGenerateField'] = '{{autoGenerateField}}';
-        $realms['{{realmName}}']['{{tableName}}']['autoGenerateProperty'] = '{{autoGenerateProperty}}';
-        $realms['{{realmName}}']['{{tableName}}']['fieldNames'] = {{{fieldNamesString}}};
-        $realms['{{realmName}}']['{{tableName}}']['propertyNames'] = {{{propertyNamesString}}};
-        $realms['{{realmName}}']['{{tableName}}']['fieldTypes'] = {{{fieldTypesString}}};
+        $structure['tables']['{{tableName}}']['name'] = '{{tableName}}';
+        $structure['tables']['{{tableName}}']['objectName'] = '{{objectName}}';
+        $structure['tables']['{{tableName}}']['collectionName'] = '{{objectName}}Collection';
+        $structure['tables']['{{tableName}}']['primaryDatastoreName'] = '{{primaryDatastore.name}}';
 
-        $classes['{{objectName}}']['tableName'] = '{{tableName}}';
-        $classes['{{objectName}}']['primary_datastore'] = '{{primaryDatastoreName}}';
-        $classes['{{objectName}}Collection']['tableName'] = '{{tableName}}';
-        $classes['{{objectName}}Collection']['primary_datastore'] = '{{primaryDatastoreName}}';
+        $structure['tables']['{{tableName}}']['primaryKeyFieldNames'] = {{{primaryKeyFieldNamesString}}};
+        $structure['tables']['{{tableName}}']['primaryKeyPropertyNames'] = {{{primaryKeyPropertyNamesString}}};
+        $structure['tables']['{{tableName}}']['autoIncrementField'] = '{{autoIncrementField}}';
+        $structure['tables']['{{tableName}}']['autoIncrementProperty'] = '{{autoIncrementProperty}}';
+        $structure['tables']['{{tableName}}']['autoGenerateField'] = '{{autoGenerateField}}';
+        $structure['tables']['{{tableName}}']['autoGenerateProperty'] = '{{autoGenerateProperty}}';
+        $structure['tables']['{{tableName}}']['fieldNames'] = {{{fieldNamesString}}};
+        $structure['tables']['{{tableName}}']['propertyNames'] = {{{propertyNamesString}}};
+        $structure['tables']['{{tableName}}']['fieldTypes'] = {{{fieldTypesString}}};
+
+        $structure['classes']['{{objectName}}']['tableName'] = '{{tableName}}';
+        $structure['classes']['{{objectName}}']['primaryDatastoreName'] = '{{primaryDatastoreName}}';
+        $structure['classes']['{{objectName}}Collection']['tableName'] = '{{tableName}}';
+        $structure['classes']['{{objectName}}Collection']['primaryDatastoreName'] = '{{primaryDatastoreName}}';
+
     {{/each}}

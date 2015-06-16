@@ -46,7 +46,7 @@ class CreatorService
                 mkdir(__DIR__ . '/../../../../../../app/cache/' . $this->environment . '/norm');
             }
 
-            $gen = new YamlGenerator($this->namespace);
+            $gen = new YamlGenerator($this->namespace, $this->datastores);
             $this->schema = $gen->getSchema();
 
             $this->createValidations($this->schema);
@@ -123,6 +123,11 @@ class CreatorService
         $data['traitFullNames'] = [];
         $data['traitShortNames'] = [];
 
+        foreach($this->schema->datastores as $datastoreName => $datastore) {
+            $dsData = (array) $datastore;
+            $data['datastores'][] = $dsData;
+        }
+
         foreach ($this->schema->tables as $table) {
             $tableData = [];
             $tableData['driver'] = $this->datastores[$table->primaryDatastore->name]['driver'];
@@ -145,30 +150,85 @@ class CreatorService
             $tableData['traitFullNames'] = [];
             $tableData['traitShortNames'] = [];
 
-            switch($tableData['driver']) {
-                case 'riak1_blob':
-                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\Riak1BlobTrait'];
-                    $tableData['traitShortNames'] = ['Riak1BlobTrait'];
-                    break;
-                case 'mysql':
-                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\MysqlTrait', 'AC\NormBundle\services\traits\PdoTrait'];
-                    $tableData['traitShortNames'] = ['MysqlTrait', 'PdoTrait'];
-                    break;
-                case 'elasticsearch':
-                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\ElasticsearchTrait'];
-                    $tableData['traitShortNames'] = ['ElasticsearchTrait'];
-                    break;
-                case 'riak2':
-                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\Riak2MapTrait', 'AC\NormBundle\services\traits\Riak2Trait'];
-                    $tableData['traitShortNames'] = ['Riak2MapTrait', 'Riak2Trait'];
-                    break;
-                default:
-                    throw new \Exception('Unsupported driver type');
+            //Set to false and change if necessary
+            $tableData['usesRiak2'] = false;
+            $tableData['usesElasticsearch'] = false;
+            $tableData['primaryIsRiak2'] = false;
+            $tableData['primaryIsElasticsearch'] = false;
+
+            $tableData['datastores'] = [];
+            foreach($table->datastores as $datastore) {
+                $ds = [];
+                $ds['name'] = $datastore->name;
+                $ds['type'] = $datastore->type;
+                $ds['method'] = $datastore->method;
+                $tableData['datastores'][] = $ds;
+
+                if($datastore->type === 'primary') {
+                    $tableData['primaryDatastore'] = $ds;
+                    $tableData['primaryDatastoreName'] = $ds['name'];
+                }
+
+                switch($datastore->method) {
+                    case 'riak2_map':
+                        $tableData['usesRiak2'] = true;
+                        break;
+                    case 'elasticsearch':
+                        $tableData['usesElasticsearch'] = true;
+                        break;
+                    default:
+                        throw new \Exception("Unknown datastore method");
+                }
             }
 
+            switch($tableData['primaryDatastore']['method']) {
+                case 'riak2_map':
+                    $tableData['primaryIsRiak2'] = true;
+                    break;
+                case 'elasticsearch':
+                    $tableData['primaryIsElasticsearch'] = true;
+                    break;
+                default:
+                    throw new \Exception("Unknown datastore method");
+            }
+
+            //Setup traitNames if any datastore is of that type
+            if($tableData['usesRiak2']) {
+                $tableData['traitFullNames'][] = 'AC\NormBundle\services\traits\Riak2MapTrait';
+                $tableData['traitShortNames'][] = 'Riak2MapTrait';
+                $tableData['traitFullNames'][] = 'AC\NormBundle\services\traits\Riak2Trait';
+                $tableData['traitShortNames'][] = 'Riak2Trait';
+            }
+            if($tableData['usesElasticsearch']) {
+                $tableData['traitFullNames'][] = 'AC\NormBundle\services\traits\ElasticsearchTrait';
+                $tableData['traitShortNames'][] = 'ElasticsearchTrait';
+            }
+
+
+//            switch($tableData['driver']) {
+//                case 'riak1_blob':
+//                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\Riak1BlobTrait'];
+//                    $tableData['traitShortNames'] = ['Riak1BlobTrait'];
+//                    break;
+//                case 'mysql':
+//                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\MysqlTrait', 'AC\NormBundle\services\traits\PdoTrait'];
+//                    $tableData['traitShortNames'] = ['MysqlTrait', 'PdoTrait'];
+//                    break;
+//                case 'elasticsearch':
+//                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\ElasticsearchTrait'];
+//                    $tableData['traitShortNames'] = ['ElasticsearchTrait'];
+//                    break;
+//                case 'riak2':
+//                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\Riak2MapTrait', 'AC\NormBundle\services\traits\Riak2Trait'];
+//                    $tableData['traitShortNames'] = ['Riak2MapTrait', 'Riak2Trait'];
+//                    break;
+//                default:
+//                    throw new \Exception('Unsupported driver type');
+//            }
+//
             //Set at top level data as well
-            $data['traitFullNames'] = array_merge_recursive($data['traitFullNames'], $tableData['traitFullNames']);
-            $data['traitShortNames'] = array_merge_recursive($data['traitShortNames'], $tableData['traitShortNames']);
+            $data['traitFullNames'] = array_merge($data['traitFullNames'], $tableData['traitFullNames']);
+            $data['traitShortNames'] = array_merge($data['traitShortNames'], $tableData['traitShortNames']);
 
             $fieldNames = [];
             $propertyNames = [];

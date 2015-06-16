@@ -34,7 +34,7 @@ class Table {
     /** @var Enum[] */
     public $enums = array();
 
-    /** @var Datastore[] */
+    /** @var TableDatastore[] */
     public $datastores;
 
     /** @var Datastore */

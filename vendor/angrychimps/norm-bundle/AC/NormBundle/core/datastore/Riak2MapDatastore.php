@@ -4,7 +4,7 @@ namespace AC\NormBundle\core\datastore;
 
 use Riak\Client\Command\Kv\DeleteValue;
 use Riak\Client\Command\DataType\FetchMap;
-use AC\NormBundle\Services\RealmInfoService;
+use AC\NormBundle\services\InfoService;
 use Psr\Log\LoggerInterface;
 use Riak\Client\Command\Search\Search;
 use Riak\Client\Command\DataType\StoreMap;
@@ -12,9 +12,9 @@ use Riak\Client\Core\Query\RiakNamespace;
 use Riak\Client\Core\Query\RiakLocation;
 
 class Riak2MapDatastore extends AbstractRiak2Datastore {
-    public function __construct($configParams, RealmInfoService $realmInfo,
+    public function __construct($configParams, InfoService $infoService,
                                 LoggerInterface $loggerService) {
-        parent::__construct($configParams, $realmInfo, $loggerService);
+        parent::__construct($configParams, $infoService, $loggerService);
     }
 
     public static function createObject($obj, &$debug)
@@ -129,15 +129,15 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
     }
 
     protected static function getRiakLocation($obj) {
-        $tableInfo = self::$realmInfo->getTableInfo(get_class($obj));
+        $tableInfo = self::$infoService->getTableInfo(get_class($obj));
 
-        $namespace = new RiakNamespace(self::$riakNamespacePrefix . $tableInfo['realmName'] . '_map', $tableInfo['name']);
+        $namespace = new RiakNamespace(self::$riakNamespacePrefix . 'class_maps', $tableInfo['name']);
         return new RiakLocation($namespace, self::getIdentifier($obj));
     }
 
     public static function populateCollectionByPks($coll, $pks, &$debug) {
         //For a collection $pks would be an array of ids or an array of an array of ids
-        $tableInfo = self::$realmInfo->getTableInfo(get_class($coll));
+        $tableInfo = self::$infoService->getTableInfo(get_class($coll));
 
         foreach($pks as $pk) {
             $object = new $tableInfo['objectName']();
@@ -150,48 +150,48 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
         }
     }
 
-    public static function populateCollectionByQuery(\ArrayObject $coll, $query, $realm, $tableName, $bucketType, $bucketName,
-                                                     &$debug, $limit = null, $offset = 0) {
-        $builder = Search::builder();
-        $builder->withIndex('__norm_classmaps_' . self::$realmInfo->getTableName);
-        if($limit !== null) {
-            $builder->withNumRows($limit);
-        }
-        if($offset !== 0) {
-            $builder->withStart($offset);
-        }
-        $builder->withQuery($query);
-
-        $search = $builder->build();
-
-        $searchResult = self::$riakClient->execute($search);
-        $results = $searchResult->getAllResults();
-
-        foreach($results as $result) {
-            $className = self::$realmInfo->getClassName($realm, $tableName);
-            $obj = new $className();
-
-            $bucketType = $result["_yz_rt"];
-            $bucketName = $result["yz_rb"];
-            $key        = $result["_yz_rk"];
-
-            // create reference object locations
-            $namespace = new RiakNamespace($bucketType , $bucketName);
-            $location  = new RiakLocation($namespace, $key);
-
-            // fetch object
-            $fetch  = FetchValue::builder($location)
-                ->withNotFoundOk(true)
-                ->withR(1)
-                ->build();
-
-            /** @var $result \Riak\Client\Command\Kv\Response\FetchValueResponse */
-            /** @var $object \Riak\Client\Core\Query\RiakObject */
-            $result = $client->execute($fetch);
-            $object = $result->getValue();
-
-        }
-    }
+//    public static function populateCollectionByQuery(\ArrayObject $coll, $query, $realm, $tableName, $bucketType, $bucketName,
+//                                                     &$debug, $limit = null, $offset = 0) {
+//        $builder = Search::builder();
+//        $builder->withIndex('__norm_classmaps_' . self::$infoService->getTableName);
+//        if($limit !== null) {
+//            $builder->withNumRows($limit);
+//        }
+//        if($offset !== 0) {
+//            $builder->withStart($offset);
+//        }
+//        $builder->withQuery($query);
+//
+//        $search = $builder->build();
+//
+//        $searchResult = self::$riakClient->execute($search);
+//        $results = $searchResult->getAllResults();
+//
+//        foreach($results as $result) {
+//            $className = self::$infoService->getClassName($realm, $tableName);
+//            $obj = new $className();
+//
+//            $bucketType = $result["_yz_rt"];
+//            $bucketName = $result["yz_rb"];
+//            $key        = $result["_yz_rk"];
+//
+//            // create reference object locations
+//            $namespace = new RiakNamespace($bucketType , $bucketName);
+//            $location  = new RiakLocation($namespace, $key);
+//
+//            // fetch object
+//            $fetch  = FetchValue::builder($location)
+//                ->withNotFoundOk(true)
+//                ->withR(1)
+//                ->build();
+//
+//            /** @var $result \Riak\Client\Command\Kv\Response\FetchValueResponse */
+//            /** @var $object \Riak\Client\Core\Query\RiakObject */
+//            $result = self::$riakClient->execute($fetch);
+//            $object = $result->getValue();
+//
+//        }
+//    }
 
 //    public function populateCollectionBySecondaryIndex(NormBaseCollection $coll, $indexName, $value, &$debug = null) {
 //        $bucket = self::getBucket($coll::$realm, $coll::$tableName);

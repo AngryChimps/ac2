@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use AC\NormBundle\Services\RealmInfoService;
+use AC\NormBundle\services\InfoService;
 use AC\NormBundle\Services\DatastoreService;
 
 class RiakCreateTypesCommand extends ContainerAwareCommand
@@ -21,38 +21,25 @@ class RiakCreateTypesCommand extends ContainerAwareCommand
             ->setName('riak:create_types')
             ->setDescription('Create necessary bucket types')
             ->addArgument(
-                'realmName',
-                InputArgument::REQUIRED,
-                'Which realm should we create bucket types for?'
+                'datastoreName',
+                InputArgument::OPTIONAL,
+                'Which datastore should we create types for?'
             )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $realmName = $input->getArgument('realmName');
+        $datastoreName = $input->getArgument('datastoreName');
+        $this->createType($datastoreName);
+     }
 
+    protected function createType($datastoreName) {
+        /** @var InfoService $infoService */
+        $infoService = $this->getContainer()->get('ac_norm.info');
+        $typeName = $infoService->getDatastorePrefix($datastoreName) . 'class_maps';
 
-
-        /** @var RealmInfoService $realmInfo */
-        $realmInfo = $this->getContainer()->get('ac_norm.realm_info');
-        $realmService = $this->getContainer()->get('ac_norm.norm.' . $realmName);
-
-        if(empty($typeName)) {;
-            foreach($realmInfo->getTableNames($realmName) as $tableName) {
-                $fullClassName = $realmInfo->getClassName($realmName, $tableName);
-                $classParts = explode('\\', $fullClassName);
-                $shortClassName = $classParts[count($classParts) - 1];
-                $func = 'define' . $shortClassName . 'Mapping';
-                $realmService->$func();
-            }
-        }
-        else {
-            $fullClassName = $realmInfo->getClassName($realmName, $typeName);
-            $classParts = explode('\\', $fullClassName);
-            $shortClassName = $classParts[count($classParts) - 1];
-            $func = 'define' . $shortClassName . 'Mapping';
-            $realmService->$func();
-        }
+        system("riak-admin bucket-type create $typeName '{\"props\":{\"datatype\":\"map\"}}'");
+        system("riak-admin bucket-type activate $typeName");
     }
 }
