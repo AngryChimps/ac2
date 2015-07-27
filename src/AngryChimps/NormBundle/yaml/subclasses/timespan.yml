@@ -1,0 +1,5 @@
+fields:
+    - name: start
+      type: Time
+    - name: end
+      type: Time

@@ -2,10 +2,11 @@
 
 namespace AngryChimps\ApiBundle\Controller;
 
+use AC\NormBundle\services\InfoService;
 use AngryChimps\ApiBundle\Services\AuthService;
 use AngryChimps\ApiBundle\Services\MemberService;
 use AngryChimps\ApiBundle\Services\ResponseService;
-use Norm\riak\Member;
+use Norm\Member;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -21,7 +22,7 @@ use Psr\Log\LoggerInterface;
  *
  * @Route("/member")
  */
-class MemberController extends AbstractController
+class MemberController extends AbstractRestController
 {
     /** @var  MemberService */
     protected $memberService;
@@ -30,107 +31,54 @@ class MemberController extends AbstractController
     private $authService;
 
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
-                                ResponseService $responseService, MemberService $memberService, AuthService $authService)
+                                ResponseService $responseService, MemberService $memberService, AuthService $authService,
+                                InfoService $infoService)
     {
-        parent::__construct($requestStack, $sessionService, $responseService);
+        parent::__construct($requestStack, $sessionService, $responseService, $memberService, $infoService);
         $this->memberService = $memberService;
         $this->authService = $authService;
     }
 
-    /**
-     * @Route("/{id}")
-     * @Method({"GET"})
-     */
     public function indexGetAction($id)
     {
-        $member = $this->memberService->getMember($id);
+        $isOwner = $this->getAuthenticatedUser() && ($this->getAuthenticatedUser()->getId() == $id);
 
-        if($member === null) {
-            $errors = array(
-                'human' => 'Unable to find the requested member',
-                'code' => 'Api.MemberController.indexGetAction.1'
-            );
-            return $this->responseService->failure(404, $errors);
-        }
-
-        $user = $this->getAuthenticatedUser();
-
-        $arr = [];
-        $arr['id'] = $member->id;
-        $arr['name'] = $member->name;
-        $arr['photo'] = $member->photo;
-
-        if($user !== null && $member->id === $user->id) {
-            $arr['email'] = $member->email;
-        }
-
-        $data = array('member' => $arr);
-
-        return $this->responseService->success($data);
+        return $this->getGetResponse('member', $id, $isOwner);
     }
 
-    /**
-     * @Route("/{id}")
-     * @Method({"DELETE"})
-     */
+    public function indexPostAction() {
+        if($this->getAuthenticatedUser() !== null) {
+            return $this->responseService->failure(400, ResponseService::AUTHENTICATED_MEMBER_ALREADY_IN_SESSION);
+        }
+
+        return $this->getPostResponse('member');
+    }
+
+    public function indexPatchAction($id) {
+        $user = $this->getAuthenticatedUser();
+
+        if($user === null) {
+            return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
+        }
+
+        if($user->getId() !== $id) {
+            return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
+        }
+
+        return $this->getPatchResponse('member', $id);
+    }
+
     public function indexDeleteAction($id) {
-        if(!$this->isAuthorizedSelf($id)) {
-            $errors = array(
-                'human' => 'Only the authenticated user may delete his or her object',
-                'code' => 'Api.MemberController.indexDeleteAction.1',
-            );
-            return $this->responseService->failure(401, $errors);
-        }
-
-        $member =$this->memberService->getMember($id);
-
-        if($member === null) {
-            $error = array(
-                'human' => 'Unable to find the requested member',
-                'code' => 'Api.MemberController.indexDeleteAction.2'
-            );
-            return $this->responseService->failure(404, $error);
-        }
-
-        $this->memberService->markMemberDeleted($member);
-
-        return $this->responseService->success();
-    }
-
-    /**
-     * @Route("/{id}")
-     * @Method({"PUT"})
-     */
-    public function indexPutAction($id) {
         $user = $this->getAuthenticatedUser();
-        $payload = $this->getPayload();
 
-        if(!$this->isAuthorizedSelf($id)) {
-            $errors = array(
-                'human' => 'This action can only be performed by the owner of the object',
-                'code' => 'Api.MemberController.indexPutAction.1',
-            );
-            return $this->responseService->failure(401, $errors);
+        if($user === null) {
+            return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
         }
 
-        $changes = [];
-        if(isset($payload['name'])) {
-            $changes['name'] = $payload['name'];
-        }
-        if(isset($payload['email'])) {
-            $changes['email'] = $payload['email'];
+        if($user->getId() !== $id) {
+            return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
         }
 
-        $errors = array();
-        $valid = $this->memberService->update($user, $changes, $errors);
-        if(!$valid) {
-            $errors = array(
-                'human' => 'Unable to validate member inputs',
-                'code' => 'Api.MemberController.indexPutAction.2',
-            );
-            return $this->responseService->failure(400, $errors);
-        }
-
-        return $this->responseService->success();
+        return $this->getPatchResponse('member', $id);
     }
 }

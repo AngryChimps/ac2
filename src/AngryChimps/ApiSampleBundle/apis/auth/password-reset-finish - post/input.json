@@ -1,0 +1,7 @@
+{
+  "payload": {
+    "email": "johnsmith@gmail.com",
+    "password": "Unencrypted password",
+    "reset_code": 542342
+  }
+}

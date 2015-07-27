@@ -7,8 +7,8 @@ use AngryChimps\ApiBundle\Services\DeviceService;
 use AngryChimps\ApiBundle\Services\ResponseService;
 use AngryChimps\ApiBundle\Services\SessionService;
 use FOS\RestBundle\Controller\FOSRestController;
-use Norm\riak\Device;
-use Norm\riak\Session;
+use Norm\Device;
+use Norm\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -31,27 +31,21 @@ class SessionController extends AbstractController
         $this->deviceService = $deviceService;
     }
 
-    /**
-     * @Route("")
-     * @Route("/")
-     * @Method({"GET"})
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function indexGetAction() {
-        $session = $this->getSessionService()->getNewSession();
+    public function indexGetAction($id) {
+        /** @var Session $session */
+        $session = $this->sessionService->get('session', $id);
 
         return $this->responseService->success(array(
             'session_id' => $session->getId(),
+            'user_id' => $session->getUserId(),
+            'device_id' => $session->getDeviceId()
         ));
     }
 
     public function indexPostAction() {
         $payload = $this->getPayload();
-        $session = $this->sessionService->getNewSession();
-        $device = $this->deviceService->register($session, $payload['type'], $payload['push_token'], $payload['description']);
+        $session = $this->sessionService->post('session', $payload);
 
-        return $this->responseService->success(array(
-            'session_id' => $session->getId(),
-        ));
+        return $this->responseService->success(['session' => ['id' => $session->getId()]]);
     }
 }

@@ -4,7 +4,9 @@
 namespace AC\NormBundle\services;
 
 
-use AC\NormBundle\core\generator\types\Table;
+use AC\NormBundle\core\generator\types\AbstractEntityOrSubclass;
+use AC\NormBundle\core\generator\types\Field;
+use AC\NormBundle\core\generator\types\Entity;
 use AC\NormBundle\core\Utils;
 use AC\NormBundle\core\generator\generators\YamlGenerator;
 use AC\NormBundle\core\generator\types\Schema;
@@ -37,6 +39,10 @@ class CreatorService
     public function setEnvironment($env)
     {
         $this->environment = $env;
+    }
+
+    public function getData() {
+        return $this->data;
     }
 
     public function createIfNecessary($force = false)
@@ -128,281 +134,325 @@ class CreatorService
             $data['datastores'][] = $dsData;
         }
 
-        foreach ($this->schema->tables as $table) {
-            $tableData = [];
-            $tableData['driver'] = $this->datastores[$table->primaryDatastore->name]['driver'];
-            $tableData['isElasticsearch'] = $tableData['driver'] === 'elasticsearch';
-//            $tableData['isMysql'] = $tableData['driver'] === 'mysql';
-//            $tableData['isRiak2'] = $tableData['driver'] === 'riak2';
-            $tableData['usesRiak2'] = $tableData['driver'] === 'riak2';
-            $tableData['tableName'] = $table->name;
-            $tableData['objectNameWithoutNamespace'] = Utils::table2class($table->name);
-            $tableData['objectName'] = $data['namespace'] . "\\" . Utils::table2class($table->name);
-//            $tableData['primaryDatastoreName'] = $table->primaryDatastore;
-//            $tableData['primaryKeyFieldNames'] = $table->primaryKeyNames;
-            $tableData['primaryKeyFieldNamesString'] = '["' . implode('", "', $table->primaryKeyNames) . '"]';
-//            $tableData['primaryKeyPropertyNames'] = $table->primaryKeyPropertyNames;
-            $tableData['primaryKeyPropertyNamesString'] = '["' . implode('", "', $table->primaryKeyPropertyNames) . '"]';
-            $tableData['autoIncrementField'] = $table->autoIncrementName;
-            $tableData['autoIncrementProperty'] = Utils::field2property($table->autoIncrementName);
-            $tableData['autoGenerateField'] = $table->autoGenerateName;
-            $tableData['autoGenerateProperty'] = Utils::field2property($table->autoGenerateName);
-            $tableData['traitFullNames'] = [];
-            $tableData['traitShortNames'] = [];
+        foreach ($this->schema->entities as $entity) {
+            $data['entities'][] = $this->generateEntityOrSubclassData($entity, $this->schema->namespace,
+                $data['traitFullNames'], $data['traitShortNames']);
+        }
 
-            //Set to false and change if necessary
-            $tableData['usesRiak2'] = false;
-            $tableData['usesElasticsearch'] = false;
-            $tableData['primaryIsRiak2'] = false;
-            $tableData['primaryIsElasticsearch'] = false;
+        foreach ($this->schema->subclasses as $subclass) {
+            $data['subclasses'][] = $this->generateEntityOrSubclassData($subclass, $this->schema->namespace,
+                $data['traitFullNames'], $data['traitShortNames']);
+        }
 
-            $tableData['datastores'] = [];
-            foreach($table->datastores as $datastore) {
+        $this->data = $data;
+    }
+
+    protected function generateEntityOrSubclassData(AbstractEntityOrSubclass $entity, $namespace,
+                                                    array &$traitFullNames, array &$traitShortNames) {
+        $entityData = [];
+        $entityData['name'] = $entity->name;
+        $entityData['objectNameWithoutNamespace'] = Utils::table2class($entity->name);
+        $entityData['objectName'] = $namespace . "\\" . Utils::table2class($entity->name);
+
+        $entityData['traitFullNames'] = [];
+        $entityData['traitShortNames'] = [];
+
+        //Set to false and change if necessary
+        $entityData['usesRiak2'] = false;
+        $entityData['usesElasticsearch'] = false;
+        $entityData['primaryIsRiak2'] = false;
+        $entityData['primaryIsElasticsearch'] = false;
+
+        if($entity instanceof Entity) {
+            $entityData['driver'] = $this->datastores[$entity->primaryDatastore->name]['driver'];
+            $entityData['riakSolrIndexName'] = $entity->name;
+            $entityData['isElasticsearch'] = $entityData['driver'] === 'elasticsearch';
+            $entityData['usesRiak2'] = $entityData['driver'] === 'riak2';
+            $entityData['primaryKeyFieldNamesString'] = '["' . implode('", "', $entity->primaryKeyNames) . '"]';
+            $entityData['primaryKeyPropertyNamesString'] = '["';
+            foreach($entity->primaryKeyNames as $pkName) {
+                $entityData['primaryKeyPropertyNamesString'] .= $pkName . ", ";
+            }
+            $entityData['primaryKeyPropertyNamesString'] = rtrim($entityData['primaryKeyPropertyNamesString'], ", ");
+            $entityData['primaryKeyPropertyNamesString'] .= '"]';
+
+            $entityData['autoIncrementField'] = $entity->autoIncrementName;
+            $entityData['autoIncrementProperty'] = Utils::field2property($entity->autoIncrementName);
+            $entityData['autoGenerateField'] = $entity->autoGenerateName;
+            $entityData['autoGenerateProperty'] = Utils::field2property($entity->autoGenerateName);
+            if($entity->apiPublicFields === []) {
+                $entityData['apiPublicFieldsString'] = '[]';
+            }
+            else {
+                $entityData['apiPublicFieldsString'] = '["' . implode('", "', $entity->apiPublicFields) . '"]';
+            }
+            if($entity->apiPrivateFields === []) {
+                $entityData['apiPrivateFieldsString'] = '[]';
+            }
+            else {
+                $entityData['apiPrivateFieldsString'] = '["' . implode('", "', $entity->apiPrivateFields) . '"]';
+            }
+            if($entity->apiHiddenButSettableFields === []) {
+                $entityData['apiHiddenButSettableFields'] = '[]';
+            }
+            else {
+                $entityData['apiHiddenButSettableFields'] = '["' . implode('", "', $entity->apiHiddenButSettableFields) . '"]';
+            }
+
+            $entityData['datastores'] = [];
+            foreach($entity->datastores as $datastore) {
                 $ds = [];
                 $ds['name'] = $datastore->name;
                 $ds['type'] = $datastore->type;
                 $ds['method'] = $datastore->method;
-                $tableData['datastores'][] = $ds;
+                $entityData['datastores'][] = $ds;
 
                 if($datastore->type === 'primary') {
-                    $tableData['primaryDatastore'] = $ds;
-                    $tableData['primaryDatastoreName'] = $ds['name'];
+                    $entityData['primaryDatastore'] = $ds;
+                    $entityData['primaryDatastoreName'] = $ds['name'];
                 }
 
                 switch($datastore->method) {
                     case 'riak2_map':
-                        $tableData['usesRiak2'] = true;
+                        $entityData['usesRiak2'] = true;
                         break;
                     case 'elasticsearch':
-                        $tableData['usesElasticsearch'] = true;
+                        $entityData['usesElasticsearch'] = true;
                         break;
                     default:
                         throw new \Exception("Unknown datastore method");
                 }
             }
 
-            switch($tableData['primaryDatastore']['method']) {
+            switch($entityData['primaryDatastore']['method']) {
                 case 'riak2_map':
-                    $tableData['primaryIsRiak2'] = true;
+                    $entityData['primaryIsRiak2'] = true;
                     break;
                 case 'elasticsearch':
-                    $tableData['primaryIsElasticsearch'] = true;
+                    $entityData['primaryIsElasticsearch'] = true;
                     break;
                 default:
                     throw new \Exception("Unknown datastore method");
             }
 
             //Setup traitNames if any datastore is of that type
-            if($tableData['usesRiak2']) {
-                $tableData['traitFullNames'][] = 'AC\NormBundle\services\traits\Riak2MapTrait';
-                $tableData['traitShortNames'][] = 'Riak2MapTrait';
-                $tableData['traitFullNames'][] = 'AC\NormBundle\services\traits\Riak2Trait';
-                $tableData['traitShortNames'][] = 'Riak2Trait';
+            if($entityData['usesRiak2']) {
+                $entityData['traitFullNames'][] = 'AC\NormBundle\services\traits\Riak2MapTrait';
+                $entityData['traitShortNames'][] = 'Riak2MapTrait';
+                $entityData['traitFullNames'][] = 'AC\NormBundle\services\traits\Riak2Trait';
+                $entityData['traitShortNames'][] = 'Riak2Trait';
             }
-            if($tableData['usesElasticsearch']) {
-                $tableData['traitFullNames'][] = 'AC\NormBundle\services\traits\ElasticsearchTrait';
-                $tableData['traitShortNames'][] = 'ElasticsearchTrait';
+            if($entityData['usesElasticsearch']) {
+                $entityData['traitFullNames'][] = 'AC\NormBundle\services\traits\ElasticsearchTrait';
+                $entityData['traitShortNames'][] = 'ElasticsearchTrait';
             }
 
-
-//            switch($tableData['driver']) {
-//                case 'riak1_blob':
-//                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\Riak1BlobTrait'];
-//                    $tableData['traitShortNames'] = ['Riak1BlobTrait'];
-//                    break;
-//                case 'mysql':
-//                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\MysqlTrait', 'AC\NormBundle\services\traits\PdoTrait'];
-//                    $tableData['traitShortNames'] = ['MysqlTrait', 'PdoTrait'];
-//                    break;
-//                case 'elasticsearch':
-//                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\ElasticsearchTrait'];
-//                    $tableData['traitShortNames'] = ['ElasticsearchTrait'];
-//                    break;
-//                case 'riak2':
-//                    $tableData['traitFullNames'] = ['AC\NormBundle\services\traits\Riak2MapTrait', 'AC\NormBundle\services\traits\Riak2Trait'];
-//                    $tableData['traitShortNames'] = ['Riak2MapTrait', 'Riak2Trait'];
-//                    break;
-//                default:
-//                    throw new \Exception('Unsupported driver type');
-//            }
-//
             //Set at top level data as well
-            $data['traitFullNames'] = array_merge($data['traitFullNames'], $tableData['traitFullNames']);
-            $data['traitShortNames'] = array_merge($data['traitShortNames'], $tableData['traitShortNames']);
-
-            $fieldNames = [];
-            $propertyNames = [];
-            $fieldTypes = [];
-            foreach ($table->columns as $column) {
-                $columnData = [];
-                $columnData['columnName'] = $column->name;
-//                $columnData['tableName'] = $table->name;
-                $columnData['propertyName'] = $column->getPropertyName();
-                $columnData['propertyNameCapitalized'] = ucfirst($column->getPropertyName());
-                $columnData['type'] = $column->type;
-                $columnData['includeInAll'] = $column->includeInAll ? 'true' : 'false';
-                $columnData['indexName'] = $column->indexName;
-                $columnData['usesRiak2'] = $tableData['usesRiak2'];
-                $columnData['isDateTime'] = false;
-                switch($column->type) {
-                    case 'Currency':
-                        $columnData['phpType'] = 'float';
-                        $columnData['elasticsearchType'] = 'float';
-                        $columnData['mysqlType'] = 'double';
-                        break;
-                    case 'Location':
-                        $columnData['phpType'] = 'string';
-                        $columnData['elasticsearchType'] = 'geo_point';
-                        $columnData['mysqlType'] = 'point';
-                        break;
-                    case 'Date':
-                        $columnData['phpType'] = '\\DateTime';
-                        $columnData['elasticsearchType'] = 'date';
-                        $columnData['mysqlType'] = 'Date';
-                        $columnData['isDateTime'] = true;
-                        break;
-                    case 'DateTime':
-                        $columnData['phpType'] = '\\DateTime';
-                        $columnData['elasticsearchType'] = 'date';
-                        $columnData['mysqlType'] = 'DateTime';
-                        $columnData['isDateTime'] = true;
-                        break;
-                    case 'Uuid':
-                        $columnData['phpType'] = 'string';
-                        $columnData['elasticsearchType'] = 'string';
-                        $columnData['mysqlType'] = 'varchar';
-                        break;
-                    case 'Email':
-                        $columnData['phpType'] = 'string';
-                        $columnData['elasticsearchType'] = 'string';
-                        $columnData['mysqlType'] = 'varchar';
-                        break;
-                    case 'Counter':
-                        $columnData['phpType'] = 'int';
-                        $columnData['elasticsearchType'] = 'int';
-                        $columnData['mysqlType'] = 'int';
-                        break;
-                    case 'bool':
-                        $columnData['phpType'] = 'bool';
-                        $columnData['elasticsearchType'] = 'boolean';
-                        $columnData['mysqlType'] = 'bool';
-                        break;
-                    case 'string':
-                        $columnData['phpType'] = 'string';
-                        $columnData['elasticsearchType'] = 'string';
-                        $columnData['mysqlType'] = 'varchar';
-                        break;
-                    case 'text':
-                        $columnData['phpType'] = 'string';
-                        $columnData['elasticsearchType'] = 'string';
-                        $columnData['mysqlType'] = 'text';
-                        break;
-                    case 'int':
-                        $columnData['phpType'] = 'int';
-                        $columnData['elasticsearchType'] = 'integer';
-                        $columnData['mysqlType'] = 'int';
-                        break;
-                    case 'float':
-                        $columnData['phpType'] = 'float';
-                        $columnData['elasticsearchType'] = 'float';
-                        $columnData['mysqlType'] = 'float';
-                        break;
-                    case 'decimal':
-                        $columnData['phpType'] = 'float';
-                        $columnData['elasticsearchType'] = 'float';
-                        $columnData['mysqlType'] = 'decimal';
-                        break;
-                    case 'enum':
-                        $columnData['phpType'] = 'int';
-                        $columnData['elasticsearchType'] = 'int';
-                        $columnData['mysqlType'] = 'int';
-                        break;
-
-                }
-
-
-                $fieldNames[] = $column->name;
-                $propertyNames[] = $column->getPropertyName();
-                $fieldTypes[] = $column->type;
-
-                //Set defaults
-                if($column->default !== null) {
-                    $tableData['defaults'][] = array('statement' => '$this->set' . $columnData['propertyNameCapitalized'] .
-                        '( ' . $column->default . ');');
-                }
-                elseif(strpos($column->type, 'Collection') === strlen($column->type) - 10) {
-                    $tableData['defaults'][] = array('statement' => '$this->set' . $columnData['propertyNameCapitalized'] .
-                        '(new ' . $column->type . ');');
-                }
-                elseif($table->autoGenerateName == $column->name) {
-                    $tableData['defaults'][] = array('statement' => '$this->set' . $columnData['propertyNameCapitalized'] .
-                        '(bin2hex(openssl_random_pseudo_bytes(16)));');
-                }
-
-                $tableData['columns'][] = $columnData;
-                if($columnData['type'] === 'bool') {
-                    $tableData['flags'][] = $columnData;
-                }
-                elseif(strpos($column->type, 'Collection') === strlen($column->type) - 10) {
-                    $tableData['sets'][] = $columnData;
-                }
-                elseif(strpos($column->type, '[]') === strlen($column->type) - 2) {
-                    $tableData['sets'][] = $columnData;
-                }
-                elseif($column->type === 'Currency') {
-                    $tableData['currencies'][] = $columnData;
-                }
-                elseif($column->type === 'Counter') {
-                    $tableData['counters'][] = $columnData;
-                }
-                else {
-                    $tableData['registers'][] = $columnData;
-                }
-            }
-
-            foreach($fieldTypes as &$type) {
-                $type = str_replace("\\", "\\\\", $type);
-            }
-            $tableData['fieldNamesString'] = '["' . implode('", "', $fieldNames) . '"]';
-            $tableData['propertyNamesString'] = '["' . implode('", "', $propertyNames) . '"]';
-            $tableData['fieldTypesString'] = '["' . implode('", "', $fieldTypes) . '"]';
-
-            /** @var Enum $enum */
-            foreach($table->enums as $enum) {
-                $enumArray = array();
-                $cnt = 1;
-
-                foreach($enum->values as $value) {
-                    $valueArray = array();
-                    $valueArray['name'] = Utils::camel2TrainCase($value) . '_' .  Utils::camel2TrainCase($enum->name);
-                    $valueArray['value'] = $cnt;
-                    $enumArray['values'][] = $valueArray;
-                    $cnt++;
-                }
-
-                $tableData['enums'][] = $enumArray;
-            }
-
-            $data['tables'][] = $tableData;
+            $traitFullNames = array_merge($traitFullNames, $entityData['traitFullNames']);
+            $traitShortNames = array_merge($traitShortNames, $entityData['traitShortNames']);
         }
 
-        $this->data = $data;
+
+        $fieldNames = [];
+        $propertyNames = [];
+        $fieldTypes = [];
+        foreach ($entity->fields as $field) {
+            $fieldNames[] = $field->name;
+            $fieldData = $this->generateFieldData($field, $entityData);
+
+            $entityData['fields'][] = $fieldData;
+            if($fieldData['type'] === 'bool') {
+                $entityData['flags'][] = $fieldData;
+            }
+            elseif($field->type === 'set') {
+                $entityData['sets'][] = $fieldData;
+            }
+            elseif(strpos($field->type, 'Collection') === strlen($field->type) - 10) {
+                $entityData['sets'][] = $fieldData;
+            }
+            elseif(strpos($field->type, '[]') === strlen($field->type) - 2) {
+                $entityData['sets'][] = $fieldData;
+            }
+            elseif($field->type === 'Currency') {
+                $entityData['currencies'][] = $fieldData;
+            }
+            elseif($field->type === 'Counter') {
+                $entityData['counters'][] = $fieldData;
+            }
+            elseif($field->type === 'Counter') {
+                $entityData['counters'][] = $fieldData;
+            }
+            elseif(strpos($field->type, $namespace) === 1) { //skips the leading / in type
+                $entityData['subclasses'][] = $fieldData;
+            }
+            else {
+                $entityData['registers'][] = $fieldData;
+            }
+        }
+
+        foreach($fieldTypes as &$type) {
+            $type = str_replace("\\", "\\\\", $type);
+        }
+        $entityData['fieldNamesString'] = '["' . implode('", "', $fieldNames) . '"]';
+        $entityData['propertyNamesString'] = '["' . implode('", "', $propertyNames) . '"]';
+        $entityData['fieldTypesString'] = '["' . implode('", "', $fieldTypes) . '"]';
+
+        /** @var Enum $enum */
+        foreach($entity->enums as $enum) {
+            $enumArray = array();
+            $cnt = 1;
+
+            foreach($enum->values as $value) {
+                $valueArray = array();
+                $valueArray['name'] = Utils::camel2TrainCase($value) . '_' .  Utils::camel2TrainCase($enum->name);
+                $valueArray['value'] = $cnt;
+                $enumArray['values'][] = $valueArray;
+                $cnt++;
+            }
+
+            $entityData['enums'][] = $enumArray;
+        }
+
+        return $entityData;
+    }
+
+    protected function generateFieldData(Field $field, array &$entityOrSubclassData) {
+        $fieldData = [];
+        $fieldData['name'] = $field->name;
+        $fieldData['propertyName'] = Utils::field2property($field->name);
+        $fieldData['propertyNameCapitalized'] = ucfirst(Utils::field2property($field->name));
+        $fieldData['type'] = $field->type;
+        $fieldData['typeIsSubclass'] = (strpos($field->type, $this->namespace) === 1); //skips the leading / in type
+        $fieldData['includeInAll'] = $field->includeInAll ? 'true' : 'false';
+        $fieldData['indexName'] = $field->indexName;
+        $fieldData['usesRiak2'] = isset($entityOrSubclassData['driver']) && ($entityOrSubclassData['driver'] === 'riak2');
+        $fieldData['isDateTime'] = false;
+        switch($field->type) {
+            case 'Currency':
+                $fieldData['phpType'] = 'float';
+                $fieldData['elasticsearchType'] = 'float';
+                $fieldData['mysqlType'] = 'double';
+                break;
+            case 'Location':
+                $fieldData['phpType'] = 'string';
+                $fieldData['elasticsearchType'] = 'geo_point';
+                $fieldData['mysqlType'] = 'point';
+                break;
+            case 'Date':
+                $fieldData['phpType'] = '\\DateTime';
+                $fieldData['elasticsearchType'] = 'date';
+                $fieldData['mysqlType'] = 'Date';
+                $fieldData['isDateTime'] = true;
+                break;
+            case 'DateTime':
+                $fieldData['phpType'] = '\\DateTime';
+                $fieldData['elasticsearchType'] = 'date';
+                $fieldData['mysqlType'] = 'DateTime';
+                $fieldData['isDateTime'] = true;
+                break;
+            case 'Time':
+                $fieldData['phpType'] = '\\DateTime';
+                $fieldData['elasticsearchType'] = 'date';
+                $fieldData['mysqlType'] = 'DateTime';
+                $fieldData['isDateTime'] = true;
+                break;
+            case 'Uuid':
+                $fieldData['phpType'] = 'string';
+                $fieldData['elasticsearchType'] = 'string';
+                $fieldData['mysqlType'] = 'varchar';
+                break;
+            case 'Email':
+                $fieldData['phpType'] = 'string';
+                $fieldData['elasticsearchType'] = 'string';
+                $fieldData['mysqlType'] = 'varchar';
+                break;
+            case 'Counter':
+                $fieldData['phpType'] = 'int';
+                $fieldData['elasticsearchType'] = 'int';
+                $fieldData['mysqlType'] = 'int';
+                break;
+            case 'bool':
+                $fieldData['phpType'] = 'bool';
+                $fieldData['elasticsearchType'] = 'boolean';
+                $fieldData['mysqlType'] = 'bool';
+                break;
+            case 'string':
+                $fieldData['phpType'] = 'string';
+                $fieldData['elasticsearchType'] = 'string';
+                $fieldData['mysqlType'] = 'varchar';
+                break;
+            case 'text':
+                $fieldData['phpType'] = 'string';
+                $fieldData['elasticsearchType'] = 'string';
+                $fieldData['mysqlType'] = 'text';
+                break;
+            case 'int':
+                $fieldData['phpType'] = 'int';
+                $fieldData['elasticsearchType'] = 'integer';
+                $fieldData['mysqlType'] = 'int';
+                break;
+            case 'float':
+                $fieldData['phpType'] = 'float';
+                $fieldData['elasticsearchType'] = 'float';
+                $fieldData['mysqlType'] = 'float';
+                break;
+            case 'decimal':
+                $fieldData['phpType'] = 'float';
+                $fieldData['elasticsearchType'] = 'float';
+                $fieldData['mysqlType'] = 'decimal';
+                break;
+            case 'enum':
+                $fieldData['phpType'] = 'int';
+                $fieldData['elasticsearchType'] = 'int';
+                $fieldData['mysqlType'] = 'int';
+                break;
+            case 'set':
+                $fieldData['phpType'] = 'int[]';
+                $fieldData['elasticsearchType'] = 'int';
+                $fieldData['mysqlType'] = 'set';
+                break;
+            default:
+                $fieldData['phpType'] = $field->type;
+                $fieldData['elasticsearchType'] = $field->type;
+                $fieldData['mysqlType'] = $field->type;
+        }
+
+
+        $fieldNames[] = $field->name;
+        $propertyNames[] =  Utils::field2property($field->name);
+        $fieldTypes[] = $field->type;
+
+        //Set defaults
+        if($field->default !== null) {
+            $entityOrSubclassData['defaults'][] = array('statement' => '$this->set' . $fieldData['propertyNameCapitalized'] .
+                '( ' . $field->default . ');');
+        }
+        elseif(strpos($field->type, 'Collection') === strlen($field->type) - 10) {
+            $entityOrSubclassData['defaults'][] = array('statement' => '$this->set' . $fieldData['propertyNameCapitalized'] .
+                '(new ' . $field->type . ');');
+        }
+        elseif(isset($entityOrSubclassData['autoGenerateField']) && $entityOrSubclassData['autoGenerateField'] === $field->name) {
+            $entityOrSubclassData['defaults'][] = array('statement' => '$this->set' . $fieldData['propertyNameCapitalized'] .
+                '(sha1(microtime(true) . bin2hex(openssl_random_pseudo_bytes(16))));');
+        }
+
+        return $fieldData;
     }
 
     public function createValidations(Schema $schema) {
         $data = array();
 
-        foreach($schema->tables as $table) {
+        foreach($schema->entities as $table) {
             $tableStarted = false;
-            foreach($table->columns as $column) {
-                if(isset($column->validations)) {
+            foreach($table->fields as $field) {
+                if(isset($field->validations)) {
                     $fullClassName = $schema->namespace . "\\" . Utils::table2class($table->name);
                     if(!$tableStarted) {
                         $data[$fullClassName] = array();
                         $data[$fullClassName]['properties'] = array();
                         $tableStarted = true;
                     }
-                    $data[$fullClassName]['properties'][$column->getPropertyName()] = $column->validations;
+                    $data[$fullClassName]['properties'][Utils::field2property($field->name)] = $field->validations;
                 }
             }
         }

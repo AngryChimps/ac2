@@ -3,6 +3,7 @@
 
 namespace AC\NormBundle\services;
 
+use AC\NormBundle\core\datastore\AbstractDatastore;
 use AC\NormBundle\core\datastore\MysqlPdoDatastore;
 use AC\NormBundle\core\datastore\RedisBlobDatastore;
 use AC\NormBundle\core\datastore\RedisHashDatastore;
@@ -26,6 +27,11 @@ class DatastoreService {
         self::$logger = $logger;
     }
 
+    /**
+     * @param $datastoreName
+     * @return AbstractDatastore
+     * @throws \Exception
+     */
     public function getDatastore($datastoreName) {
         if(!isset(self::$datastores[$datastoreName])) {
             switch(self::$datastoreInfo[$datastoreName]['driver']) {

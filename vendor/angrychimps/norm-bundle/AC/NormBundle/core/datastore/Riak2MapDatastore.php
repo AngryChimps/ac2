@@ -2,6 +2,7 @@
 
 namespace AC\NormBundle\core\datastore;
 
+use AC\NormBundle\core\Utils;
 use Riak\Client\Command\Kv\DeleteValue;
 use Riak\Client\Command\DataType\FetchMap;
 use AC\NormBundle\services\InfoService;
@@ -17,8 +18,15 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
         parent::__construct($configParams, $infoService, $loggerService);
     }
 
-    public static function createObject($obj, &$debug)
+    public static function createObject($obj, $data, &$debug)
     {
+        if($data !== null) {
+            foreach($data as $field => $value) {
+                $func = 'set' . ucfirst(Utils::field2property($field));
+                $obj->$func($value);
+            }
+        }
+
         //Deal with created_at if necessary
         if(method_exists($obj, 'setCreatedAt')) {
             $obj->setCreatedAt(new \DateTime());
@@ -38,10 +46,26 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
         self::storeObject($obj, $debug);
     }
 
-    public static function createCollection($coll, &$debug)
+    protected static function storeObject($obj, &$debug) {
+        $riakLocation  = self::getRiakLocation($obj);
+        $riakStore = $obj->getRiakStoreMapBuilder()
+            ->withLocation($riakLocation)
+            ->build();
+
+        self::$riakClient->execute($riakStore);
+    }
+
+    public static function createCollection($coll, $data, &$debug)
     {
-        for($i = 0; $i < count($coll); $i++) {
-            self::createObject($coll[$i], $debug);
+        if($data === null) {
+            for($i = 0; $i < count($coll); $i++) {
+                self::createObject($coll[$i], $data, $debug);
+            }
+        }
+        else {
+            for($i = 0; $i < count($coll); $i++) {
+                self::createObject($coll[$i], $data[$i], $debug);
+            }
         }
     }
 
@@ -70,15 +94,6 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
         for($i = 0; $i < count($coll); $i++) {
             self::updateObject($coll[$i], $debug);
         }
-    }
-
-    protected static function storeObject($obj, &$debug) {
-        $riakLocation  = self::getRiakLocation($obj);
-        $riakStore = $obj->getRiakStoreMapBuilder()
-            ->withLocation($riakLocation)
-            ->build();
-
-        self::$riakClient->execute($riakStore);
     }
 
     public static function deleteObject($obj, &$debug)
@@ -117,7 +132,7 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
         }
 
         $fetch = FetchMap::builder()
-            ->withLocation(self::getRiakLocation($obj))
+            ->withLocation(self::getRiakLocation($obj, $pks))
             ->build();
 
         $result = self::$riakClient->execute($fetch);
@@ -128,11 +143,57 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
         return true;
     }
 
-    protected static function getRiakLocation($obj) {
+    public static function populateCollectionByQuery($indexName, \ArrayObject $coll, $query, $limit, $offset, &$debug) {
+//        if($debug !== null) {
+//            $arr = [];
+//            $debug['populateObjectByPks'][] = $arr;
+//            self::$loggerService->info('Populating object by primary keys: ' . json_encode($debug));
+//        }
+
+        $tableInfo = self::$infoService->getTableInfo(get_class($coll));
+
+        $search = Search::builder()
+            ->withQuery($query)
+            ->withIndex($indexName)
+            ->withNumRows($limit)
+            ->withStart($offset)
+            ->build();
+
+        $results = $search->getAllResults();
+
+        foreach($results as $result) {
+            $object = new $tableInfo['objectName']();
+
+            foreach($result as $fieldName => $data) {
+                if(strpos($fieldName, '_yz_') === 0) {
+                    $function = 'get' . ucfirst(Utils::field2property($fieldName));
+                    $object->$function($data);
+                }
+            }
+
+            $coll[self::getIdentifier($object)] = $object;
+        }
+
+        return true;
+    }
+
+    protected static function getRiakLocation($obj, $pks = null)
+    {
         $tableInfo = self::$infoService->getTableInfo(get_class($obj));
 
         $namespace = new RiakNamespace(self::$riakNamespacePrefix . 'class_maps', $tableInfo['name']);
-        return new RiakLocation($namespace, self::getIdentifier($obj));
+
+        if ($pks !== null) {
+            if (!is_array($pks)) {
+                $pks = [$pks];
+            }
+            $location = new RiakLocation($namespace, implode('|', $pks));
+        }
+        else {
+            $location = new RiakLocation($namespace, self::getIdentifier($obj));
+        }
+
+        return $location;
     }
 
     public static function populateCollectionByPks($coll, $pks, &$debug) {

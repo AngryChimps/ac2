@@ -1,0 +1,29 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - member_id
+  - company_id
+
+fields:
+  - name: member_id
+    type: string
+  - name: company_id
+    type: string
+  - name: role
+    type: enum
+    values:
+      - Admin
+      - SuperAdmin
+  - name: rating
+    type: int
+  - name: rated_at
+    type: DateTime
+  - name: company_notes
+    type: string
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

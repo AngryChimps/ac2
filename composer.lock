@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c98b3da7c69fc78e8bfc49acc7583a38",
+    "hash": "9856286834aa5744294ad4c79ff3783a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1074,6 +1074,45 @@
                 "orm"
             ],
             "time": "2014-12-16 13:45:01"
+        },
+        {
+            "name": "erusev/parsedown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "ee819677499bbe0f00af4b2ae069b29eb22ae611"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/ee819677499bbe0f00af4b2ae069b29eb22ae611",
+                "reference": "ee819677499bbe0f00af4b2ae069b29eb22ae611",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Parsedown": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "Parser for Markdown.",
+            "homepage": "http://parsedown.org",
+            "keywords": [
+                "markdown",
+                "parser"
+            ],
+            "time": "2015-07-03 14:11:23"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -3468,6 +3507,7 @@
         "massivescale/celery-php": 20,
         "mjaschen/phpgeo": 20,
         "php-riak/riak-client": 20,
+        "erusev/parsedown": 20,
         "bach-pedersen/php-riak-stubs": 20
     },
     "prefer-stable": false,

@@ -1,0 +1,8 @@
+{
+  "payload": {
+    "first": "Emma",
+    "last": "Smith",
+    "email": "emma@brentwoodah.com",
+    "password": "UnencryptedPassword"
+  }
+}

@@ -1,0 +1,9 @@
+#angry_chimps_api_sample_homepage:
+#    path:     /hello/{name}
+#    defaults: { _controller: AngryChimpsApiSampleBundle:Default:index }
+angry_chimps_api_sample_docs:
+    path:     /docs
+    defaults: { _controller: AngryChimpsApiSampleBundle:Docs:index}
+angry_chimps_api_sample_simulator:
+    path:     /simulator/{api}/{slug}
+    defaults: { _controller: AngryChimpsApiSampleBundle:Simulator:index, slug: null}

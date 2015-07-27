@@ -1,0 +1,6 @@
+[
+  "ValidationError",
+  "UserNotAuthorized",
+  "InvalidCompanyId",
+  "InvalidLocationId"
+]

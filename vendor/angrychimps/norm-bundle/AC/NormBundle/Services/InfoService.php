@@ -32,12 +32,17 @@ class InfoService {
         self::$structure = $structure;
     }
 
-    public function getTableNames() {
-        return self::$structure['tableNames'];
-    }
-
+//    public function getTableNames() {
+//        return self::$structure['tableNames'];
+//    }
+//
     public function getClassName($tableName) {
-        return self::$structure['tables'][$tableName]['tableName'];
+        if(isset(self::$structure['entities'][$tableName]['objectName'])) {
+            return self::$structure['entities'][$tableName]['objectName'];
+        }
+        else {
+            return self::$structure['subclasses'][$tableName]['objectName'];
+        }
     }
 
     public function getDatastoreName($className) {
@@ -49,10 +54,10 @@ class InfoService {
         return self::$structure['datastores'][$datastoreName]['prefix'];
     }
 
-    public function getTableName($className) {
+    public function getEntityName($className) {
         $className = ltrim($className, '\\');
 
-        return self::$structure['classes'][$className]['tableName'];
+        return self::$structure['classes'][$className]['name'];
     }
 
 //    public function getPkData($obj) {
@@ -80,47 +85,42 @@ class InfoService {
 //        return $arr;
 //    }
 
-    public function getPkFieldNames($obj) {
-        $class = get_class($obj);
-
-        $tableName = $this->getTableName($class);
-
-        $pkProperties = self::$structure['tables'][$tableName]['primaryKeyPropertyNames'];
-        $arr = array();
-        if($this->isCollection($obj)) {
-            foreach($obj as $object) {
-                $objArr = array();
-                foreach ($pkProperties as $prop) {
-                    $method = 'get' . ucfirst($prop);
-                    $objArr[$prop] = $object->$method();
-                }
-                $arr[] = $objArr;
-            }
-        }
-        else {
-            foreach ($pkProperties as $prop) {
-                $method = 'get' . ucfirst($prop);
-                $arr[$prop] = $obj->$method();
-            }
-        }
-        return $arr;
-    }
-
-    public function getAutoIncrementPropertyName($obj) {
-        $class = get_class($obj);
-        $tableName = $this->getTableName($class);
-
-        return self::$structure['tables'][$tableName]['autoIncrementProperty'];
-    }
-
+//    public function getAutoIncrementPropertyName($obj) {
+//        $class = get_class($obj);
+//        $tableName = $this->getTableName($class);
+//
+//        return self::$structure['tables'][$tableName]['autoIncrementProperty'];
+//    }
+//
     public function getTableInfo($class) {
-        $tableName = $this->getTableName($class);
+        $tableName = $this->getEntityName($class);
 
-        return self::$structure['tables'][$tableName];
+        return self::$structure['entities'][$tableName];
     }
 
     public function isCollection($obj) {
         $class = get_class($obj);
         return strpos($class, 'Collection') == strlen($class) - 10;
+    }
+
+    public function getAllApiSettableFields($entityName) {
+        return array_merge($this->getApiPublicFields($entityName), $this->getApiPrivateFields($entityName),
+                           $this->getApiHiddenButSettableFields($entityName));
+    }
+
+    public function getApiPublicFields($entityName) {
+        return self::$structure['entities'][$entityName]['apiPublicFields'];
+    }
+
+    public function getApiPrivateFields($entityName) {
+        return self::$structure['entities'][$entityName]['apiPrivateFields'];
+    }
+
+    public function getApiHiddenButSettableFields($entityName) {
+        return self::$structure['entities'][$entityName]['apiHiddenButSettableFields'];
+    }
+
+    public function getFieldNames($entityName) {
+        return self::$structure['entities'][$entityName]['fieldNames'];
     }
 }

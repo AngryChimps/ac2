@@ -25,16 +25,10 @@ class Table {
     /** @var Column[] */
     public $columns = array();
 
-    /** @var ForeignKey[] */
-    public $foreignKeys = array();
-
-    /** @var ForeignKey[] */
-    public $reverseForeignKeys = array();
-
     /** @var Enum[] */
     public $enums = array();
 
-    /** @var TableDatastore[] */
+    /** @var EntityDatastore[] */
     public $datastores;
 
     /** @var Datastore */

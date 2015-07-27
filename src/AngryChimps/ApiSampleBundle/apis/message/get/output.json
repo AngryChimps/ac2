@@ -1,0 +1,13 @@
+{
+  "payload": {
+    "message": {
+      "message_id": "204582kjdfkljsfoiu23r",
+      "location_id": "lkjsdflkjsfolkjsflk",
+      "consumer_member_id": "flj109394lksfjsdlfk",
+      "replied_message_id": "lj41109sljksf09iu23lk",
+      "body": "Thanks for your inquiry. We will call you this evening.",
+      "status": "new",
+      "created_at": "2015-02-26T09:00:00-0800"
+    }
+  }
+}

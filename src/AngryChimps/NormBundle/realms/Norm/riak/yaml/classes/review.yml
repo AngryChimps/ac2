@@ -22,7 +22,7 @@ fields:
   - name: rating
     type: int
   - name: flags
-    type: \Norm\riak\ReviewFlagCollection
+    type: \Norm\ReviewFlagCollection
   - name: status
     type: enum
     values:

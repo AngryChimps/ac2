@@ -3,81 +3,55 @@
 
 namespace AngryChimps\ApiBundle\Features\Context;
 
-use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
-use AngryChimps\NormBundle\realms\Norm\riak\services\NormRiakService;
-use AngryChimps\ApiBundle\Services\GuzzleService;
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Symfony2Extension\Context\KernelDictionary;
-use Behat\Symfony2Extension\Context\KernelAwareContext;
-use Guzzle\Common\Event;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use Norm\riak\Member;
-use Guzzle\Http\Message\Response;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use AngryChimps\ApiBundle\Services\MemberService;
+use AngryChimps\NormBundle\services\NormService;
+use GuzzleHttp\Client;
+use Guzzle\Http\Message\Response;
 
-class AbstractFeatureContext {
+class AbstractFeatureContext
+{
     // Setup the container using the KernelDictionary trait
     // ex:  $this->getContainer()->get('angry_chimps_api.auth')->registerFbUser()
     use KernelDictionary;
 
+    /** @var  KernelInterface */
     protected $myKernel;
 
     /** @var \GuzzleHttp\Client  */
     protected $guzzle;
 
-    /** @var  array */
-    protected $requestArray;
-
     /** @var Response  */
     protected $response;
 
-    protected $sessionId;
-    protected $authenticatedUserId;
-    protected $calendar;
-    protected $rand;
-
-    protected $providerAdImmutableId;
-
-    /** @var  \Norm\riak\Booking */
-    protected $testBooking;
-
-    /** @var \Norm\riak\ProviderAd */
-    protected $providerAd;
-
-    /** @var  \Norm\riak\Member */
-    protected $testUser;
-
-    /** @var  \Norm\riak\Company */
-    protected $testCompany;
-
-    /** @var  \Norm\riak\Location */
-    protected $testLocation;
-
-    /** @var  \Norm\riak\Service */
-    protected $testService;
-
-    /** @var  \Norm\riak\Calendar */
-    protected $testCalendar;
-
     private $baseUrl;
     private $sessionHeaderName;
-
     private $objects = array();
+    protected $requestArray;
+    protected $authenticatedUserId;
+    protected $sessionId;
 
-    /** @var  NormRiakService */
-    protected $riak;
 
-    /** @var  NormMysqlService */
-    protected $mysql;
+    /** @var  NormService */
+    protected $norm;
 
     /** @var  MemberService */
     protected $memberService;
+
+    /** @var array  */
+    private $variables = [];
+
+    public function setKernel(KernelInterface $kernel)
+    {
+        $this->myKernel = $kernel;
+        $this->guzzle = new Client();
+        $this->sessionHeaderName = $this->getContainer()->getParameter('angry_chimps_api.session_header_name');
+        $this->baseUrl = $this->getContainer()->getParameter('angry_chimps_api.base_url');
+        $this->norm = $this->getContainer()->get('ac_norm.norm');
+        $this->memberService = $this->getContainer()->get('angry_chimps_api.member');
+    }
 
     protected function addObject($obj) {
         $this->objects[] = $obj;
@@ -91,16 +65,6 @@ class AbstractFeatureContext {
         }
     }
 
-    public function setKernel(KernelInterface $kernel)
-    {
-        $this->myKernel = $kernel;
-        $this->guzzle = new Client();
-        $this->sessionHeaderName = $this->getContainer()->getParameter('angry_chimps_api.session_header_name');
-        $this->baseUrl = $this->getContainer()->getParameter('angry_chimps_api.base_url');
-        $this->riak = $this->getContainer()->get('ac_norm.norm.riak');
-        $this->mysql = $this->getContainer()->get('ac_norm.norm.mysql');
-        $this->memberService = $this->getContainer()->get('angry_chimps_api.member');
-    }
     /**
      * Returns HttpKernel service container.
      *
@@ -111,9 +75,6 @@ class AbstractFeatureContext {
         return $this->myKernel->getContainer();
     }
 
-    protected function getRequestArray() {
-        return $this->requestArray;
-    }
     protected function getContentArray() {
         return $this->response->json();
     }
@@ -122,15 +83,12 @@ class AbstractFeatureContext {
         return $this->response->json()['payload'];
     }
 
-    protected function getResponseFieldValue($field) {
-        $parts = explode('.', $field);
+    protected function setVariable($name, $value) {
+        $this->variables[$name] = $value;
+    }
 
-        $arr = $this->getContentArray();
-        for($i=0; $i < count($parts) - 1; $i++) {
-            $arr = $arr[$parts[$i]];
-        }
-
-        return $arr[$parts[count($parts) - 1]];
+    protected function getVariable($name) {
+        return $this->variables[$name];
     }
 
     protected function setRequestFieldValue($field, $value) {
@@ -160,6 +118,34 @@ class AbstractFeatureContext {
             default:
                 throw new \Exception('getRequestFieldValue: too many levels in field value');
         }
+    }
+
+    protected function getSampleRequestArray($endpoint, $method) {
+        $json = file_get_contents(__DIR__ . '/../../../../../../src/AngryChimps/ApiSampleBundle/apis/' . $endpoint
+            . '/' . $method . '/input.json');
+        return json_decode($json, true);
+    }
+
+    protected function getResponseFieldValue($field) {
+        $parts = explode('.', $field);
+
+        $arr = $this->getContentArray();
+        for($i=0; $i < count($parts) - 1; $i++) {
+            $arr = $arr[$parts[$i]];
+        }
+
+        return $arr[$parts[count($parts) - 1]];
+    }
+
+    protected function getRequestFieldValue($field) {
+        $parts = explode('.', $field);
+
+        $arr = $this->requestArray;
+        for($i=0; $i < count($parts) - 1; $i++) {
+            $arr = $arr[$parts[$i]];
+        }
+
+        return $arr[$parts[count($parts) - 1]];
     }
 
     protected function ensureResponseHasField($fieldName) {
@@ -221,6 +207,37 @@ class AbstractFeatureContext {
         }
     }
 
+    protected function ensureResponseFieldHasValue($field, $value) {
+        if($value != $this->getResponseFieldValue($field)) {
+            throw new \Exception('The response field ' . $field . ' does not have a value of ' . $value);
+        }
+    }
+
+    public function assertTrue($arg1, $msg) {
+        if(!$arg1) {
+            echo 'Request: ' . print_r($this->requestArray, true);
+
+            try {
+                echo 'Response: ' . print_r($this->response->json(), true);
+            } catch (\Exception $ex) {
+                echo 'Response is not valid JSON';
+            }
+
+            throw new \Exception($msg);
+        }
+    }
+
+    public function assertEquals($arg1, $arg2, $msg) {
+        $this->assertTrue($arg1 == $arg2, $msg);
+    }
+    public function assertNotEquals($arg1, $arg2, $msg) {
+        $this->assertTrue($arg1 != $arg2, $msg);
+    }
+
+    public function assertNotEmpty($arg1, $msg) {
+        $this->assertTrue(!empty($arg1), $msg);
+    }
+
     protected function getData($url) {
         try {
             if($this->authenticatedUserId !== null){
@@ -262,13 +279,14 @@ class AbstractFeatureContext {
             ]);
 
             $this->response = $this->guzzle->send($request);
+//dump((string) $this->response->getBody());
         }
         catch(\Exception $ex) {
             //Ignore this exception, we'll test the return status separately
         }
     }
 
-    protected function putData($url) {
+    protected function patchData($url) {
         try {
             if($this->authenticatedUserId !== null){
                 $url = $this->baseUrl . '/' . $url . '?userId=' . $this->authenticatedUserId;
@@ -277,7 +295,7 @@ class AbstractFeatureContext {
                 $url = $this->baseUrl . '/' . $url;
             }
 
-            $request = $this->guzzle->createRequest('PUT', $url, [
+            $request = $this->guzzle->createRequest('PATCH', $url, [
                 'headers' => [$this->sessionHeaderName => $this->sessionId,
                     'content-type' => 'application/json'],
                 'json' => $this->requestArray,
@@ -314,55 +332,4 @@ class AbstractFeatureContext {
         }
     }
 
-    /**
-     * @return \AngryChimps\ApiBundle\Services\AuthService
-     */
-    protected function getAuthService() {
-        return $this->getContainer()->get('angry_chimps_api.auth');
-    }
-
-    public function displayError(Event $e) {
-        print_r($this->response->getBody());
-    }
-
-    public function assertTrue($arg1, $msg) {
-        if(!$arg1) {
-            echo 'Request: ' . print_r($this->requestArray, true);
-
-            try {
-                echo 'Response: ' . print_r($this->response->json(), true);
-            } catch (\Exception $ex) {
-                echo 'Response is not valid JSON';
-            }
-
-            throw new \Exception($msg);
-        }
-    }
-
-    public function assertEquals($arg1, $arg2, $msg) {
-        $this->assertTrue($arg1 == $arg2, $msg);
-    }
-    public function assertNotEquals($arg1, $arg2, $msg) {
-        $this->assertTrue($arg1 != $arg2, $msg);
-    }
-
-    public function assertNotEmpty($arg1, $msg) {
-        $this->assertTrue(!empty($arg1), $msg);
-    }
-
-    public function getDate($day, $hour, $minute) {
-        switch($day) {
-            case 'today':
-                $dt = new \DateTime();
-                $dt->setTime($hour, $minute, 0);
-                $dt->setTimezone(new \DateTimeZone('PST'));
-                return $dt;
-            case 'tomorrow':
-                $dt = new \DateTime();
-                $dt->add(new \DateInterval('P1D'));
-                $dt->setTime($hour, $minute, 0);
-                $dt->setTimezone(new \DateTimeZone('PST'));
-                return $dt;
-        }
-    }
 }

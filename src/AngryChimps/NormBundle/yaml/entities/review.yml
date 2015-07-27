@@ -1,0 +1,33 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: author_id
+    type: string
+  - name: company_id
+    type: string
+  - name: location_id
+    type: string
+  - name: staff_ids
+    type: string[]
+  - name: body
+    type: string
+  - name: rating
+    type: int
+  - name: flags
+    type: \Norm\ReviewFlagCollection
+  - name: status
+    type: enum
+    values:
+      - Enabled
+      - Disabled
+  - name: created_at
+    type: DateTime

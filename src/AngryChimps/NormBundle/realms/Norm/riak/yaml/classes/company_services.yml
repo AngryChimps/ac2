@@ -5,7 +5,7 @@ fields:
   - name: company_id
     type: string
   - name: services
-    type: \Norm\riak\ServiceCollection
+    type: \Norm\ServiceCollection
   - name: updated_at
     type: DateTime
 

@@ -13,6 +13,9 @@ class Schema {
     /** @var Datastore[] */
     public $datastores = [];
 
-    /** @var Table[]  */
-    public $tables = array();
+    /** @var Entity[]  */
+    public $entities = [];
+
+    /** @var Subclass[] */
+    public $subclasses = [];
 }

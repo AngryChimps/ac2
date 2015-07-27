@@ -1,0 +1,3 @@
+services:
+    angry_chimps_api_sample.docs:
+        class: AngryChimps\ApiSampleBundle\services\DocsService

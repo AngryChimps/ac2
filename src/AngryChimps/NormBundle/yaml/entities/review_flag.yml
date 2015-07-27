@@ -1,0 +1,25 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: review_id
+    type: string
+  - name: author_id
+    type: string
+  - name: body
+    type: string
+  - name: status
+    type: enum
+    values:
+      - Enabled
+      - Disabled
+  - name: created_at
+    type: DateTime

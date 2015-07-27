@@ -1,0 +1,18 @@
+{
+  "payload": {
+    "location_id": "32234lkjsdflkjlsfklj23",
+    "first": "Sally",
+    "last": "Melbertson",
+    "phone": "415.555.1212",
+    "best_time": "mornings",
+    "email": "sally@gmail.com",
+    "password": "UnencryptedPassword",
+    "pet_name": "Spike",
+    "preferred_provider_staff_id": "lkjflkjfoiiuj2r09fslkjs",
+    "description": "Spike is a very sick boy...",
+    "first_time": "2015-02-26T09:00:00-0800",
+    "second_time": "2015-02-26T09:00:00-0800",
+    "third_time": "2015-02-26T09:00:00-0800",
+    "new_patient": true
+  }
+}

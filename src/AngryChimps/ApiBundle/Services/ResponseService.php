@@ -12,6 +12,19 @@ use Psr\Log\LoggerInterface;
 
 class ResponseService {
 
+    const ERROR_404 = 'Error404';
+    const VALIDATION_ERROR = 'ValidationError';
+    const USER_NOT_AUTHENTICATED = 'UserNotAuthenticated';
+    const USER_NOT_AUTHORIZED = 'UserNotAuthorized';
+    const AUTHENTICATION_FAILURE = 'AuthenticationFailure';
+    const INVALID_MEMBER_ID = 'InvalidMemberId';
+    const INVALID_COMPANY_ID = 'InvalidCompanyId';
+    const INVALID_LOCATION_ID = 'InvalidLocationId';
+    const INVALID_STAFF_ID = 'InvalidStaffId';
+    const AUTHENTICATED_MEMBER_ALREADY_IN_SESSION = 'AuthenticatedMemberAlreadyInSession';
+    const INVALID_SESSION_INFORMATION = 'InvalidSessionInformation';
+    const UNKNOWN_POST_DATA_FIELD = 'UnknownPostDataField';
+
     /** @var Request  */
     protected $request;
     protected $payload;
@@ -46,12 +59,12 @@ class ResponseService {
 
     /**
      * @param $code
-     * @param array $errors
+     * @param array $error
      * @param \Exception $ex
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function failure($code, array $errors, \Exception $ex = null) {
-        $viewData = $this->getViewData(array(), $errors, $ex);
+    public function failure($code, $error, \Exception $ex = null, $debug = null) {
+        $viewData = $this->getViewData(array(), $error, $ex, $debug);
 
         $this->loggerService->info(json_encode(array('request' => json_decode($this->request->getContent(), true))));
         $this->loggerService->info(json_encode(array('failure_response' => $viewData)));
@@ -60,7 +73,7 @@ class ResponseService {
         return $this->handleView($view);
     }
 
-    private function getViewData($data, array $errors = array(), \Exception $ex = null) {
+    private function getViewData($data, $error = null, \Exception $ex = null, $debug = null) {
         if($ex === null) {
             $exArr = array();
         }
@@ -75,7 +88,8 @@ class ResponseService {
 
         $return = array(
             'payload' => $data,
-            'error' => $errors,
+            'error' => $error,
+            'debug' => $debug,
             'exception' => $exArr,
             'request' => array(
                 'session_id' => $this->request->headers->get('angrychimps-api-session-token'),

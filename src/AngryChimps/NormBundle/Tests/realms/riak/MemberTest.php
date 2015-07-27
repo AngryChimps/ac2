@@ -4,11 +4,11 @@
 namespace AngryChimps\NormBundle\Tests\realms\riak;
 
 use AC\NormBundle\Tests\AbstractRiakTestCase;
-use Norm\riak\Member;
+use Norm\Member;
 
 class MemberTest extends AbstractRiakTestCase {
     /**
-     * @return \Norm\riak\Member
+     * @return \Norm\Member
      */
     public static function getNewUnsavedObject() {
         $mem = new Member();

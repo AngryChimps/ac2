@@ -1,0 +1,1 @@
+The "DELETE" method is used to archive a message. There is no way to permanently delete a message in the system.

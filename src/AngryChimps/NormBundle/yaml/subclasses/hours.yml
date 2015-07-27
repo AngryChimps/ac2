@@ -1,0 +1,15 @@
+fields:
+  - name: sunday
+    type: \Norm\Timespan
+  - name: monday
+    type: \Norm\Timespan
+  - name: tuesday
+    type: \Norm\Timespan
+  - name: wednesday
+    type: \Norm\Timespan
+  - name: thursday
+    type: \Norm\Timespan
+  - name: friday
+    type: \Norm\Timespan
+  - name: saturday
+    type: \Norm\Timespan

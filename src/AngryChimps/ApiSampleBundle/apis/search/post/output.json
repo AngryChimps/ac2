@@ -1,0 +1,16 @@
+{
+  "payload": {
+    "count": 1,
+    "results": [
+      {
+        "location_id": "8735d4d56d7655bc49a7b20de523da97",
+        "company_name": "Brentwood Animal Hospital",
+        "photo": "ci/1758343.jpg",
+        "rating": 3.5,
+        "distance": 0.110812197285,
+        "lat": "37.7618163",
+        "lon": "-122.4350885"
+      }
+    ]
+  }
+}

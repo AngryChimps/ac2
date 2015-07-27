@@ -12,4 +12,4 @@
 #        default:
 #            anonymous: ~
 #    encoders:
-#        Norm\riak\Member: bcrypt
+#        Norm\Member: bcrypt

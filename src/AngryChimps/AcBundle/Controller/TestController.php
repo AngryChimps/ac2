@@ -2,7 +2,7 @@
 
 namespace AngryChimps\AcBundle\Controller;
 
-use Norm\riak\Session;
+use Norm\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

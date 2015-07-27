@@ -1,0 +1,2 @@
+The messages endpoint returns a list of messages for display in a provider or consumer's inbox. It is similar to the
+search endpoint in that it uses a POST method for what would normally be associated with a GET request.

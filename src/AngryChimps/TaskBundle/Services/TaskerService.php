@@ -4,10 +4,8 @@
 namespace AngryChimps\TaskBundle\services;
 
 use AngryChimps\GeoBundle\Services\GeolocationService;
-use AngryChimps\NormBundle\realms\Norm\es\services\NormEsService;
-use AngryChimps\NormBundle\realms\Norm\mysql\services\NormMysqlService;
-use AngryChimps\NormBundle\realms\Norm\norm\services\NormRiakService;
 use AngryChimps\TaskBundle\Services\Tasks\AbstractTask;
+use AngryChimps\NormBundle\services\NormService;
 
 class TaskerService {
     protected $norm;
@@ -17,10 +15,8 @@ class TaskerService {
 
     protected $tasks = [];
 
-    public function __construct (NormRiakService $norm, NormMysqlService $mysql, NormEsService $es, GeolocationService $geoService) {
+    public function __construct (NormService $norm, GeolocationService $geoService) {
         $this->norm = $norm;
-        $this->mysql = $mysql;
-        $this->es = $es;
         $this->geoService = $geoService;
     }
 

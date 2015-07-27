@@ -8,6 +8,9 @@ use AngryChimps\NormBundle\services\NormService;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Class RiakController
@@ -63,7 +66,7 @@ class RiakController
             ->add('class', 'choice', array('choices' =>
                 array('Member' => 'Member',
                       'Company' => 'Company',
-                      'ProviderAd' => 'ProviderAd',
+                      'Session' => 'Session',
                       'ProviderAdImmutable' => 'ProviderAdImmutable',
                     )))
             ->add('function', 'choice', array('choices' => array('GetById' => 'GetById',
@@ -88,15 +91,15 @@ class RiakController
                 case 'GetById':
                     $func = 'get' . $data->getClass();
                     $obj = $this->norm->$func($data->getArgument());
-                    $result = json_encode($obj, JSON_PRETTY_PRINT);
                     break;
                 case 'GetByEmail':
                     $func = 'get' . $data->getClass() . 'ByEmail';
                     $obj = $this->norm->$func($data->getArgument());
-                    $result = json_encode($obj, JSON_PRETTY_PRINT);
                     break;
             }
         }
+
+        $result = json_encode($this->norm->getAsArray($obj));
 
         return $this->templating->renderResponse('AngryChimpsAdminBundle:Riak:index.html.twig', array(
             'form' => $form->createView(),

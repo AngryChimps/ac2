@@ -4,7 +4,7 @@
 namespace AngryChimps\TaskBundle\Services\Tasks;
 
 
-use Norm\riak\Member;
+use Norm\Member;
 
 class MemberCreateTask extends AbstractTask {
     protected $member;

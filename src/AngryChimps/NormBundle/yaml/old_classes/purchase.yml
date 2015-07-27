@@ -1,0 +1,28 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: mysql_id
+    type: int
+  - name: booking_id
+    type: string
+  - name: provider_ad_immutable_id
+    type: string
+  - name: member_id
+    type: string
+  - name: serviceId
+    type: string
+  - name: startTime
+    type: DateTime
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

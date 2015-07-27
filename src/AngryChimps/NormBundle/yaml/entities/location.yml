@@ -1,0 +1,64 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: string
+    auto_generate: true
+  - name: company_id
+    type: string
+  - name: staff_ids #used to preserve order of display
+    type: string[]
+  - name: name
+    type: string
+    validations:
+        - Length:
+            min: 2
+            max: 25
+  - name: is_mobile
+    type: bool
+  - name: mobile_radius_miles
+    type: int
+  - name: photos
+    type: string[]
+  - name: status
+    type: enum
+    values:
+        - Enabled
+        - Disabled
+  - name: services
+    type: set
+    values:
+        - Accupuncture
+        - Anethesia
+        - Bathing
+        - Behavioral Medicine
+        - Blood Transfusions
+        - Boarding
+        - Dental Care
+        - Emergencies
+  - name: animals
+    type: set
+    values:
+        - Dogs
+        - Cats
+        - Birds
+        - Horses
+        - Small Animals
+        - Reptiles
+        - Amphibians
+        - Fish
+        - Livestock
+  - name: address
+    type: \Norm\Address
+  - name: hours
+    type: \Norm\Hours
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

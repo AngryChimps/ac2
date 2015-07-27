@@ -35,6 +35,7 @@ class AppKernel extends Kernel
             new AngryChimps\MediaBundle\AngryChimpsMediaBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new AngryChimps\TaskBundle\AngryChimpsTaskBundle(),
+            new AngryChimps\ApiSampleBundle\AngryChimpsApiSampleBundle(),
         );
 
         if (true || in_array($this->getEnvironment(), array('dev', 'test', 'local', 'behat', 'behat_dev'))) {

@@ -6,7 +6,7 @@ namespace AngryChimps\ApiBundle\services;
 use AngryChimps\MailerBundle\Messages\BasicMessage;
 use AngryChimps\MailerBundle\Services\MailerService;
 use Armetiz\FacebookBundle\FacebookSessionPersistence;
-use Norm\riak\Member;
+use Norm\Member;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;

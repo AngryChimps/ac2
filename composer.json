@@ -38,7 +38,8 @@
         "imagine/imagine": "~0.5.0",
         "massivescale/celery-php": "*@dev",
         "mjaschen/phpgeo": "*@dev",
-        "php-riak/riak-client": "dev-master"
+        "php-riak/riak-client": "dev-master",
+        "erusev/parsedown": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

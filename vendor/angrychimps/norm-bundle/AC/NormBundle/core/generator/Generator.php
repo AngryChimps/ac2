@@ -64,7 +64,7 @@ class Generator {
 
         $this->createValidations($schema);
 
-        foreach($schema->tables as $table) {
+        foreach($schema->entities as $table) {
             $this->processTable($table, $isTest);
         }
 
@@ -106,7 +106,7 @@ class Generator {
     public function createValidations(Schema $schema) {
         $data = array();
 
-        foreach($schema->tables as $table) {
+        foreach($schema->entities as $table) {
             $tableStarted = false;
             foreach($table->columns as $column) {
                 if(isset($column->validations)) {

@@ -6,7 +6,7 @@ use Riak\Client\Command\DataType\Builder\StoreMapBuilder;
 use Riak\Client\Command\DataType\SetUpdate;
 use Riak\Client\Core\Query\Crdt\RiakMap;
 
-{{#each tables}}
+{{#each entities}}
 
 class {{objectNameWithoutNamespace}} {
     {{#if usesRiak2}}
@@ -26,17 +26,40 @@ class {{objectNameWithoutNamespace}} {
     {{/each}}
     {{/each}}
 
+    {{#each subclasses}}
+    /** @return {{type}} */
+    public function get{{propertyNameCapitalized}}()
+    {
+    {{#if usesRiak2}}
+
+        if(!isset($this->mapValues['{{propertyName}}'])) {
+            $this->mapValues['{{propertyName}}'] = new {{type}}($this->getRiakMap()->get('{{name}}'));
+        }
+    {{/if}}
+        return $this->mapValues['{{propertyName}}'];
+    }
+    public function set{{propertyNameCapitalized}}($value)
+    {
+        $this->mapValues['{{propertyName}}'] = $value;
+    {{#if usesRiak2}}
+        $this->riakStoreMapBuilder->updateRegister('{{name}}', $value->getAsArray());
+    {{/if}}
+    }
+    {{/each}}
+
     {{#each registers}}
     /** @return {{phpType}} */
     public function get{{propertyNameCapitalized}}()
     {
+    {{#if usesRiak2}}
         if(!isset($this->mapValues['{{propertyName}}'])) {
             {{#if isDateTime}}
-            $this->mapValues['{{propertyName}}'] = new \DateTime($this->getRiakMap()->get('{{columnName}}'));
+            $this->mapValues['{{propertyName}}'] = new \DateTime($this->getRiakMap()->get('{{name}}'));
             {{else}}
-            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{columnName}}');
+            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}');
             {{/if}}
         }
+    {{/if}}
         return $this->mapValues['{{propertyName}}'];
     }
     public function set{{propertyNameCapitalized}}($value)
@@ -44,26 +67,26 @@ class {{objectNameWithoutNamespace}} {
         $this->mapValues['{{propertyName}}'] = $value;
     {{#if usesRiak2}}
         {{#if isDateTime}}
-            $this->riakStoreMapBuilder->updateRegister('{{columnName}}', $value->format('c'));
+        $this->riakStoreMapBuilder->updateRegister('{{name}}', $value->format('c'));
         {{else}}
-            $this->riakStoreMapBuilder->updateRegister('{{columnName}}', $value);
+        $this->riakStoreMapBuilder->updateRegister('{{name}}', $value);
         {{/if}}
     {{/if}}
     }
 
     {{/each}}
     {{#each flags}}
-    public function get{{propertyNameCapitalized}}($value)
+    public function get{{propertyNameCapitalized}}()
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            $this->mapValues['{{propertyName}}'] = (bool) $this->getRiakMap()->get('{{columnName}}');
+            $this->mapValues['{{propertyName}}'] = (bool) $this->getRiakMap()->get('{{name}}');
         }
         return $this->mapValues['{{propertyName}}'];
     }
     public function set{{propertyNameCapitalized}}($value)
     {
         $this->mapValues['{{propertyName}}'] = (bool) $value;
-        $this->getRiakStoreMapBuilder()->updateFlag('{{columnName}}', $value);
+        $this->getRiakStoreMapBuilder()->updateFlag('{{name}}', $value);
     }
 
     {{/each}}
@@ -72,14 +95,29 @@ class {{objectNameWithoutNamespace}} {
     public function get{{propertyNameCapitalized}}()
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{columnName}}');
-        }
+            if($this->getRiakMap() !== null) {
+                 $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}');
+            }
+            else {
+                $this->mapValues['{{propertyName}}'] = [];
+            }
+     }
         return $this->mapValues['{{propertyName}}'];
     }
+     public function set{{propertyNameCapitalized}}(array $value)
+     {
+         $this->mapValues['{{propertyName}}'] = (bool) $value;
+         $this->getRiakStoreMapBuilder()->updateSet('{{name}}', $value);
+     }
     public function addTo{{propertyNameCapitalized}}($value)
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{columnName}}');
+            if($this->getRiakMap() !== null) {
+                $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}');
+            }
+            else {
+                $this->mapValues['{{propertyName}}'] = [];
+            }
         }
 
         if(!in_array($value, $this->mapValues['{{propertyName}}'])) {
@@ -87,13 +125,18 @@ class {{objectNameWithoutNamespace}} {
 
             $setUpdate = new SetUpdate();
             $setUpdate->add($value);
-            $this->getRiakStoreMapBuilder()->updateSet('{{columnName}}', $setUpdate);
+            $this->getRiakStoreMapBuilder()->updateSet('{{name}}', $setUpdate);
         }
     }
     public function removeFrom{{propertyNameCapitalized}}($value)
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{columnName}}');
+            if($this->getRiakMap() !== null) {
+                $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}');
+            }
+            else {
+                $this->mapValues['{{propertyName}}'] = [];
+            }
         }
 
         if(in_array($value, $this->mapValues['{{propertyName}}'])) {
@@ -107,50 +150,55 @@ class {{objectNameWithoutNamespace}} {
 
             $setUpdate    = new SetUpdate();
             $setUpdate->remove($value);
-            $this->getRiakStoreMapBuilder()->updateSet('{{columnName}}', $setUpdate);
+            $this->getRiakStoreMapBuilder()->updateSet('{{name}}', $setUpdate);
         }
     }
     public function update{{propertyNameCapitalized}}($value)
     {
         $this->mapValues['{{propertyName}}'] = $value;
 
-        $this->getRiakStoreMapBuilder()->updateSet('{{columnName}}', $value);
+        $this->getRiakStoreMapBuilder()->updateSet('{{name}}', $value);
     }
     {{/each}}
     {{#each counters}}
     public function get{{propertyNameCapitalized}}()
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{columnName}}');
+            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}');
         }
         return $this->mapValues['{{propertyName}}'];
+    }
+    public function set{{propertyNameCapitalized}}($value)
+    {
+        $this->mapValues['{{propertyName}}'] = (bool) $value;
+        $this->getRiakStoreMapBuilder()->updateCounter('{{name}}', $value);
     }
     public function increment{{propertyNameCapitalized}}($delta)
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{columnName}}');
+            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}');
         }
 
         $this->mapValues['{{propertyName}}'] += $delta;
-        $this->getRiakStoreMapBuilder()->updateCounter('{{columnName}}', $delta);
+        $this->getRiakStoreMapBuilder()->updateCounter('{{name}}', $delta);
     }
     {{/each}}
     {{#each currencies}}
     public function get{{propertyNameCapitalized}}()
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{columnName}}') / 100;
+            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}') / 100;
         }
         return $this->mapValues['{{propertyName}}'];
     }
     public function increment{{propertyNameCapitalized}}($delta)
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{columnName}}' / 100);
+            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}' / 100);
         }
 
         $this->mapValues['{{propertyName}}'] += $delta;
-        $this->getRiakStoreMapBuilder()->updateCounter('{{columnName}}', $delta * 100);
+        $this->getRiakStoreMapBuilder()->updateCounter('{{name}}', $delta * 100);
     }
     {{/each}}
 
@@ -185,6 +233,45 @@ class {{objectNameWithoutNamespace}} {
 }
 
 class {{objectNameWithoutNamespace}}Collection extends \ArrayObject {
+}
+
+{{/each}}
+
+{{#each subclasses}}
+class {{objectNameWithoutNamespace}} {
+    {{#each fields}}
+        /** @var {{phpType}} */
+        public ${{propertyName}};
+
+    {{/each}}
+
+    public function __construct(array $data = null) {
+    {{#each defaults}}
+        {{{statement}}}
+    {{/each}}
+
+        if($data !== null) {
+        {{#each fields}}
+        {{#if typeIsSubclass}}
+            $this->{{propertyName}} = new {{type}}($data['{{name}}']);
+        {{else}}
+            $this->{{propertyName}} = $data['{{name}}'];
+        {{/if}}
+        {{/each}}
+        }
+    }
+
+    public function getAsArray() {
+        $arr = [];
+        {{#each fields}}
+        {{#if typeIsSubclass}}
+        $arr['{{name}}'] = $this->{{propertyName}}->getAsArray();
+        {{else}}
+        $arr['{{name}}'] = $this->{{propertyName}};
+        {{/if}}
+        {{/each}}
+        return $arr;
+    }
 }
 
 {{/each}}

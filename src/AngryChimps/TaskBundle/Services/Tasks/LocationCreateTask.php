@@ -4,7 +4,7 @@
 namespace AngryChimps\TaskBundle\Services\Tasks;
 
 
-use Norm\riak\Location;
+use Norm\Location;
 
 class LocationCreateTask extends AbstractTask {
     protected $member;

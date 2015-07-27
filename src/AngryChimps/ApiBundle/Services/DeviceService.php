@@ -5,8 +5,8 @@ namespace AngryChimps\ApiBundle\services;
 
 
 use AngryChimps\NormBundle\services\NormService;
-use Norm\riak\Device;
-use Norm\riak\Session;
+use Norm\Device;
+use Norm\Session;
 
 class DeviceService {
 
@@ -29,4 +29,5 @@ class DeviceService {
 
         return $device;
     }
+
 }

@@ -1,0 +1,12 @@
+{
+  "payload": {
+    "lat": 37.83436,
+    "lon": -122.43436,
+    "animal": 200,
+    "mobile_location": false,
+    "emergency": false,
+    "walk_in": true,
+    "limit": 10,
+    "offset": 0
+  }
+}

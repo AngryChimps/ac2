@@ -1,0 +1,1 @@
+The reset_code will have been sent to the user via e-mail.

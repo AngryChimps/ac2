@@ -8,7 +8,7 @@ use AC\NormBundle\services\NormCrudService;
 use {{{traitName}}};
 {{/each}}
 
-{{#each tables}}
+{{#each entities}}
 use {{objectName}};
 {{/each}}
 
@@ -17,7 +17,7 @@ class NormBaseService extends NormCrudService {
     use {{traitShortName}};
     {{/each}}
 
-    {{#each tables}}
+    {{#each entities}}
     /**
      * @param $pks array|int|string|\DateTime The primary key/keys values
      * @return {{objectNameWithoutNamespace}}
@@ -35,6 +35,12 @@ class NormBaseService extends NormCrudService {
     public function get{{objectNameWithoutNamespace}}Collection($pks) {
         return $this->getCollectionByPks('{{objectNameWithoutNamespace}}Collection', $pks);
     }
+
+    {{#if primaryIsRiak2}}
+    public function get{{objectNameWithoutNamespace}}CollectionByQuery($query, $limit = null, $offset = 0) {
+        return $this->getCollectionByQuery('{{objectNameWithoutNamespace}}Collection', {{riakSolrIndexName}}, $query, $limit, $offset);
+    }
+    {{/if}}
 
     {{#if isMysql}}
     /**
@@ -82,8 +88,8 @@ class NormBaseService extends NormCrudService {
     {{#if isElasticsearch}}
     public function define{{objectNameWithoutNamespace}}Mapping() {
         $props = [
-            {{#each columns}}
-                '{{columnName}}' => [
+            {{#each fields}}
+                '{{name}}' => [
                     'type' => '{{elasticsearchType}}',
                     'include_in_all' => {{includeInAll}},
                     {{#if indexName}}

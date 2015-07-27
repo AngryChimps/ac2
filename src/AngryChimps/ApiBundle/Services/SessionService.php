@@ -4,7 +4,6 @@
 namespace AngryChimps\ApiBundle\services;
 
 
-use AngryChimps\ApiBundle\Exceptions\InvalidSessionException;
 use Armetiz\FacebookBundle\FacebookSessionPersistence;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -13,7 +12,7 @@ use AngryChimps\NormBundle\services\NormService;
 use Norm\Session;
 use Norm\Member;
 
-class SessionService {
+class SessionService extends AbstractRestService {
     protected $sessionHeaderName;
 
     /** @var Request  */
@@ -22,16 +21,31 @@ class SessionService {
     /** @var  NormService */
     protected $norm;
 
-    public function __construct(RequestStack $request, $sessionHeaderName, NormService $norm) {
+    /** @var DeviceService  */
+    protected $deviceService;
+
+    public function __construct(RequestStack $request, $sessionHeaderName, NormService $norm, DeviceService $deviceService) {
         $this->request = $request->getCurrentRequest();
         $this->sessionHeaderName = $sessionHeaderName;
         $this->norm = $norm;
+        $this->deviceService = $deviceService;
+    }
+
+    public function post($endpoint, $data)
+    {
+        $session = new Session();
+        $session->setId($this->generateToken());
+        $session->setBrowserHash($this->getBrowserHash());
+        $this->norm->create($session);
+
+        $this->deviceService->register($session, $data['device_type'], $data['push_token'], $data['description']);
+        return $session;
     }
 
     protected function generateToken($length = 16) {
         $bytes = openssl_random_pseudo_bytes($length);
         $hex   = bin2hex($bytes);
-        return $hex;
+        return base64_encode(password_hash(microtime(true) . $hex, PASSWORD_DEFAULT));
     }
 
     public function getNewSessionToken() {
@@ -47,56 +61,35 @@ class SessionService {
 
         $session = $this->norm->getSession($sessionToken);
         if($session === null) {
-            $debug = array(
-                'code' => 'Api.SessionService.1a',
-                'human' => 'Unable to find a session with that id',
-            );
-            throw new InvalidSessionException($debug);
+            return 'Unable to find a session with that id';
         }
 
         // Session has user; $_GET has no userId parameter
         if($session->getUserId() !== null && $this->request->query->get('userId') == null) {
-            $debug = array(
-                'code' => 'Api.SessionService.1b',
-                'human' => 'Session has authenticated user, but no $_GET["userId"] parameter',
-            );
-            throw new InvalidSessionException($debug);
+            return 'Session has authenticated user, but no $_GET["userId"] parameter';
         }
 
         // Session has user; $_GET has an empty userId parameter
         if($session->getUserId() !== null && $this->request->query->get('userId') === '') {
-            $debug = array(
-                'code' => 'Api.SessionService.1c',
-                'human' => 'Session has authenticated user, but blank $_GET["userId"] parameter',
-            );
-            throw new InvalidSessionException($debug);
+            return 'Session has authenticated user, but blank $_GET["userId"] parameter';
         }
 
         // Session has no user; $_GET has userId parameter
         if($session->getUserId() === null && !empty($this->request->query->get('userId'))) {
-            $debug = array(
-                'code' => 'Api.SessionService.1d',
-                'human' => 'Session has no authenticated user, but $_GET["userId"] parameter does',
-            );
-            throw new InvalidSessionException($debug);
+            return 'Session has no authenticated user, but $_GET["userId"] parameter does';
         }
 
         if($session->getUserId() !== null && $this->request->query->get('userId') !== null
             && $session->getUserId() != $this->request->query->get('userId'))  {
-            $debug = array(
-                'code' => 'Api.SessionService.1e',
-                'human' => 'Session and $_GET userIds do not match',
-            );
-            throw new InvalidSessionException($debug);
+            return 'Session and $_GET userIds do not match';
         }
 
         if($session->getBrowserHash() !== $this->getBrowserHash()) {
-            $debug = array(
-                'code' => 'Api.SessionService.1f',
-                'human' => 'Session browser hash does not match',
-            );
-            throw new InvalidSessionException($debug);
+            return 'Session browser hash does not match';
         }
+
+        //Returning false to indicate a lack of errors
+        return false;
     }
 
     public function getNewSession() {
@@ -120,6 +113,7 @@ class SessionService {
         }
 
         $user = $this->norm->getMember($session->getUserId());
+
         return $user;
     }
 

@@ -1,0 +1,1 @@
+The services API simply returns a list of all possible services in the system

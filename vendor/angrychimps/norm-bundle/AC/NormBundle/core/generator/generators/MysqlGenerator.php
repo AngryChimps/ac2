@@ -6,11 +6,9 @@ namespace AC\NormBundle\core\generator\generators;
 
 use AC\NormBundle\core\datastore\AbstractDatastore;
 use AC\NormBundle\core\exceptions\UnsupportedColumnType;
-use AC\NormBundle\core\generator\types\PrimaryKey;
 use AC\NormBundle\core\generator\types\Schema;
 use AC\NormBundle\core\generator\types\Table;
 use AC\NormBundle\core\generator\types\Column;
-use AC\NormBundle\core\generator\types\ForeignKey;
 
 class MysqlGenerator extends AbstractGenerator {
     /** @var  AbstractDatastore */
@@ -52,7 +50,7 @@ class MysqlGenerator extends AbstractGenerator {
                 $table->columns[$column->name] = $column;
             }
 
-            $schema->tables[$row['TABLE_NAME']] = $table;
+            $schema->entities[$row['TABLE_NAME']] = $table;
         }
 
         foreach($this->getForeignKeyData() as $row) {
@@ -64,8 +62,8 @@ class MysqlGenerator extends AbstractGenerator {
             $key->referencedColumnName = $row['REFERENCED_COLUMN_NAME'];
 
             $schema->foreignKeys[] = $key;
-            $schema->tables[$key->tableName]->foreignKeys[] = $key;
-            $schema->tables[$key->referencedTableName]->reverseForeignKeys[] = $key;
+            $schema->entities[$key->tableName]->foreignKeys[] = $key;
+            $schema->entities[$key->referencedTableName]->reverseForeignKeys[] = $key;
         }
 print_r($schema);
         return $schema;

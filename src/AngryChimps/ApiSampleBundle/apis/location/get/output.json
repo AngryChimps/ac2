@@ -1,0 +1,96 @@
+{
+  "payload": {
+    "location": {
+      "id": "3661a7548f98e5f4b087b8334ed82c21",
+      "company_id": "3661a7548f98e5f4b087b8334ed82c21",
+      "company_name": "Brentwood Animal Hospital",
+      "location_name": "Main Clinic",
+      "address": {
+        "street1": "230 Dolores Street",
+        "street2": "Suite 212",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": 94114,
+        "phone": "(415) 555-1213",
+        "lat": 37.762822,
+        "lon": -122.437239
+      },
+      "is_mobile": true,
+      "mobile_radius_miles": 2.5,
+      "photos": [
+        "ci/lkjsdfljf.jpg",
+        "ci/afasdffas.jpg",
+        "ci/sfewfsfsa.jpg"
+      ],
+      "services": [
+        100,
+        400,
+        500
+      ],
+      "animals": [
+        100,
+        200,
+        300
+      ],
+      "staff": [
+        {
+          "first": "Bob",
+          "last": "Smitherson",
+          "position": "Veterinarian",
+          "title": "DVM",
+          "education": "UC Davis",
+          "description": "Bob is an amazing vet specializing in...",
+          "photo": "ci/lkjsdfljf.jpg"
+        }
+      ],
+      "reviews": {
+        "count": 23,
+        "results": [
+          {
+            "payload": {
+              "id": "sldjfsljflkjfdso0i82osslfsj",
+              "reviewer_name": "Jane S.",
+              "rating": 3.5,
+              "body": "This was the most awesome vet ever!...",
+              "tagged_staff_ids": [
+                "lkjsdlj23r09uwsdijfslfjsdljsdflj",
+                "lsdjf0982j0ijsljfsfj02j0wijfw0if"
+              ],
+              "created_at": "2015-02-26T09:00:00-0800"
+            }
+          }
+        ]
+      },
+      "hours": {
+        "sunday": {
+          "start": null,
+          "end": null
+        },
+        "monday": {
+          "start": "9:00 am",
+          "end": "5:00 pm"
+        },
+        "tuesday": {
+          "start": "9:00 am",
+          "end": "5:00 pm"
+        },
+        "wednesday": {
+          "start": "9:00 am",
+          "end": "5:00 pm"
+        },
+        "thursday": {
+          "start": "9:00 am",
+          "end": "5:00 pm"
+        },
+        "friday": {
+          "start": "9:00 am",
+          "end": "5:00 pm"
+        },
+        "saturday": {
+          "start": null,
+          "end": null
+        }
+      }
+    }
+  }
+}

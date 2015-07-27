@@ -1,0 +1,41 @@
+datastores:
+  - name: riak_ds
+    type: primary
+    method: riak2_map
+
+primary_keys:
+  - id
+
+fields:
+  - name: id
+    type: Uuid
+    auto_generate: true
+  - name: member_id
+    type: string
+  - name: first
+    type: string
+  - name: last
+    type: string
+  - name: title
+    type: string
+  - name: position
+    type: string
+  - name: education
+    type: string
+  - name: email
+    type: string
+  - name: description
+    type: string
+  - name: photo
+    type: string
+  - name: location_ids
+    type: string[]
+  - name: status
+    type: enum
+    values:
+      - Enabled
+      - Disabled
+  - name: created_at
+    type: DateTime
+  - name: updated_at
+    type: DateTime

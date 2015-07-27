@@ -6,14 +6,14 @@ fields:
     type: string
     auto_generate: true
   - name: provider_ad
-    type: \Norm\riak\ProviderAd
+    type: \Norm\ProviderAd
   - name: location
-    type: \Norm\riak\Location
+    type: \Norm\Location
   - name: company
-    type: \Norm\riak\Company
+    type: \Norm\Company
   - name: calendar
-    type: \Norm\riak\Calendar
+    type: \Norm\Calendar
   - name: services
-    type: \Norm\riak\Service[]
+    type: \Norm\Service[]
   - name: created_at
     type: DateTime

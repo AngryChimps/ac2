@@ -1,6 +1,6 @@
 <?php
         $structure['namespace'] = '{{namespace}}';
-        $structure['tableNames'] = [{{#each tables}}'{{tableName}}', {{/each}}];
+        $structure['names'] = [{{#each tables}}'{{name}}', {{/each}}];
 
     {{#each datastores}}
         $structure['datastores']['{{name}}']['name'] = '{{name}}';
@@ -15,25 +15,35 @@
     {{/if}}
     {{/each}}
 
-    {{#each tables}}
-        $structure['tables']['{{tableName}}']['name'] = '{{tableName}}';
-        $structure['tables']['{{tableName}}']['objectName'] = '{{objectName}}';
-        $structure['tables']['{{tableName}}']['collectionName'] = '{{objectName}}Collection';
-        $structure['tables']['{{tableName}}']['primaryDatastoreName'] = '{{primaryDatastore.name}}';
+    {{#each entities}}
+        $structure['entities']['{{name}}']['name'] = '{{name}}';
+        $structure['entities']['{{name}}']['objectName'] = '{{objectName}}';
+        $structure['entities']['{{name}}']['collectionName'] = '{{objectName}}Collection';
+        $structure['entities']['{{name}}']['primaryDatastoreName'] = '{{primaryDatastore.name}}';
 
-        $structure['tables']['{{tableName}}']['primaryKeyFieldNames'] = {{{primaryKeyFieldNamesString}}};
-        $structure['tables']['{{tableName}}']['primaryKeyPropertyNames'] = {{{primaryKeyPropertyNamesString}}};
-        $structure['tables']['{{tableName}}']['autoIncrementField'] = '{{autoIncrementField}}';
-        $structure['tables']['{{tableName}}']['autoIncrementProperty'] = '{{autoIncrementProperty}}';
-        $structure['tables']['{{tableName}}']['autoGenerateField'] = '{{autoGenerateField}}';
-        $structure['tables']['{{tableName}}']['autoGenerateProperty'] = '{{autoGenerateProperty}}';
-        $structure['tables']['{{tableName}}']['fieldNames'] = {{{fieldNamesString}}};
-        $structure['tables']['{{tableName}}']['propertyNames'] = {{{propertyNamesString}}};
-        $structure['tables']['{{tableName}}']['fieldTypes'] = {{{fieldTypesString}}};
+        $structure['entities']['{{name}}']['primaryKeyFieldNames'] = {{{primaryKeyFieldNamesString}}};
+        $structure['entities']['{{name}}']['primaryKeyPropertyNames'] = {{{primaryKeyPropertyNamesString}}};
+        $structure['entities']['{{name}}']['autoIncrementField'] = '{{autoIncrementField}}';
+        $structure['entities']['{{name}}']['autoIncrementProperty'] = '{{autoIncrementProperty}}';
+        $structure['entities']['{{name}}']['autoGenerateField'] = '{{autoGenerateField}}';
+        $structure['entities']['{{name}}']['autoGenerateProperty'] = '{{autoGenerateProperty}}';
+        $structure['entities']['{{name}}']['fieldNames'] = {{{fieldNamesString}}};
+        $structure['entities']['{{name}}']['propertyNames'] = {{{propertyNamesString}}};
+        $structure['entities']['{{name}}']['fieldTypes'] = {{{fieldTypesString}}};
+        $structure['entities']['{{name}}']['apiPublicFields'] = {{{apiPublicFieldsString}}};
+        $structure['entities']['{{name}}']['apiPrivateFields'] = {{{apiPrivateFieldsString}}};
+        $structure['entities']['{{name}}']['apiHiddenButSettableFields'] = {{{apiHiddenButSettableFields}}};
 
-        $structure['classes']['{{objectName}}']['tableName'] = '{{tableName}}';
+        $structure['classes']['{{objectName}}']['name'] = '{{name}}';
         $structure['classes']['{{objectName}}']['primaryDatastoreName'] = '{{primaryDatastoreName}}';
-        $structure['classes']['{{objectName}}Collection']['tableName'] = '{{tableName}}';
+        $structure['classes']['{{objectName}}Collection']['name'] = '{{name}}';
         $structure['classes']['{{objectName}}Collection']['primaryDatastoreName'] = '{{primaryDatastoreName}}';
+
+    {{/each}}
+
+    {{#each subclasses}}
+        $structure['subclasses']['{{name}}']['name'] = '{{name}}';
+        $structure['subclasses']['{{name}}']['objectName'] = '{{objectName}}';
+        $structure['classes']['{{objectName}}']['name'] = '{{name}}';
 
     {{/each}}

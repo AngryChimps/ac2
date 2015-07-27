@@ -4,7 +4,7 @@
 namespace AngryChimps\TaskBundle\Services\Tasks;
 
 
-use Norm\riak\Company;
+use Norm\Company;
 
 class CompanyCreateTask extends AbstractTask {
     protected $company;

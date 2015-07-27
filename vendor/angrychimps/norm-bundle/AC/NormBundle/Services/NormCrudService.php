@@ -4,6 +4,7 @@
 namespace AC\NormBundle\services;
 
 use AC\NormBundle\core\exceptions\UnsupportedObjectType;
+use AC\NormBundle\core\Utils;
 use Psr\Log\LoggerInterface;
 use AC\NormBundle\Collector\NormDataCollector;
 
@@ -33,7 +34,7 @@ class NormCrudService
         $this->dataCollector = $dataCollector;
     }
 
-    public function create($obj) {
+    public function create($obj, $data = null) {
         //Setup Debugging
         if ($this->debug) {
             $debug = $this->dataCollector->startCreateQuery($obj);
@@ -46,10 +47,10 @@ class NormCrudService
         $ds = $this->datastoreService->getDatastore($this->infoService->getDatastoreName($class));
 
         if($this->isCollection($obj)) {
-            $ds->createCollection($obj, $debug);
+            $ds->createCollection($obj, $data, $debug);
         }
         else {
-            $ds->createObject($obj, $debug);
+            $ds->createObject($obj, $data, $debug);
         }
 
         //Store debugging data
@@ -158,22 +159,17 @@ class NormCrudService
             $pks = [$pks];
         }
 
-        $primaryKeyFieldNames = $this->infoService->getPkFieldNames($obj);
-        $pkData = [];
-        for($i = 0; $i < count($pks); $i++) {
-            $pkData[array_keys($primaryKeyFieldNames)[$i]] = array_values($pks)[$i];
-
-            $method = 'set' . ucfirst(array_keys($primaryKeyFieldNames)[$i]);
-            $obj->$method(array_values($pks)[$i]);
-        }
-
         $ds = $this->datastoreService->getDatastore($this->infoService->getDatastoreName($className));
-
-        if($ds->populateObjectByPks($obj, $pkData, $debug) === false) {
+        if($ds->populateObjectByPks($obj, $pks, $debug) === false) {
             if ($this->debug) {
                 $this->dataCollector->endQueryFailed($debug, (array) $obj);
             }
             return null;
+        }
+
+        //Use setId() to manually overwrite the default id (__contruct() sets a default value)
+        if(method_exists($obj, 'setId')) {
+            $obj->setId($pks[0]);
         }
 
         if ($this->debug) {
@@ -224,4 +220,49 @@ class NormCrudService
         return implode('|', $pkArray);
     }
 
+    public function getApiPublicArray($obj) {
+        $entityName = $this->infoService->getEntityName(get_class($obj));
+        $fields = $this->infoService->getApiPublicFields($entityName);
+
+        $arr = [];
+        foreach($fields as $field) {
+            $func = 'get' . ucfirst(Utils::field2property($field));
+            $arr[$field] = $obj->$func();
+        }
+
+        return $arr;
+    }
+
+    public function getApiPrivateArray($obj) {
+        $entityName = $this->infoService->getEntityName(get_class($obj));
+        $fields = array_merge($this->infoService->getApiPrivateFields($entityName),
+            $this->infoService->getApiPublicFields($entityName));
+
+        $arr = [];
+        foreach($fields as $field) {
+            $func = 'get' . ucfirst(Utils::field2property($field));
+            $arr[$field] = $obj->$func();
+        }
+
+        return $arr;
+    }
+
+    public function getAsArray($obj) {
+        $entityName = $this->infoService->getEntityName(get_class($obj));
+        $fields = $this->infoService->getFieldNames($entityName);
+
+        $arr = [];
+        foreach($fields as $field) {
+            $func = 'get' . ucfirst(Utils::field2property($field));
+            $value = $obj->$func();
+            if(is_object($value)) {
+                $arr[$field] = (array) $value;
+            }
+            else {
+                $arr[$field] = $value;
+            }
+        }
+
+        return $arr;
+    }
 }

@@ -1,0 +1,14 @@
+
+{
+  "payload": [
+    {"id": 1000, "name": "Dogs"},
+    {"id": 2000, "name": "Cats"},
+    {"id": 3000, "name": "Birds"},
+    {"id": 4000, "name": "Horses"},
+    {"id": 5000, "name": "Reptiles"},
+    {"id": 6000, "name": "Small Animals"},
+    {"id": 7000, "name": "Fish"},
+    {"id": 8000, "name": "Amphibians"},
+    {"id": 9000, "name": "Livestock"}
+  ]
+}

@@ -3,7 +3,7 @@
 
 namespace AngryChimps\SecurityBundle\Security\User;
 
-use Norm\riak\Member;
+use Norm\Member;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -71,6 +71,6 @@ class AcUserProvider implements UserProviderInterface {
      * @return bool
      */
     public function supportsClass($class) {
-        return $class === 'Norm\riak\Member';
+        return $class === 'Norm\Member';
     }
 }

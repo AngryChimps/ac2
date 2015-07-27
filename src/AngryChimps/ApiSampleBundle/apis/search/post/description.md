@@ -1,0 +1,2 @@
+* Instead of the lat/long parameters, a single "address" parameter may be supplied.
+* The rating parameter will only be returned if there are at least X ratings in the system. Make sure to test for its existence.

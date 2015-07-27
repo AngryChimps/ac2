@@ -14,9 +14,9 @@ fields:
   - name: name
     type: string
   - name: availabilities
-    type: \Norm\riak\Availability[]
+    type: \Norm\Availability[]
   - name: bookings
-    type: \Norm\riak\Booking[]
+    type: \Norm\Booking[]
   - name: status
     type: enum
     values:

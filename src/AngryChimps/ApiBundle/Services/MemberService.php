@@ -4,10 +4,11 @@
 namespace AngryChimps\ApiBundle\services;
 
 
+use AC\NormBundle\services\InfoService;
 use AngryChimps\TaskBundle\Services\TaskerService;
 use AngryChimps\TaskBundle\Services\Tasks\MemberCreateTask;
 use AngryChimps\TaskBundle\Services\Tasks\MemberUpdateTask;
-use Norm\norm\Member;
+use Norm\Member;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use AngryChimps\MailerBundle\Messages\BasicMessage;
@@ -15,21 +16,18 @@ use AngryChimps\MailerBundle\Services\MailerService;
 use Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine;
 use AngryChimps\NormBundle\services\NormService;
 
-class MemberService {
+class MemberService extends AbstractRestService {
     /** @var  MailerService */
     protected $mailer;
 
     /** @var TimedTwigEngine  */
     protected $templating;
 
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface */
-    protected $validator;
-
-    /** @var  NormService */
-    protected $norm;
-
     /** @var  TaskerService */
     protected $tasker;
+
+    /** @var SessionService */
+    protected $sessionService;
 
     protected $userModifiableFields = ['name', 'email'];
 
@@ -37,14 +35,30 @@ class MemberService {
                                 TimedTwigEngine $templating,
                                 ValidatorInterface $validator,
                                 NormService $norm,
-                                TaskerService $tasker )
+                                TaskerService $tasker,
+                                InfoService $infoService,
+                                SessionService $sessionService)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
-        $this->validator = $validator;
-        $this->norm = $norm;
         $this->tasker = $tasker;
+        $this->sessionService = $sessionService;
+
+        parent::__construct($norm, $infoService, $validator);
     }
+
+    public function post($endpoint, $data)
+    {
+        $member = parent::post($endpoint, $data);
+
+        //Since we created the new member, let's log them in as well
+        if($member !== false) {
+            $this->sessionService->setSessionUser($member);
+        }
+
+        return $member;
+    }
+
 
     public function update(Member $member, array $changes, array &$errors) {
 

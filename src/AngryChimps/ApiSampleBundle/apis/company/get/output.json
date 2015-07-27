@@ -1,0 +1,21 @@
+{
+  "payload": {
+    "company": {
+      "id": "3661a7548f98e5f4b087b8334ed82c21",
+      "name": "Brentwood Animal Hospital",
+      "email": "brentwoodah@gmail.com",
+      "website": "www.brentwoodah.com",
+      "billing_address": {
+        "street1": "230 Dolores Street",
+        "street2": "Suite 212",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": 94114,
+        "phone": "(415) 555-1213",
+        "lat": 37.762822,
+        "lon": -122.437239
+      },
+      "plan": "Basic"
+    }
+  }
+}

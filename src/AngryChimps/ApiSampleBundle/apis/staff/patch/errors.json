@@ -1,0 +1,6 @@
+[
+  "Error404",
+  "ValidationError",
+  "UserNotAuthorized",
+  "InvalidLocationId"
+]

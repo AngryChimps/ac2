@@ -1,0 +1,6 @@
+{
+  "payload": {
+    "email": "someuser@gmail.com",
+    "password": "UnencryptedPassword"
+  }
+}

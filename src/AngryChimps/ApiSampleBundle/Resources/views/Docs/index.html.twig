@@ -1,0 +1,111 @@
+<style>
+    #apis {
+        float:left;
+        padding: 25px;
+        height: 100%;
+        background-color: lightblue;
+        position: fixed;
+        width: 100px;
+    }
+    #body {
+        position: absolute;
+        left: 185px;
+    }
+    table {
+        margin: 25px;
+    }
+    tr {
+        vertical-align: top;
+    }
+    th {
+        background-color: darkblue;
+        color: white;
+        padding: 10px;
+    }
+    td {
+        background-color: #CCFFFF;
+        padding: 10px;
+    }
+</style>
+
+<div id="apis">
+    <a href="#">Home</a><br /><br />
+    {%  for api in apis %}
+    <a href="#api_{{ api.name }}">{{ api.name|title }}</a><br />
+    {% endfor %}
+</div>
+<div id="body">
+    <h1>CitizenVet Api Reference</h1>
+    {{ main_description|raw }}
+
+
+    {%  for api in apis %}
+    <h2 id="api_{{ api.name }}">{{ api.name|title }} API</h2>
+     {{ api.description|raw }}
+
+        {% for method in api.methods %}
+        <h3>{{ method.name|upper }}</h3>
+        {{ method.description|raw }}
+
+        <table>
+            <tr>
+                <th>Input</th>
+                <th>Output</th>
+            </tr>
+            {% for scenario in method.scenarios %}
+            <tr>
+                <td>
+                    <pre>
+{{ scenario.input }}
+                    </pre>
+                </td>
+                <td>
+                    <pre>
+{{ scenario.output }}
+                    </pre>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <h4>Errors<h4>
+            <ul>
+                {% for error in method.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        <br />
+        {% endfor %}
+        {% for endpoint in api.endpoints %}
+                <h3>{{ endpoint.name|upper }}</h3>
+                {{ endpoint.description|raw }}
+
+                <table>
+                    <tr>
+                        <th>Input</th>
+                        <th>Output</th>
+                    </tr>
+                    {% for scenario in endpoint.scenarios %}
+                    <tr>
+                        <td>
+                    <pre>
+{{ scenario.input }}
+                    </pre>
+                        </td>
+                        <td>
+                    <pre>
+{{ scenario.output }}
+                    </pre>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <h4>Errors<h4>
+                        <ul>
+                            {% for error in endpoint.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        <br />
+        {% endfor %}
+        <br /><br />
+    {% endfor %}

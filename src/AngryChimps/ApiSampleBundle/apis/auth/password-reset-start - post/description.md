@@ -1,0 +1,2 @@
+Note that for security reasons, there is no error response if an e-mail is not found in the database. The wording to
+the user should state that "an e-mail was sent if that address is found in our database" or something like that.

@@ -3,15 +3,16 @@
 
 namespace AngryChimps\ApiBundle\Controller;
 
+use AngryChimps\ApiBundle\services\AbstractRestService;
 use AngryChimps\ApiBundle\Services\SessionService;
-use Norm\riak\Member;
+use Norm\Member;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Psr\Log\LoggerInterface;
 use AngryChimps\ApiBundle\Services\ResponseService;
 
 class AbstractController {
-    /** @var  \Norm\riak\Member */
+    /** @var  \Norm\Member */
     private $user;
 
     /** @var  RequestStack */
@@ -21,7 +22,6 @@ class AbstractController {
      * @return \AngryChimps\ApiBundle\Services\SessionService
      */
     protected $sessionService;
-
 
     private $payload;
     private $content;
@@ -36,12 +36,12 @@ class AbstractController {
         $this->sessionService = $sessionService;
         $this->responseService = $responseService;
 
-        //Check session information
-        if((static::class !== 'AngryChimps\ApiBundle\Controller\SessionController'
-            && static::class !== 'AngryChimps\ApiBundle\Controller\TestController')
-            || $this->getRequest()->getMethod() !== 'GET') {
-            $this->sessionService->checkToken();
-        }
+//        //Check session information
+//        if((static::class !== 'AngryChimps\ApiBundle\Controller\SessionController'
+//            && static::class !== 'AngryChimps\ApiBundle\Controller\TestController')
+//            || $this->getRequest()->getMethod() !== 'GET') {
+//            $this->sessionService->checkToken();
+//        }
 
         //Get the authenticated user if there is one
         if($this->request->query->get('userId')) {
@@ -66,7 +66,7 @@ class AbstractController {
     }
 
     /**
-     * @return \Norm\riak\Member|null
+     * @return \Norm\Member|null
      */
     public function getAuthenticatedUser() {
         return $this->user;

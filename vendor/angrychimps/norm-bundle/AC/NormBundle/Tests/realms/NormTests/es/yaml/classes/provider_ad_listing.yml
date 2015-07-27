@@ -17,6 +17,6 @@ fields:
   - name: rating
     type: float
   - name: availabilities
-    type: \Norm\riak\AvailabilityCollection
+    type: \Norm\AvailabilityCollection
   - name: updated_at
     type: DateTime

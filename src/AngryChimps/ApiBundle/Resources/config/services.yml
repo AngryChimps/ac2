@@ -57,6 +57,8 @@ services:
             - "@validator"
             - "@ac_norm.norm"
             - "@angry_chimps_task.tasker"
+            - "@ac_norm.info"
+            - "@angry_chimps_api.session"
     angry_chimps_api.company:
         class: "%angry_chimps_api.company.class%"
         arguments:
@@ -88,6 +90,7 @@ services:
           - "@request_stack"
           - "%angry_chimps_api.session_header_name%"
           - "@ac_norm.norm"
+          - "@angry_chimps_api.device"
     angry_chimps_api.categories:
         class: "%angry_chimps_api.categories.class%"
     angry_chimps_api.signup:
@@ -173,6 +176,7 @@ services:
                 - "@angry_chimps_api.response"
                 - "@angry_chimps_api.member"
                 - "@angry_chimps_api.auth"
+                - "@ac_norm.info"
 
     angry_chimps_api.auth.controller:
             class:     "%angry_chimps_api.controller.auth.class%"

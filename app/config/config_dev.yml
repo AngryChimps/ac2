@@ -72,7 +72,7 @@ ac_norm:
             password: "zBkt4oHIcFci"
         es_ds:
             driver: "elasticsearch"
-            index_name: ac
+            index_name: ac_dev
             default_analyzer: english
             shards: 4
             replicas: 1

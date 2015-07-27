@@ -162,9 +162,9 @@ abstract class AbstractDatastore {
         $tableInfo = self::$infoService->getTableInfo($class);
 
         $pkArray = [];
-        for($i = 0; $i < count($tableInfo['primaryKeyPropertyNames']); $i++) {
-            $propertyName = $tableInfo['primaryKeyPropertyNames'][$i];
-            $methodName = 'get' . ucfirst($propertyName);
+        for($i = 0; $i < count($tableInfo['primaryKeyFieldNames']); $i++) {
+            $fieldName = $tableInfo['primaryKeyFieldNames'][$i];
+            $methodName = 'get' . ucfirst(Utils::field2property($fieldName));
             if($tableInfo['fieldTypes'][$i] === 'DateTime') {
                 $pkArray[] = $obj->$methodName()->format('c');
             }
