@@ -57,22 +57,15 @@ ac_norm:
     debug: true
     datastores:
         riak_ds:
-            driver: "riak_blob"
+            driver: riak2
             servers:
               -
-                host: "localhost"
+                host: "127.0.0.1"
                 port: 8087
-            prefix: __norm_classmaps_behat_dev_
-        mysql_ds:
-            driver: "mysql"
-            db_name: "ac"
-            host: "acdb.ckqkc6zyc9bn.us-east-1.rds.amazonaws.com"
-            port: 3306
-            user: "root"
-            password: "zBkt4oHIcFci"
+            prefix: __norm_behat_dev_
         es_ds:
             driver: "elasticsearch"
-            index_name: ac
+            index_name: ac_behat_dev
             default_analyzer: english
             shards: 4
             replicas: 1
