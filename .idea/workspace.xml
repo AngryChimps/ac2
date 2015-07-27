@@ -8,448 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3689bbd9-d2b9-48ad-920c-675fe0f9a3e5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/AbstractEntityOrSubclass.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/AbstractRestController.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/AbstractRestService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/BookingService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/CalendarService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/CategoriesService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/CommentService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/CompanyMediaService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/CompanyReviewService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/CompanyService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/services/DocsService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Entity.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Field.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/GuzzleService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/LocationService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/MemberMediaService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/ProviderAdImmutableService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/ProviderAdService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/SearchService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/ServiceService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/old/SignupService.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Subclass.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/subclasses/address.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/animals/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/password-reset-finish - post/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/password-reset-start - post/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/inquiry/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/inquiry/post/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/patch/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/post/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/message/delete/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/message/patch/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/services/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/session/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/session/post/description.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/company/get/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/company/patch/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/company/post/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/inquiry/post/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/get/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/patch/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/post/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/member/get/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/member/patch/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/member/post/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/search/post/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/staff/get/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/staff/patch/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/staff/post/errors.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/subclasses/hours.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/Resources/views/Docs/index.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/Resources/views/Simulator/index.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/animals/get/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/scenario_1/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/scenario_2/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/logout - get/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/password-reset-finish - post/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/password-reset-start - post/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/company/patch/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/company/post/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/inquiry/post/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/patch/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/post/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/member/patch/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/member/post/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/message/patch/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/message/post/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_1/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_2/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_3/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_4/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/review/post/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/services/get/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/session/post/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/staff/patch/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/staff/post/input.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/location.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/member-patch.feature" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/member-post.feature" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/member_address.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/animals/get/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/scenario_1/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/scenario_2/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/password-reset-start - post/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/company/get/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/company/post/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/get/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/post/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/member/get/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/member/post/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/message/get/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_1/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_2/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_3/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_4/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/review/get/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/services/get/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/session/post/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/staff/get/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/staff/post/output.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/review.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/session-post.feature" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/staff.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/subclasses/timespan.yml" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\BookingService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CalendarService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CategoriesService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CommentService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CompanyMediaService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CompanyReviewService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\CompanyService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\GuzzleService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\LocationService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\MemberMediaService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\ProviderAdImmutableService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\ProviderAdService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\SearchService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\ServiceService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\SignupService.php" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\location.yml" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\member_address.yml" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\review.yml" afterPath="" />
-      <change type="DELETED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\generator\types\PrimaryKey.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractCacheDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractCacheDatastore.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/AbstractController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/AbstractController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractDatastore.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/AbstractElasticsearchTestCase.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/AbstractElasticsearchTestCase.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/AbstractFeatureContext.php" afterPath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/AbstractFeatureContext.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/AbstractGenerator.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/AbstractGenerator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/AbstractMysqlTestCase.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/AbstractMysqlTestCase.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/AbstractNormException.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/AbstractNormException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractPdoDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractPdoDatastore.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/AbstractPdoTestCase.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/AbstractPdoTestCase.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/AbstractProfiler.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/AbstractProfiler.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRedisDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRedisDatastore.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak1Datastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak1Datastore.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak2Datastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak2Datastore.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/Tests/AbstractRiakTestCase.php" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/Tests/AbstractRiakTestCase.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/AbstractRiakTestCase.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/AbstractRiakTestCase.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\AbstractTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/AbstractTask.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/Tests/AbstractTestCase.php" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/Tests/AbstractTestCase.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/AbstractTestCase.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/AbstractTestCase.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SecurityBundle/Security/User/AcUserProvider.php" afterPath="$PROJECT_DIR$/src/AngryChimps/SecurityBundle/Security/User/AcUserProvider.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/GeoBundle/Classes/Address.php" afterPath="$PROJECT_DIR$/src/AngryChimps/GeoBundle/Classes/Address.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/Address.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/Address.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/AddressCollection.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/AddressCollection.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/test/AddressCollectionTest.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/test/AddressCollectionTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/test/AddressTest.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/test/AddressTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SecurityBundle/Security/User/ApiKeyAuthenticator.php" afterPath="$PROJECT_DIR$/src/AngryChimps/SecurityBundle/Security/User/ApiKeyAuthenticator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/AppKernel.php" afterPath="$PROJECT_DIR$/app/AppKernel.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\AuthService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/AuthService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.handlebars" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/BaseService.handlebars" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/MailerBundle/Messages/BasicMessage.php" afterPath="$PROJECT_DIR$/src/AngryChimps/MailerBundle/Messages/BasicMessage.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Command/BehatDevTestCommand.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Command/BehatDevTestCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Command/BehatLocalTestCommand.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Command/BehatLocalTestCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/CalendarTest.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/CalendarTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/CannotChangePrimaryKeyException.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/CannotChangePrimaryKeyException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Classes.handlebars" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Classes.handlebars" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/db_classes/Column.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/db_classes/Column.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Column.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Column.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/Company.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/Company.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/CompanyCollection.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/CompanyCollection.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\CompanyCreateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/CompanyCreateTask.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/CompanyPerson.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/CompanyPerson.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/CompanyPersonCollection.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/CompanyPersonCollection.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/test/CompanyTest.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/test/CompanyTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/CompanyTest.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/CompanyTest.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\CompanyUpdateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/CompanyUpdateTask.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\CreatorService.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/CreatorService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/Customer.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/Customer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/CustomerCollection.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/CustomerCollection.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/db_classes/Database.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/db_classes/Database.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Datastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Datastore.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\realmInfoClasses\Datastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/realmInfoClasses/Datastore.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/DatastoreManager.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/DatastoreManager.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\DatastoreService.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/DatastoreService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\DeviceService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/DeviceService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/ElasticsearchDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/ElasticsearchDatastore.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\ElasticsearchTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/ElasticsearchTrait.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Enum.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Enum.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/EsCreateIndexCommand.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/EsCreateIndexCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/EsDeleteIndexCommand.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/EsDeleteIndexCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/EsMapCommand.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/EsMapCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/EsResetCommand.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/EsResetCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/AcBundle/Controller/ExceptionController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/AcBundle/Controller/ExceptionController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/EventListener/ExceptionListener.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/EventListener/ExceptionListener.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" afterPath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateCommand.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateTestCommand.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/GenerateTestCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/Generator.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/Generator.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\SampleBundle\services\GeneratorService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/services/GeneratorService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\GeoBundle\services\GeolocationService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/GeoBundle/services/GeolocationService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/GuzzleBundle/Services/GuzzleService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/GuzzleBundle/Services/GuzzleService.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\InfoService.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/InfoService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Exceptions/InvalidSessionException.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Exceptions/InvalidSessionException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/EventListener/KernelTerminateListener.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ion/LICENSE.txt" afterPath="$PROJECT_DIR$/ion/LICENSE.txt" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\LocationCreateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/LocationCreateTask.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/LocationTest.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/LocationTest.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\LocationUpdateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/LocationUpdateTask.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/MailerBundle/Services/MailerService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/MailerBundle/Services/MailerService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Services/MediaService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/MediaBundle/Services/MediaService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/MemberController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/MemberController.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\MemberCreateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/MemberCreateTask.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\MemberService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/MemberService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/Tests/realms/riak/MemberTest.php" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/Tests/realms/riak/MemberTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/MemberTest.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/MemberTest.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\Tasks\MemberUpdateTask.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/Tasks/MemberUpdateTask.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/MethodNotImplemented.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/MethodNotImplemented.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/MySQL.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/MySQL.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/MysqlGenerator.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/MysqlGenerator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/MysqlPdoDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/MysqlPdoDatastore.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\MysqlTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/MysqlTrait.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/Norm.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/Norm.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\realmInfoClasses\Norm.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/realmInfoClasses/Norm.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/NormBaseCollection.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/NormBaseCollection.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/NormBaseCollection.txt" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/NormBaseCollection.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/NormBaseObject.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/NormBaseObject.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/NormBaseObject.txt" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/NormBaseObject.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/NormCollection.txt" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/NormCollection.txt" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\NormCrudService.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/NormCrudService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Collector/NormDataCollector.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Collector/NormDataCollector.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/services/NormEsService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/services/NormMysqlService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/services/NormMysqlService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/NormObject.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/NormObject.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/NormObject.txt" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/NormObject.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/NormObjectLocalStore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/NormObjectLocalStore.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/services/NormRiakService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/services/NormRiakService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/services/NormService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/services/NormService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/ObjectAlreadyDeletedException.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/ObjectAlreadyDeletedException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/OneColumnQueryException.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/OneColumnQueryException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/OneValueQueryException.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/OneValueQueryException.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\PdoTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/PdoTrait.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/Person.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/Person.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/PersonCollection.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/PersonCollection.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/test/PersonTest.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/test/PersonTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/es/ProviderAdListing.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/es/ProviderAdListing.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/es/ProviderAdListingCollection.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/es/ProviderAdListingCollection.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/es/test/ProviderAdListingTest.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/es/test/ProviderAdListingTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/ProviderAdTest.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/test/ProviderAdTest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/doc/README.md" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/doc/README.md" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\realmInfoClasses\Realm.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/realmInfoClasses/Realm.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RedisBlobDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RedisBlobDatastore.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RedisHashDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/RedisHashDatastore.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\ResponseService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/ResponseService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak1BlobDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak1BlobDatastore.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\Riak1BlobTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak1BlobTrait.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\Riak2BlobTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2BlobTrait.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak2MapDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak2MapDatastore.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\Riak2MapTrait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2MapTrait.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\traits\Riak2Trait.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/traits/Riak2Trait.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/AdminBundle/Controller/RiakController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/AdminBundle/Controller/RiakController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/RiakCreateTypesCommand.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/RiakCreateTypesCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/AdminBundle/FormEntities/RiakQueryFormEntity.php" afterPath="$PROJECT_DIR$/src/AngryChimps/AdminBundle/FormEntities/RiakQueryFormEntity.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/RiakSolrEnum.handlebars" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/RiakSolrEnum.handlebars" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/RiakSolrSchema.handlebars" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/RiakSolrSchema.handlebars" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Schema.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Schema.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Service.handlebars" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Service.handlebars" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SessionController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/SessionController.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\ApiBundle\services\SessionService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/SessionService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/validators/StandardValidators.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/validators/StandardValidators.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Structure.handlebars" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/templates/Structure.handlebars" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/db_classes/Table.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/db_classes/Table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Table.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/Table.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\realmInfoClasses\Table.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/realmInfoClasses/Table.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\TaskBundle\services\TaskerService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/TaskBundle/services/TaskerService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/test/Test.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/test/Test.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/TestCommand.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Command/TestCommand.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/AcBundle/Controller/TestController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/AcBundle/Controller/TestController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/TestController.php" />
-      <change type="MODIFICATION" beforePath="E:\ac\src\AngryChimps\GeoBundle\services\TimeService.php" afterPath="$PROJECT_DIR$/src/AngryChimps/GeoBundle/services/TimeService.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/UnsupportedColumnType.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/UnsupportedColumnType.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/UnsupportedObjectTypeException.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/exceptions/UnsupportedObjectTypeException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/Utils.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/Utils.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/DependencyInjection/Compiler/ValidatorPass.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/DependencyInjection/Compiler/ValidatorPass.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/generators/YamlGenerator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ac.iml" afterPath="$PROJECT_DIR$/.idea/ac.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/config/ac_norm.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/config/ac_norm.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/config/ac_norm_test.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/config/ac_norm_test.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/ad.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/ad.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/address.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/address.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/yaml/classes/address.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/yaml/classes/address.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/autoload_old.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/autoload_old.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/availability.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/availability.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/behat.yml" afterPath="$PROJECT_DIR$/behat.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/behat_dev.yml" afterPath="$PROJECT_DIR$/behat_dev.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/booking.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/booking.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/booking_detail.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/booking_detail.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/hair_stylists/brian_roberts.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/hair_stylists/brian_roberts.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/plumbers/caccia.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/plumbers/caccia.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/calendar.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/calendar.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/yaml/classes/comment.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/yaml/classes/comment.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/company.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/company.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/yaml/classes/company.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/yaml/classes/company.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_ads.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_ads.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/company_member.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/company_member.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/yaml/classes/company_person.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/yaml/classes/company_person.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_photos.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_photos.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_reviews.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_reviews.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/company_services.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.json" afterPath="$PROJECT_DIR$/composer.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_behat.yml" afterPath="$PROJECT_DIR$/app/config/config_behat.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_dev.yml" afterPath="$PROJECT_DIR$/app/config/config_dev.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_local.yml" afterPath="$PROJECT_DIR$/app/config/config_local.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/yaml/classes/customer.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/yaml/classes/customer.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/device.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/device.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/diamond_dental.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/diamond_dental.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/hair_stylists/edo.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/hair_stylists/edo.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/views/emailBase.html.twig" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/views/emailBase.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/views/emailBase.txt.twig" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/views/emailBase.txt.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/hair_stylists/honeycomb.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/hair_stylists/honeycomb.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/index.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/db_profiler/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/lake.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/lake.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/location.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/location.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/location.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/location.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/member-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/member-get.feature" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/member.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/member.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/yaml/member.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/riak/yaml/member.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member_address.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member_address.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member_company.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member_company.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/member_profile.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/mysql/yaml/classes/member_profile.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member_profile.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/member_profile.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/message.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/message.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/message_flag.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/message_flag.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Resources/views/Collector/norm_data_collector.html.twig" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Resources/views/Collector/norm_data_collector.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/yaml/classes/person.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/mysql/yaml/classes/person.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pre_app.php" afterPath="$PROJECT_DIR$/web/pre_app.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad_flag.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad_flag.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad_immutable.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/provider_ad_immutable.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/yaml/classes/provider_ad_listing.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/es/yaml/classes/provider_ad_listing.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/es/yaml/classes/provider_ad_listing.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/realms/NormTests/es/yaml/classes/provider_ad_listing.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/purchase.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/purchase.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/quare.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/quare.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/views/AuthService/resetPasswordEmail.txt.twig" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/views/AuthService/resetPasswordEmail.txt.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/review.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/review.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/review_flag.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/review_flag.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/routing.yml" afterPath="$PROJECT_DIR$/app/config/routing.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/routing.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/sean.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/sean.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/security.yml" afterPath="$PROJECT_DIR$/app/config/security.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/service.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/service.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/session.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/session.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/test_data.xml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Tests/test_data.xml" />
-      <change type="MODIFICATION" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\services\realmInfoClasses\testdata.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/realmInfoClasses/testdata.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Resources/validation.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Resources/validation.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Resources/config/validation/validation.yml" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/Resources/config/validation/validation.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/velasco.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/velasco.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/wash_sq_park_dental.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/SampleBundle/samples/dentists/wash_sq_park_dental.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/zipcode.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/realms/Norm/riak/yaml/classes/zipcode.yml" />
-      <change type="MOVED" beforePath="E:\ac\features\bootstrap\AngryChimps\ApiBundle\Features\Context\AbstractFeatureContext.php" afterPath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context_old/AbstractFeatureContext.php" />
-      <change type="MOVED" beforePath="E:\ac\features\bootstrap\AngryChimps\ApiBundle\Features\Context\FeatureContext.php" afterPath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context_old/FeatureContext_old.php" />
-      <change type="MOVED" beforePath="E:\ac\features\bootstrap\AngryChimps\ApiBundle\Features\Context\Setup.php" afterPath="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context_old/Setup.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\AuthController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/AuthController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\AvailabilityController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/AvailabilityController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\BookingController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/BookingController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\CalendarController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/CalendarController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\CategoriesController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/CategoriesController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\CommentController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/CommentController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\CompanyController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/CompanyController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\CompanyMediaController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/CompanyMediaController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\CompanyReviewController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/CompanyReviewController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\DefaultController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/DefaultController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\LocationController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/LocationController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\MemberMediaController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/MemberMediaController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\ProviderAdImmutableController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/ProviderAdImmutableController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\SearchController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/SearchController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\ServiceController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/ServiceController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Controller\SignupController.php" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Controller/old/SignupController.php" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\auth-login-form.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/auth-login-form.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\auth-registration-form.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/auth-registration-form.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\availability-delete.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/availability-delete.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\availability-post.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/availability-post.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\booking-delete.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/booking-delete.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\booking-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/booking-get.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\booking-post.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/booking-post.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\calendar-delete.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/calendar-delete.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\calendar-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/calendar-get.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\calendar-post.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/calendar-post.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\calendar-put.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/calendar-put.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\categories-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/categories-get.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\comment-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/comment-get.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\comment-post.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/comment-post.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\company-delete.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/company-delete.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\company-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/company-get.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\company-post.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/company-post.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\company-put.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/company-put.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\location-delete.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/location-delete.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\location-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/location-get.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\location-post.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/location-post.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\location-put.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/location-put.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\member-delete.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/member-delete.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\member-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/member-get.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\member-put.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/member-put.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\service-delete.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/service-delete.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\service-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/service-get.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\service-post.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/service-post.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\service-put.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/service-put.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\session-get.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/session-get.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\signup-registerProviderAd.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/signup-registerProviderAd.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\ApiBundle\Features\signup-registerProviderCompany.feature" afterPath="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features_old/signup-registerProviderCompany.feature" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\availability.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/availability.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\booking.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/booking.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\booking_detail.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/booking_detail.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\calendar.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/calendar.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\company.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/company.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\company_ads.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/company_ads.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\company_photos.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/company_photos.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\company_reviews.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/company_reviews.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\company_services.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/company_services.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\device.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/device.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\member.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/member.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\member_company.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/member_company.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\member_profile.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/member_profile.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\message.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/message.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\message_flag.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/message_flag.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\provider_ad.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/provider_ad.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\provider_ad_flag.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/provider_ad_flag.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\provider_ad_immutable.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/provider_ad_immutable.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\purchase.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/purchase.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\review_flag.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/review_flag.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\service.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/old_classes/service.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\session.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/session.yml" />
-      <change type="MOVED" beforePath="E:\ac\src\AngryChimps\NormBundle\yaml\classes\zipcode.yml" afterPath="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/zipcode.yml" />
-      <change type="MOVED" beforePath="E:\ac\vendor\angrychimps\norm-bundle\AC\NormBundle\core\generator\types\TableDatastore.php" afterPath="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/generator/types/EntityDatastore.php" />
     </list>
     <ignored path="ac.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -473,34 +34,61 @@
     <splitter split-orientation="horizontal" split-proportion="0.43835616">
       <split-first>
         <leaf>
-          <file leaf-file-name="DocsController.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/Controller/DocsController.php">
+          <file leaf-file-name="AbstractFeatureContext.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/AbstractFeatureContext.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-10.461538">
-                  <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+                <state vertical-scroll-proportion="-12.461538">
+                  <caret line="151" column="42" selection-start-line="151" selection-start-column="42" selection-end-line="151" selection-end-column="42" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="description.md" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/description.md">
+          <file leaf-file-name="output.json" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_1/output.json">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="-0.0">
                   <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
-              <provider editor-type-id="MarkdownPreviewEditor">
-                <state />
+            </entry>
+          </file>
+          <file leaf-file-name="output.json" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/scenario_1/output.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-11.115385">
+                  <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+                  <folding />
+                </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="AbstractFeatureContext.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/AbstractFeatureContext.php">
+          <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/.gitignore">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.3327674">
-                  <caret line="155" column="36" selection-start-line="155" selection-start-column="36" selection-end-line="155" selection-end-column="36" />
+                <state vertical-scroll-proportion="-6.90625">
+                  <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="config_dev.yml" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.91528237">
+                  <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="input.json" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/scenario_1/input.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-3.2692308">
+                  <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
                   <folding />
                 </state>
               </provider>
@@ -531,7 +119,16 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="-33.0597">
                   <caret line="158" column="82" selection-start-line="158" selection-start-column="82" selection-end-line="158" selection-end-column="82" />
-                  <folding />
+                  <folding>
+                    <marker date="1438032052000" expanded="true" signature="1635:1801" placeholder="angry_chimps_api_company_patch:" />
+                    <marker date="1438032052000" expanded="true" signature="1722:1799" placeholder="defaults:" />
+                    <marker date="1438032052000" expanded="true" signature="2309:2478" placeholder="angry_chimps_api_location_patch:" />
+                    <marker date="1438032052000" expanded="true" signature="2398:2476" placeholder="defaults:" />
+                    <marker date="1438032052000" expanded="true" signature="2982:3148" placeholder="angry_chimps_api_service_patch:" />
+                    <marker date="1438032052000" expanded="true" signature="3069:3146" placeholder="defaults:" />
+                    <marker date="1438032052000" expanded="true" signature="5702:5878" placeholder="angry_chimps_api_calendar_patch:" />
+                    <marker date="1438032052000" expanded="true" signature="5799:5877" placeholder="defaults:" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -573,8 +170,18 @@
           <file leaf-file-name="CreatorService.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/CreatorService.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-13.730769">
-                  <caret line="415" column="63" selection-start-line="415" selection-start-column="63" selection-end-line="415" selection-end-column="63" />
+                <state vertical-scroll-proportion="-3.9230769">
+                  <caret line="289" column="13" selection-start-line="289" selection-start-column="13" selection-end-line="289" selection-end-column="13" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="config_local.yml" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.91528237">
+                  <caret line="75" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -600,11 +207,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="session-post.feature" pinned="false" current-in-tab="true">
+          <file leaf-file-name="session-post.feature" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/session-post.feature">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.18355481">
-                  <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
                   <folding />
                 </state>
               </provider>
@@ -647,8 +254,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/DeviceService.php" />
-        <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/session.yml" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/services/ResponseService.php" />
         <option value="$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/AbstractRiak2Datastore.php" />
@@ -698,6 +303,8 @@
         <option value="$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/FeatureContext.php" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/member-patch.feature" />
         <option value="$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/member-delete.feature" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/app/config/config_dev.yml" />
       </list>
     </option>
   </component>
@@ -3090,13 +2697,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/location/post/output.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/member/get/output.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.5384617">
@@ -3182,14 +2782,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/cache/local/norm/structure.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.576923">
-          <caret line="103" column="91" selection-start-line="103" selection-start-column="91" selection-end-line="103" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Resources/config/services.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3232,14 +2824,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/cache/local/norm/NormBaseService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5384617">
-          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/member.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3264,26 +2848,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/CreatorService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.730769">
-          <caret line="415" column="63" selection-start-line="415" selection-start-column="63" selection-end-line="415" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/Riak2MapDatastore.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.5384617">
           <caret line="125" column="27" selection-start-line="125" selection-start-column="27" selection-end-line="125" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/cache/local/norm/classes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-35.46154">
-          <caret line="915" column="9" selection-start-line="915" selection-start-column="9" selection-end-line="915" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -3313,14 +2881,6 @@
           <folding>
             <element signature="e#52#106#0#PHP" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/scenario_1/output.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.2692308">
-          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3367,14 +2927,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_1/output.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_3/input.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.576923">
@@ -3407,14 +2959,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/scenario_1/input.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0721562">
-          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_4/input.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.101018675">
@@ -3443,7 +2987,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-33.0597">
           <caret line="158" column="82" selection-start-line="158" selection-start-column="82" selection-end-line="158" selection-end-column="82" />
-          <folding />
+          <folding>
+            <marker date="1438032052000" expanded="true" signature="1635:1801" placeholder="angry_chimps_api_company_patch:" />
+            <marker date="1438032052000" expanded="true" signature="1722:1799" placeholder="defaults:" />
+            <marker date="1438032052000" expanded="true" signature="2309:2478" placeholder="angry_chimps_api_location_patch:" />
+            <marker date="1438032052000" expanded="true" signature="2398:2476" placeholder="defaults:" />
+            <marker date="1438032052000" expanded="true" signature="2982:3148" placeholder="angry_chimps_api_service_patch:" />
+            <marker date="1438032052000" expanded="true" signature="3069:3146" placeholder="defaults:" />
+            <marker date="1438032052000" expanded="true" signature="5702:5878" placeholder="angry_chimps_api_calendar_patch:" />
+            <marker date="1438032052000" expanded="true" signature="5799:5877" placeholder="defaults:" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3481,14 +3034,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/AbstractFeatureContext.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3327674">
-          <caret line="155" column="36" selection-start-line="155" selection-start-column="36" selection-end-line="155" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/member-patch.feature">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3497,10 +3042,74 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/features/bootstrap/AngryChimps/ApiBundle/Features/Context/AbstractFeatureContext.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.461538">
+          <caret line="151" column="42" selection-start-line="151" selection-start-column="42" selection-end-line="151" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/messages/post/scenario_1/output.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/scenario_1/input.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.2692308">
+          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/auth/login - post/scenario_1/output.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.115385">
+          <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/session-post.feature">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18355481">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.90625">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/services/CreatorService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.9230769">
+          <caret line="289" column="13" selection-start-line="289" selection-start-column="13" selection-end-line="289" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.91528237">
+          <caret line="75" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.91528237">
+          <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
           <folding />
         </state>
       </provider>
