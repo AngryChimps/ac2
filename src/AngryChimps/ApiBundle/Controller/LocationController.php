@@ -35,7 +35,40 @@ class LocationController extends AbstractRestController
 
     public function indexGetAction($id)
     {
-        return $this->getGetResponse('location', $id);
+        //Check to see if the token/member_id is valid
+        if($debug = $this->sessionService->checkToken()) {
+            return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
+        }
+
+        /** @var Location $location */
+        $location = $this->locationService->get('location', $id);
+
+        if($location === null) {
+            return $this->responseService->failure(404, ResponseService::ERROR_404);
+        }
+
+        //Get location data
+        if($this->locationService->isOwner($location, $this->getAuthenticatedUser())) {
+            $locationData = ['location' => $this->locationService->getApiPrivateArray($location)];
+        }
+        else {
+            $locationData = ['location' => $this->locationService->getApiPublicArray($location)];
+        }
+
+        //Get company data
+        /** @var Company $company */
+        $company = $this->companyService->get('company', $location->getCompanyId());
+        $companyData = ['company' => $this->companyService->getApiPublicArray($company)];
+
+        //Get staff data
+        $staffData = ['staff' => []];
+
+        //Get review data
+        $reviewData = ['reviews' => []];
+
+        $allData = array_merge($locationData, $companyData, $staffData, $reviewData);
+
+        return $this->responseService->success($allData);
     }
 
     public function indexPostAction()

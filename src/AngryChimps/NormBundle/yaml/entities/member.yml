@@ -28,6 +28,8 @@ fields:
     type: string
   - name: last
     type: string
+  - name: title
+    type: string
   - name: gender
     type: enum
     values:
@@ -73,6 +75,7 @@ api_public_fields:
   - id
   - first
   - last
+  - title
   - photo
 
 api_private_fields:

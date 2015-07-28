@@ -12,29 +12,26 @@ fields:
     auto_generate: true
   - name: member_id
     type: string
-  - name: first
+  - name: company_id
     type: string
-  - name: last
-    type: string
-  - name: title
-    type: string
+  - name: location_ids
+    type: string[]
   - name: position
     type: string
   - name: education
-    type: string
-  - name: email
     type: string
   - name: description
     type: string
   - name: photo
     type: string
-  - name: location_ids
-    type: string[]
   - name: status
     type: enum
     values:
-      - Enabled
-      - Disabled
+      - Active
+      - Deleted
+      - PartiallyConfigured
+  - name: created_by
+    type: string
   - name: created_at
     type: DateTime
   - name: updated_at
