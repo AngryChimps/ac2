@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AC\NormBundle\services;
+namespace AC\NormBundle\Services;
 
 
 use AC\NormBundle\core\generator\types\AbstractEntityOrSubclass;
@@ -237,13 +237,13 @@ class CreatorService
 
             //Setup traitNames if any datastore is of that type
             if($entityData['usesRiak2']) {
-                $entityData['traitFullNames'][] = 'AC\NormBundle\services\traits\Riak2MapTrait';
+                $entityData['traitFullNames'][] = 'AC\NormBundle\Services\traits\Riak2MapTrait';
                 $entityData['traitShortNames'][] = 'Riak2MapTrait';
-                $entityData['traitFullNames'][] = 'AC\NormBundle\services\traits\Riak2Trait';
+                $entityData['traitFullNames'][] = 'AC\NormBundle\Services\traits\Riak2Trait';
                 $entityData['traitShortNames'][] = 'Riak2Trait';
             }
             if($entityData['usesElasticsearch']) {
-                $entityData['traitFullNames'][] = 'AC\NormBundle\services\traits\ElasticsearchTrait';
+                $entityData['traitFullNames'][] = 'AC\NormBundle\Services\traits\ElasticsearchTrait';
                 $entityData['traitShortNames'][] = 'ElasticsearchTrait';
             }
 

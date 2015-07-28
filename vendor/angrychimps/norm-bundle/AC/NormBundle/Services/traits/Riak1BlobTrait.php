@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AC\NormBundle\services\traits;
+namespace AC\NormBundle\Services\traits;
 
 use AC\NormBundle\core\datastore\DatastoreManager;
 use AC\NormBundle\core\exceptions\UnsupportedObjectTypeException;

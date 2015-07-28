@@ -9,17 +9,17 @@ services:
             - { name: data_collector, template: "ACNormBundle:Collector:norm_data_collector.html.twig", id: "norm_data_collector" }
 
     ac_norm.datastore:
-        class: AC\NormBundle\services\DatastoreService
+        class: AC\NormBundle\Services\DatastoreService
         arguments: [%ac_norm.debug%, %ac_norm.datastores%, "@ac_norm.info", "@logger"]
     ac_norm.creator:
-        class: AC\NormBundle\services\CreatorService
+        class: AC\NormBundle\Services\CreatorService
         arguments:  ["%kernel.environment%", "%ac_norm.namespace%", "%ac_norm.datastores%"]
     ac_norm.info:
-        class: AC\NormBundle\services\InfoService
+        class: AC\NormBundle\Services\InfoService
         arguments:  [%kernel.environment%, "@ac_norm.creator"]
 
     ac_norm.norm:
-      class: AngryChimps\NormBundle\services\NormService
+      class: AngryChimps\NormBundle\Services\NormService
       arguments:
             - %ac_norm.debug%
             - @ac_norm.info

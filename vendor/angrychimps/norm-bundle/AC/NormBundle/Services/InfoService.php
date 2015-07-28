@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AC\NormBundle\services;
+namespace AC\NormBundle\Services;
 
 
 use AC\NormBundle\core\generator\types\Norm;
