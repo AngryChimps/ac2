@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AngryChimps\GeoBundle\services;
+namespace AngryChimps\GeoBundle\Services;
 
 use AngryChimps\NormBundle\services\NormService;
 

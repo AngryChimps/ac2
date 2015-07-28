@@ -1,23 +1,23 @@
 parameters:
-    angry_chimps_api.auth.class: AngryChimps\ApiBundle\services\AuthService
-    angry_chimps_api.member.class: AngryChimps\ApiBundle\services\MemberService
-    angry_chimps_api.company.class: AngryChimps\ApiBundle\services\CompanyService
-    angry_chimps_api.location.class: AngryChimps\ApiBundle\services\LocationService
-    angry_chimps_api.service.class: AngryChimps\ApiBundle\services\ServiceService
-    angry_chimps_api.response.class: AngryChimps\ApiBundle\services\ResponseService
-    angry_chimps_api.session.class: AngryChimps\ApiBundle\services\SessionService
-    angry_chimps_api.categories.class: AngryChimps\ApiBundle\services\CategoriesService
-    angry_chimps_api.signup.class: AngryChimps\ApiBundle\services\SignupService
-    angry_chimps_api.provider_ad.class: AngryChimps\ApiBundle\services\ProviderAdService
-    angry_chimps_api.calendar.class: AngryChimps\ApiBundle\services\CalendarService
-    angry_chimps_api.search.class: AngryChimps\ApiBundle\services\SearchService
-    angry_chimps_api.company_media.class: AngryChimps\ApiBundle\services\CompanyMediaService
-    angry_chimps_api.member_media.class: AngryChimps\ApiBundle\services\MemberMediaService
-    angry_chimps_api.provider_ad_immutable.class: AngryChimps\ApiBundle\services\ProviderAdImmutableService
-    angry_chimps_api.calendar.class: AngryChimps\ApiBundle\services\CalendarService
-    angry_chimps_api.booking.class: AngryChimps\ApiBundle\services\BookingService
-    angry_chimps_api.comment.class: AngryChimps\ApiBundle\services\CommentService
-    angry_chimps_api.device.class: AngryChimps\ApiBundle\services\DeviceService
+    angry_chimps_api.auth.class: AngryChimps\ApiBundle\Services\AuthService
+    angry_chimps_api.member.class: AngryChimps\ApiBundle\Services\MemberService
+    angry_chimps_api.company.class: AngryChimps\ApiBundle\Services\CompanyService
+    angry_chimps_api.location.class: AngryChimps\ApiBundle\Services\LocationService
+    angry_chimps_api.service.class: AngryChimps\ApiBundle\Services\ServiceService
+    angry_chimps_api.response.class: AngryChimps\ApiBundle\Services\ResponseService
+    angry_chimps_api.session.class: AngryChimps\ApiBundle\Services\SessionService
+    angry_chimps_api.categories.class: AngryChimps\ApiBundle\Services\CategoriesService
+    angry_chimps_api.signup.class: AngryChimps\ApiBundle\Services\SignupService
+    angry_chimps_api.provider_ad.class: AngryChimps\ApiBundle\Services\ProviderAdService
+    angry_chimps_api.calendar.class: AngryChimps\ApiBundle\Services\CalendarService
+    angry_chimps_api.search.class: AngryChimps\ApiBundle\Services\SearchService
+    angry_chimps_api.company_media.class: AngryChimps\ApiBundle\Services\CompanyMediaService
+    angry_chimps_api.member_media.class: AngryChimps\ApiBundle\Services\MemberMediaService
+    angry_chimps_api.provider_ad_immutable.class: AngryChimps\ApiBundle\Services\ProviderAdImmutableService
+    angry_chimps_api.calendar.class: AngryChimps\ApiBundle\Services\CalendarService
+    angry_chimps_api.booking.class: AngryChimps\ApiBundle\Services\BookingService
+    angry_chimps_api.comment.class: AngryChimps\ApiBundle\Services\CommentService
+    angry_chimps_api.device.class: AngryChimps\ApiBundle\Services\DeviceService
 
     angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
     angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
