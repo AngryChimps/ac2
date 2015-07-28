@@ -4,7 +4,7 @@ services:
 #        arguments: [@service_id, "plain_value", %parameter%]
 
     angry_chimps_task.tasker:
-        class: AngryChimps\TaskBundle\services\TaskerService
+        class: AngryChimps\TaskBundle\Services\TaskerService
         arguments: [ "@ac_norm.norm", "@angry_chimps_geo.geolocation"]
 
 ##############################################################

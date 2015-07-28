@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AngryChimps\TaskBundle\services;
+namespace AngryChimps\TaskBundle\Services;
 
 use AngryChimps\GeoBundle\Services\GeolocationService;
 use AngryChimps\TaskBundle\Services\Tasks\AbstractTask;
