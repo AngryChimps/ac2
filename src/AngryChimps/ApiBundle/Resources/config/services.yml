@@ -73,6 +73,7 @@ services:
             - "@angry_chimps_geo.geolocation"
             - "@ac_norm.norm"
             - "@angry_chimps_api.company"
+            - "@ac_norm.info"
     angry_chimps_api.service:
         class: "%angry_chimps_api.service.class%"
         arguments:
@@ -195,7 +196,13 @@ services:
 
     angry_chimps_api.location.controller:
             class:     "%angry_chimps_api.controller.location.class%"
-            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.location", "@angry_chimps_api.company"]
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.location"
+                - "@angry_chimps_api.company"
+                - "@ac_norm.info"
 
     angry_chimps_api.service.controller:
             class:     "%angry_chimps_api.controller.service.class%"

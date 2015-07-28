@@ -10,7 +10,7 @@ use AngryChimps\NormBundle\services\NormService;
 use Norm\Member;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class AbstractRestService
+abstract class AbstractRestService
 {
     /** @var  NormService */
     protected $norm;
@@ -20,6 +20,8 @@ class AbstractRestService
 
     /** @var ValidatorInterface */
     protected $validator;
+
+    abstract public function isOwner($obj, Member $authenticatedMember);
 
     public function __construct(NormService $norm, InfoService $infoService, ValidatorInterface $validator) {
         $this->norm = $norm;

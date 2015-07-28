@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AngryChimps\ApiBundle\services;
+namespace AngryChimps\ApiBundle\Services;
 
 
 use Norm\es\Comment;

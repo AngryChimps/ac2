@@ -26,39 +26,39 @@ fields:
     type: int
   - name: photos
     type: string[]
-  - name: status
-    type: enum
-    values:
-        - Enabled
-        - Disabled
   - name: services
-    type: set
-    values:
-        - Accupuncture
-        - Anethesia
-        - Bathing
-        - Behavioral Medicine
-        - Blood Transfusions
-        - Boarding
-        - Dental Care
-        - Emergencies
+    type: int[]
   - name: animals
-    type: set
-    values:
-        - Dogs
-        - Cats
-        - Birds
-        - Horses
-        - Small Animals
-        - Reptiles
-        - Amphibians
-        - Fish
-        - Livestock
+    type: int[]
   - name: address
     type: \Norm\Address
   - name: hours
     type: \Norm\Hours
+  - name: status
+    type: enum
+    values:
+        - Active
+        - Deleted
+        - PartiallyConfigured
+  - name: created_by
+    type: string
   - name: created_at
     type: DateTime
   - name: updated_at
     type: DateTime
+
+api_public_fields:
+  - id
+  - company_id
+  - staff_ids
+  - name
+  - is_mobile
+  - mobile_radius_miles
+  - photos
+  - services
+  - animals
+  - address
+  - hours
+
+api_private_fields:
+  - status

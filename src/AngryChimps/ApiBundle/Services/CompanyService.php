@@ -6,6 +6,7 @@ namespace AngryChimps\ApiBundle\Services;
 use AC\NormBundle\services\InfoService;
 use AngryChimps\GeoBundle\services\GeolocationService;
 use Norm\Company;
+use Norm\Member;
 use Norm\MemberCompany;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -22,8 +23,13 @@ class CompanyService extends AbstractRestService {
         $this->geolocationService = $geolocationService;
     }
 
-    public function isOwner($companyId, $memberId) {
-        $role = $this->getRole($memberId, $companyId);
+    /**
+     * @param Company $company
+     * @param Member $authenticatedMember
+     * @return bool
+     */
+    public function isOwner($company, Member $authenticatedMember) {
+        $role = $this->getRole($authenticatedMember->getId(), $company->getId());
         return ($role && $role != MemberCompany::CONSUMER_ROLE);
     }
 

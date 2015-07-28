@@ -1,3 +1,4 @@
 [
-  "ValidationError"
+  "ValidationError",
+  "UserNotAuthorized"
 ]

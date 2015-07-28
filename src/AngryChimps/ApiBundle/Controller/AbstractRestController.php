@@ -7,11 +7,12 @@ use AC\NormBundle\core\Utils;
 use AC\NormBundle\services\InfoService;
 use AngryChimps\ApiBundle\services\AbstractRestService;
 use AngryChimps\ApiBundle\Services\SessionService;
+use Norm\Member;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Psr\Log\LoggerInterface;
 use AngryChimps\ApiBundle\Services\ResponseService;
 
-class AbstractRestController extends AbstractController {
+abstract class AbstractRestController extends AbstractController {
     /** @var  AbstractRestService */
     protected $restService;
 
@@ -55,7 +56,7 @@ class AbstractRestController extends AbstractController {
         return $this->responseService->success([$entityName => ["id" => $obj->getId()]]);
     }
 
-    public function getGetResponse($entityName, $id, $isOwner) {
+    public function getGetResponse($entityName, $id) {
         //Check to see if the token/member_id is valid
         if($debug = $this->sessionService->checkToken()) {
             return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
@@ -67,7 +68,7 @@ class AbstractRestController extends AbstractController {
             return $this->responseService->failure(404, ResponseService::ERROR_404);
         }
 
-        if($isOwner) {
+        if($this->restService->isOwner($obj, $this->getAuthenticatedUser())) {
             return $this->responseService->success([$entityName => $this->restService->getApiPrivateArray($obj)]);
         }
         else {
@@ -75,7 +76,7 @@ class AbstractRestController extends AbstractController {
         }
     }
 
-    public function getPatchResponse($entityName, $id, $isOwner) {
+    public function getPatchResponse($entityName, $id) {
         //Check to see if the token/member_id is valid
         if($debug = $this->sessionService->checkToken()) {
             return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
@@ -84,10 +85,6 @@ class AbstractRestController extends AbstractController {
         //All PATCH apis require authentication
         if($this->getAuthenticatedUser() === null) {
             return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
-        }
-
-        if(!$isOwner) {
-            return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
         }
 
         $payload = $this->getPayload();
@@ -103,6 +100,10 @@ class AbstractRestController extends AbstractController {
             return $this->responseService->failure(404, ResponseService::ERROR_404);
         }
 
+        if(!$this->restService->isOwner($obj, $this->getAuthenticatedUser())) {
+            return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
+        }
+
         $obj = $this->restService->patch($obj, $payload);
 
         if($obj === FALSE) {
@@ -112,7 +113,7 @@ class AbstractRestController extends AbstractController {
         return $this->responseService->success();
     }
 
-    public function getDeleteResponse($entityName, $id, $isOwner) {
+    public function getDeleteResponse($entityName, $id) {
         //Check to see if the token/member_id is valid
         if($debug = $this->sessionService->checkToken()) {
             return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
@@ -123,14 +124,14 @@ class AbstractRestController extends AbstractController {
             return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
         }
 
-        if(!$isOwner) {
-            return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
-        }
-
         $obj = $this->restService->get($entityName, $id);
 
         if($obj === null) {
             return $this->responseService->failure(404, ResponseService::ERROR_404);
+        }
+
+        if(!$this->restService->isOwner($obj, $this->getAuthenticatedUser())) {
+            return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
         }
 
         $this->restService->delete($obj);

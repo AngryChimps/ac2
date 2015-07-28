@@ -47,6 +47,15 @@ class MemberService extends AbstractRestService {
         parent::__construct($norm, $infoService, $validator);
     }
 
+    /**
+     * @param Member $member
+     * @param Member $authenticatedMember
+     * @return bool
+     */
+    public function isOwner($member, Member $authenticatedMember) {
+        return $authenticatedMember && ($authenticatedMember->getId() === $member->getId());
+    }
+
     public function post($endpoint, $data, $additionalData = [])
     {
         $member = parent::post($endpoint, $data, $additionalData);

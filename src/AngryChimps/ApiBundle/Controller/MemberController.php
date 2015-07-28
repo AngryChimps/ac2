@@ -41,9 +41,7 @@ class MemberController extends AbstractRestController
 
     public function indexGetAction($id)
     {
-        $isOwner = $this->getAuthenticatedUser() && ($this->getAuthenticatedUser()->getId() == $id);
-
-        return $this->getGetResponse('member', $id, $isOwner);
+         return $this->getGetResponse('member', $id);
     }
 
     public function indexPostAction() {
@@ -55,26 +53,10 @@ class MemberController extends AbstractRestController
     }
 
     public function indexPatchAction($id) {
-        $user = $this->getAuthenticatedUser();
-
-        if($user === null) {
-            return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
-        }
-
-        $isOwner = ($user->getId() == $id);
-
-        return $this->getPatchResponse('member', $id, $isOwner);
+        return $this->getPatchResponse('member', $id);
     }
 
     public function indexDeleteAction($id) {
-        $user = $this->getAuthenticatedUser();
-
-        if($user === null) {
-            return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
-        }
-
-        $isOwner = ($user->getId() != $id);
-
-        return $this->getPatchResponse('member', $id, $isOwner);
+        return $this->getPatchResponse('member', $id);
     }
 }

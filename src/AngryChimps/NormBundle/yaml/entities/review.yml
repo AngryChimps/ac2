@@ -22,8 +22,8 @@ fields:
     type: string
   - name: rating
     type: int
-  - name: flags
-    type: \Norm\ReviewFlagCollection
+  - name: review_flag_ids
+    type: string[]
   - name: status
     type: enum
     values:

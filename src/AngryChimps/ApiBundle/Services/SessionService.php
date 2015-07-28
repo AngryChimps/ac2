@@ -31,6 +31,11 @@ class SessionService extends AbstractRestService {
         $this->deviceService = $deviceService;
     }
 
+    public function isOwner($obj, Member $authenticatedMember)
+    {
+        return true;
+    }
+
     public function post($endpoint, $data, $additionalData = [])
     {
         $session = new Session();

@@ -1,6 +1,6 @@
 {
   "payload": {
-    "location_name": "Main Clinic",
+    "name": "Main Clinic",
     "address": {
       "street1": "230 Dolores Street",
       "street2": "Suite 212",
@@ -34,31 +34,29 @@
         "end": null
       },
       "monday": {
-        "start": "9:00 am",
-        "end": "5:00 pm"
+        "start": "09:00:00-0800",
+        "end": "17:00:00-0800"
       },
       "tuesday": {
-        "start": "9:00 am",
-        "end": "5:00 pm"
+        "start": "09:00:00-0800",
+        "end": "17:00:00-0800"
       },
       "wednesday": {
-        "start": "9:00 am",
-        "end": "5:00 pm"
+        "start": "09:00:00-0800",
+        "end": "17:00:00-0800"
       },
       "thursday": {
-        "start": "9:00 am",
-        "end": "5:00 pm"
+        "start": "09:00:00-0800",
+        "end": "17:00:00-0800"
       },
       "friday": {
-        "start": "9:00 am",
-        "end": "5:00 pm"
+        "start": "09:00:00-0800",
+        "end": "17:00:00-0800"
       },
       "saturday": {
         "start": null,
         "end": null
-      },
-      "walk_ins": true,
-      "emergencies": true
+      }
     }
   }
 }

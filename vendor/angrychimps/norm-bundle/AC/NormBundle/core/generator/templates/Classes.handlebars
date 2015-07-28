@@ -106,12 +106,17 @@ class {{objectNameWithoutNamespace}} {
 
     {{/each}}
     {{#each sets}}
-     /** @return {{php_type}} */
+     /** @return {{phpType}} */
     public function get{{propertyNameCapitalized}}()
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            if($this->getRiakMap() !== null) {
-                 $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}');
+            if($this->getRiakMap() !== null && $this->getRiakMap()->get('{{name}}') != null) {
+                $arr = [];
+                $values = $this->getRiakMap()->get('{{name}}');
+                foreach($values as $value) {
+                    $arr[] = ({{phpSingularType}}) $value;
+                }
+                $this->mapValues['{{propertyName}}'] = $arr;
             }
             else {
                 $this->mapValues['{{propertyName}}'] = [];

@@ -38,8 +38,7 @@ class CompanyController extends AbstractRestController
 
     public function indexGetAction($id)
     {
-        $isOwner = $this->companyService->isOwner($id, $this->getAuthenticatedUser()->getId());
-        return $this->getGetResponse('company', $id, $isOwner);
+        return $this->getGetResponse('company', $id);
     }
 
     public function indexPostAction()
@@ -54,13 +53,11 @@ class CompanyController extends AbstractRestController
 
     public function indexPatchAction($id)
     {
-        $isOwner = $this->companyService->isOwner($id, $this->getAuthenticatedUser()->getId());
-        return $this->getPatchResponse('company', $id, $isOwner);
+        return $this->getPatchResponse('company', $id);
     }
 
     public function indexDeleteAction($id)
     {
-        $isOwner = $this->companyService->isOwner($id, $this->getAuthenticatedUser()->getId());
-        return $this->getDeleteResponse('company', $id, $isOwner);
+        return $this->getDeleteResponse('company', $id);
     }
 }

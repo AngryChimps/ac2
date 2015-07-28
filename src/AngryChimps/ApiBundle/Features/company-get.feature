@@ -7,7 +7,7 @@ Feature: company-get
     Given I get a new session
     And I create a new member
     And I create a new company
-    When I get the company data for the company
+    When I get the "company" data for id "company.id"
     Then I get a status code "200"
     And I get back a valid json object
     And The response contains a field named "payload.company.id"

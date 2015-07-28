@@ -410,10 +410,14 @@ class CreatorService
                 break;
             case 'set':
                 $fieldData['phpType'] = 'int[]';
+                $fieldData['phpSingularType'] = 'int';
                 $fieldData['elasticsearchType'] = 'int';
                 $fieldData['mysqlType'] = 'set';
                 break;
             default:
+                if(strpos($field->type, '[]') === strlen($field->type) - 2) {
+                    $fieldData['phpSingularType'] = substr($field->type, 0, strlen($field->type) - 2);
+                }
                 $fieldData['phpType'] = $field->type;
                 $fieldData['elasticsearchType'] = $field->type;
                 $fieldData['mysqlType'] = $field->type;

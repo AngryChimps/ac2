@@ -164,10 +164,22 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     }
 
     /**
-     * @When I get the company data for the company
+     * @When I get the :arg1 data for id :arg2
      */
-    public function iGetTheCompanyDataForTheCompany()
+    public function iGetTheDataForId($arg1, $arg2)
     {
-        $this->getData('company/' . $this->getVariable('company.id'));
+        $this->getData($arg1 . '/' . $this->getVariable($arg2));
     }
+
+    /**
+     * @When I create a new location
+     */
+    public function iCreateANewLocation()
+    {
+        $this->requestArray = $this->getSampleRequestArray('location', 'post');
+        $this->requestArray['payload']['company_id'] = $this->getVariable('company.id');
+        $this->postData('location');
+        $this->setVariable('location.id', $this->getResponseFieldValue('payload.location.id'));
+    }
+
 }
