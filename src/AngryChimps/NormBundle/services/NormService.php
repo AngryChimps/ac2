@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AngryChimps\NormBundle\Services;
+namespace AngryChimps\NormBundle\services;
 
 //use Norm\Comment;
 //use Norm\ProviderAdListing;

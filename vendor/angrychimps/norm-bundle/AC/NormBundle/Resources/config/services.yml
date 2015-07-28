@@ -19,7 +19,7 @@ services:
         arguments:  [%kernel.environment%, "@ac_norm.creator"]
 
     ac_norm.norm:
-      class: AngryChimps\NormBundle\Services\NormService
+      class: AngryChimps\NormBundle\services\NormService
       arguments:
             - %ac_norm.debug%
             - @ac_norm.info
