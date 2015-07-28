@@ -153,4 +153,21 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->ensureResponseFieldHasValue($arg1, $arg2);
     }
 
+    /**
+     * @When I create a new company
+     */
+    public function iCreateANewCompany()
+    {
+        $this->requestArray = $this->getSampleRequestArray('company', 'post');
+        $this->postData('company');
+        $this->setVariable('company.id', $this->getResponseFieldValue('payload.company.id'));
+    }
+
+    /**
+     * @When I get the company data for the company
+     */
+    public function iGetTheCompanyDataForTheCompany()
+    {
+        $this->getData('company/' . $this->getVariable('company.id'));
+    }
 }

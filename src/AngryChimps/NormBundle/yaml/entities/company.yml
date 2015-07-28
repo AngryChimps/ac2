@@ -36,9 +36,23 @@ fields:
   - name: status
     type: enum
     values:
-      - Enabled
-      - Disabled
+      - Active
+      - Deleted
+      - PartiallyConfigured
+  - name: created_by
+    type: string
   - name: created_at
     type: DateTime
   - name: updated_at
     type: DateTime
+
+api_public_fields:
+  - id
+  - name
+  - website
+
+api_private_fields:
+  - email
+  - plan
+  - billing_address
+  - status

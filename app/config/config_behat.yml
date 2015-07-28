@@ -64,7 +64,7 @@ ac_norm:
               -
                 host: "localhost"
                 port: 8087
-            prefix: __norm_local_
+            prefix: __norm_behat_
         es_ds:
             driver: "elasticsearch"
             index_name: ac_behat

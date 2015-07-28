@@ -4,7 +4,7 @@ Feature: member-patch
   I need to be able to patch to the member endpoint
 
   Scenario: Get a new session token
-    When I get a new session
+    Given I get a new session
     And I create a new member
     And I have a sample request array for the "member" api, "patch" method
     And I change the request array "payload.first" field to "Sue"

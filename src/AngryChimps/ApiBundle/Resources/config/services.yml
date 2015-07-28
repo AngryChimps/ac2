@@ -64,6 +64,8 @@ services:
         arguments:
             - "@validator"
             - "@ac_norm.norm"
+            - "@ac_norm.info"
+            - "@angry_chimps_geo.geolocation"
     angry_chimps_api.location:
         class: "%angry_chimps_api.location.class%"
         arguments:
@@ -184,7 +186,12 @@ services:
 
     angry_chimps_api.company.controller:
             class:     "%angry_chimps_api.controller.company.class%"
-            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.company"]
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.company"
+                - "@ac_norm.info"
 
     angry_chimps_api.location.controller:
             class:     "%angry_chimps_api.controller.location.class%"

@@ -32,14 +32,14 @@ class AbstractRestService
         $obj = $this->norm->$func($id);
         $class = get_class($obj);
 
-        if(method_exists($obj, 'getStatus') && $obj->getStatus() === $class::DELETED_STATUS) {
+        if(method_exists($obj, 'getStatus') && $obj->getStatus() == $class::DELETED_STATUS) {
             return null;
         }
 
         return $obj;
     }
 
-    public function post($endpoint, $data) {
+    public function post($endpoint, $data, $additionalData = []) {
         $class = $this->infoService->getClassName($endpoint);
         $obj = new $class();
 
@@ -51,6 +51,10 @@ class AbstractRestService
 
         if(count($errors) > 0) {
             return false;
+        }
+
+        foreach($additionalData as $field => $value) {
+            $this->setField($obj, $field, $value);
         }
 
         $this->norm->create($obj);
@@ -84,7 +88,7 @@ class AbstractRestService
     }
 
     protected function setField($obj, $fieldName, $value) {
-        $func = 'set' . ucfirst($fieldName);
+        $func = 'set' . Utils::field2property($fieldName);
         $obj->$func($value);
     }
 

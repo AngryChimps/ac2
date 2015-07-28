@@ -15,6 +15,7 @@ fields:
   - name: role
     type: enum
     values:
+      - Consumer
       - Admin
       - SuperAdmin
   - name: rating

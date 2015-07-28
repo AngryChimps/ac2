@@ -9,10 +9,8 @@
       "city": "San Francisco",
       "state": "CA",
       "zip": 94114,
-      "phone": "(415) 555-1213",
-      "lat": 37.762822,
-      "lon": -122.437239
+      "phone": "(415) 555-1213"
     },
-    "plan": "Basic"
+    "plan": 1
   }
 }

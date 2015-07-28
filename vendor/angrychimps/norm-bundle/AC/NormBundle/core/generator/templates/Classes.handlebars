@@ -27,23 +27,37 @@ class {{objectNameWithoutNamespace}} {
     {{/each}}
 
     {{#each subclasses}}
-    /** @return {{type}} */
+    /** @return {{phpType}} */
     public function get{{propertyNameCapitalized}}()
     {
     {{#if usesRiak2}}
-
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            $this->mapValues['{{propertyName}}'] = new {{type}}($this->getRiakMap()->get('{{name}}'));
+            $this->mapValues['{{propertyName}}'] = new {{phpType}}(json_decode($this->getRiakMap()->get('{{name}}'), true));
         }
     {{/if}}
         return $this->mapValues['{{propertyName}}'];
     }
     public function set{{propertyNameCapitalized}}($value)
     {
-        $this->mapValues['{{propertyName}}'] = $value;
-    {{#if usesRiak2}}
-        $this->riakStoreMapBuilder->updateRegister('{{name}}', $value->getAsArray());
-    {{/if}}
+        if(is_array($value)) {
+            $this->mapValues['{{propertyName}}'] = new {{phpType}}($value);
+            {{#if usesRiak2}}
+            $this->riakStoreMapBuilder->updateRegister('{{name}}', json_encode($value));
+            {{/if}}
+        }
+        elseif(is_object($value)) {
+            $this->mapValues['{{propertyName}}'] = $value;
+            {{#if usesRiak2}}
+            $this->riakStoreMapBuilder->updateRegister('{{name}}', json_encode($value->getAsArray()));
+            {{/if}}
+        }
+        else {
+            $value = json_decode($value, true);
+            $this->mapValues['{{propertyName}}'] = new {{phpType}}($value);
+            {{#if usesRiak2}}
+            $this->riakStoreMapBuilder->updateRegister('{{name}}', json_encode($value));
+            {{/if}}
+        }
     }
     {{/each}}
 
@@ -56,7 +70,8 @@ class {{objectNameWithoutNamespace}} {
             {{#if isDateTime}}
             $this->mapValues['{{propertyName}}'] = new \DateTime($this->getRiakMap()->get('{{name}}'));
             {{else}}
-            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}');
+            $this->mapValues['{{propertyName}}'] = ($this->getRiakMap()->get('{{name}}') === null) ? null
+                : ({{phpType}}) $this->getRiakMap()->get('{{name}}');
             {{/if}}
         }
     {{/if}}

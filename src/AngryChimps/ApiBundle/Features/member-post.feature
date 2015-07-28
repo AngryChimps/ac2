@@ -4,7 +4,7 @@ Feature: member-post
   I need to be able to post to the member endpoint
 
   Scenario: Get a new session token
-    When I get a new session
+    Given I get a new session
     And I create a new member
     Then I get a status code "200"
     And I get back a valid json object

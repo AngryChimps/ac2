@@ -47,9 +47,9 @@ class MemberService extends AbstractRestService {
         parent::__construct($norm, $infoService, $validator);
     }
 
-    public function post($endpoint, $data)
+    public function post($endpoint, $data, $additionalData = [])
     {
-        $member = parent::post($endpoint, $data);
+        $member = parent::post($endpoint, $data, $additionalData);
 
         //Since we created the new member, let's log them in as well
         if($member !== false) {

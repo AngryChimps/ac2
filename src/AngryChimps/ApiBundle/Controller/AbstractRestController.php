@@ -28,10 +28,15 @@ class AbstractRestController extends AbstractController {
         parent::__construct($requestStack, $sessionService, $responseService);
     }
 
-    public function getPostResponse($entityName) {
+    public function getPostResponse($entityName, $additionalData = []) {
         //Check to see if the token/member_id is valid
         if($debug = $this->sessionService->checkToken()) {
             return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
+        }
+
+        //All POST apis other than "member" require authentication
+        if($entityName !== 'member' && $this->getAuthenticatedUser() === null) {
+            return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
         }
 
         $payload = $this->getPayload();
@@ -41,7 +46,7 @@ class AbstractRestController extends AbstractController {
             return $this->responseService->failure(400, ResponseService::UNKNOWN_POST_DATA_FIELD, null, $error);
         }
 
-        $obj = $this->restService->post($entityName, $payload);
+        $obj = $this->restService->post($entityName, $payload, $additionalData);
 
         if($obj === FALSE) {
             return $this->responseService->failure(400, ResponseService::VALIDATION_ERROR);
@@ -70,10 +75,19 @@ class AbstractRestController extends AbstractController {
         }
     }
 
-    public function getPatchResponse($entityName, $id) {
+    public function getPatchResponse($entityName, $id, $isOwner) {
         //Check to see if the token/member_id is valid
         if($debug = $this->sessionService->checkToken()) {
             return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
+        }
+
+        //All PATCH apis require authentication
+        if($this->getAuthenticatedUser() === null) {
+            return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
+        }
+
+        if(!$isOwner) {
+            return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
         }
 
         $payload = $this->getPayload();
@@ -98,10 +112,19 @@ class AbstractRestController extends AbstractController {
         return $this->responseService->success();
     }
 
-    public function getDeleteResponse($entityName, $id) {
+    public function getDeleteResponse($entityName, $id, $isOwner) {
         //Check to see if the token/member_id is valid
         if($debug = $this->sessionService->checkToken()) {
             return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
+        }
+
+        //All DELETE apis require authentication
+        if($this->getAuthenticatedUser() === null) {
+            return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
+        }
+
+        if(!$isOwner) {
+            return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
         }
 
         $obj = $this->restService->get($entityName, $id);

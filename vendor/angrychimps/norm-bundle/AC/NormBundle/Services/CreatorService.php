@@ -261,6 +261,8 @@ class CreatorService
             $fieldData = $this->generateFieldData($field, $entityData);
 
             $entityData['fields'][] = $fieldData;
+            $fieldTypes[] = $fieldData['type'];
+
             if($fieldData['type'] === 'bool') {
                 $entityData['flags'][] = $fieldData;
             }

@@ -5,7 +5,10 @@
       "first": "Emma",
       "last": "Smith",
       "email": "emma@brentwoodah.com",
-      "photo": "mi/fsljcfafdvoiujv.jpg"
+      "photo": "mi/fsljcfafdvoiujv.jpg",
+      "messages": {
+        "count_unread": 1
+      }
     },
     "companies": [
       {
@@ -27,32 +30,6 @@
           }
         ]
       }
-    ],
-    "messages": {
-      "count": 35,
-      "count_unread": 1,
-      "results": [
-        {
-          "message_id": "204582rfkjdfkljsfoiu23r",
-          "sender_name": "John Jamison",
-          "body": "You can call during the day as well today.",
-          "status": "Unread",
-          "created_at": "2015-02-26T09:00:00-0800"
-        },
-        {
-          "message_id": "asf21asdf2raff21fw23f2",
-          "sender_name": "Jill Henderson - Brentwood Animal Hospital",
-          "body": "Thanks for your inquiry. We will call you this evening.",
-          "status": "Read",
-          "created_at": "2015-02-26T09:00:00-0800"
-        },
-        {
-          "message_id": "41faqfassdfrxvve333453rewrf2",
-          "sender_name": "John Jamison",
-          "status": "Replied",
-          "created_at": "2015-02-26T09:00:00-0800"
-        }
-      ]
-    }
+    ]
   }
 }

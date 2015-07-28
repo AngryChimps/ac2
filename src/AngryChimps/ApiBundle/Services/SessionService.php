@@ -31,7 +31,7 @@ class SessionService extends AbstractRestService {
         $this->deviceService = $deviceService;
     }
 
-    public function post($endpoint, $data)
+    public function post($endpoint, $data, $additionalData = [])
     {
         $session = new Session();
         $session->setId($this->generateToken());

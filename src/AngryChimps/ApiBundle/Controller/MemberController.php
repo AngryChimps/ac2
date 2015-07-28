@@ -61,11 +61,9 @@ class MemberController extends AbstractRestController
             return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
         }
 
-        if($user->getId() !== $id) {
-            return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
-        }
+        $isOwner = ($user->getId() == $id);
 
-        return $this->getPatchResponse('member', $id);
+        return $this->getPatchResponse('member', $id, $isOwner);
     }
 
     public function indexDeleteAction($id) {
@@ -75,10 +73,8 @@ class MemberController extends AbstractRestController
             return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
         }
 
-        if($user->getId() !== $id) {
-            return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
-        }
+        $isOwner = ($user->getId() != $id);
 
-        return $this->getPatchResponse('member', $id);
+        return $this->getPatchResponse('member', $id, $isOwner);
     }
 }
