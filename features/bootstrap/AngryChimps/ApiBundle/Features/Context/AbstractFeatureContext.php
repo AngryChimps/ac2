@@ -296,8 +296,10 @@ class AbstractFeatureContext
             }
 
             $request = $this->guzzle->createRequest('PATCH', $url, [
-                'headers' => [$this->sessionHeaderName => $this->sessionId,
-                    'content-type' => 'application/json'],
+                'headers' => [
+                    $this->sessionHeaderName => $this->sessionId,
+                    'content-type' => 'application/json'
+                ],
                 'json' => $this->requestArray,
                 'exceptions' => false,
             ]);

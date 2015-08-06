@@ -15,10 +15,12 @@ use AC\NormBundle\core\generator\types\EntityDatastore;
 class YamlGenerator extends AbstractGenerator {
     protected $namespace;
     protected $datastores;
+    protected $defaults;
 
-    public function __construct($namespace, $datastores ) {
+    public function __construct($namespace, $datastores, $defaults ) {
         $this->namespace = $namespace;
         $this->datastores = $datastores;
+        $this->defaults = $defaults;
     }
 
     /**
@@ -150,6 +152,22 @@ class YamlGenerator extends AbstractGenerator {
             }
             else {
                 $field->indexName = null;
+            }
+
+            //For Riak
+            if(isset($fieldData['riak2']['indexed'])) {
+                $field->riakIndexed = $fieldData['riak2']['indexed'];
+            }
+            else {
+                $field->riakIndexed = $this->defaults['riak2']['indexed'];
+            }
+
+            //For Elasticsearch
+            if(isset($fieldData['elasticsearch']['indexed'])) {
+                $field->elasticsearchIndexed = $fieldData['elasticsearch']['indexed'];
+            }
+            else {
+                $field->elasticsearchIndexed = $this->defaults['elasticsearch']['indexed'];
             }
         }
 

@@ -3,6 +3,7 @@
 namespace AC\NormBundle\core\datastore;
 
 use AC\NormBundle\core\Utils;
+use AngryChimps\GuzzleBundle\Services\GuzzleService;
 use Riak\Client\Command\Kv\DeleteValue;
 use Riak\Client\Command\DataType\FetchMap;
 use AC\NormBundle\services\InfoService;
@@ -11,100 +12,82 @@ use Riak\Client\Command\Search\Search;
 use Riak\Client\Command\DataType\StoreMap;
 use Riak\Client\Core\Query\RiakNamespace;
 use Riak\Client\Core\Query\RiakLocation;
+use Riak\Client\Command\Bucket\StoreBucketProperties;
+use Riak\Client\Command\Search\StoreIndex;
+use Riak\Client\Core\Query\Search\YokozunaIndex;
 
 class Riak2MapDatastore extends AbstractRiak2Datastore {
-    public function __construct($configParams, InfoService $infoService,
-                                LoggerInterface $loggerService) {
-        parent::__construct($configParams, $infoService, $loggerService);
-    }
 
-    public static function createObject($obj, $data, &$debug)
+    public function createObject($obj, &$debug)
     {
-        if($data !== null) {
-            foreach($data as $field => $value) {
-                $func = 'set' . ucfirst(Utils::field2property($field));
-                $obj->$func($value);
-            }
-        }
-
         //Deal with created_at if necessary
         if(method_exists($obj, 'setCreatedAt')) {
             $obj->setCreatedAt(new \DateTime());
         }
-        $data = self::getAsArray($obj);
-        $json = json_encode($data);
 
         if($debug !== null) {
-            $key = self::getKeyAsString(self::getIdentifier($obj));
+            $key = $this->getKeyAsString($this->getIdentifier($obj));
             $arr = [];
             $arr['key'] = $key;
-            $arr['data'] = $json;
             $debug['createObject'][] = $arr;
-            self::$loggerService->info('Creating object: ' . json_encode($debug));
+            $this->loggerService->info('Creating object: ' . json_encode($debug));
         }
 
-        self::storeObject($obj, $debug);
+        $this->storeObject($obj, $debug);
     }
 
-    protected static function storeObject($obj, &$debug) {
-        $riakLocation  = self::getRiakLocation($obj);
+    protected function storeObject($obj, &$debug) {
+        $riakLocation  = $this->getRiakLocation($obj);
         $riakStore = $obj->getRiakStoreMapBuilder()
             ->withLocation($riakLocation)
             ->build();
 
-        self::$riakClient->execute($riakStore);
+        $this->riakClient->execute($riakStore);
     }
 
-    public static function createCollection($coll, $data, &$debug)
+    public function createCollection($coll, &$debug)
     {
-        if($data === null) {
-            for($i = 0; $i < count($coll); $i++) {
-                self::createObject($coll[$i], $data, $debug);
-            }
-        }
-        else {
-            for($i = 0; $i < count($coll); $i++) {
-                self::createObject($coll[$i], $data[$i], $debug);
-            }
+        for($i = 0; $i < count($coll); $i++) {
+            $this->createObject($coll[$i], $debug);
         }
     }
 
-    public static function updateObject($obj, &$debug)
+    public function updateObject($obj, &$debug)
     {
         //Deal with times if necessary
         if(method_exists($obj, 'setUpdatedAt')) {
             $obj->setUpdatedAt(new \DateTime());
         }
-        $data = self::getAsArray($obj);
-        $key = self::getKeyAsString(self::getIdentifier($obj));
+        $data = $this->getAsArray($obj);
+        $key = $this->getKeyAsString($this->getIdentifier($obj));
         $data = json_encode($data);
 
         if($debug !== null) {
             $arr = [];
             $arr['key'] = $key;
             $debug['updateObject'][] = $arr;
-            self::$loggerService->info('Updating object: ' . json_encode($debug));
+            $this->loggerService->info('Updating object: ' . json_encode($debug));
         }
 
-        self::storeObject($obj, $debug);
+        $this->storeObject($obj, $debug);
     }
 
-    public static function updateCollection($coll, &$debug)
+    public function updateCollection($coll, &$debug)
     {
         for($i = 0; $i < count($coll); $i++) {
-            self::updateObject($coll[$i], $debug);
+            $this->updateObject($coll[$i], $debug);
         }
     }
 
-    public static function deleteObject($obj, &$debug)
+    public function deleteObject($obj, &$debug)
     {
-        $key = self::getKeyAsString(self::getIdentifier($obj));
+        $key = $this->getKeyAsString($this->getIdentifier($obj));
 
         if($debug !== null) {
             $arr = [];
             $arr['key'] = $key;
             $debug['deleteObject'][] = $arr;
-            self::$loggerService->info('Deleting object: ' . json_encode($debug));
+            $this->loggerService->info('Deleting object: ' . json_encode($debug));
         }
 
         $delete  = DeleteValue::builder($obj->getRiakLocation())
@@ -112,30 +95,31 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
             ->withW(2)
             ->build();
 
-        self::$riakClient->execute($delete);
+        $this->riakClient->execute($delete);
 
     }
 
-    public static function deleteCollection($coll, &$debug)
+    public function deleteCollection($coll, &$debug)
     {
         for($i = 0; $i < count($coll); $i++) {
-            self::deleteObject($coll[$i], $debug);
+            $this->deleteObject($coll[$i], $debug);
         }
     }
 
-    public static function populateObjectByPks($obj, $pks, &$debug)
+    public function populateObjectByPks($obj, $pks, &$debug)
     {
         if($debug !== null) {
             $arr = [];
             $debug['populateObjectByPks'][] = $arr;
-            self::$loggerService->info('Populating object by primary keys: ' . json_encode($debug));
+            $this->loggerService->info('Populating object by primary keys: ' . json_encode($debug));
         }
 
         $fetch = FetchMap::builder()
-            ->withLocation(self::getRiakLocation($obj, $pks))
+            ->withLocation($this->getRiakLocation($obj, $pks))
             ->build();
 
-        $result = self::$riakClient->execute($fetch);
+        $result = $this->riakClient->execute($fetch);
+
         $map = $result->getDatatype();
 
         $obj->setRiakMap($map);
@@ -143,45 +127,86 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
         return true;
     }
 
-    public static function populateCollectionByQuery($indexName, \ArrayObject $coll, $query, $limit, $offset, &$debug) {
-//        if($debug !== null) {
-//            $arr = [];
-//            $debug['populateObjectByPks'][] = $arr;
-//            self::$loggerService->info('Populating object by primary keys: ' . json_encode($debug));
-//        }
+    public function populateObjectByQuery($obj, $query, $limit, $offset, &$debug) {
+        $entityName = $this->infoService->getEntityName(get_class($obj));
+        $indexName = $this->getPrefixedIndexName($entityName);
 
-        $tableInfo = self::$infoService->getTableInfo(get_class($coll));
+        if($limit !== null) {
+            $search = Search::builder()
+                ->withQuery($query)
+                ->withIndex($indexName)
+                ->withNumRows($limit)
+                ->withStart($offset)
+                ->build();
+        }
+        else {
+            $search = Search::builder()
+                ->withQuery($query)
+                ->withIndex($indexName)
+                ->withStart($offset)
+                ->build();
+        }
+        $searchResult  = $this->riakClient->execute($search);
+        $numResults    = $searchResult->getNumResults();
 
-        $search = Search::builder()
-            ->withQuery($query)
-            ->withIndex($indexName)
-            ->withNumRows($limit)
-            ->withStart($offset)
-            ->build();
+        if($numResults === 0) {
+            return false;
+        }
+        elseif($numResults === 1) {
+            $singleResults = $searchResult->getSingleResults();
+            $result = $singleResults[0];
 
-        $results = $search->getAllResults();
+            //remove the _register, _flag, etc. suffixes from the field names
+            $arr = [];
+            foreach($result as $fieldName => $value) {
+                $arr[substr($fieldName, 0, strlen($fieldName) - (strlen($fieldName) - strrpos($fieldName, '_')))] = $value;
+            }
+
+            $obj->setMapValues($arr);
+            return true;
+        }
+        else {
+            throw new \Exception('Multiple results returned when one was anticipated');
+        }
+    }
+
+    public function populateCollectionByQuery(\ArrayObject $coll, $query, $limit, $offset, &$debug) {
+        $tableInfo = $this->infoService->getTableInfo(get_class($coll));
+        $indexName = $this->infoService->getEntityName(get_class($coll));
+
+        if($limit !== null) {
+            $search = Search::builder()
+                ->withQuery($query)
+                ->withIndex($indexName)
+                ->withNumRows($limit)
+                ->withStart($offset)
+                ->build();
+        }
+        else {
+            $search = Search::builder()
+                ->withQuery($query)
+                ->withIndex($indexName)
+                ->withStart($offset)
+                ->build();
+        }
+        $searchResult  = $this->riakClient->execute($search);
+
+        $results = $searchResult->getAllResults();
 
         foreach($results as $result) {
             $object = new $tableInfo['objectName']();
-
-            foreach($result as $fieldName => $data) {
-                if(strpos($fieldName, '_yz_') === 0) {
-                    $function = 'get' . ucfirst(Utils::field2property($fieldName));
-                    $object->$function($data);
-                }
-            }
-
-            $coll[self::getIdentifier($object)] = $object;
+            $object->setMapValues($result);
+            $coll[$this->getIdentifier($object)] = $object;
         }
 
         return true;
     }
 
-    protected static function getRiakLocation($obj, $pks = null)
+    protected function getRiakLocation($obj, $pks = null)
     {
-        $tableInfo = self::$infoService->getTableInfo(get_class($obj));
+        $tableInfo = $this->infoService->getTableInfo(get_class($obj));
 
-        $namespace = new RiakNamespace(self::$riakNamespacePrefix . 'class_maps', $tableInfo['name']);
+        $namespace = $this->getRiakNamespace($tableInfo['name']);
 
         if ($pks !== null) {
             if (!is_array($pks)) {
@@ -190,31 +215,39 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
             $location = new RiakLocation($namespace, implode('|', $pks));
         }
         else {
-            $location = new RiakLocation($namespace, self::getIdentifier($obj));
+            $location = new RiakLocation($namespace, $this->getIdentifier($obj));
         }
 
         return $location;
     }
 
-    public static function populateCollectionByPks($coll, $pks, &$debug) {
+    protected function getRiakNamespace($entityName) {
+        return new RiakNamespace($this->getBucketType(), $entityName);
+    }
+
+    public function populateCollectionByPks($coll, $pks, &$debug) {
         //For a collection $pks would be an array of ids or an array of an array of ids
-        $tableInfo = self::$infoService->getTableInfo(get_class($coll));
+        $tableInfo = $this->infoService->getTableInfo(get_class($coll));
 
         foreach($pks as $pk) {
             $object = new $tableInfo['objectName']();
 
-            if(self::populateObjectByPks($object, $pk, $debug) === false) {
+            if($this->populateObjectByPks($object, $pk, $debug) === false) {
                 throw new \Exception('Unable to find one or more objects to populate the collection.');
             }
 
-            $coll[self::getIdentifier($object)] = $object;
+            $coll[$this->getIdentifier($object)] = $object;
         }
+    }
+
+    protected function getBucketType() {
+        return $this->riakNamespacePrefix . 'class_maps';
     }
 
 //    public static function populateCollectionByQuery(\ArrayObject $coll, $query, $realm, $tableName, $bucketType, $bucketName,
 //                                                     &$debug, $limit = null, $offset = 0) {
 //        $builder = Search::builder();
-//        $builder->withIndex('__norm_classmaps_' . self::$infoService->getTableName);
+//        $builder->withIndex('__norm_classmaps_' . $this->infoService->getTableName);
 //        if($limit !== null) {
 //            $builder->withNumRows($limit);
 //        }
@@ -225,11 +258,11 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
 //
 //        $search = $builder->build();
 //
-//        $searchResult = self::$riakClient->execute($search);
+//        $searchResult = $this->riakClient->execute($search);
 //        $results = $searchResult->getAllResults();
 //
 //        foreach($results as $result) {
-//            $className = self::$infoService->getClassName($realm, $tableName);
+//            $className = $this->infoService->getClassName($realm, $tableName);
 //            $obj = new $className();
 //
 //            $bucketType = $result["_yz_rt"];
@@ -248,14 +281,14 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
 //
 //            /** @var $result \Riak\Client\Command\Kv\Response\FetchValueResponse */
 //            /** @var $object \Riak\Client\Core\Query\RiakObject */
-//            $result = self::$riakClient->execute($fetch);
+//            $result = $this->riakClient->execute($fetch);
 //            $object = $result->getValue();
 //
 //        }
 //    }
 
 //    public function populateCollectionBySecondaryIndex(NormBaseCollection $coll, $indexName, $value, &$debug = null) {
-//        $bucket = self::getBucket($coll::$realm, $coll::$tableName);
+//        $bucket = $this->getBucket($coll::$realm, $coll::$tableName);
 //
 //        $response = $bucket->index($indexName, $value);
 //
@@ -323,8 +356,85 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
 //            $objectClass = $coll::$singularClassName;
 //            $obj = new $objectClass();
 //            $this->populateObjectByOrderedArray($obj, $objArr);
-//            $coll[self::getIdentifier($obj)] = $obj;
+//            $coll[$this->getIdentifier($obj)] = $obj;
 //        }
 //    }
+
+    public function createSolrSchema($entityName, $schema) {
+        $serverInfo = $this->configParams['servers'][0];
+
+        $url = 'http://' . $serverInfo['host'] . ':' . $serverInfo['http_port'] . '/search/schema/' . $this->getPrefixedSchemaName($entityName);
+
+        $request = $this->guzzleService->createRequest('PUT', $url, [
+            'headers' => [
+                'content-type' => 'application/xml'
+            ],
+            'body' => $schema,
+        ]);
+
+        $this->guzzleService->send($request);
+    }
+
+//    public function createSolrIndex($entityName) {
+//        $serverInfo = $this->configParams['servers'][0];
+//
+//        $url = 'http://' . $serverInfo['host'] . ':' . $serverInfo['http_port'] . '/search/index/' . $this->getPrefixedIndexName($entityName);
+//
+//        $request = $this->guzzleService->createRequest('PUT', $url, [
+//            'headers' => [
+//                'content-type' => 'application/json'
+//            ],
+//            'body' => '{"schema":"' . $this->getPrefixedSchemaName($entityName) . '"}',
+//        ]);
+//
+//        $this->guzzleService->send($request);
+//    }
+
+    public function createSolrIndex($entityName) {
+        $index     = new YokozunaIndex($this->getPrefixedIndexName($entityName), $this->getPrefixedSchemaName($entityName));
+        $command   = StoreIndex::builder()
+            ->withIndex($index)
+            ->build();
+
+        $this->riakClient->execute($command);
+    }
+
+    public function associateBucketToSolrIndex($entityName)
+    {
+        $attempts = 20;
+        $finished = false;
+
+        while($attempts > 0) {
+            try {
+                $namespace = $this->getRiakNamespace($entityName);
+                $command = StoreBucketProperties::builder()
+                    ->withSearchIndex($this->getPrefixedIndexName($entityName))
+                    ->withNamespace($namespace)
+                    ->build();
+
+                $this->riakClient->execute($command);
+                $finished = true;
+                break;
+            }
+            catch (\Riak\Client\Core\Transport\RiakTransportException  $ex) {
+                sleep(5);
+                $attempts--;
+            }
+        }
+
+        if(!$finished) {
+            throw new \Exception('associateBucketToSolrIndex ran out of attempts for entity: ' . $entityName);
+        }
+    }
+
+    protected function getPrefixedSchemaName($indexName)
+    {
+        return $this->riakNamespacePrefix . 'schemas_'. $indexName;
+    }
+
+    protected function getPrefixedIndexName($indexName)
+    {
+        return $this->riakNamespacePrefix . 'indexes_' . $indexName;
+    }
 
 }

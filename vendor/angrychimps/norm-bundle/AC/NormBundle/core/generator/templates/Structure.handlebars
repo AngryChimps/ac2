@@ -20,6 +20,7 @@
         $structure['entities']['{{name}}']['objectName'] = '{{objectName}}';
         $structure['entities']['{{name}}']['collectionName'] = '{{objectName}}Collection';
         $structure['entities']['{{name}}']['primaryDatastoreName'] = '{{primaryDatastore.name}}';
+        $structure['entities']['{{name}}']['secondaryDatastoreNames'] = {{{secondayDatastoreNamesString}}};
 
         $structure['entities']['{{name}}']['primaryKeyFieldNames'] = {{{primaryKeyFieldNamesString}}};
         $structure['entities']['{{name}}']['primaryKeyPropertyNames'] = {{{primaryKeyPropertyNamesString}}};
@@ -36,8 +37,10 @@
 
         $structure['classes']['{{objectName}}']['name'] = '{{name}}';
         $structure['classes']['{{objectName}}']['primaryDatastoreName'] = '{{primaryDatastoreName}}';
+        $structure['classes']['{{objectName}}']['secondaryDatastoreNames'] = {{{secondayDatastoreNamesString}}};
         $structure['classes']['{{objectName}}Collection']['name'] = '{{name}}';
         $structure['classes']['{{objectName}}Collection']['primaryDatastoreName'] = '{{primaryDatastoreName}}';
+        $structure['classes']['{{objectName}}Collection']['secondaryDatastoreNames'] = {{{secondayDatastoreNamesString}}};
 
     {{/each}}
 

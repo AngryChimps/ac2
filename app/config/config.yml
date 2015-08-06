@@ -98,6 +98,12 @@ angry_chimps_sample:
 
 ac_norm:
     namespace: Norm
+    defaults:
+        riak2:
+            indexed: true
+        elasticsearch:
+            indexed: true
+
 
 knp_gaufrette:
     adapters:
@@ -107,23 +113,23 @@ knp_gaufrette:
                 bucket_name: 'angrychimps-member-images'
                 options:
                     directory: %kernel.environment%
-        company_images:
+        location_images:
             aws_s3:
                 service_id: 'angry_chimps_media.aws_s3.client'
-                bucket_name: 'angrychimps-company-images'
+                bucket_name: 'angrychimps-location-images'
                 options:
                     directory: %kernel.environment%
     filesystems:
         member_images_fs:
             adapter:    member_images
-        company_images_fs:
-            adapter:    company_images
+        location_images_fs:
+            adapter:    location_images
 
 angry_chimps_media:
     filesystems:
         member_images_fs:
             upload_width_px: 480
             upload_height_px: 480
-        company_images_fs:
+        location_images_fs:
             upload_width_px: 700
             upload_height_px: 480

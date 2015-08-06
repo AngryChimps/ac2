@@ -29,11 +29,14 @@ class CreatorService
 
     private $datastores;
 
-    public function __construct($environment, $namespace, $datastores)
+    protected $defaults;
+
+    public function __construct($environment, $namespace, $datastores, $defaults)
     {
         $this->environment = $environment;
         $this->namespace = $namespace;
         $this->datastores = $datastores;
+        $this->defaults = $defaults;
     }
 
     public function setEnvironment($env)
@@ -52,8 +55,7 @@ class CreatorService
                 mkdir(__DIR__ . '/../../../../../../app/cache/' . $this->environment . '/norm');
             }
 
-            $gen = new YamlGenerator($this->namespace, $this->datastores);
-            $this->schema = $gen->getSchema();
+            $this->generateSchema();
 
             $this->createValidations($this->schema);
 
@@ -64,6 +66,11 @@ class CreatorService
             $this->createPropertiesFile();
             $this->generateServiceFiles();
         }
+    }
+
+    public function generateSchema() {
+        $gen = new YamlGenerator($this->namespace, $this->datastores, $this->defaults);
+        $this->schema = $gen->getSchema();
     }
 
     protected function generateServiceFiles()
@@ -120,7 +127,10 @@ class CreatorService
         file_put_contents(__DIR__ . '/../../../../../../app/cache/' . $this->environment . '/norm/classes.php', $rendered);
     }
 
-    protected function generateData()
+    /**
+     * @throws \Exception
+     */
+    public function generateData()
     {
         $data = [];
         $data['namespace'] = $this->schema->namespace;
@@ -130,7 +140,8 @@ class CreatorService
         $data['traitShortNames'] = [];
 
         foreach($this->schema->datastores as $datastoreName => $datastore) {
-            $dsData = (array) $datastore;
+            $dsData =(array) $datastore;
+            $dsData['name'] = $datastoreName;
             $data['datastores'][] = $dsData;
         }
 
@@ -143,6 +154,9 @@ class CreatorService
             $data['subclasses'][] = $this->generateEntityOrSubclassData($subclass, $this->schema->namespace,
                 $data['traitFullNames'], $data['traitShortNames']);
         }
+
+        $data['traitFullNames'] = array_unique($data['traitFullNames']);
+        $data['traitShortNames'] = array_unique($data['traitShortNames']);
 
         $this->data = $data;
     }
@@ -200,29 +214,36 @@ class CreatorService
             }
 
             $entityData['datastores'] = [];
+            $secondaryDatastoreNames = [];
             foreach($entity->datastores as $datastore) {
                 $ds = [];
                 $ds['name'] = $datastore->name;
                 $ds['type'] = $datastore->type;
                 $ds['method'] = $datastore->method;
+                $ds['prefix'] = isset($this->datastores[$datastore->name]['prefix']) ? $this->datastores[$datastore->name]['prefix'] : null;
                 $entityData['datastores'][] = $ds;
 
                 if($datastore->type === 'primary') {
                     $entityData['primaryDatastore'] = $ds;
                     $entityData['primaryDatastoreName'] = $ds['name'];
                 }
+                elseif($datastore->type === 'secondary') {
+                    $secondaryDatastoreNames[] = $ds['name'];
+                }
 
                 switch($datastore->method) {
                     case 'riak2_map':
                         $entityData['usesRiak2'] = true;
                         break;
-                    case 'elasticsearch':
+                    case 'es_document':
                         $entityData['usesElasticsearch'] = true;
                         break;
                     default:
                         throw new \Exception("Unknown datastore method");
                 }
             }
+
+            $entityData['secondayDatastoreNamesString'] = '["' . implode('", "', $secondaryDatastoreNames) . '"]';
 
             switch($entityData['primaryDatastore']['method']) {
                 case 'riak2_map':
@@ -329,11 +350,16 @@ class CreatorService
         $fieldData['indexName'] = $field->indexName;
         $fieldData['usesRiak2'] = isset($entityOrSubclassData['driver']) && ($entityOrSubclassData['driver'] === 'riak2');
         $fieldData['isDateTime'] = false;
+        $fieldData['multiValued'] = 'false';
+        $fieldData['riakSolrSuffix'] = '_register';
+        $fieldData['riakIndexed'] = $field->riakIndexed ? 'true' : 'false';
+        $fieldData['elasticsearchIndexed'] = $field->elasticsearchIndexed ? 'true' : 'false';
         switch($field->type) {
             case 'Currency':
                 $fieldData['phpType'] = 'float';
                 $fieldData['elasticsearchType'] = 'float';
                 $fieldData['mysqlType'] = 'double';
+                $fieldData['riakSolrSuffix'] = '_counter';
                 break;
             case 'Location':
                 $fieldData['phpType'] = 'string';
@@ -362,6 +388,7 @@ class CreatorService
                 $fieldData['phpType'] = 'string';
                 $fieldData['elasticsearchType'] = 'string';
                 $fieldData['mysqlType'] = 'varchar';
+                $fieldData['solrType'] = '';
                 break;
             case 'Email':
                 $fieldData['phpType'] = 'string';
@@ -372,11 +399,13 @@ class CreatorService
                 $fieldData['phpType'] = 'int';
                 $fieldData['elasticsearchType'] = 'int';
                 $fieldData['mysqlType'] = 'int';
+                $fieldData['riakSolrSuffix'] = '_counter';
                 break;
             case 'bool':
                 $fieldData['phpType'] = 'bool';
                 $fieldData['elasticsearchType'] = 'boolean';
                 $fieldData['mysqlType'] = 'bool';
+                $fieldData['riakSolrSuffix'] = '_flag';
                 break;
             case 'string':
                 $fieldData['phpType'] = 'string';
@@ -413,14 +442,21 @@ class CreatorService
                 $fieldData['phpSingularType'] = 'int';
                 $fieldData['elasticsearchType'] = 'int';
                 $fieldData['mysqlType'] = 'set';
+                $fieldData['multiValued'] = 'true';
+                $fieldData['riakSolrSuffix'] = '_set';
                 break;
             default:
                 if(strpos($field->type, '[]') === strlen($field->type) - 2) {
                     $fieldData['phpSingularType'] = substr($field->type, 0, strlen($field->type) - 2);
+                    $fieldData['elasticsearchType'] = $fieldData['phpSingularType'];
+                }
+                else {
+                    $fieldData['elasticsearchType'] = $field->type;
                 }
                 $fieldData['phpType'] = $field->type;
-                $fieldData['elasticsearchType'] = $field->type;
                 $fieldData['mysqlType'] = $field->type;
+                $fieldData['multiValued'] = 'true';
+                $fieldData['riakSolrSuffix'] = '_set';
         }
 
 

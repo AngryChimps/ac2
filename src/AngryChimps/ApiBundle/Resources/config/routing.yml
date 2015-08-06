@@ -1,3 +1,13 @@
+#member_media
+angry_chimps_api_media_post:
+    path:     /media/{entityName}/{id}
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.media.controller:indexPostAction }
+angry_chimps_api_media_get:
+    path:     /media/{entityName}/{id}/{filename}
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.media.controller:indexGetAction }
+
 #session
 angry_chimps_api_session_get:
     path:     /session/{id}

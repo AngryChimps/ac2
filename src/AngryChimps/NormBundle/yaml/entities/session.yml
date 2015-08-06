@@ -11,12 +11,16 @@ fields:
     type: string
   - name: user_id
     type: string
+    riak:
+        indexed: true
   - name: browser_hash
     type: string
-  - name: session_bag
-    type: array
+    riak:
+        indexed: true
   - name: device_id
     type: string
+    riak:
+        indexed: true
   - name: created_at
     type: DateTime
 

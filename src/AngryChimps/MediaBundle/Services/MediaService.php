@@ -6,7 +6,6 @@ namespace AngryChimps\MediaBundle\Services;
 use Aws\S3\S3Client;
 use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use Imagine\Image\Box;
-use Symfony\Component\HttpFoundation\Response;
 use Imagine\Imagick\Imagine;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -25,12 +24,15 @@ class MediaService {
     public function persist($fsName, UploadedFile $file) {
         $filesystem = $this->filesystemMap->get($fsName);
         $content = file_get_contents($file->getRealPath());
-        $extension = $file->getClientOriginalExtension();
-        $filename = bin2hex(openssl_random_pseudo_bytes(16));
+//        $extension = $file->getClientOriginalExtension();
+        $imagine = new \Imagine\Imagick\Imagine();
+        $img = $imagine->load($content);
+        $jpg = $img->get('jpg');
+        $filename = sha1(microtime(true) . bin2hex(openssl_random_pseudo_bytes(16)));
 
-        $filesystem->write($filename . '.' . $extension, $content);
+        $filesystem->write($filename . '.jpg', $jpg);
 
-        return $filename . '.' . $extension;
+        return $filename . '.jpg';
     }
 
     public function retrieve($fsName, $filename) {

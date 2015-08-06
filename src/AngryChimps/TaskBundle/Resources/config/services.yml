@@ -10,9 +10,15 @@ services:
 ##############################################################
 ###                  Listeners                             ###
 ##############################################################
-    kernel.listener.angry_chimps_task_kernel_terminate_listener:
-        class: AngryChimps\TaskBundle\EventListener\KernelTerminateListener
+#    kernel.listener.angry_chimps_task_kernel_terminate_listener:
+#        class: AngryChimps\TaskBundle\EventListener\KernelTerminateListener
+#        arguments: ["@angry_chimps_task.tasker", "@logger"]
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate, priority: -255 }
+
+    kernel.listener.angry_chimps_task_kernel_response_listener:
+        class: AngryChimps\TaskBundle\EventListener\KernelResponseListener
         arguments: ["@angry_chimps_task.tasker", "@logger"]
         tags:
-            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate, priority: -255 }
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: -255 }
 

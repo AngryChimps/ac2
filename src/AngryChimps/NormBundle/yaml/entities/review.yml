@@ -12,22 +12,36 @@ fields:
     auto_generate: true
   - name: author_id
     type: string
+    riak:
+        indexed: true
   - name: company_id
     type: string
+    riak:
+        indexed: true
   - name: location_id
     type: string
+    riak:
+        indexed: true
   - name: staff_ids
     type: string[]
+    riak:
+        indexed: true
   - name: body
     type: string
+    riak:
+        indexed: true
   - name: rating
     type: int
-  - name: review_flag_ids
-    type: string[]
+    riak:
+        indexed: true
   - name: status
     type: enum
     values:
       - Enabled
       - Disabled
+    riak:
+        indexed: true
   - name: created_at
     type: DateTime
+    riak:
+        indexed: true

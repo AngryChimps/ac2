@@ -10,10 +10,10 @@ services:
 
     ac_norm.datastore:
         class: AC\NormBundle\Services\DatastoreService
-        arguments: [%ac_norm.debug%, %ac_norm.datastores%, "@ac_norm.info", "@logger"]
+        arguments: [%ac_norm.debug%, %ac_norm.datastores%, "@ac_norm.info", "@logger", "@angry_chimps_guzzle.guzzle"]
     ac_norm.creator:
         class: AC\NormBundle\Services\CreatorService
-        arguments:  ["%kernel.environment%", "%ac_norm.namespace%", "%ac_norm.datastores%"]
+        arguments:  ["%kernel.environment%", "%ac_norm.namespace%", "%ac_norm.datastores%", %ac_norm.defaults%]
     ac_norm.info:
         class: AC\NormBundle\Services\InfoService
         arguments:  [%kernel.environment%, "@ac_norm.creator"]

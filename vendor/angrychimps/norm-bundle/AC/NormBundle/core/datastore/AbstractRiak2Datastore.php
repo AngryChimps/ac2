@@ -3,6 +3,7 @@
 
 namespace AC\NormBundle\core\datastore;
 
+use AngryChimps\GuzzleBundle\Services\GuzzleService;
 use Riak\Client\RiakClient;
 use Riak\Client\RiakClientBuilder;
 use AC\NormBundle\services\InfoService;
@@ -10,33 +11,39 @@ use Psr\Log\LoggerInterface;
 
 abstract class AbstractRiak2Datastore extends AbstractDatastore {
     /** @var  RiakClient */
-    protected static $riakClient;
+    protected $riakClient;
 
-    protected static $riakNamespacePrefix;
+    protected $riakNamespacePrefix;
+
+    protected $configParams;
+
+    protected $guzzleService;
 
     public function __construct($configParams, InfoService $infoService,
-                                LoggerInterface $loggerService) {
-        if(self::$riakClient === null) {
-            self::$riakClient = self::getRiakClient($configParams);
+                                LoggerInterface $loggerService, GuzzleService $guzzleService) {
+        if($this->riakClient === null) {
+            $this->riakClient = $this->getRiakClient($configParams);
         }
 
         parent::__construct($infoService, $loggerService);
 
-        self::$riakNamespacePrefix = $configParams['prefix'];
+        $this->riakNamespacePrefix = $configParams['prefix'];
+        $this->configParams = $configParams;
+        $this->guzzleService = $guzzleService;
     }
 
-    protected static function getRiakClient($configParams) {
-        if(self::$riakClient === null) {
+    protected function getRiakClient($configParams) {
+        if($this->riakClient === null) {
             $builder = new RiakClientBuilder();
             foreach($configParams['servers'] as $server) {
                 $builder->withNodeUri('proto://' . $server['host'] . ':' . $server['port']);
             }
-            self::$riakClient = $builder->build();
+            $this->riakClient = $builder->build();
         }
-        return self::$riakClient;
+        return $this->riakClient;
     }
 
-    protected static function getKeyAsString($primaryKeys) {
+    protected function getKeyAsString($primaryKeys) {
         if(!is_array($primaryKeys)) {
             $primaryKeys = [$primaryKeys];
         }
@@ -47,5 +54,4 @@ abstract class AbstractRiak2Datastore extends AbstractDatastore {
         }
         return implode('|', $primaryKeys);
     }
-
 }

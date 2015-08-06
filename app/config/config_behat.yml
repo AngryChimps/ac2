@@ -49,11 +49,10 @@ assetic:
 #            default: true
 angry_chimps_api:
     debug: true
-    base_url: http://lubu.angrychimps.com/api/v1
+    base_url: http://ubu3.angrychimps.com/api/v1
 
 angry_chimps_sample:
-    base_url: http://lubu.angrychimps.com/api/v1
-
+    base_url: http://ubu3.angrychimps.com/api/v1
 
 ac_norm:
     debug: true
@@ -61,16 +60,17 @@ ac_norm:
         riak_ds:
             driver: riak2
             servers:
-              -
-                host: "localhost"
+              - host: "10.1.10.102"
                 port: 8087
-            prefix: __norm_behat_
+                http_port: 8098
+            prefix: __norm_local_28_
         es_ds:
             driver: "elasticsearch"
-            index_name: ac_behat
+            index_name: ac_local_28
             default_analyzer: english
             shards: 4
             replicas: 1
             servers:
                 - host: "localhost"
                   port: 9200
+

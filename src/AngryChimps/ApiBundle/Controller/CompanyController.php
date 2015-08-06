@@ -15,19 +15,10 @@ use AngryChimps\ApiBundle\Services\ResponseService;
 use Symfony\Component\HttpFoundation\RequestStack;
 use AngryChimps\ApiBundle\Services\SessionService;
 
-/**
- * Class CompanyController
- * @package AngryChimps\ApiBundle\Controller
- *
- * @Route("/company")
- */
 class CompanyController extends AbstractRestController
 {
     /** @var  \AngryChimps\ApiBundle\Services\CompanyService */
     protected $companyService;
-
-    /** @var  InfoService */
-    protected $infoService;
 
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
                                 ResponseService $responseService, CompanyService $companyService,

@@ -8,7 +8,9 @@
 
 namespace AC\NormBundle\core\datastore;
 
+use AC\NormBundle\core\exceptions\MethodNotImplemented;
 use AC\NormBundle\core\Utils;
+use AC\NormBundle\Services\InfoService;
 use Elastica\Client;
 use Elastica\Document;
 use Elastica\Query;
@@ -19,39 +21,48 @@ use AC\NormBundle\core\NormBaseObject;
 use AC\NormBundle\Services\RealmInfoService;
 use Psr\Log\LoggerInterface;
 
-class ElasticsearchDatastore extends AbstractDatastore {
+class EsDocumentDatastore extends AbstractElasticsearchDatastore {
     /** @var  \Elastica\Client */
     private $client;
 
     /** @var  \Elastica\Index */
     private $index;
 
-    /** @var LoggerInterface */
-    protected $loggerService;
-    protected $realmInfo;
+    public function __construct(array $configParams, InfoService $infoService, LoggerInterface $loggerService)
+    {
+        parent::__construct($infoService, $loggerService);
 
-    protected $defaultAnalyzer;
+        $servers = [];
+        foreach($configParams['servers'] as $server) {
+            $servers[] = ['host' => $server['host'], 'port' => $server['port']];
+        }
 
-    public function __construct($configParams, RealmInfoService $realmInfo, LoggerInterface $loggerService) {
+        $this->client = new \Elastica\Client(array(
+            'servers' => $servers
+        ));
 
-        $this->client = new Client(array('servers' => $configParams['servers']));
         $this->index = $this->client->getIndex($configParams['index_name']);
-        $this->realmInfo = $realmInfo;
-        $this->loggerService = $loggerService;
-        $this->defaultAnalyzer = $configParams['default_analyzer'];
     }
+
 
     public function createObject($obj, &$debug)
     {
-        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
-
-        //Deal with times if necessary
-        if(property_exists($obj, 'createdAt')) {
-            $obj->createdAt = new \DateTime();
+        //Deal with created_at if necessary
+        if(method_exists($obj, 'setCreatedAt')) {
+            $obj->setCreatedAt(new \DateTime());
         }
 
+        if($debug !== null) {
+            $key = $this->getKeyAsString($this->getIdentifier($obj));
+            $arr = [];
+            $arr['key'] = $key;
+            $debug['createObject'][] = $arr;
+            $this->loggerService->info('Creating object: ' . json_encode($debug));
+        }
+
+
         $data = $this->getAsArray($obj);
-        $type = $this->index->getType($tableInfo['name']);
+        $type = $this->index->getType($this->infoService->getEntityName(get_class($obj)));
         $doc = new Document($this->getIdentifier($obj), $data);
         $type->addDocument($doc);
         $type->getIndex()->refresh();
@@ -59,7 +70,7 @@ class ElasticsearchDatastore extends AbstractDatastore {
 
     public function updateObject($obj, &$debug)
     {
-        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
+        $tableInfo = $this->infoService->getTableInfo(get_class($obj));
 
         //Deal with times if necessary
         if(property_exists($obj, 'updatedAt')) {
@@ -86,7 +97,7 @@ class ElasticsearchDatastore extends AbstractDatastore {
     }
 
     public function deleteObject($obj, &$debug) {
-        $tableInfo = $this->realmInfo->getTableInfo(get_class($obj));
+        $tableInfo = $this->infoService->getTableInfo(get_class($obj));
 
         $type = $this->index->getType($tableInfo['name']);
         $type->deleteById($this->getIdentifier($obj));
@@ -100,13 +111,27 @@ class ElasticsearchDatastore extends AbstractDatastore {
     }
 
     protected function getAsArray($obj) {
-        return (array) $obj;
+        $arr = [];
+
+        foreach($this->infoService->getFieldNames($this->infoService->getEntityName(get_class($obj))) as $field) {
+            $func = 'get' . ucfirst(Utils::field2property($field));
+            $value = $obj->$func();
+
+            if($value instanceof \DateTime) {
+                $arr[$field] = $value->format('c');
+            }
+            elseif(is_object($value)) {
+                
+            }
+        }
+
+        return $arr;
     }
 
-    public function getKeyName($primaryKeys) {
+    public function getKeyAsString($primaryKeys) {
         foreach($primaryKeys as &$primaryKey) {
             if($primaryKey instanceof \DateTime) {
-                $primaryKey = $primaryKey->format('Y-m-d H:i:s');
+                $primaryKey = $primaryKey->format('c');
             }
         }
         return implode('|', $primaryKeys);
@@ -173,20 +198,30 @@ class ElasticsearchDatastore extends AbstractDatastore {
         return $resultSet;
     }
 
-    public function publish($indexName, $identifier, array $data)
+    public function populateObjectByQuery($obj, $query, $limit, $offset, &$debug)
     {
-        $this->loggerService->info('Publishing ad :: '
-            . json_encode(
-                array (
-                    'indexName' => $indexName,
-                    'identifier' => $identifier,
-                    'data' => $data,
-                )));
-        $type = $this->index->getType($indexName);
-        $doc = new Document($identifier, $data);
-        $type->addDocument($doc);
-        $type->getIndex()->refresh();
+        throw new \Exception("Method not implemented");
     }
+
+    public function populateCollectionByQuery(\ArrayObject $coll, $query, $limit, $offset, &$debug)
+    {
+        throw new \Exception("Method not implemented");
+    }
+
+//    public function publish($indexName, $identifier, array $data)
+//    {
+//        $this->loggerService->info('Publishing ad :: '
+//            . json_encode(
+//                array (
+//                    'indexName' => $indexName,
+//                    'identifier' => $identifier,
+//                    'data' => $data,
+//                )));
+//        $type = $this->index->getType($indexName);
+//        $doc = new Document($identifier, $data);
+//        $type->addDocument($doc);
+//        $type->getIndex()->refresh();
+//    }
 
     public function deleteType($indexName) {
         $type = $this->index->getType($indexName);
@@ -209,8 +244,8 @@ class ElasticsearchDatastore extends AbstractDatastore {
         // Define mapping
         $mapping = new \Elastica\Type\Mapping();
         $mapping->setType($elasticaType);
-        $mapping->setParam('index_analyzer', $this->defaultAnalyzer);
-        $mapping->setParam('search_analyzer', $this->defaultAnalyzer);
+        $mapping->setParam('index_analyzer', 'default');
+        $mapping->setParam('search_analyzer', 'default');
 
         $mapping->setProperties($properties);
         $mapping->send();
@@ -343,24 +378,24 @@ class ElasticsearchDatastore extends AbstractDatastore {
 //        throw new MethodNotImplemented(__METHOD__, get_called_class());
 //    }
 
-    public function readBySecondaryIndex($realm, $tableName, $indexName, $value) {
-        $bucket = $this->getBucket($realm, $tableName);
-
-        $response = $bucket->index($indexName, $value);
-
-        if(empty($response)) {
-            return null;
-        }
-
-        if($response->hasObject()) {
-            $content = $response->getFirstObject();
-            $json = $content->getContent();
-            return json_decode($json);
-        }
-        else {
-            return null;
-        }
-    }
+//    public function readBySecondaryIndex($realm, $tableName, $indexName, $value) {
+//        $bucket = $this->getBucket($realm, $tableName);
+//
+//        $response = $bucket->index($indexName, $value);
+//
+//        if(empty($response)) {
+//            return null;
+//        }
+//
+//        if($response->hasObject()) {
+//            $content = $response->getFirstObject();
+//            $json = $content->getContent();
+//            return json_decode($json);
+//        }
+//        else {
+//            return null;
+//        }
+//    }
 
 
     public function populateObjectByPks($obj, $pks, &$debug)

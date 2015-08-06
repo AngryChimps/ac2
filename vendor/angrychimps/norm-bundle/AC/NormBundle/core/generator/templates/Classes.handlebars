@@ -16,6 +16,8 @@ class {{objectNameWithoutNamespace}} {
     /** @var RiakMap */
     protected $riakMap;
 
+    protected $hasRiakMap = false;
+
     /** @var array */
     protected $mapValues = [];
     {{/if}}
@@ -31,11 +33,11 @@ class {{objectNameWithoutNamespace}} {
     public function get{{propertyNameCapitalized}}()
     {
     {{#if usesRiak2}}
-        if(!isset($this->mapValues['{{propertyName}}'])) {
+        if(!isset($this->mapValues['{{propertyName}}']) && $this->hasRiakMap) {
             $this->mapValues['{{propertyName}}'] = new {{phpType}}(json_decode($this->getRiakMap()->get('{{name}}'), true));
         }
     {{/if}}
-        return $this->mapValues['{{propertyName}}'];
+        return isset($this->mapValues['{{propertyName}}']) ? $this->mapValues['{{propertyName}}'] : null;
     }
     public function set{{propertyNameCapitalized}}($value)
     {
@@ -66,7 +68,7 @@ class {{objectNameWithoutNamespace}} {
     public function get{{propertyNameCapitalized}}()
     {
     {{#if usesRiak2}}
-        if(!isset($this->mapValues['{{propertyName}}'])) {
+        if(!isset($this->mapValues['{{propertyName}}']) && $this->hasRiakMap) {
             {{#if isDateTime}}
             $this->mapValues['{{propertyName}}'] = new \DateTime($this->getRiakMap()->get('{{name}}'));
             {{else}}
@@ -75,14 +77,17 @@ class {{objectNameWithoutNamespace}} {
             {{/if}}
         }
     {{/if}}
-        return $this->mapValues['{{propertyName}}'];
+        return isset($this->mapValues['{{propertyName}}']) ? $this->mapValues['{{propertyName}}'] : null;
     }
     public function set{{propertyNameCapitalized}}($value)
     {
         $this->mapValues['{{propertyName}}'] = $value;
     {{#if usesRiak2}}
         {{#if isDateTime}}
-        $this->riakStoreMapBuilder->updateRegister('{{name}}', $value->format('c'));
+        $offset = $value->format('0');
+        $sign = (abs($offset) == $offset) ? '+' : '-';
+        $hours = abs($offset)/100;
+        $this->riakStoreMapBuilder->updateRegister('{{name}}', $value->format('Y-m-d') . 'T' . $value->format('H:i:s') . 'Z' . $sign . $hours . 'HOURS');
         {{else}}
         $this->riakStoreMapBuilder->updateRegister('{{name}}', $value);
         {{/if}}
@@ -126,7 +131,7 @@ class {{objectNameWithoutNamespace}} {
     }
      public function set{{propertyNameCapitalized}}(array $value)
      {
-         $this->mapValues['{{propertyName}}'] = (bool) $value;
+         $this->mapValues['{{propertyName}}'] = $value;
          $this->getRiakStoreMapBuilder()->updateSet('{{name}}', $value);
      }
     public function addTo{{propertyNameCapitalized}}($value)
@@ -248,8 +253,17 @@ class {{objectNameWithoutNamespace}} {
 
     public function setRiakMap(RiakMap $map) {
         $this->riakMap = $map;
+        $this->hasRiakMap = true;
     }
     {{/if}}
+
+    public function getMapValues() {
+        return $this->mapValues;
+    }
+
+    public function setMapValues($map) {
+        $this->mapValues = $map;
+    }
 }
 
 class {{objectNameWithoutNamespace}}Collection extends \ArrayObject {

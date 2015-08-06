@@ -18,4 +18,11 @@ class Field
     public $includeInAll;
     public $indexName;
 
+
+    //For riak
+    public $riakIndexed;
+
+    //For elasticsearch
+    public $elasticsearchIndexed;
+
 }

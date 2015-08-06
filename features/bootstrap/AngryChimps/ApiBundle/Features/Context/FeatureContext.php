@@ -94,6 +94,7 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     public function iCreateANewMember()
     {
         $this->requestArray = $this->getSampleRequestArray('member', 'post');
+        $this->requestArray['payload']['email'] = 'email' . rand(1, 1000000000) . '@seangallavan.com';
         $this->postData('member');
         $this->authenticatedUserId = $this->getResponseFieldValue('payload.member.id');
         $this->setVariable('member.id', $this->authenticatedUserId);

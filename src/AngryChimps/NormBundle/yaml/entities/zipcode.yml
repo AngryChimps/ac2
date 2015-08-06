@@ -11,8 +11,12 @@ fields:
     type: int
   - name: city
     type: string
+    riak:
+        indexed: true
   - name: state
     type: string
+    riak:
+        indexed: true
   - name: dst_timezone_offset #in seconds
     type: int
   - name: raw_timezone_offset #in seconds
@@ -35,3 +39,5 @@ fields:
     type: float
   - name: created_at
     type: DateTime
+    riak:
+        indexed: true

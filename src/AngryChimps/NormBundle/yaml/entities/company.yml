@@ -16,8 +16,12 @@ fields:
         - Length:
             min: 4
             max: 50
+    riak:
+        indexed: true
   - name: email
     type: string
+    riak:
+        indexed: true
   - name: website
     type: string
   - name: billing_address
@@ -27,24 +31,38 @@ fields:
     values:
       - Basic
       - Premium
+    riak:
+        indexed: true
   - name: rating_count
     type: Counter
+    riak:
+        indexed: true
   - name: rating_total
     type: Counter
   - name: rating_avg
     type: float
+    riak:
+        indexed: true
   - name: status
     type: enum
     values:
       - Active
       - Deleted
       - PartiallyConfigured
+    riak:
+        indexed: true
   - name: created_by
     type: string
+    riak:
+        indexed: true
   - name: created_at
     type: DateTime
+    riak:
+        indexed: true
   - name: updated_at
     type: DateTime
+    riak:
+        indexed: true
 
 api_public_fields:
   - id

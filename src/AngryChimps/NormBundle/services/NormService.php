@@ -8,8 +8,13 @@ namespace AngryChimps\NormBundle\services;
 //use Norm\ProviderAdListingCollection;
 //use Norm\Address;
 use AC\NormBundle\cached\NormBaseService;
+use Riak\Client\Command\Search\Search;
 
 class NormService extends NormBaseService {
+    public function getMemberByEmail($email) {
+        return $this->getObjectByQuery($this->infoService->getClassName('member'), 'email_register:' . $email);
+    }
+
 //    public function publish($obj) {
 //        $arr = [];
 //        $now = new \DateTime();

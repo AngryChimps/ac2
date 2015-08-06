@@ -3,15 +3,10 @@
 
 namespace AC\NormBundle\Command;
 
-use AC\NormBundle\core\generator\Generator;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use AC\NormBundle\Services\RealmInfoService;
-use AC\NormBundle\Services\DatastoreService;
 
 class EsCreateIndexCommand extends ContainerAwareCommand
 {

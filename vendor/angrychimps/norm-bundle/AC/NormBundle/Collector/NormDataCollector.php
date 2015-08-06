@@ -30,20 +30,15 @@ class NormDataCollector extends DataCollector {
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         try {
-            if (isset($this->data['queries'])) {
+            if(isset($this->data['queries'])) {
                 $this->data['time'] = $this->totalTime;
-                if(!isset($this->data['queries'])) {
-                    $this->data['querycount'] = 0;
-                    $this->data['queries'] = [];
-                }
-                else {
-                    $this->data['querycount'] = count($this->data['queries']);
-                }
+                 $this->data['querycount'] = count($this->data['queries']);
                 $this->data['collector'] = $this->data;
             } else {
                 $this->data['time'] = 0;
                 $this->data['querycount'] = 0;
                 $this->data['collector'] = $this->data;
+                $this->data['queries'] = [];
             }
         }
         catch(\Exception $ex) {
@@ -72,7 +67,7 @@ class NormDataCollector extends DataCollector {
         $data = [];
         $data['className'] = get_class($obj);
         $data['method'] = 'CREATE';
-        $data['obj'] = (array) $obj;
+        $data['obj'] = $obj->getMapValues();
         return $this->startQuery($data);
     }
 
@@ -88,7 +83,7 @@ class NormDataCollector extends DataCollector {
         $data = [];
         $data['className'] = get_class($obj);
         $data['method'] = 'UPDATE';
-        $data['obj'] = (array) $obj;
+        $data['obj'] = $obj->getMapValues();
         return $this->startQuery($data);
     }
 
@@ -96,7 +91,7 @@ class NormDataCollector extends DataCollector {
         $data = [];
         $data['className'] = get_class($obj);
         $data['method'] = 'DELETE';
-        $data['obj'] = (array) $obj;
+        $data['obj'] = $obj->getMapValues();
         return $this->startQuery($data);
     }
 

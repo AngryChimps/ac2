@@ -8,17 +8,29 @@ use AC\NormBundle\core\Utils;
 
 abstract class AbstractDatastore {
     /** @var LoggerInterface  */
-    protected static $loggerService;
+    protected $loggerService;
 
     /** @var  InfoService */
-    protected static $infoService;
+    protected $infoService;
+
+    public abstract function createObject($obj, &$debug);
+    public abstract function createCollection($coll, &$debug);
+    public abstract function updateObject($obj, &$debug);
+    public abstract function updateCollection($coll, &$debug);
+    public abstract function deleteObject($obj, &$debug);
+    public abstract function deleteCollection($coll, &$debug);
+    public abstract function populateObjectByPks($obj, $pks, &$debug);
+    public abstract function populateObjectByQuery($obj, $query, $limit, $offset, &$debug);
+    public abstract function populateCollectionByPks($coll, $pks, &$debug);
+    public abstract function populateCollectionByQuery(\ArrayObject $coll, $query, $limit, $offset, &$debug);
+
 
     public function __construct(InfoService $infoService, LoggerInterface $loggerService) {
-        self::$infoService = $infoService;
-        self::$loggerService = $loggerService;
+        $this->infoService = $infoService;
+        $this->loggerService = $loggerService;
     }
 
-    protected static function getAsArray($obj) {
+    protected function getAsArray($obj) {
         switch (gettype($obj)) {
             case 'NULL':
                 return null;
@@ -32,15 +44,15 @@ abstract class AbstractDatastore {
             case 'array':
                 $arr = [];
                 foreach ($obj as $object) {
-                    $arr[] = self::getAsArray($object);
+                    $arr[] = $this->getAsArray($object);
                 }
                 return $arr;
 
             case 'object':
-                if (self::isCollection($obj)) {
+                if ($this->isCollection($obj)) {
                     $arr = [];
                     foreach ($obj as $key => $val) {
-                        $arr[$key] = self::getAsArray($val);
+                        $arr[$key] = $this->getAsArray($val);
                     }
                     return $arr;
                 }
@@ -50,7 +62,7 @@ abstract class AbstractDatastore {
                 else {
                     $arr = [];
                     foreach ($obj as $key => $val) {
-                        $arr[Utils::property2field($key)] = self::getAsArray($val);
+                        $arr[Utils::property2field($key)] = $this->getAsArray($val);
                     }
                     return $arr;
                 }
@@ -60,14 +72,14 @@ abstract class AbstractDatastore {
         }
     }
 
-    protected static function populateObjectWithArray($obj, $arr)
+    protected function populateObjectWithArray($obj, $arr)
     {
-        self::$loggerService->info(print_r($obj, true));
-        self::$loggerService->info(print_r($arr, true));
+        $this->loggerService->info(print_r($obj, true));
+        $this->loggerService->info(print_r($arr, true));
         $class = get_class($obj);
-        $tableInfo = self::$infoService->getTableInfo($class);
+        $tableInfo = $this->infoService->getTableInfo($class);
 
-        if((is_array($arr) || self::isCollection($obj)) && empty($arr)) {
+        if((is_array($arr) || $this->isCollection($obj)) && empty($arr)) {
             return [];
         }
         for($i = 0; $i < count($tableInfo['fieldNames']); $i++) {
@@ -108,13 +120,13 @@ abstract class AbstractDatastore {
                     break;
                 default:
                     //Norm collection
-                    if (self::isCollection($fieldName)) {
+                    if ($this->isCollection($fieldName)) {
                         $obj->$propertyName = new $fieldType();
                         foreach ($arr[$obj->$tableInfo['fieldNames'][$i]] as $objectArray) {
-                            $tableInfo2 = self::$infoService->getTableInfo($fieldType);
+                            $tableInfo2 = $this->infoService->getTableInfo($fieldType);
                             $object = new $tableInfo2['objectName']();
-                            self::populateObjectWithArray($object, $objectArray);
-                            $obj->$tableInfo['propertyNames'][$i]->offsetSet(self::getIdentifier($object), $object);
+                            $this->populateObjectWithArray($object, $objectArray);
+                            $obj->$tableInfo['propertyNames'][$i]->offsetSet($this->getIdentifier($object), $object);
                         }
                     }
                     //Empty array of Norm objects
@@ -129,19 +141,19 @@ abstract class AbstractDatastore {
                         $obj->$propertyName = [];
                         foreach($arr[$fieldName] as $object) {
                             $obj2 = new $className();
-                            self::populateObjectWithArray($obj2, $object);
+                            $this->populateObjectWithArray($obj2, $object);
                             $obj->{$propertyName}[] = $obj2;
                         }
 //                        $object = new $className();
 //                        if($arr[$fieldName] !== null) {
-//                            self::populateObjectWithArray($object, $arr[$fieldName]);
+//                            $this->populateObjectWithArray($object, $arr[$fieldName]);
 //                        }
 //                        $obj->$propertyName = $object;
                     }
                     elseif (class_exists($tableInfo['fieldTypes'][$i])) {
                         $object = new $tableInfo['fieldTypes'][$i]();
                         if($arr[$fieldName] !== null) {
-                            self::populateObjectWithArray($object, $arr[$fieldName]);
+                            $this->populateObjectWithArray($object, $arr[$fieldName]);
                         }
                         $obj->$propertyName = $object;
                     }
@@ -157,9 +169,9 @@ abstract class AbstractDatastore {
      * @param $obj
      * @return string
      */
-    protected static function getIdentifier($obj) {
+    protected function getIdentifier($obj) {
         $class = get_class($obj);
-        $tableInfo = self::$infoService->getTableInfo($class);
+        $tableInfo = $this->infoService->getTableInfo($class);
 
         $pkArray = [];
         for($i = 0; $i < count($tableInfo['primaryKeyFieldNames']); $i++) {
@@ -179,7 +191,7 @@ abstract class AbstractDatastore {
         return implode('|', $pkArray);
     }
 
-    public static function isCollection($class) {
+    public function isCollection($class) {
         if(is_object($class)) {
             $class = get_class($class);
         }

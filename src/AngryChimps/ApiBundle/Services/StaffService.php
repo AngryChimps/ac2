@@ -34,4 +34,16 @@ class StaffService extends AbstractRestService {
         $role = $this->companyService->getRole($authenticatedMember->getId(), $staff->getCompanyId());
         return ($role && $role != MemberCompany::CONSUMER_ROLE);
     }
+
+    public function post($endpoint, $data, $additionalData = [])
+    {
+        /** @var Staff $staff */
+        $staff = parent::post($endpoint, $data, $additionalData);
+
+        if($member = $this->norm->getMemberByEmail($staff->getEmail())) {
+
+        }
+    }
+
+
 }

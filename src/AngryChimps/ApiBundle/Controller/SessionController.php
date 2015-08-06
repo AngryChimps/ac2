@@ -38,7 +38,8 @@ class SessionController extends AbstractController
         return $this->responseService->success(array(
             'session_id' => $session->getId(),
             'user_id' => $session->getUserId(),
-            'device_id' => $session->getDeviceId()
+            'device_id' => $session->getDeviceId(),
+            'browser_hash' => $session->getBrowserHash(),
         ));
     }
 

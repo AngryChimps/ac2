@@ -11,10 +11,16 @@ fields:
     type: string
   - name: location_id
     type: string
+    riak:
+        indexed: true
   - name: author_id
     type: string
+    riak:
+        indexed: true
   - name: body
     type: string
+    riak:
+        indexed: true
   - name: status
     type: enum
     values:
@@ -22,8 +28,14 @@ fields:
       - Read
       - Replied
       - Archived
+    riak:
+        indexed: true
   - name: message_flag_ids
     type: string[]
+    riak:
+        indexed: true
   - name: created_at
     type: DateTime
+    riak:
+        indexed: true
 

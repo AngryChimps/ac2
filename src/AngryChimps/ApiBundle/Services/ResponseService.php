@@ -24,6 +24,8 @@ class ResponseService {
     const AUTHENTICATED_MEMBER_ALREADY_IN_SESSION = 'AuthenticatedMemberAlreadyInSession';
     const INVALID_SESSION_INFORMATION = 'InvalidSessionInformation';
     const UNKNOWN_POST_DATA_FIELD = 'UnknownPostDataField';
+    const UNKNOWN_ENTITY_TYPE = 'UnknownEntityType';
+    const MEDIA_NOT_ATTACHED = 'MediaNotAttached';
 
     /** @var Request  */
     protected $request;

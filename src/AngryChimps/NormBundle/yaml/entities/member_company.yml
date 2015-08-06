@@ -10,20 +10,20 @@ primary_keys:
 fields:
   - name: member_id
     type: string
+    riak:
+        indexed: true
   - name: company_id
     type: string
+    riak:
+        indexed: true
   - name: role
     type: enum
     values:
       - Consumer
       - Admin
       - SuperAdmin
-  - name: rating
-    type: int
-  - name: rated_at
-    type: DateTime
-  - name: company_notes
-    type: string
+    riak:
+        indexed: true
   - name: created_at
     type: DateTime
   - name: updated_at

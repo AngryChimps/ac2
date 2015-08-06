@@ -27,6 +27,7 @@ class ACNormExtension extends Extension
         $container->setParameter('ac_norm.debug', $config['debug']);
         $container->setParameter('ac_norm.namespace', $config['namespace']);
         $container->setParameter('ac_norm.datastores', $config['datastores']);
+        $container->setParameter('ac_norm.defaults', $config['defaults']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

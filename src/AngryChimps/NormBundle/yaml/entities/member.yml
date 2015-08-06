@@ -2,6 +2,9 @@ datastores:
   - name: riak_ds
     type: primary
     method: riak2_map
+  - name: es_ds
+    type: secondary
+    method: es_document
 
 primary_keys:
   - id
@@ -14,20 +17,28 @@ fields:
     type: Email
     validations:
         - Email: ~
+    riak:
+        indexed: true
   - name: password
     type: string
     validations:
         - Length:
             min: 6
             max: 25
-    indexed: false
+    elasticsearch:
+        indexed: false
   - name: password_reset_code
     type: string
-    indexed: false
+    elasticsearch:
+        indexed: false
   - name: first
     type: string
+    riak:
+        indexed: true
   - name: last
     type: string
+    riak:
+        indexed: true
   - name: title
     type: string
   - name: gender
@@ -48,6 +59,8 @@ fields:
       - Locked
       - Banned
       - PartialRegistration
+    riak:
+        indexed: true
   - name: role
     type: enum
     values:
@@ -55,21 +68,23 @@ fields:
       - Support
       - Admin
       - SuperAdmin
+    riak:
+        indexed: true
   - name: last_activity_date
     type: Date
     default: "new \\DateTime()"
+    riak:
+        indexed: true
   - name: blocked_company_ids
-    type: string[]
-  - name: managed_company_ids
-    type: string[]
-  - name: ad_flag_ids
-    type: string[]
-  - name: message_flag_ids
-    type: string[]
-  - name: address_ids
     type: string[]
   - name: created_at
     type: DateTime
+    riak:
+        indexed: true
+  - name: updated_at
+    type: DateTime
+    riak:
+        indexed: true
 
 api_public_fields:
   - id

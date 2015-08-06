@@ -3,12 +3,14 @@
 
 namespace AC\NormBundle\Services;
 
+use AC\NormBundle\core\datastore\AbstractDatastore;
 use AC\NormBundle\core\exceptions\UnsupportedObjectType;
 use AC\NormBundle\core\Utils;
+use AngryChimps\TaskBundle\Services\Tasks\NormCreateObjectTask;
 use Psr\Log\LoggerInterface;
 use AC\NormBundle\Collector\NormDataCollector;
 
-class NormCrudService
+abstract class NormCrudService
 {
     protected static $debugData = array();
     protected $debug;
@@ -34,7 +36,7 @@ class NormCrudService
         $this->dataCollector = $dataCollector;
     }
 
-    public function create($obj, $data = null) {
+    public function create($obj, $dsName = null) {
         //Setup Debugging
         if ($this->debug) {
             $debug = $this->dataCollector->startCreateQuery($obj);
@@ -44,13 +46,24 @@ class NormCrudService
         }
 
         $class = get_class($obj);
-        $ds = $this->datastoreService->getDatastore($this->infoService->getDatastoreName($class));
 
-        if($this->isCollection($obj)) {
-            $ds->createCollection($obj, $data, $debug);
+        if($dsName === null) {
+            $ds = $this->datastoreService->getDatastore($this->infoService->getPrimaryDatastoreName($class));
         }
         else {
-            $ds->createObject($obj, $data, $debug);
+            $ds = $this->datastoreService->getDatastore($dsName);
+        }
+
+        if($this->isCollection($obj)) {
+            $ds->createCollection($obj, $debug);
+        }
+        else {
+            $ds->createObject($obj, $debug);
+        }
+
+        //Create tasks for secondary datastores
+        foreach($this->infoService->getSecondaryDatastoreNames($class) as $dsName) {
+            $task = new NormCreateObjectTask($obj, $this, $dsName);
         }
 
         //Store debugging data
@@ -70,7 +83,7 @@ class NormCrudService
 
         //Get datastore
         $class = get_class($obj);
-        $ds = $this->datastoreService->getDatastore($this->infoService->getDatastoreName($class));
+        $ds = $this->datastoreService->getDatastore($this->infoService->getPrimaryDatastoreName($class));
 
         if($this->isCollection($obj)) {
             $ds->updateCollection($obj, $debug);
@@ -94,7 +107,7 @@ class NormCrudService
         }
 
         $class = get_class($obj);
-        $ds = $this->datastoreService->getDatastore($this->infoService->getDatastoreName($class));
+        $ds = $this->datastoreService->getDatastore($this->infoService->getPrimaryDatastoreName($class));
 
         if($this->isCollection($obj)) {
             $ds->deleteCollection($obj, $debug);
@@ -112,7 +125,7 @@ class NormCrudService
         //Eventually when local caching comes back, this will be necessary
     }
 
-//    public function getObjectAsArray(NormBaseObject $obj) {
+ //    public function getObjectAsArray(NormBaseObject $obj) {
 //        $data = array();
 //
 //        for($i = 0; $i < count($obj::$fieldNames); $i++) {
@@ -144,7 +157,7 @@ class NormCrudService
 //        return json_encode($this->getCollectionAsArray($coll));
 //    }
 
-    protected function getObjectByPks($className, $pks)
+    protected function getObjectByPks($className, $pks, $datastoreName = null)
     {
         $obj = new $className();
 
@@ -159,7 +172,11 @@ class NormCrudService
             $pks = [$pks];
         }
 
-        $ds = $this->datastoreService->getDatastore($this->infoService->getDatastoreName($className));
+        if($datastoreName === null) {
+            $datastoreName = $this->infoService->getPrimaryDatastoreName($className);
+        }
+
+        $ds = $this->datastoreService->getDatastore($datastoreName);
         if($ds->populateObjectByPks($obj, $pks, $debug) === false) {
             if ($this->debug) {
                 $this->dataCollector->endQueryFailed($debug, (array) $obj);
@@ -179,6 +196,22 @@ class NormCrudService
         return $obj;
     }
 
+    protected function getObjectByQuery($className, $query, $limit = null, $offset = 0, $datastoreName = null) {
+        $obj = new $className();
+        $debug = [];
+
+        if($datastoreName === null) {
+            $datastoreName = $this->infoService->getPrimaryDatastoreName($className);
+        }
+
+        $ds = $this->datastoreService->getDatastore($datastoreName);
+        if($ds->populateObjectByQuery($obj, $query, $limit, $offset, $debug) === false) {
+            return null;
+        }
+
+        return $obj;
+    }
+
     protected function getCollectionByPks($className, $pks) {
         $coll = new $className();
         $tableInfo = $this->infoService->getTableInfo($className);
@@ -190,6 +223,18 @@ class NormCrudService
             }
 
             $coll[$this->getIdentifier($object)] = $object;
+        }
+
+        return $coll;
+    }
+
+    protected function getCollectionByQuery($className, $query, $limit = null, $offset = 0) {
+        $coll = new $className();
+        $debug = [];
+
+        $ds = $this->datastoreService->getDatastore($this->infoService->getPrimaryDatastoreName($className));
+        if($ds->populateCollectionByQuery($coll, $query, $limit, $offset, $debug) === false) {
+            return null;
         }
 
         return $coll;

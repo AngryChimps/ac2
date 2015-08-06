@@ -4,8 +4,8 @@ namespace {{baseServiceNamespace}};
 
 use AC\NormBundle\Services\NormCrudService;
 
-{{#each traitNames}}
-use {{{traitName}}};
+{{#each traitFullNames}}
+// use {{{this}}};
 {{/each}}
 
 {{#each entities}}
@@ -13,8 +13,8 @@ use {{objectName}};
 {{/each}}
 
 class NormBaseService extends NormCrudService {
-    {{#each traitNames}}
-    use {{traitShortName}};
+    {{#each traitShortNames}}
+    // use {{this}};
     {{/each}}
 
     {{#each entities}}
@@ -37,8 +37,8 @@ class NormBaseService extends NormCrudService {
     }
 
     {{#if primaryIsRiak2}}
-    public function get{{objectNameWithoutNamespace}}CollectionByQuery($query, $limit = null, $offset = 0) {
-        return $this->getCollectionByQuery('{{objectNameWithoutNamespace}}Collection', {{riakSolrIndexName}}, $query, $limit, $offset);
+    public function get{{objectNameWithoutNamespace}}CollectionByRiakQuery($query, $limit = null, $offset = 0) {
+        return $this->getCollectionByQuery('{{objectNameWithoutNamespace}}Collection', '{{riakSolrIndexName}}', $query, $limit, $offset);
     }
     {{/if}}
 
@@ -109,14 +109,6 @@ class NormBaseService extends NormCrudService {
     {{#each tables}}
         $this->define{{objectNameWithoutNamespace}}Mapping();
     {{/each}}
-    }
-
-    public function createIndex() {
-        return $this->createEsIndex('{{primaryDatastoreName}}', {{shards}}, {{replicas}});
-    }
-
-    public function deleteIndex() {
-        return $this->deleteEsIndex('{{primaryDatastoreName}}');
     }
     {{/if}}
 

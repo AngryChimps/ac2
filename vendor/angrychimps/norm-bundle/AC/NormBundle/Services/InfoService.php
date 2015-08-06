@@ -45,9 +45,14 @@ class InfoService {
         }
     }
 
-    public function getDatastoreName($className) {
+    public function getPrimaryDatastoreName($className) {
         $className = ltrim($className, '\\');
         return self::$structure['classes'][$className]['primaryDatastoreName'];
+    }
+
+    public function getSecondaryDatastoreNames($className) {
+        $className = ltrim($className, '\\');
+        return self::$structure['classes'][$className]['secondaryDatastoreNames'];
     }
 
     public function getDatastorePrefix($datastoreName) {

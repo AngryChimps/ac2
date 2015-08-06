@@ -3,7 +3,9 @@
 
 namespace AC\NormBundle\Command;
 
+use AC\NormBundle\core\datastore\EsDocumentDatastore;
 use AC\NormBundle\core\generator\Generator;
+use AC\NormBundle\Services\CreatorService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,43 +22,60 @@ class EsMapCommand extends ContainerAwareCommand
         $this
             ->setName('es:map')
             ->setDescription('Upload mapping file for a given realm name')
-            ->addArgument(
-                'realmName',
-                InputArgument::REQUIRED,
-                'Which realm should we map?'
-            )
-            ->addArgument(
-                'typeName',
-                InputArgument::OPTIONAL,
-                'Which type should we map (defaults to all)?'
-            )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $realmName = $input->getArgument('realmName');
-        $typeName = $input->getArgument('typeName');
+        /** @var DatastoreService $datastoreService */
+        $datastoreService = $this->getContainer()->get('ac_norm.datastore');
 
-        /** @var RealmInfoService $realmInfo */
-        $realmInfo = $this->getContainer()->get('ac_norm.realm_info');
-        $realmService = $this->getContainer()->get('ac_norm.norm.' . $realmName);
+        /** @var CreatorService $cs */
+        $cs = $this->getContainer()->get('ac_norm.creator');
+        $cs->createIfNecessary(true);
+        $cs->generateSchema();
+        $cs->generateData();
+        $data = $cs->getData();
 
-        if(empty($typeName)) {;
-            foreach($realmInfo->getTableNames($realmName) as $tableName) {
-                $fullClassName = $realmInfo->getClassName($realmName, $tableName);
-                $classParts = explode('\\', $fullClassName);
-                $shortClassName = $classParts[count($classParts) - 1];
-                $func = 'define' . $shortClassName . 'Mapping';
-                $realmService->$func();
+        //Set up entity level stuff
+        foreach($data['entities'] as $entityData) {
+            foreach($entityData['datastores'] as $datastore) {
+                switch($datastore['method']) {
+                    case 'riak2_map':
+//                        /** @var Riak2MapDatastore $ds */
+//                        $ds = $datastoreService->getDatastore($datastore['name']);
+//
+//                        //Create Solr Indexes
+//                        $engine = new Handlebars(array(
+//                            'loader' => new \Handlebars\Loader\FilesystemLoader(__DIR__.'/../core/generator/templates/', array('extension' => 'handlebars')),
+//                        ));
+//                        $rendered = $engine->render('RiakSolrSchema', array_merge($entityData, ['dsInfo' => $datastore]));
+//                        echo "Creating Solr schema for datastore: " . $datastore['name'] . ", entity: " . $entityData['name'] . "\n";
+//                        $ds->createSolrSchema($entityData['name'], $rendered);
+//                        echo "Creating Solr Index for datastore: " . $datastore['name'] . ", entity: " . $entityData['name'] . "\n";
+//                        $ds->createSolrIndex($entityData['name']);
+//                        echo "Associating bucket to Solr Index for datastore: " . $datastore['name'] . ", entity: " . $entityData['name'] . "\n";
+//                        $ds->associateBucketToSolrIndex($entityData['name']);
+                        break;
+
+                    case 'es_document':
+                        /** @var EsDocumentDatastore $ds */
+                        $ds = $datastoreService->getDatastore($datastore['name']);
+
+                        //Define mapping
+                        $props = [];
+                        foreach($entityData['fields'] as $field) {
+                            $props[$field['name']] = [
+                                'type' => $field['elasticsearchType'],
+                                'include_in_all' => $field['includeInAll'],
+//                                'index_name' => $field['indexName'],
+                            ];
+                        }
+                        echo "Defining Elasticsearch Mapping for datastore: " . $datastore['name'] . ", entity: " . $entityData['name'] . "\n";
+                        $ds->defineMapping($entityData['name'], $props);
+                        break;
+                }
             }
-        }
-        else {
-            $fullClassName = $realmInfo->getClassName($realmName, $typeName);
-            $classParts = explode('\\', $fullClassName);
-            $shortClassName = $classParts[count($classParts) - 1];
-            $func = 'define' . $shortClassName . 'Mapping';
-            $realmService->$func();
         }
     }
 }

@@ -10,21 +10,32 @@ primary_keys:
 fields:
   - name: message_key
     type: string
+    riak:
+        indexed: true
   - name: author_key
     type: string
+    riak:
+        indexed: true
+  - name: reason
+    type: enum
+    values:
+        - CommercialNature
+        - InappropriateContent
+        - Profanity
+        - Other
+    riak:
+        indexed: true
   - name: body
     type: string
+    riak:
+        indexed: true
   - name: status
-    type: int
+    type: enum
+    values:
+        - NotReviewed
+        - FlagConfirmed
+        - FlagRejected
   - name: created_at
     type: DateTime
-
-foreign_keys:
-  - name: fk_location_company
-    column_name: message_key
-    referenced_table_name: message
-    referenced_column_name: key
-  - name: fk_location_company
-    column_name: author_key
-    referenced_table_name: member
-    referenced_column_name: key
+    riak:
+        indexed: true

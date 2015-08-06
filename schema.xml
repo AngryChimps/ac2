@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<schema name="{{dsInfo.prefix}}{{name}}" version="1.5">
+<schema name="norm_company" version="1.5">
  <fields>
-   {{#each fields}}
-   <field name="{{name}}{{riakSolrSuffix}}"   type="{{type}}" indexed="{{riakIndexed}}" stored="true" multiValued="{{multiValued}}"/>
-   {{/each}}
+   <field name="id_register"   type="Uuid" indexed="false" stored="true" multiValued="false"/>
+   <field name="name_register"   type="string" indexed="false" stored="true" multiValued="false"/>
+   <field name="email_register"   type="string" indexed="true" stored="true" multiValued="false"/>
+   <field name="website_register"   type="string" indexed="false" stored="true" multiValued="false"/>
+   <field name="billing_address_set"   type="\Norm\Address" indexed="false" stored="true" multiValued="true"/>
+   <field name="plan_register"   type="int" indexed="true" stored="true" multiValued="false"/>
+   <field name="rating_count_counter"   type="Counter" indexed="true" stored="true" multiValued="false"/>
+   <field name="rating_total_counter"   type="Counter" indexed="false" stored="true" multiValued="false"/>
+   <field name="rating_avg_register"   type="float" indexed="true" stored="true" multiValued="false"/>
+   <field name="status_register"   type="int" indexed="true" stored="true" multiValued="false"/>
+   <field name="created_by_register"   type="string" indexed="true" stored="true" multiValued="false"/>
+   <field name="created_at_register"   type="DateTime" indexed="true" stored="true" multiValued="false"/>
+   <field name="updated_at_register"   type="DateTime" indexed="true" stored="true" multiValued="false"/>
 
    <!-- All of these fields are required by Riak Search -->
    <field name="_yz_id"   type="_yz_str" indexed="true" stored="true"  multiValued="false" required="true"/>
@@ -20,9 +30,8 @@
  <uniqueKey>_yz_id</uniqueKey>
 
  <types>
-     <fieldType name="Currency" class="solr.TrieFloatField" />
-     <fieldType name="Counter" class="solr.TrieIntField" />
-    <fieldType name="Location" class="solr.StrField" />
+    <fieldType name="Currency" class="solr.CurrencyField" />
+    <fieldType name="Location" class="solr.LatLonType" />
     <fieldType name="Date" class="solr.TrieDateField" />
     <fieldType name="DateTime" class="solr.TrieDateField" />
     <fieldType name="Uuid" class="solr.StrField" />
@@ -35,7 +44,7 @@
     <fieldType name="long" class="solr.TrieLongField" />
     <fieldType name="float" class="solr.TrieFloatField" />
     <fieldType name="decimal" class="solr.TrieFloatField" />
-    <fieldType name="enum" class="solr.TrieIntField" />
+    <fieldType name="enum" class="solr.EnumField" />
     <fieldType name="bool[]" class="solr.BoolField" />
     <fieldType name="string[]" class="solr.StrField" />
     <fieldType name="text[]" class="solr.TextField" />
@@ -43,13 +52,10 @@
     <fieldType name="long[]" class="solr.TrieLongField" />
     <fieldType name="float[]" class="solr.TrieFloatField" />
     <fieldType name="decimal[]" class="solr.TrieFloatField" />
-    <fieldType name="enum[]" class="solr.TrieIntField" />
-    {{#each subclasses}}
-    <fieldType name="{{type}}" class="solr.StrField" />
-    {{/each}}
+    <fieldType name="enum[]" class="solr.EnumField" />
+    <fieldType name="\Norm\Address" class="solr.StrField" />
 
     <!-- YZ String: Used for non-analyzed fields -->
     <fieldType name="_yz_str" class="solr.StrField" sortMissingLast="true" />
-
  </types>
 </schema>

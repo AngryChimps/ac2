@@ -12,14 +12,34 @@ fields:
     auto_generate: true
   - name: review_id
     type: string
+    riak:
+        indexed: true
   - name: author_id
     type: string
+    riak:
+        indexed: true
+  - name: reason
+    type: enum
+    values:
+        - CommercialNature
+        - MedicalAssertions
+        - PersonalNature
+        - Profanity
+        - Pricing
+        - InappropriateContent
+        - Other
   - name: body
     type: string
+    riak:
+        indexed: true
   - name: status
     type: enum
     values:
       - Enabled
       - Disabled
+    riak:
+        indexed: true
   - name: created_at
     type: DateTime
+    riak:
+        indexed: true

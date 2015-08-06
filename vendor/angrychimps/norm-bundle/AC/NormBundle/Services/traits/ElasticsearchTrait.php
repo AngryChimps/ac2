@@ -46,14 +46,4 @@ trait ElasticsearchTrait {
         $ds = $this->datastoreService->getDatastore($this->realmInfo->getDatastore($className), $this->realmInfo, $this->loggerService);
         return $ds->defineMapping($this->realmInfo->getTableName($className), $properties);
     }
-
-    public function createEsIndex($datastoreName, $shards, $replicas){
-        $ds = $this->datastoreService->getDatastore($datastoreName, $this->realmInfo, $this->loggerService);
-        return $ds->createIndex($shards, $replicas);
-    }
-
-    public function deleteEsIndex($datastoreName){
-        $ds = $this->datastoreService->getDatastore($datastoreName, $this->realmInfo, $this->loggerService);
-        return $ds->deleteIndex();
-    }
 }

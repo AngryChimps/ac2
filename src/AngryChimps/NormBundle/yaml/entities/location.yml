@@ -12,8 +12,12 @@ fields:
     auto_generate: true
   - name: company_id
     type: string
+    riak:
+        indexed: true
   - name: staff_ids #used to preserve order of display
     type: string[]
+    riak:
+        indexed: true
   - name: name
     type: string
     validations:
@@ -22,6 +26,8 @@ fields:
             max: 25
   - name: is_mobile
     type: bool
+    riak:
+        indexed: true
   - name: mobile_radius_miles
     type: int
   - name: photos
@@ -40,12 +46,20 @@ fields:
         - Active
         - Deleted
         - PartiallyConfigured
+    riak:
+        indexed: true
   - name: created_by
     type: string
+    riak:
+        indexed: true
   - name: created_at
     type: DateTime
+    riak:
+        indexed: true
   - name: updated_at
     type: DateTime
+    riak:
+        indexed: true
 
 api_public_fields:
   - id

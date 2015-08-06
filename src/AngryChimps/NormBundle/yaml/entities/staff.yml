@@ -12,10 +12,32 @@ fields:
     auto_generate: true
   - name: member_id
     type: string
+    riak:
+        indexed: true
   - name: company_id
     type: string
+    riak:
+        indexed: true
   - name: location_ids
     type: string[]
+    riak:
+        indexed: true
+  - name: email
+    type: Email
+    validations:
+        - Email: ~
+    riak:
+        indexed: true
+  - name: first
+    type: string
+    riak:
+        indexed: true
+  - name: last
+    type: string
+    riak:
+        indexed: true
+  - name: title
+    type: string
   - name: position
     type: string
   - name: education
@@ -30,9 +52,17 @@ fields:
       - Active
       - Deleted
       - PartiallyConfigured
+    riak:
+        indexed: true
   - name: created_by
     type: string
+    riak:
+        indexed: true
   - name: created_at
     type: DateTime
+    riak:
+        indexed: true
   - name: updated_at
     type: DateTime
+    riak:
+        indexed: true
