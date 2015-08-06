@@ -3,10 +3,12 @@
 
 namespace AngryChimps\MediaBundle\Services;
 
+use AngryChimps\ApiBundle\Services\AbstractRestService;
 use Aws\S3\S3Client;
 use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use Imagine\Image\Box;
 use Imagine\Imagick\Imagine;
+use Norm\Member;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaService {
@@ -21,9 +23,15 @@ class MediaService {
         $this->filesystemInfo = $filesystemInfo;
     }
 
-    public function persist($fsName, UploadedFile $file) {
-        $filesystem = $this->filesystemMap->get($fsName);
-        $content = file_get_contents($file->getRealPath());
+    public function isOwner($obj, Member $authenticatedMember)
+    {
+        return false;
+    }
+
+    public function post($media)
+    {
+        $filesystem = $this->filesystemMap->get('media_fs');
+        $content = file_get_contents($media->getRealPath());
 //        $extension = $file->getClientOriginalExtension();
         $imagine = new \Imagine\Imagick\Imagine();
         $img = $imagine->load($content);
@@ -34,6 +42,7 @@ class MediaService {
 
         return $filename . '.jpg';
     }
+
 
     public function retrieve($fsName, $filename) {
         $filesystem = $this->filesystemMap->get($fsName);

@@ -4,12 +4,8 @@
     "address": {
       "street1": "230 Dolores Street",
       "street2": "Suite 212",
-      "city": "San Francisco",
-      "state": "CA",
       "zip": 94114,
-      "phone": "(415) 555-1213",
-      "lat": 37.762822,
-      "lon": -122.437239
+      "phone": "(415) 555-1213"
     },
     "is_mobile": true,
     "mobile_radius_miles": 2.5,
@@ -56,7 +52,10 @@
       "saturday": {
         "start": null,
         "end": null
-      }
+      },
+      "photos": [
+        "2a3701c951e5390b7dacc26ec6ad4a9b1a0d1207.jpg"
+      ]
     }
   }
 }

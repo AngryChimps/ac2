@@ -47,14 +47,32 @@ class LocationService extends AbstractRestService {
 
     public function post($endpoint, $data, $additionalData = [])
     {
-        $geoAddr = $this->geo->lookupAddress($data['address']['street1'],
-            $data['address']['zip']);
-        $data['address']['lat'] = $geoAddr->lat;
-        $data['address']['lon'] = $geoAddr->lon;
+        //Add geo data
+        $this->addGeoData($data);
 
         /** @var Location $location*/
         $location = parent::post($endpoint, $data, $additionalData);
 
         return $location;
+    }
+
+    public function patch($endpoint, $data)
+    {
+        //Add geo data
+        $this->addGeoData($data);
+
+        /** @var Location $location*/
+        $location = parent::patch($endpoint, $data);
+
+        return $location;
+    }
+
+    protected function addGeoData(array &$data) {
+        $geoAddr = $this->geo->lookupAddress($data['address']['street1'],
+            $data['address']['zip']);
+        $data['address']['city'] = $geoAddr->city;
+        $data['address']['state'] = $geoAddr->state;
+        $data['address']['lat'] = $geoAddr->lat;
+        $data['address']['lon'] = $geoAddr->lon;
     }
 }

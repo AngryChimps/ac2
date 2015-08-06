@@ -49,24 +49,25 @@ class LocationController extends AbstractRestController
 
         //Get location data
         if($this->locationService->isOwner($location, $this->getAuthenticatedUser())) {
-            $locationData = ['location' => $this->locationService->getApiPrivateArray($location)];
+            $allData = ['location' => $this->locationService->getApiPrivateArray($location)];
         }
         else {
-            $locationData = ['location' => $this->locationService->getApiPublicArray($location)];
+            $allData = ['location' => $this->locationService->getApiPublicArray($location)];
         }
 
         //Get company data
-        /** @var Company $company */
-        $company = $this->companyService->get('company', $location->getCompanyId());
-        $companyData = ['company' => $this->companyService->getApiPublicArray($company)];
+        if($this->request->get('company') !== null) {
+            /** @var Company $company */
+            $company = $this->companyService->get('company', $location->getCompanyId());
+            $companyData = ['company' => $this->companyService->getApiPublicArray($company)];
+            $allData = array_merge($allData, $companyData);
+        }
 
         //Get staff data
         $staffData = ['staff' => []];
 
         //Get review data
         $reviewData = ['reviews' => []];
-
-        $allData = array_merge($locationData, $companyData, $staffData, $reviewData);
 
         return $this->responseService->success($allData);
     }

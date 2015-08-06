@@ -2,8 +2,6 @@
   "payload": {
     "location": {
       "id": "3661a7548f98e5f4b087b8334ed82c21",
-      "company_id": "3661a7548f98e5f4b087b8334ed82c21",
-      "company_name": "Brentwood Animal Hospital",
       "name": "Main Clinic",
       "address": {
         "street1": "230 Dolores Street",
@@ -32,35 +30,10 @@
         200,
         300
       ],
-      "staff": [
-        {
-          "first": "Bob",
-          "last": "Smitherson",
-          "position": "Veterinarian",
-          "title": "DVM",
-          "education": "UC Davis",
-          "description": "Bob is an amazing vet specializing in...",
-          "photo": "ci/lkjsdfljf.jpg"
-        }
+      "staff_ids": [
+        "lsjsdflkjsfljsdflkjsf",
+        "wrouislfsdjkdsflkjsfl"
       ],
-      "reviews": {
-        "count": 23,
-        "results": [
-          {
-            "payload": {
-              "id": "sldjfsljflkjfdso0i82osslfsj",
-              "reviewer_name": "Jane S.",
-              "rating": 3.5,
-              "body": "This was the most awesome vet ever!...",
-              "tagged_staff_ids": [
-                "lkjsdlj23r09uwsdijfslfjsdljsdflj",
-                "lsdjf0982j0ijsljfsfj02j0wijfw0if"
-              ],
-              "created_at": "2015-02-26T09:00:00-0800"
-            }
-          }
-        ]
-      },
       "hours": {
         "sunday": {
           "start": null,
@@ -90,7 +63,46 @@
           "start": null,
           "end": null
         }
-      }
+      },
+      "status": 3
+    },
+    "company": {
+      "id": "41919ea2208c08833844d3715ffbf7d048540fe3",
+      "name": "Brentwood Animal Hospital",
+      "website": "www.brentwoodah.com"
+    },
+    "staff": {
+      "count": 2,
+      "results": [
+        {
+          "id": "lsjsdflkjsfljsdflkjsf",
+          "first": "Bob",
+          "last": "Smitherson",
+          "position": "Veterinarian",
+          "title": "DVM",
+          "education": "UC Davis",
+          "description": "Bob is an amazing vet specializing in...",
+          "photo": "ci/lkjsdfljf.jpg"
+        }
+      ]
+    },
+    "reviews": {
+      "count": 23,
+      "results": [
+        {
+          "payload": {
+            "id": "sldjfsljflkjfdso0i82osslfsj",
+            "reviewer_name": "Jane S.",
+            "rating": 3.5,
+            "body": "This was the most awesome vet ever!...",
+            "tagged_staff_ids": [
+              "lkjsdlj23r09uwsdijfslfjsdljsdflj",
+              "lsdjf0982j0ijsljfsfj02j0wijfw0if"
+            ],
+            "created_at": "2015-02-26T09:00:00-0800"
+          }
+        }
+      ]
     }
   }
 }

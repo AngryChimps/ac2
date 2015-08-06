@@ -107,23 +107,15 @@ ac_norm:
 
 knp_gaufrette:
     adapters:
-        member_images:
+        media:
             aws_s3:
                 service_id: 'angry_chimps_media.aws_s3.client'
-                bucket_name: 'angrychimps-member-images'
-                options:
-                    directory: %kernel.environment%
-        location_images:
-            aws_s3:
-                service_id: 'angry_chimps_media.aws_s3.client'
-                bucket_name: 'angrychimps-location-images'
+                bucket_name: 'angrychimps-media'
                 options:
                     directory: %kernel.environment%
     filesystems:
-        member_images_fs:
-            adapter:    member_images
-        location_images_fs:
-            adapter:    location_images
+        media_fs:
+            adapter:    media
 
 angry_chimps_media:
     filesystems:

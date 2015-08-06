@@ -183,4 +183,16 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         $this->setVariable('location.id', $this->getResponseFieldValue('payload.location.id'));
     }
 
+    /**
+     * @When I create a new staff member
+     */
+    public function iCreateANewStaffMember()
+    {
+        $this->requestArray = $this->getSampleRequestArray('staff', 'post');
+        $this->requestArray['payload']['company_id'] = $this->getVariable('company.id');
+        $this->postData('location');
+        $this->setVariable('location.id', $this->getResponseFieldValue('payload.location.id'));
+    }
+
+
 }

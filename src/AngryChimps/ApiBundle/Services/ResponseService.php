@@ -26,6 +26,7 @@ class ResponseService {
     const UNKNOWN_POST_DATA_FIELD = 'UnknownPostDataField';
     const UNKNOWN_ENTITY_TYPE = 'UnknownEntityType';
     const MEDIA_NOT_ATTACHED = 'MediaNotAttached';
+    const MISSING_LOCATION_ID_OR_COMPANY_ID = 'MissingLocationIdOrCompanyId';
 
     /** @var Request  */
     protected $request;

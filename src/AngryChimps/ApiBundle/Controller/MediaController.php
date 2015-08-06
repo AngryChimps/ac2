@@ -33,20 +33,9 @@ class MediaController extends AbstractController
         $this->mediaService = $mediaService;
     }
 
-    public function indexGetAction($entityName, $id, $filename)
+    public function indexGetAction($filename)
     {
-        switch($entityName) {
-            case 'location':
-                $filesystemName = 'location_images_fs';
-                break;
-            case 'member':
-                $filesystemName = 'member_images_fs';
-                break;
-            default:
-                throw new \Exception('Unsupported entity type: ' . $entityName);
-        }
-
-        $responseString = $this->mediaService->retrieveSized($filesystemName, $filename,
+        $responseString = $this->mediaService->retrieveSized('media_fs', $filename,
             $this->request->query->get('width'), $this->request->query->get('height'));
 
         // Generate response
@@ -67,7 +56,7 @@ class MediaController extends AbstractController
 
     }
 
-    public function indexPostAction($entityName, $id)
+    public function indexPostAction()
     {
         /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $media */
 //        throw new \Exception($this->getRequest()->files->count());
@@ -77,43 +66,7 @@ class MediaController extends AbstractController
             return $this->responseService->failure(400, ResponseService::MEDIA_NOT_ATTACHED);
         }
 
-        switch($entityName) {
-            case 'member':
-                /** @var Member $member */
-                $member = $this->memberService->get('member', $id);
-                if($member === null) {
-                    return $this->responseService->failure(400, ResponseService::INVALID_MEMBER_ID);
-                }
-                $filename = $this->mediaService->persist('member_images_fs', $media);
-                $this->memberService->patch($member, ['photo' => $filename]);
-                break;
-
-            case 'location':
-                /** @var Location $location */
-                $location = $this->locationService->get('location', $id);
-                if($location === null) {
-                    return $this->responseService->failure(400, ResponseService::INVALID_LOCATION_ID);
-                }
-                $filename = $this->mediaService->persist('location_images_fs', $media);
-                $photos = $location->getPhotos();
-                $photos[] = $filename;
-                $this->locationService->patch($location, ['photos' => $photos]);
-                break;
-
-            default:
-                return $this->responseService->failure(400, ResponseService::UNKNOWN_ENTITY_TYPE);
-        }
-
+        $filename = $this->mediaService->post($media);
         return $this->responseService->success(array('payload' => array('media' => ['id' => $filename])));
-    }
-
-    public function indexPatchAction($id)
-    {
-        return $this->getPatchResponse('company', $id);
-    }
-
-    public function indexDeleteAction($id)
-    {
-        return $this->getDeleteResponse('company', $id);
     }
 }

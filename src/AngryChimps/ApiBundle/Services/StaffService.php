@@ -45,5 +45,7 @@ class StaffService extends AbstractRestService {
         }
     }
 
+    public function getMultipleByLocation($locationId) {
 
+    }
 }

@@ -1,0 +1,1 @@
+See the 'media' endpoint for information about uploading, modifying and deleting media.

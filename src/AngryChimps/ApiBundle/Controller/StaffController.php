@@ -33,6 +33,16 @@ class StaffController extends AbstractRestController
         $this->staffService = $staffService;
     }
 
+    public function indexGetMultipleAction()
+    {
+        if($this->request->get('location_id') === null && $this->request->get('company_id') === null) {
+            return $this->responseService->failure(400, ResponseService::MISSING_LOCATION_ID_OR_COMPANY_ID);
+        }
+        elseif($this->request->get('location_id') !== null) {
+
+        }
+    }
+
     public function indexGetAction($id)
     {
         return $this->getGetResponse('staff', $id);
@@ -40,7 +50,7 @@ class StaffController extends AbstractRestController
 
     public function indexPostAction()
     {
-        return $this->getPostResponse('staff',
+        $resp = $this->getPostResponse('staff',
             [
                 'created_by' => $this->getAuthenticatedUser()->getId(),
                 'status' => Staff::PARTIALLY_CONFIGURED_STATUS,
