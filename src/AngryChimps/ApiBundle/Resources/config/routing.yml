@@ -88,7 +88,7 @@ angry_chimps_api_staff_get:
     methods: ["GET"]
     defaults: { _controller: angry_chimps_api.staff.controller:indexGetAction }
 angry_chimps_api_staff_get_multiple:
-    path:     /staff/{id}
+    path:     /staff
     methods: ["GET"]
     defaults: { _controller: angry_chimps_api.staff.controller:indexGetMultipleAction }
 angry_chimps_api_staff_post:
@@ -103,6 +103,28 @@ angry_chimps_api_staff_delete:
     path:     /staff/{id}
     methods: ["DELETE"]
     defaults: { _controller: angry_chimps_api.staff.controller:indexDeleteAction }
+
+#review
+angry_chimps_api_review_get:
+    path:     /review/{id}
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.review.controller:indexGetAction }
+angry_chimps_api_review_get_multiple:
+    path:     /review
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.review.controller:indexGetMultipleAction }
+angry_chimps_api_review_post:
+    path:     /review
+    methods: ["POST"]
+    defaults: { _controller: angry_chimps_api.review.controller:indexPostAction }
+angry_chimps_api_review_patch:
+    path:     /review/{id}
+    methods: ["PATCH"]
+    defaults: { _controller: angry_chimps_api.review.controller:indexPatchAction }
+angry_chimps_api_review_delete:
+    path:     /review/{id}
+    methods: ["DELETE"]
+    defaults: { _controller: angry_chimps_api.review.controller:indexDeleteAction }
 
 #service
 angry_chimps_api_service_get:

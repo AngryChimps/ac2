@@ -97,6 +97,30 @@ iVBORw0KGgoAAAANSUhEUgAAACoAAAAeCAQAAADwIURrAAAACXBIWXMAAAsTAAALEwEAmpwYAAADGGlD
                         <td><pre>{{ query.result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td>
                     </tr>
                 {% endif %}
+                {% if query.query is defined %}
+                    <tr>
+                        <td>Query</td>
+                        <td><pre>{{ query.query }}</pre></td>
+                    </tr>
+                {% endif %}
+                {% if query.limit is defined %}
+                    <tr>
+                        <td>Limit</td>
+                        <td><pre>{{ query.limit }}</pre></td>
+                    </tr>
+                {% endif %}
+                {% if query.offset is defined %}
+                    <tr>
+                        <td>Offset</td>
+                        <td><pre>{{ query.offset }}</pre></td>
+                    </tr>
+                {% endif %}
+                {% if query.datastoreName is defined %}
+                    <tr>
+                        <td>Datastore Name</td>
+                        <td><pre>{{ query.datastoreName }}</pre></td>
+                    </tr>
+                {% endif %}
 
 
             </table>

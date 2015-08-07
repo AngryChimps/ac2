@@ -39,7 +39,14 @@ class StaffController extends AbstractRestController
             return $this->responseService->failure(400, ResponseService::MISSING_LOCATION_ID_OR_COMPANY_ID);
         }
         elseif($this->request->get('location_id') !== null) {
-
+            $staff = $this->staffService->getMultipleByLocation($this->request->get('location_id'),
+                $this->request->get('staff_count'));
+            return $this->getGetMultipleResponse('staff', $staff);
+        }
+        elseif($this->request->get('company_id') !== null) {
+            $staff = $this->staffService->getMultipleByCompany($this->request->get('company_id'),
+                $this->request->get('staff_count'));
+            return $this->getGetMultipleResponse('staff', $staff);
         }
     }
 
@@ -56,6 +63,8 @@ class StaffController extends AbstractRestController
                 'status' => Staff::PARTIALLY_CONFIGURED_STATUS,
             ]
         );
+
+        return $resp;
     }
 
     public function indexPatchAction($id)

@@ -179,7 +179,7 @@ abstract class NormCrudService
         $ds = $this->datastoreService->getDatastore($datastoreName);
         if($ds->populateObjectByPks($obj, $pks, $debug) === false) {
             if ($this->debug) {
-                $this->dataCollector->endQueryFailed($debug, (array) $obj);
+                $this->dataCollector->endQueryFailed($debug, $this->getAsArray($obj));
             }
             return null;
         }
@@ -190,7 +190,7 @@ abstract class NormCrudService
         }
 
         if ($this->debug) {
-            $this->dataCollector->endQuery($debug, (array) $obj);
+            $this->dataCollector->endQuery($debug, $this->getAsArray($obj));
         }
 
         return $obj;
@@ -198,15 +198,26 @@ abstract class NormCrudService
 
     protected function getObjectByQuery($className, $query, $limit = null, $offset = 0, $datastoreName = null) {
         $obj = new $className();
-        $debug = [];
 
         if($datastoreName === null) {
             $datastoreName = $this->infoService->getPrimaryDatastoreName($className);
         }
 
+        //Setup Debugging
+        if ($this->debug) {
+            $debug = $this->dataCollector->startReadByQueryQuery($className, $query, $limit, $offset, $datastoreName);
+        }
+        else {
+            $debug = null;
+        }
+
         $ds = $this->datastoreService->getDatastore($datastoreName);
         if($ds->populateObjectByQuery($obj, $query, $limit, $offset, $debug) === false) {
             return null;
+        }
+
+        if ($this->debug) {
+            $this->dataCollector->endQuery($debug, $this->getAsArray($obj));
         }
 
         return $obj;
@@ -228,13 +239,28 @@ abstract class NormCrudService
         return $coll;
     }
 
-    protected function getCollectionByQuery($className, $query, $limit = null, $offset = 0) {
+    protected function getCollectionByQuery($className, $query, $limit = null, $offset = 0, $datastoreName = null) {
         $coll = new $className();
-        $debug = [];
 
-        $ds = $this->datastoreService->getDatastore($this->infoService->getPrimaryDatastoreName($className));
+        if($datastoreName === null) {
+            $datastoreName = $this->infoService->getPrimaryDatastoreName($className);
+        }
+
+        //Setup Debugging
+        if ($this->debug) {
+            $debug = $this->dataCollector->startReadCollectionByQueryQuery($className, $query, $limit, $offset, $datastoreName);
+        }
+        else {
+            $debug = null;
+        }
+
+        $ds = $this->datastoreService->getDatastore($datastoreName);
         if($ds->populateCollectionByQuery($coll, $query, $limit, $offset, $debug) === false) {
             return null;
+        }
+
+        if ($this->debug) {
+            $this->dataCollector->endQuery($debug, $this->getAsArray($coll));
         }
 
         return $coll;
@@ -242,7 +268,7 @@ abstract class NormCrudService
 
     public function isCollection($obj) {
         $class = get_class($obj);
-        return strpos($class, 'Collection') == strlen($class) - 10;
+        return strpos($class, 'Collection') === strlen($class) - 10;
     }
 
     protected function getIdentifier($obj) {
@@ -295,16 +321,22 @@ abstract class NormCrudService
     public function getAsArray($obj) {
         $entityName = $this->infoService->getEntityName(get_class($obj));
         $fields = $this->infoService->getFieldNames($entityName);
-
         $arr = [];
-        foreach($fields as $field) {
-            $func = 'get' . ucfirst(Utils::field2property($field));
-            $value = $obj->$func();
-            if(is_object($value)) {
-                $arr[$field] = (array) $value;
+
+        if($this->isCollection($obj) || is_array($obj)) {
+            foreach($obj as $object) {
+                $arr[] = $this->getAsArray($object);
             }
-            else {
-                $arr[$field] = $value;
+        }
+        else {
+            foreach ($fields as $field) {
+                $func = 'get' . ucfirst(Utils::field2property($field));
+                $value = $obj->$func();
+                if (is_object($value)) {
+                    $arr[$field] = (array)$value;
+                } else {
+                    $arr[$field] = $value;
+                }
             }
         }
 

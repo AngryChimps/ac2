@@ -45,3 +45,17 @@ fields:
     type: DateTime
     riak:
         indexed: true
+
+api_public_fields:
+  - id
+  - body
+  - rating
+  - staff_ids
+  - created_at
+
+api_private_fields:
+
+api_hidden_but_settable_fields:
+  - company_id
+  - location_id
+

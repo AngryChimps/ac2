@@ -190,9 +190,33 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     {
         $this->requestArray = $this->getSampleRequestArray('staff', 'post');
         $this->requestArray['payload']['company_id'] = $this->getVariable('company.id');
-        $this->postData('location');
-        $this->setVariable('location.id', $this->getResponseFieldValue('payload.location.id'));
+        $this->requestArray['payload']['location_ids'] = [$this->getVariable('location.id')];
+        $this->postData('staff');
+        $this->setVariable('staff.id', $this->getResponseFieldValue('payload.staff.id'));
     }
 
+    /**
+     * @When I get the :arg1 data with GET param :arg2 and id :arg3
+     */
+    public function iGetTheDataWithGetParamAndId($arg1, $arg2, $arg3)
+    {
+        $this->getData($arg1, [$arg2 => $this->getVariable($arg3)]);
+    }
+
+    /**
+     * @Then The response field :arg1 has a count of :arg2
+     */
+    public function theResponseFieldHasACountOf($arg1, $arg2)
+    {
+        $this->ensureResponseFieldHasCount($arg1, $arg2);
+    }
+
+    /**
+     * @Given I wait :arg1 seconds
+     */
+    public function iWaitSeconds($arg1)
+    {
+        sleep($arg1);
+    }
 
 }

@@ -49,7 +49,7 @@ class NormDataCollector extends DataCollector {
     protected function startQuery($data) {
         //If the last query start time isn't null, then we had an exception during our query
         if($this->lastQueryStartTime !== null) {
-            $this->lastQueryData['title'] = 'FAILED :: ' . $this->lastQueryData['class'] . ' -- '
+            $this->lastQueryData['title'] = 'FAILED :: ' . $this->lastQueryData['className'] . ' -- '
                 . $this->lastQueryData['method'];
             $this->lastQueryData['time'] = 0;
             $this->data['queries'][] = $this->lastQueryData;
@@ -76,6 +76,28 @@ class NormDataCollector extends DataCollector {
         $data['className'] = $class;
         $data['method'] = 'READ';
         $data['pks'] = $pks;
+        return $this->startQuery($data);
+    }
+
+    public function startReadByQueryQuery($class, $query, $limit, $offset, $datastoreName) {
+        $data = [];
+        $data['className'] = $class;
+        $data['method'] = 'READ BY QUERY';
+        $data['query'] = $query;
+        $data['limit'] = $limit;
+        $data['offset'] = $offset;
+        $data['datastoreName'] = $datastoreName;
+        return $this->startQuery($data);
+    }
+
+    public function startReadCollectionByQueryQuery($class, $query, $limit, $offset, $datastoreName) {
+        $data = [];
+        $data['className'] = $class;
+        $data['method'] = 'READ BY QUERY';
+        $data['query'] = $query;
+        $data['limit'] = $limit;
+        $data['offset'] = $offset;
+        $data['datastoreName'] = $datastoreName;
         return $this->startQuery($data);
     }
 

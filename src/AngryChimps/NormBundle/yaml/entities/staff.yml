@@ -10,10 +10,6 @@ fields:
   - name: id
     type: Uuid
     auto_generate: true
-  - name: member_id
-    type: string
-    riak:
-        indexed: true
   - name: company_id
     type: string
     riak:
@@ -66,3 +62,22 @@ fields:
     type: DateTime
     riak:
         indexed: true
+
+api_public_fields:
+  - id
+  - first
+  - last
+  - title
+  - education
+  - description
+  - photo
+  - position
+
+api_private_fields:
+  - email
+  - status
+
+api_hidden_but_settable_fields:
+  - role
+  - company_id
+  - location_ids

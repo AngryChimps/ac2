@@ -60,8 +60,8 @@ class MemberService extends AbstractRestService {
     {
         $member = parent::post($endpoint, $data, $additionalData);
 
-        //Since we created the new member, let's log them in as well
-        if($member !== false) {
+        //Since we created the new member, let's log them in as well if we don't have one logged in
+        if($member !== false && $this->sessionService->getSessionUser() === null) {
             $this->sessionService->setSessionUser($member);
         }
 

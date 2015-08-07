@@ -12,7 +12,23 @@ use Riak\Client\Command\Search\Search;
 
 class NormService extends NormBaseService {
     public function getMemberByEmail($email) {
-        return $this->getObjectByQuery($this->infoService->getClassName('member'), 'email_register:' . $email);
+        return $this->getObjectByQuery($this->infoService->getClassName('member'),
+            'email_register:' . $email);
+    }
+
+    public function getStaffByLocation($locationId, $count = null) {
+        return $this->getCollectionByQuery($this->infoService->getClassName('staff') . 'Collection',
+            'location_ids_set:' . $locationId, $count);
+    }
+
+    public function getStaffByCompany($companyId, $count = null) {
+        return $this->getCollectionByQuery($this->infoService->getClassName('staff') . 'Collection',
+            'company_id_register:' . $companyId, $count);
+    }
+
+    public function getReviewsByLocation($locationId, $count = null) {
+        return $this->getCollectionByQuery($this->infoService->getClassName('review') . 'Collection',
+            'location_id_register:' . $locationId, $count);
     }
 
 //    public function publish($obj) {

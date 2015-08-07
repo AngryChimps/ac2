@@ -159,10 +159,11 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
             //remove the _register, _flag, etc. suffixes from the field names
             $arr = [];
             foreach($result as $fieldName => $value) {
-                $arr[substr($fieldName, 0, strlen($fieldName) - (strlen($fieldName) - strrpos($fieldName, '_')))] = $value;
+                $arr[Utils::field2property(substr($fieldName, 0, strlen($fieldName) - (strlen($fieldName) - strrpos($fieldName, '_'))))] = $value[0];
             }
 
             $obj->setMapValues($arr);
+
             return true;
         }
         else {
@@ -172,7 +173,7 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
 
     public function populateCollectionByQuery(\ArrayObject $coll, $query, $limit, $offset, &$debug) {
         $tableInfo = $this->infoService->getTableInfo(get_class($coll));
-        $indexName = $this->infoService->getEntityName(get_class($coll));
+        $indexName = $this->getPrefixedIndexName($this->infoService->getEntityName(get_class($coll)));
 
         if($limit !== null) {
             $search = Search::builder()
@@ -195,8 +196,14 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
 
         foreach($results as $result) {
             $object = new $tableInfo['objectName']();
-            $object->setMapValues($result);
-            $coll[$this->getIdentifier($object)] = $object;
+            //remove the _register, _flag, etc. suffixes from the field names
+            $arr = [];
+            foreach($result as $fieldName => $value) {
+                $arr[Utils::field2property(substr($fieldName, 0, strlen($fieldName) - (strlen($fieldName) - strrpos($fieldName, '_'))))] = $value[0];
+            }
+
+            $object->setMapValues($arr);
+            $coll[] = $object;
         }
 
         return true;

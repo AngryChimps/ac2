@@ -3,6 +3,8 @@ parameters:
     angry_chimps_api.member.class: AngryChimps\ApiBundle\Services\MemberService
     angry_chimps_api.company.class: AngryChimps\ApiBundle\Services\CompanyService
     angry_chimps_api.location.class: AngryChimps\ApiBundle\Services\LocationService
+    angry_chimps_api.staff.class: AngryChimps\ApiBundle\Services\StaffService
+    angry_chimps_api.review.class: AngryChimps\ApiBundle\Services\ReviewService
     angry_chimps_api.service.class: AngryChimps\ApiBundle\Services\ServiceService
     angry_chimps_api.response.class: AngryChimps\ApiBundle\Services\ResponseService
     angry_chimps_api.session.class: AngryChimps\ApiBundle\Services\SessionService
@@ -25,6 +27,8 @@ parameters:
     angry_chimps_api.controller.auth.class: AngryChimps\ApiBundle\Controller\AuthController
     angry_chimps_api.controller.company.class: AngryChimps\ApiBundle\Controller\CompanyController
     angry_chimps_api.controller.location.class: AngryChimps\ApiBundle\Controller\LocationController
+    angry_chimps_api.controller.staff.class: AngryChimps\ApiBundle\Controller\StaffController
+    angry_chimps_api.controller.review.class: AngryChimps\ApiBundle\Controller\ReviewController
     angry_chimps_api.controller.service.class: AngryChimps\ApiBundle\Controller\ServiceController
     angry_chimps_api.controller.categories.class: AngryChimps\ApiBundle\Controller\CategoriesController
     angry_chimps_api.controller.signup.class: AngryChimps\ApiBundle\Controller\SignupController
@@ -75,6 +79,22 @@ services:
             - "@ac_norm.norm"
             - "@angry_chimps_api.company"
             - "@ac_norm.info"
+    angry_chimps_api.staff:
+        class: "%angry_chimps_api.staff.class%"
+        arguments:
+            - "@validator"
+            - "@ac_norm.norm"
+            - "@ac_norm.info"
+            - "@angry_chimps_api.company"
+            - "@angry_chimps_api.member"
+    angry_chimps_api.review:
+        class: "%angry_chimps_api.review.class%"
+        arguments:
+            - "@validator"
+            - "@ac_norm.norm"
+            - "@ac_norm.info"
+            - "@angry_chimps_api.company"
+            - "@angry_chimps_api.member"
     angry_chimps_api.service:
         class: "%angry_chimps_api.service.class%"
         arguments:
@@ -213,6 +233,24 @@ services:
                 - "@angry_chimps_api.response"
                 - "@angry_chimps_api.location"
                 - "@angry_chimps_api.company"
+                - "@ac_norm.info"
+
+    angry_chimps_api.staff.controller:
+            class:     "%angry_chimps_api.controller.staff.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.staff"
+                - "@ac_norm.info"
+
+    angry_chimps_api.review.controller:
+            class:     "%angry_chimps_api.controller.review.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.review"
                 - "@ac_norm.info"
 
     angry_chimps_api.service.controller:

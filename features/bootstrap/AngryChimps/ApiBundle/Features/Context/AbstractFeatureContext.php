@@ -161,6 +161,12 @@ class AbstractFeatureContext
         }
     }
 
+    protected function ensureResponseFieldHasCount($fieldName, $count) {
+        $val = $this->getResponseFieldValue($fieldName);
+        $this->assertEquals($count, count($val), "The $fieldName field has a count of " . count($val)
+            . " when it should have a count of $count");
+    }
+
     protected function ensureResponseDoesNotHaveField($fieldName) {
         $parts = explode('.', $fieldName);
 
@@ -238,13 +244,25 @@ class AbstractFeatureContext
         $this->assertTrue(!empty($arg1), $msg);
     }
 
-    protected function getData($url) {
+    protected function getData($url, $params = []) {
         try {
+            $paramString = '';
+            foreach($params as $key => $val) {
+                $paramString .= $key . '=' . $val . '&';
+            }
+            rtrim($paramString, '&');
+
             if($this->authenticatedUserId !== null){
                 $url = $this->baseUrl . '/' . $url . '?userId=' . $this->authenticatedUserId;
+                if($paramString !== null) {
+                    $url .= '&' . $paramString;
+                }
             }
             else {
-                $url = $this->baseUrl . '/' . $url;
+                $url = $this->baseUrl . '/' . $url . $paramString;
+                if($paramString !== null) {
+                    $url .= '?' . $paramString;
+                }
             }
 
             $request = $this->guzzle->createRequest('GET', $url, [

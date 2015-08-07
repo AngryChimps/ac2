@@ -35,8 +35,9 @@ abstract class AbstractRestController extends AbstractController {
             return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
         }
 
-        //All POST apis other than "member" require authentication
-        if($entityName !== 'member' && $this->getAuthenticatedUser() === null) {
+        //All non-GET apis other than "member" require authentication
+        if($entityName !== 'member' && $this->getAuthenticatedUser() === null
+            && $this->request->getMethod() !== 'GET') {
             return $this->responseService->failure(401, ResponseService::USER_NOT_AUTHENTICATED);
         }
 
@@ -74,6 +75,25 @@ abstract class AbstractRestController extends AbstractController {
         else {
             return $this->responseService->success([$entityName => $this->restService->getApiPublicArray($obj)]);
         }
+    }
+
+    public function getGetMultipleResponse($pluralEntityName, $objects) {
+        //Check to see if the token/member_id is valid
+        if($debug = $this->sessionService->checkToken()) {
+            return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
+        }
+
+        $arr = [];
+        foreach ($objects as $object) {
+            if($this->restService->isOwner($object, $this->getAuthenticatedUser())) {
+                $arr[] = $this->restService->getApiPrivateArray($object);
+            }
+            else {
+                $arr[] = $this->restService->getApiPublicArray($object);
+            }
+        }
+
+        return $this->responseService->success([$pluralEntityName => $arr]);
     }
 
     public function getPatchResponse($entityName, $id) {

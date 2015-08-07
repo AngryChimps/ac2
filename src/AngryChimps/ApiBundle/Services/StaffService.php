@@ -18,11 +18,15 @@ class StaffService extends AbstractRestService {
     /** @var CompanyService  */
     protected $companyService;
 
+    /** @var MemberService */
+    protected $memberService;
+
     public function __construct(ValidatorInterface $validator, NormService $norm, InfoService $infoService,
-        CompanyService $companyService) {
+        CompanyService $companyService, MemberService $memberService) {
         parent::__construct($norm, $infoService, $validator);
 
         $this->companyService = $companyService;
+        $this->memberService = $memberService;
     }
 
     /**
@@ -37,15 +41,43 @@ class StaffService extends AbstractRestService {
 
     public function post($endpoint, $data, $additionalData = [])
     {
+        /** @var Member $member */
+        $member = $this->norm->getMemberByEmail($data['email']);
+        if($member !== null) {
+            $additionalData['member_id'] = $member->getId();
+        }
+
+        //Remove the role parameter
+        $role = $data['role'];
+        unset($data['role']);
+
         /** @var Staff $staff */
         $staff = parent::post($endpoint, $data, $additionalData);
 
-        if($member = $this->norm->getMemberByEmail($staff->getEmail())) {
-
+        /** @var Member $member */
+        if($member !== null) {
+            //Send welcome to company e-mail
         }
+        else {
+            $member = $this->memberService->post('member', [
+                'first' => $staff->getFirst(),
+                'last' => $staff->getLast(),
+                'title' => $staff->getTitle(),
+                'photo' => $staff->getPhoto(),
+                'role' => $role,
+            ]);
+
+            //Send welcome e-mail if not sent by member service
+        }
+
+        return $staff;
     }
 
-    public function getMultipleByLocation($locationId) {
+    public function getMultipleByLocation($locationId, $count) {
+        return $this->norm->getStaffByLocation($locationId, $count);
+    }
 
+    public function getMultipleByCompany($companyId, $count) {
+        return $this->norm->getStaffByCompany($companyId, $count);
     }
 }
