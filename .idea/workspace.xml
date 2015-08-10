@@ -12,6 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3689bbd9-d2b9-48ad-920c-675fe0f9a3e5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/config_dev.yml" afterPath="$PROJECT_DIR$/app/config/config_dev.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ac.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -108,8 +109,8 @@
           <file leaf-file-name="config_dev.yml" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.7541713">
-                  <caret line="67" column="32" selection-start-line="67" selection-start-column="32" selection-end-line="67" selection-end-column="32" />
+                <state vertical-scroll-proportion="0.7163515">
+                  <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -139,11 +140,21 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="location-get.feature" pinned="false" current-in-tab="true">
+          <file leaf-file-name="config_local.yml" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.6596218">
+                  <caret line="63" column="24" selection-start-line="63" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="location-get.feature" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/location-get.feature">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.1701891">
-                  <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
                   <folding />
                 </state>
               </provider>
@@ -185,18 +196,6 @@
                 <state vertical-scroll-proportion="-30.192308">
                   <caret line="98" column="2" selection-start-line="98" selection-start-column="2" selection-end-line="98" selection-end-column="2" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="EsDocumentDatastore.php" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/vendor/angrychimps/norm-bundle/AC/NormBundle/core/datastore/EsDocumentDatastore.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-17.0">
-                  <caret line="395" column="25" selection-start-line="395" selection-start-column="25" selection-end-line="395" selection-end-column="25" />
-                  <folding>
-                    <element signature="e#128#183#0#PHP" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -3142,14 +3141,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="44" column="37" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/NormBundle/yaml/entities/review.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3399,14 +3390,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/location-get.feature">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1701891">
-          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiSampleBundle/apis/review/get/output.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.5384617">
@@ -3415,10 +3398,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/AngryChimps/ApiBundle/Features/location-get.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config_local.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6596218">
+          <caret line="63" column="24" selection-start-line="63" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7541713">
-          <caret line="67" column="32" selection-start-line="67" selection-start-column="32" selection-end-line="67" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.7163515">
+          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
           <folding />
         </state>
       </provider>

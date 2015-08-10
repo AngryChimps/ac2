@@ -62,6 +62,7 @@ ac_norm:
               -
                 host: "127.0.0.1"
                 port: 8087
+                http_port: 8098
             prefix: __norm_dev_1_
         es_ds:
             driver: "elasticsearch"
