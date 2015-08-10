@@ -101,6 +101,15 @@ class NormDataCollector extends DataCollector {
         return $this->startQuery($data);
     }
 
+    public function startCountByQueryQuery($class, $query, $datastoreName) {
+        $data = [];
+        $data['className'] = $class;
+        $data['method'] = 'COUNT BY QUERY';
+        $data['query'] = $query;
+        $data['datastoreName'] = $datastoreName;
+        return $this->startQuery($data);
+    }
+
     public function startUpdateQuery($obj) {
         $data = [];
         $data['className'] = get_class($obj);

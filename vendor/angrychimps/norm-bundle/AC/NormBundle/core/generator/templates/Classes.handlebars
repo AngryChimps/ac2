@@ -219,7 +219,7 @@ class {{objectNameWithoutNamespace}} {
     public function increment{{propertyNameCapitalized}}($delta)
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
-            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}' / 100);
+            $this->mapValues['{{propertyName}}'] = $this->getRiakMap()->get('{{name}}') / 100;
         }
 
         $this->mapValues['{{propertyName}}'] += $delta;

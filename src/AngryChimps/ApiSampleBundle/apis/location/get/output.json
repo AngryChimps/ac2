@@ -95,7 +95,7 @@
             "reviewer_name": "Jane S.",
             "rating": 3.5,
             "body": "This was the most awesome vet ever!...",
-            "tagged_staff_ids": [
+            "staff_ids": [
               "lkjsdlj23r09uwsdijfslfjsdljsdflj",
               "lsdjf0982j0ijsljfsfj02j0wijfw0if"
             ],

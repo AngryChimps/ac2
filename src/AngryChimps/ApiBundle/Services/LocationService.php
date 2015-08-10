@@ -67,6 +67,22 @@ class LocationService extends AbstractRestService {
         return $location;
     }
 
+    public function getStaff($locationId, $count = null) {
+        return $this->norm->getStaffByLocation($locationId, $count);
+    }
+
+    public function getStaffCount($locationId) {
+        return $this->norm->getStaffCountByLocation($locationId);
+    }
+
+    public function getReviews($locationId, $count = null) {
+        return $this->norm->getReviewsByLocation($locationId, $count);
+    }
+
+    public function getReviewCount($locationId) {
+        return $this->norm->getReviewCountByLocation($locationId);
+    }
+
     protected function addGeoData(array &$data) {
         $geoAddr = $this->geo->lookupAddress($data['address']['street1'],
             $data['address']['zip']);

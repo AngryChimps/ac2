@@ -6,6 +6,7 @@ namespace AngryChimps\ApiBundle\Services;
 use AC\NormBundle\services\InfoService;
 use AngryChimps\GeoBundle\services\GeolocationService;
 use Norm\Company;
+use Norm\Location;
 use Norm\Member;
 use Norm\MemberCompany;
 use Norm\Staff;
@@ -21,12 +22,16 @@ class StaffService extends AbstractRestService {
     /** @var MemberService */
     protected $memberService;
 
+    /** @var LocationService */
+    protected $locationService;
+
     public function __construct(ValidatorInterface $validator, NormService $norm, InfoService $infoService,
-        CompanyService $companyService, MemberService $memberService) {
+        CompanyService $companyService, MemberService $memberService, LocationService $locationService) {
         parent::__construct($norm, $infoService, $validator);
 
         $this->companyService = $companyService;
         $this->memberService = $memberService;
+        $this->locationService = $locationService;
     }
 
     /**
@@ -68,6 +73,13 @@ class StaffService extends AbstractRestService {
             ]);
 
             //Send welcome e-mail if not sent by member service
+        }
+
+        foreach($data['location_ids'] as $locationId) {
+            /** @var Location $location */
+            $location = $this->locationService->get('location', $locationId);
+            $location->addToStaffIds($staff->getId());
+            $this->norm->update($location);
         }
 
         return $staff;

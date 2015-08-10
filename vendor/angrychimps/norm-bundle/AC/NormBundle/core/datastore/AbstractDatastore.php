@@ -23,6 +23,7 @@ abstract class AbstractDatastore {
     public abstract function populateObjectByQuery($obj, $query, $limit, $offset, &$debug);
     public abstract function populateCollectionByPks($coll, $pks, &$debug);
     public abstract function populateCollectionByQuery(\ArrayObject $coll, $query, $limit, $offset, &$debug);
+    public abstract function getQueryResultsCount($className, $query, &$debug);
 
 
     public function __construct(InfoService $infoService, LoggerInterface $loggerService) {
@@ -72,10 +73,9 @@ abstract class AbstractDatastore {
         }
     }
 
-    protected function populateObjectWithArray($obj, $arr)
+    protected function getMapValues($obj, $arr)
     {
-        $this->loggerService->info(print_r($obj, true));
-        $this->loggerService->info(print_r($arr, true));
+        $mapValues = [];
         $class = get_class($obj);
         $tableInfo = $this->infoService->getTableInfo($class);
 
@@ -84,85 +84,129 @@ abstract class AbstractDatastore {
         }
         for($i = 0; $i < count($tableInfo['fieldNames']); $i++) {
             $fieldName = $tableInfo['fieldNames'][$i];
-            $fieldType = $tableInfo['fieldTypes'][$i];
             $propertyName = $tableInfo['propertyNames'][$i];
+            $fieldType = $tableInfo['fieldTypes'][$i];
+
+            if(!isset($arr[$fieldName])){
+                continue;
+            }
 
             switch($tableInfo['fieldTypes'][$i]) {
                 case 'string':
-                    $obj->$propertyName = $arr[$fieldName];
+                case 'Location':
+                case 'Uuid':
+                case 'Email':
+                case 'text':
+                    $mapValues[$propertyName] = $arr[$fieldName];
                     break;
                 case 'int':
-                    $obj->$propertyName = (int) $arr[$fieldName];
+                case 'Counter':
+                case 'enum':
+                    $mapValues[$propertyName] = (int) $arr[$fieldName];
                     break;
                 case 'bool':
-                    $obj->$propertyName = (bool) $arr[$fieldName];
+                    $mapValues[$propertyName] = (bool) $arr[$fieldName];
                     break;
                 case 'float':
                 case 'double':
-                    $obj->$propertyName = (float) $arr[$fieldName];
+                case 'Currency':
+                case 'decimal':
+                    $mapValues[$propertyName] = (float) $arr[$fieldName];
                     break;
                 case 'Date':
                 case 'DateTime':
-                    $obj->$propertyName = new \DateTime($arr[$fieldName]);
+                case 'Time':
+                    $mapValues[$propertyName] = new \DateTime($arr[$fieldName]);
                     break;
                 case 'int[]':
+                case 'Counter[]':
+                case 'enum[]':
+                    if(!is_array($arr[$fieldName])) {
+                        $arr[$fieldName] = [$arr[$fieldName]];
+                    }
+                    $mapValues[$propertyName] = [];
+                    foreach($arr[$fieldName] as $val) {
+                        $mapValues[$propertyName][] = (int) $val;
+                    }
+                    break;
                 case 'float[]':
                 case 'double[]':
+                case 'set':
+                    if(!is_array($arr[$fieldName])) {
+                        $arr[$fieldName] = [$arr[$fieldName]];
+                    }
+                    $mapValues[$propertyName] = [];
+                    foreach($arr[$fieldName] as $val) {
+                        $mapValues[$propertyName][] = (float) $val;
+                    }
+                    break;
                 case 'string[]':
-                    $obj->$propertyName = array_values($arr[$fieldName]);
+                    if(!is_array($arr[$fieldName])) {
+                        $arr[$fieldName] = [$arr[$fieldName]];
+                    }
+                    $mapValues[$propertyName] = array_values($arr[$fieldName]);
                     break;
                 case 'Date[]':
                 case 'DateTime[]':
-                    $obj->$propertyName = [];
+                case 'Time[]':
+                    if(!is_array($arr[$fieldName])) {
+                        $arr[$fieldName] = [$arr[$fieldName]];
+                    }
                     foreach($arr[$obj->$fieldName] as $val) {
-                        $obj->{$tableInfo['propertyNames'][$i]}[] = new \DateTime($val);
+                        $mapValues[$propertyName][] = new \DateTime($val);
                     }
                     break;
                 default:
-                    //Norm collection
-                    if ($this->isCollection($fieldName)) {
-                        $obj->$propertyName = new $fieldType();
-                        foreach ($arr[$obj->$tableInfo['fieldNames'][$i]] as $objectArray) {
-                            $tableInfo2 = $this->infoService->getTableInfo($fieldType);
-                            $object = new $tableInfo2['objectName']();
-                            $this->populateObjectWithArray($object, $objectArray);
-                            $obj->$tableInfo['propertyNames'][$i]->offsetSet($this->getIdentifier($object), $object);
-                        }
-                    }
-                    //Empty array of Norm objects
-                    elseif(empty($arr) && (strpos($fieldType, '[]') === strlen($fieldType) - 2)
-                        && class_exists(substr($fieldType, 0, strlen($fieldType) - 2))) {
-                        $obj->$propertyName = [];
-                    }
-                    //Array of Norm objects
-                    elseif ((strpos($fieldType, '[]') === strlen($fieldType) - 2)
-                            && class_exists(substr($fieldType, 0, strlen($fieldType) - 2))) {
-                        $className = substr($fieldType, 0, strlen($fieldType) - 2);
-                        $obj->$propertyName = [];
-                        foreach($arr[$fieldName] as $object) {
-                            $obj2 = new $className();
-                            $this->populateObjectWithArray($obj2, $object);
-                            $obj->{$propertyName}[] = $obj2;
-                        }
-//                        $object = new $className();
+//                    //Norm collection
+//                    if ($this->isCollection($fieldName)) {
+//                        $coll = new $fieldType();
+//                        foreach ($arr[$obj->$tableInfo['fieldNames'][$i]] as $objectArray) {
+//                            $tableInfo2 = $this->infoService->getTableInfo($fieldType);
+//                            $object = new $tableInfo2['objectName']();
+//                            $this->populateObjectWithArray($object, $objectArray);
+//                            $coll->offsetSet($this->getIdentifier($object), $object);
+//                        }
+//                        $mapValues[$propertyName] = $coll;
+//                    }
+//                    //Empty array of Norm objects
+//                    elseif(empty($arr) && (strpos($fieldType, '[]') === strlen($fieldType) - 2)
+//                        && class_exists(substr($fieldType, 0, strlen($fieldType) - 2))) {
+//                        $mapValues[$propertyName] = [];
+//                    }
+//                    //Array of Norm objects
+//                    elseif ((strpos($fieldType, '[]') === strlen($fieldType) - 2)
+//                            && class_exists(substr($fieldType, 0, strlen($fieldType) - 2))) {
+//                        $className = substr($fieldType, 0, strlen($fieldType) - 2);
+//                        $mapValues[$propertyName] = [];
+//                        foreach($arr[$fieldName] as $object) {
+//                            $obj2 = new $className();
+//                            $this->populateObjectWithArray($obj2, $object);
+//                            $mapValues[$propertyName][] = $obj2;
+//                        }
+////                        $object = new $className();
+////                        if($arr[$fieldName] !== null) {
+////                            $this->populateObjectWithArray($object, $arr[$fieldName]);
+////                        }
+////                        $obj->$propertyName = $object;
+//                    }
+//                    elseif (class_exists($tableInfo['fieldTypes'][$i])) {
+//                        $object = new $tableInfo['fieldTypes'][$i]();
 //                        if($arr[$fieldName] !== null) {
 //                            $this->populateObjectWithArray($object, $arr[$fieldName]);
 //                        }
-//                        $obj->$propertyName = $object;
-                    }
-                    elseif (class_exists($tableInfo['fieldTypes'][$i])) {
-                        $object = new $tableInfo['fieldTypes'][$i]();
-                        if($arr[$fieldName] !== null) {
-                            $this->populateObjectWithArray($object, $arr[$fieldName]);
-                        }
-                        $obj->$propertyName = $object;
+//                        $mapValues[$propertyName] = $object;
+//                    }
+                    if(class_exists($fieldType)) {
+                        $obj = new $fieldType($arr[$fieldName]);
+                        $mapValues[$propertyName] = $obj;
                     }
                     else {
-                        $obj->$propertyName = $arr[$fieldName];
+                        $mapValues[$propertyName] = $arr[$fieldName];
                     }
             }
         }
 
+        return $mapValues;
     }
 
     /**

@@ -3,9 +3,11 @@
 namespace AngryChimps\ApiBundle\Controller;
 
 use AC\NormBundle\services\InfoService;
+use AngryChimps\ApiBundle\Services\LocationService;
 use AngryChimps\ApiBundle\Services\ReviewService;
 use AngryChimps\GeoBundle\services\GeolocationService;
 use Norm\Company;
+use Norm\Location;
 use Norm\MemberCompany;
 use Norm\Review;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -25,12 +27,16 @@ class ReviewController extends AbstractRestController
     /** @var  InfoService */
     protected $infoService;
 
+    /** @var LocationService */
+    protected $locationService;
+
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
                                 ResponseService $responseService, ReviewService $reviewService,
-                                InfoService $infoService) {
+                                InfoService $infoService, LocationService $locationService) {
         parent::__construct($requestStack, $sessionService, $responseService, $reviewService, $infoService);
 
         $this->reviewService = $reviewService;
+        $this->locationService = $locationService;
     }
 
     public function indexGetMultipleAction()
@@ -40,7 +46,7 @@ class ReviewController extends AbstractRestController
         }
         else {
             $review = $this->reviewService->getMultipleByLocation($this->request->get('location_id'),
-                $this->request->get('review_count'));
+                $this->request->get('count'));
             return $this->getGetMultipleResponse('review', $review);
         }
     }
@@ -52,23 +58,23 @@ class ReviewController extends AbstractRestController
 
     public function indexPostAction()
     {
+        //Look up the company ID
+        $payload = $this->getPayload();
+        /** @var Location $location */
+        $location = $this->locationService->get('location', $payload['location_id']);
+
+        if($location === null) {
+            return $this->responseService->failure(400, ResponseService::INVALID_LOCATION_ID);
+        }
+
         $resp = $this->getPostResponse('review',
             [
+                'company_id' => $location->getCompanyId(),
                 'author_id' => $this->getAuthenticatedUser()->getId(),
                 'status' => Review::ENABLED_STATUS,
             ]
         );
 
         return $resp;
-    }
-
-    public function indexPatchAction($id)
-    {
-        return $this->getPatchResponse('review', $id);
-    }
-
-    public function indexDeleteAction($id)
-    {
-        return $this->getDeleteResponse('review', $id);
     }
 }

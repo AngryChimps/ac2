@@ -279,6 +279,7 @@ class CreatorService
         $fieldTypes = [];
         foreach ($entity->fields as $field) {
             $fieldNames[] = $field->name;
+            $propertyNames[] = Utils::field2property($field->name);
             $fieldData = $this->generateFieldData($field, $entityData);
 
             $entityData['fields'][] = $fieldData;

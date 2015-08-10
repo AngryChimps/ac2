@@ -41,4 +41,57 @@ class ReviewService extends AbstractRestService {
     public function getMultipleByLocation($locationId, $count) {
         return $this->norm->getReviewsByLocation($locationId, $count);
     }
+
+    public function get($endpoint, $id)
+    {
+        /** @var Review $obj */
+        $obj = parent::get($endpoint, $id);
+        if($obj->getStatus() === Review::PROHIBITED_STATUS) {
+            return null;
+        }
+        return $obj;
+    }
+
+
+    public function getApiPublicArray($obj)
+    {
+        $arr = parent::getApiPublicArray($obj);
+
+        if(is_array($obj) || strpos(get_class($obj), 'Collection') > 0) {
+            $i=0;
+            foreach($obj as $object) {
+                $this->addReviewerInfo($object, $arr[$i]);
+                $i++;
+            }
+        }
+        else {
+            $this->addReviewerInfo($obj, $arr);
+        }
+
+        return $arr;
+    }
+
+    public function getApiPrivateArray($obj)
+    {
+        $arr =  parent::getApiPrivateArray($obj);
+
+        if(is_array($obj) || strpos(get_class($obj), 'Collection') > 0) {
+            $i=0;
+            foreach($obj as $object) {
+                $this->addReviewerInfo($object, $arr[$i]);
+                $i++;
+            }
+        }
+        else {
+            $this->addReviewerInfo($obj, $arr);
+        }
+
+        return $arr;
+    }
+
+    protected function addReviewerInfo(Review $obj, array &$arr) {
+        $member = $this->norm->getMember($obj->getAuthorId());
+        $arr['reviewer_name'] = $member->getFirst() . ' ' . substr($member->getLast(), 0, 1) . '.';
+        $arr['reviewer_photo'] = $member->getPhoto();
+    }
 }

@@ -407,4 +407,11 @@ class EsDocumentDatastore extends AbstractElasticsearchDatastore {
     {
         // TODO: Implement populateCollectionByPks() method.
     }
+
+    public function getQueryResultsCount($className, $query, &$debug)
+    {
+        // TODO: Implement getQueryResultsCount() method.
+    }
+
+
 }

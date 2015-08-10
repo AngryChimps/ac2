@@ -196,17 +196,32 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
 
         foreach($results as $result) {
             $object = new $tableInfo['objectName']();
-            //remove the _register, _flag, etc. suffixes from the field names
-            $arr = [];
-            foreach($result as $fieldName => $value) {
-                $arr[Utils::field2property(substr($fieldName, 0, strlen($fieldName) - (strlen($fieldName) - strrpos($fieldName, '_'))))] = $value[0];
-            }
 
-            $object->setMapValues($arr);
+            $object->setMapValues($this->getMapValuesFromRiakSearch($object, $result));
             $coll[] = $object;
         }
 
         return true;
+    }
+
+    protected function getMapValuesFromRiakSearch($obj, array $arr) {
+        $arr2 = [];
+        foreach($arr as $fieldName => $value) {
+            $arr2[substr($fieldName, 0, strlen($fieldName) - (strlen($fieldName) - strrpos($fieldName, '_')))] = $value[0];
+        }
+        return parent::getMapValues($obj, $arr2);
+    }
+
+    public function getQueryResultsCount($className, $query, &$debug) {
+        $indexName = $this->getPrefixedIndexName($this->infoService->getEntityName($className));
+
+        $search = Search::builder()
+            ->withQuery($query)
+            ->withIndex($indexName)
+            ->build();
+        $searchResult  = $this->riakClient->execute($search);
+
+        return $searchResult->getNumResults();
     }
 
     protected function getRiakLocation($obj, $pks = null)

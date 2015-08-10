@@ -6,9 +6,12 @@ use AC\NormBundle\Services\InfoService;
 use AngryChimps\ApiBundle\Services\CompanyService;
 use AngryChimps\ApiBundle\Services\LocationService;
 use AngryChimps\ApiBundle\Services\ResponseService;
+use AngryChimps\ApiBundle\Services\ReviewService;
 use AngryChimps\ApiBundle\Services\SessionService;
+use AngryChimps\ApiBundle\Services\StaffService;
 use Norm\Company;
 use Norm\Location;
+use Norm\Review;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -23,12 +26,22 @@ class LocationController extends AbstractRestController
     /** @var CompanyService  */
     protected $companyService;
 
+    /** @var StaffService */
+    protected $staffService;
+
+    /** @var ReviewService */
+    protected $reviewService;
+
     public function __construct(RequestStack $requestStack, SessionService $sessionService,
                                 ResponseService $responseService, LocationService $locationService,
-                                CompanyService $companyService, InfoService $infoService)
+                                CompanyService $companyService, InfoService $infoService,
+                                StaffService $staffService, ReviewService $reviewService)
     {
         $this->locationService = $locationService;
         $this->companyService = $companyService;
+        $this->staffService = $staffService;
+        $this->reviewService = $reviewService;
+
         parent::__construct($requestStack, $sessionService, $responseService, $locationService, $infoService);
     }
 
@@ -64,10 +77,30 @@ class LocationController extends AbstractRestController
         }
 
         //Get staff data
-        $staffData = ['staff' => []];
+        if($this->request->get('staff_count') !== null) {
+            $totalStaffCount = $this->locationService->getStaffCount($location->getId());
+            $staffArray = $this->locationService->getStaff($location->getId(), (int) $this->request->get('staff_count'));
+            $staffData = ['staff' =>
+                                [
+                                    'count' => $totalStaffCount,
+                                    'results' => $this->staffService->getApiPublicArray($staffArray)
+                                ]
+                         ];
+            $allData = array_merge($allData, $staffData);
+        }
 
         //Get review data
-        $reviewData = ['reviews' => []];
+        if($this->request->get('review_count') !== null) {
+            $totalReviewCount = $this->locationService->getReviewCount($location->getId());
+            $reviewArray = $this->locationService->getReviews($location->getId(), (int) $this->request->get('review_count'));
+            $reviewData = ['reviews' =>
+                [
+                    'count' => $totalReviewCount,
+                    'results' => $this->reviewService->getApiPublicArray($reviewArray)
+                ]
+            ];
+            $allData = array_merge($allData, $reviewData);
+        }
 
         return $this->responseService->success($allData);
     }

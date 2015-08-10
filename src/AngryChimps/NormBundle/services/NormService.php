@@ -21,6 +21,11 @@ class NormService extends NormBaseService {
             'location_ids_set:' . $locationId, $count);
     }
 
+    public function getStaffCountByLocation($locationId) {
+        return $this->getCountByQuery($this->infoService->getClassName('staff') . 'Collection',
+            'location_ids_set:' . $locationId);
+    }
+
     public function getStaffByCompany($companyId, $count = null) {
         return $this->getCollectionByQuery($this->infoService->getClassName('staff') . 'Collection',
             'company_id_register:' . $companyId, $count);
@@ -29,6 +34,11 @@ class NormService extends NormBaseService {
     public function getReviewsByLocation($locationId, $count = null) {
         return $this->getCollectionByQuery($this->infoService->getClassName('review') . 'Collection',
             'location_id_register:' . $locationId, $count);
+    }
+
+    public function getReviewCountByLocation($locationId) {
+        return $this->getCountByQuery($this->infoService->getClassName('review') . 'Collection',
+            'location_id_register:' . $locationId);
     }
 
 //    public function publish($obj) {

@@ -212,6 +212,18 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     }
 
     /**
+     * @When I create a new review
+     */
+    public function iCreateANewReview()
+    {
+        $this->requestArray = $this->getSampleRequestArray('review', 'post');
+        $this->requestArray['payload']['location_id'] = $this->getVariable('location.id');
+        $this->requestArray['payload']['staff_ids'] = [$this->getVariable('staff.id')];
+        $this->postData('review');
+        $this->setVariable('review.id', $this->getResponseFieldValue('payload.review.id'));
+    }
+
+    /**
      * @Given I wait :arg1 seconds
      */
     public function iWaitSeconds($arg1)
@@ -219,4 +231,11 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         sleep($arg1);
     }
 
+    /**
+     * @When I get the :arg1 data for id :arg2 with GET param string :arg3
+     */
+    public function iGetTheDataForIdWithGetParamString($arg1, $arg2, $arg3)
+    {
+        $this->getData($arg1 . '/' . $this->getVariable($arg2), $arg3);
+    }
 }

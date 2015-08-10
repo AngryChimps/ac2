@@ -266,6 +266,29 @@ abstract class NormCrudService
         return $coll;
     }
 
+    protected function getCountByQuery($className, $query, $datastoreName = null) {
+        if($datastoreName === null) {
+            $datastoreName = $this->infoService->getPrimaryDatastoreName($className);
+        }
+
+        //Setup Debugging
+        if ($this->debug) {
+            $debug = $this->dataCollector->startCountByQueryQuery($className, $query, $datastoreName);
+        }
+        else {
+            $debug = null;
+        }
+
+        $ds = $this->datastoreService->getDatastore($datastoreName);
+        $count = $ds->getQueryResultsCount($className, $query, $debug);
+
+        if ($this->debug) {
+            $this->dataCollector->endQuery($debug, $count);
+        }
+
+        return $count;
+    }
+
     public function isCollection($obj) {
         $class = get_class($obj);
         return strpos($class, 'Collection') === strlen($class) - 10;
@@ -292,27 +315,40 @@ abstract class NormCrudService
     }
 
     public function getApiPublicArray($obj) {
-        $entityName = $this->infoService->getEntityName(get_class($obj));
-        $fields = $this->infoService->getApiPublicFields($entityName);
-
         $arr = [];
-        foreach($fields as $field) {
-            $func = 'get' . ucfirst(Utils::field2property($field));
-            $arr[$field] = $obj->$func();
+        if(is_array($obj) || strpos(get_class($obj), 'Collection') > 0) {
+            foreach($obj as $object) {
+                $arr[] = $this->getApiPublicArray($object);
+            }
         }
+        else {
+            $entityName = $this->infoService->getEntityName(get_class($obj));
+            $fields = $this->infoService->getApiPublicFields($entityName);
 
+            foreach ($fields as $field) {
+                $func = 'get' . ucfirst(Utils::field2property($field));
+                $arr[$field] = $obj->$func();
+            }
+        }
         return $arr;
     }
 
     public function getApiPrivateArray($obj) {
-        $entityName = $this->infoService->getEntityName(get_class($obj));
-        $fields = array_merge($this->infoService->getApiPrivateFields($entityName),
-            $this->infoService->getApiPublicFields($entityName));
-
         $arr = [];
-        foreach($fields as $field) {
-            $func = 'get' . ucfirst(Utils::field2property($field));
-            $arr[$field] = $obj->$func();
+        if(is_array($obj) || strpos(get_class($obj), 'Collection') > 0) {
+            foreach($obj as $object) {
+                $arr[] = $this->getApiPrivateArray($object);
+            }
+        }
+        else {
+            $entityName = $this->infoService->getEntityName(get_class($obj));
+            $fields = array_merge($this->infoService->getApiPrivateFields($entityName),
+                $this->infoService->getApiPublicFields($entityName));
+
+            foreach ($fields as $field) {
+                $func = 'get' . ucfirst(Utils::field2property($field));
+                $arr[$field] = $obj->$func();
+            }
         }
 
         return $arr;

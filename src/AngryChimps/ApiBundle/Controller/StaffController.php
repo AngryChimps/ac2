@@ -40,12 +40,12 @@ class StaffController extends AbstractRestController
         }
         elseif($this->request->get('location_id') !== null) {
             $staff = $this->staffService->getMultipleByLocation($this->request->get('location_id'),
-                $this->request->get('staff_count'));
+                $this->request->get('count'));
             return $this->getGetMultipleResponse('staff', $staff);
         }
         elseif($this->request->get('company_id') !== null) {
             $staff = $this->staffService->getMultipleByCompany($this->request->get('company_id'),
-                $this->request->get('staff_count'));
+                $this->request->get('count'));
             return $this->getGetMultipleResponse('staff', $staff);
         }
     }

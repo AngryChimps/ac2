@@ -87,6 +87,7 @@ services:
             - "@ac_norm.info"
             - "@angry_chimps_api.company"
             - "@angry_chimps_api.member"
+            - "@angry_chimps_api.location"
     angry_chimps_api.review:
         class: "%angry_chimps_api.review.class%"
         arguments:
@@ -234,6 +235,8 @@ services:
                 - "@angry_chimps_api.location"
                 - "@angry_chimps_api.company"
                 - "@ac_norm.info"
+                - "@angry_chimps_api.staff"
+                - "@angry_chimps_api.review"
 
     angry_chimps_api.staff.controller:
             class:     "%angry_chimps_api.controller.staff.class%"
@@ -252,6 +255,7 @@ services:
                 - "@angry_chimps_api.response"
                 - "@angry_chimps_api.review"
                 - "@ac_norm.info"
+                - "@angry_chimps_api.location"
 
     angry_chimps_api.service.controller:
             class:     "%angry_chimps_api.controller.service.class%"

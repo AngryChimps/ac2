@@ -246,11 +246,16 @@ class AbstractFeatureContext
 
     protected function getData($url, $params = []) {
         try {
-            $paramString = '';
-            foreach($params as $key => $val) {
-                $paramString .= $key . '=' . $val . '&';
+            if(is_array($params)) {
+                $paramString = '';
+                foreach($params as $key => $val) {
+                    $paramString .= $key . '=' . $val . '&';
+                }
+                rtrim($paramString, '&');
             }
-            rtrim($paramString, '&');
+            else {
+                $paramString = $params;
+            }
 
             if($this->authenticatedUserId !== null){
                 $url = $this->baseUrl . '/' . $url . '?userId=' . $this->authenticatedUserId;

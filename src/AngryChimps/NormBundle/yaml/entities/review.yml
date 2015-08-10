@@ -31,14 +31,15 @@ fields:
     riak:
         indexed: true
   - name: rating
-    type: int
+    type: float
     riak:
         indexed: true
   - name: status
     type: enum
     values:
       - Enabled
-      - Disabled
+      - Deleted
+      - Prohibited
     riak:
         indexed: true
   - name: created_at

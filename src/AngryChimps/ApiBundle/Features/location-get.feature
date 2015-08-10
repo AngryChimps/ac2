@@ -8,7 +8,10 @@ Feature: location-get
     And I create a new member
     And I create a new company
     And I create a new location
-    When I get the "location" data for id "location.id"
+    And I create a new staff member
+    And I create a new review
+    And I wait "2" seconds
+    When I get the "location" data for id "location.id" with GET param string "company&staff_count=5&review_count=5"
     Then I get a status code "200"
     And I get back a valid json object
     And The response contains a field named "payload.location.id"
