@@ -68,6 +68,10 @@ class LocationController extends AbstractRestController
             $allData = ['location' => $this->locationService->getApiPublicArray($location)];
         }
 
+        //Add in walk-in and emergency status
+        $allData['location']['walk_ins'] = in_array(2500, $location->getServices());
+        $allData['location']['emergencies'] = in_array(700, $location->getServices());
+
         //Get company data
         if($this->request->get('company') !== null) {
             /** @var Company $company */
