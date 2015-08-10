@@ -1,1 +1,0 @@
-The animals API simply returns a list of all possible animal types in the system.

@@ -21,6 +21,8 @@ parameters:
     angry_chimps_api.comment.class: AngryChimps\ApiBundle\Services\CommentService
     angry_chimps_api.device.class: AngryChimps\ApiBundle\Services\DeviceService
 
+    angry_chimps_api.controller.animal.class: AngryChimps\ApiBundle\Controller\AnimalController
+    angry_chimps_api.controller.sevice.class: AngryChimps\ApiBundle\Controller\ServiceController
     angry_chimps_api.controller.media.class: AngryChimps\ApiBundle\Controller\MediaController
     angry_chimps_api.controller.session.class: AngryChimps\ApiBundle\Controller\SessionController
     angry_chimps_api.controller.member.class: AngryChimps\ApiBundle\Controller\MemberController
@@ -185,6 +187,20 @@ services:
 ##############################################################
 ###                  Controllers                           ###
 ##############################################################
+    angry_chimps_api.animal.controller:
+            class:     "%angry_chimps_api.controller.animal.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+
+    angry_chimps_api.service.controller:
+            class:     "%angry_chimps_api.controller.service.class%"
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+
     angry_chimps_api.media.controller:
             class:     "%angry_chimps_api.controller.media.class%"
             arguments:

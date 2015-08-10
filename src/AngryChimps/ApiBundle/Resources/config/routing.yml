@@ -1,3 +1,15 @@
+#animal
+angry_chimps_api_animal_get:
+    path:     /animal
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.animal.controller:indexGetAction }
+
+#service
+angry_chimps_api_service_get:
+    path:     /service
+    methods: ["GET"]
+    defaults: { _controller: angry_chimps_api.service.controller:indexGetAction }
+
 #member_media
 angry_chimps_api_media_post:
     path:     /media
