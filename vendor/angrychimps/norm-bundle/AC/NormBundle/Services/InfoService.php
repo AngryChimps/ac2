@@ -65,6 +65,19 @@ class InfoService {
         return self::$structure['classes'][$className]['name'];
     }
 
+     public function isSubclass($className) {
+        $className = ltrim($className, '\\');
+
+        return isset(self::$structure['clases'][$className])
+            && isset(self::$structure['subclasses'][self::$structure['clases'][$className]]);
+    }
+
+    public function getSubclassName($className) {
+        $className = ltrim($className, '\\');
+
+        return self::$structure['classes'][$className]['name'];
+    }
+
 //    public function getPkData($obj) {
 //        $class = get_class($obj);
 //
@@ -98,6 +111,7 @@ class InfoService {
 //    }
 //
     public function getTableInfo($class) {
+        $class = ltrim($class, '\\');
         $tableName = $this->getEntityName($class);
 
         return self::$structure['entities'][$tableName];
@@ -117,8 +131,16 @@ class InfoService {
         return self::$structure['entities'][$entityName]['apiPublicFields'];
     }
 
+    public function getApiPublicFieldTypes($entityName) {
+        return self::$structure['entities'][$entityName]['apiPublicFieldTypes'];
+    }
+
     public function getApiPrivateFields($entityName) {
         return self::$structure['entities'][$entityName]['apiPrivateFields'];
+    }
+
+    public function getApiPrivateFieldTypes($entityName) {
+        return self::$structure['entities'][$entityName]['apiPrivateFieldTypes'];
     }
 
     public function getApiHiddenButSettableFields($entityName) {
@@ -127,5 +149,17 @@ class InfoService {
 
     public function getFieldNames($entityName) {
         return self::$structure['entities'][$entityName]['fieldNames'];
+    }
+
+    public function getFieldTypes($entityName) {
+        return self::$structure['entities'][$entityName]['fieldTypes'];
+    }
+
+    public function getSubclassFieldNames($subclassName) {
+        return self::$structure['subclasses'][$subclassName]['fieldNames'];
+    }
+
+    public function getSubclassFieldTypes($subclassName) {
+        return self::$structure['subclasses'][$subclassName]['fieldTypes'];
     }
 }

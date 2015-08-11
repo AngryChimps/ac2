@@ -159,7 +159,12 @@ class YamlGenerator extends AbstractGenerator {
                 $field->riakIndexed = $fieldData['riak2']['indexed'];
             }
             else {
-                $field->riakIndexed = $this->defaults['riak2']['indexed'];
+                if ($field->type === 'Uuid' || $field->type === 'Uuid[]') {
+                    $field->riakIndexed = true;
+                }
+                else {
+                    $field->riakIndexed = $this->defaults['riak2']['indexed'];
+                }
             }
 
             //For Elasticsearch

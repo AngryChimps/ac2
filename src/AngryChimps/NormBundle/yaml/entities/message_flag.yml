@@ -9,13 +9,9 @@ primary_keys:
 
 fields:
   - name: message_key
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: author_key
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: reason
     type: enum
     values:
@@ -26,7 +22,7 @@ fields:
     riak:
         indexed: true
   - name: body
-    type: string
+    type: text
     riak:
         indexed: true
   - name: status

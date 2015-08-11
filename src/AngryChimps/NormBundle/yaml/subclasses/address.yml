@@ -27,7 +27,5 @@ fields:
         - Length:
             min: 10
             max: 25
-  - name: lat
-    type: float
-  - name: lon
-    type: float
+  - name: location
+    type: Location

@@ -2,20 +2,23 @@ datastores:
   - name: riak_ds
     type: primary
     method: riak2_map
+  - name: es_ds
+    type: secondary
+    method: es_document
 
 primary_keys:
   - id
 
 fields:
   - name: id
-    type: string
+    type: Uuid
     auto_generate: true
   - name: company_id
-    type: string
+    type: Uuid
     riak:
         indexed: true
   - name: staff_ids #used to preserve order of display
-    type: string[]
+    type: Uuid[]
     riak:
         indexed: true
   - name: name
@@ -29,7 +32,7 @@ fields:
     riak:
         indexed: true
   - name: mobile_radius_miles
-    type: int
+    type: float
   - name: photos
     type: string[]
   - name: services
@@ -49,9 +52,7 @@ fields:
     riak:
         indexed: true
   - name: created_by
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: created_at
     type: DateTime
     riak:

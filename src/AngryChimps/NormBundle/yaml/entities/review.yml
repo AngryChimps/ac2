@@ -8,26 +8,18 @@ primary_keys:
 
 fields:
   - name: id
-    type: string
+    type: Uuid
     auto_generate: true
   - name: author_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: company_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: location_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: staff_ids
-    type: string[]
-    riak:
-        indexed: true
+    type: Uuid[]
   - name: body
-    type: string
+    type: text
     riak:
         indexed: true
   - name: rating

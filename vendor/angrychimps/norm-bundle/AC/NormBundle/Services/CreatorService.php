@@ -7,6 +7,7 @@ namespace AC\NormBundle\Services;
 use AC\NormBundle\core\generator\types\AbstractEntityOrSubclass;
 use AC\NormBundle\core\generator\types\Field;
 use AC\NormBundle\core\generator\types\Entity;
+use AC\NormBundle\core\generator\types\Subclass;
 use AC\NormBundle\core\Utils;
 use AC\NormBundle\core\generator\generators\YamlGenerator;
 use AC\NormBundle\core\generator\types\Schema;
@@ -183,28 +184,47 @@ class CreatorService
             $entityData['isElasticsearch'] = $entityData['driver'] === 'elasticsearch';
             $entityData['usesRiak2'] = $entityData['driver'] === 'riak2';
             $entityData['primaryKeyFieldNamesString'] = '["' . implode('", "', $entity->primaryKeyNames) . '"]';
-            $entityData['primaryKeyPropertyNamesString'] = '["';
+            $entityData['primaryKeyPropertyNamesString'] = '[';
             foreach($entity->primaryKeyNames as $pkName) {
-                $entityData['primaryKeyPropertyNamesString'] .= $pkName . ", ";
+                $entityData['primaryKeyPropertyNamesString'] .= "'" . $pkName . "', ";
             }
             $entityData['primaryKeyPropertyNamesString'] = rtrim($entityData['primaryKeyPropertyNamesString'], ", ");
-            $entityData['primaryKeyPropertyNamesString'] .= '"]';
-
+            $entityData['primaryKeyPropertyNamesString'] .= ']';
+            $entityData['primaryKeyTypesString'] = '[ ';
+            foreach($entity->primaryKeyNames as $pkName) {
+                $entityData['primaryKeyTypesString'] .= "'" . str_replace('\\', '\\\\', $entity->fields[$pkName]->type) . "', ";
+            }
+            $entityData['primaryKeyTypesString'] = rtrim($entityData['primaryKeyTypesString'], ", ");
+            $entityData['primaryKeyTypesString'] .= ' ]';
             $entityData['autoIncrementField'] = $entity->autoIncrementName;
             $entityData['autoIncrementProperty'] = Utils::field2property($entity->autoIncrementName);
             $entityData['autoGenerateField'] = $entity->autoGenerateName;
             $entityData['autoGenerateProperty'] = Utils::field2property($entity->autoGenerateName);
             if($entity->apiPublicFields === []) {
                 $entityData['apiPublicFieldsString'] = '[]';
+                $entityData['apiPublicFieldTypesString'] = '[]';
             }
             else {
                 $entityData['apiPublicFieldsString'] = '["' . implode('", "', $entity->apiPublicFields) . '"]';
+                $entityData['apiPublicFieldTypesString'] = '[';
+                foreach($entity->apiPublicFields as $fieldName) {
+                    $entityData['apiPublicFieldTypesString'] .= "'" . str_replace('\\', '\\\\', $entity->fields[$fieldName]->type) . "', ";
+                }
+                $entityData['apiPublicFieldTypesString'] = rtrim($entityData['apiPublicFieldTypesString'], ", ");
+                $entityData['apiPublicFieldTypesString'] .= ' ]';
             }
             if($entity->apiPrivateFields === []) {
                 $entityData['apiPrivateFieldsString'] = '[]';
+                $entityData['apiPrivateFieldTypesString'] = '[]';
             }
             else {
                 $entityData['apiPrivateFieldsString'] = '["' . implode('", "', $entity->apiPrivateFields) . '"]';
+                $entityData['apiPrivateFieldTypesString'] = '[';
+                foreach($entity->apiPrivateFields as $fieldName) {
+                    $entityData['apiPrivateFieldTypesString'] .= "'" . str_replace('\\', '\\\\', $entity->fields[$fieldName]->type) . "', ";
+                }
+                $entityData['apiPrivateFieldTypesString'] = rtrim($entityData['apiPrivateFieldTypesString'], ", ");
+                $entityData['apiPrivateFieldTypesString'] .= ' ]';
             }
             if($entity->apiHiddenButSettableFields === []) {
                 $entityData['apiHiddenButSettableFields'] = '[]';
@@ -273,7 +293,6 @@ class CreatorService
             $traitShortNames = array_merge($traitShortNames, $entityData['traitShortNames']);
         }
 
-
         $fieldNames = [];
         $propertyNames = [];
         $fieldTypes = [];
@@ -326,9 +345,9 @@ class CreatorService
             $enumArray = array();
             $cnt = 1;
 
-            foreach($enum->values as $value) {
+            foreach ($enum->values as $value) {
                 $valueArray = array();
-                $valueArray['name'] = Utils::camel2TrainCase($value) . '_' .  Utils::camel2TrainCase($enum->name);
+                $valueArray['name'] = Utils::camel2TrainCase($value) . '_' . Utils::camel2TrainCase($enum->name);
                 $valueArray['value'] = $cnt;
                 $enumArray['values'][] = $valueArray;
                 $cnt++;
@@ -359,90 +378,119 @@ class CreatorService
             case 'Currency':
                 $fieldData['phpType'] = 'float';
                 $fieldData['elasticsearchType'] = 'float';
-                $fieldData['mysqlType'] = 'double';
                 $fieldData['riakSolrSuffix'] = '_counter';
                 break;
             case 'Location':
                 $fieldData['phpType'] = 'string';
                 $fieldData['elasticsearchType'] = 'geo_point';
-                $fieldData['mysqlType'] = 'point';
+                break;
+            case 'Location[]':
+                $fieldData['phpType'] = 'string[]';
+                $fieldData['phpSingularType'] = 'string';
+                $fieldData['elasticsearchType'] = 'geo_point';
+                $fieldData['riakSolrSuffix'] = '_set';
+                $fieldData['multiValued'] = 'true';
                 break;
             case 'Date':
                 $fieldData['phpType'] = '\\DateTime';
                 $fieldData['elasticsearchType'] = 'date';
-                $fieldData['mysqlType'] = 'Date';
                 $fieldData['isDateTime'] = true;
+                break;
+            case 'Date[]':
+                $fieldData['phpType'] = '\\DateTime[]';
+                $fieldData['phpSingularType'] = '\\DateTime';
+                $fieldData['elasticsearchType'] = 'date';
+                $fieldData['isDateTime'] = true;
+                $fieldData['riakSolrSuffix'] = '_set';
+                $fieldData['multiValued'] = 'true';
                 break;
             case 'DateTime':
                 $fieldData['phpType'] = '\\DateTime';
                 $fieldData['elasticsearchType'] = 'date';
-                $fieldData['mysqlType'] = 'DateTime';
                 $fieldData['isDateTime'] = true;
                 break;
-            case 'Time':
-                $fieldData['phpType'] = '\\DateTime';
+            case 'DateTime[]':
+                $fieldData['phpType'] = '\\DateTime[]';
+                $fieldData['phpSingularType'] = '\\DateTime';
                 $fieldData['elasticsearchType'] = 'date';
-                $fieldData['mysqlType'] = 'DateTime';
                 $fieldData['isDateTime'] = true;
+                $fieldData['riakSolrSuffix'] = '_set';
+                $fieldData['multiValued'] = 'true';
+                break;
+            case 'Time':
+                $fieldData['phpType'] = 'string';
+                $fieldData['elasticsearchType'] = 'string';
+                break;
+            case 'Time[]':
+                $fieldData['phpType'] = 'string[]';
+                $fieldData['phpSingularType'] = 'string';
+                $fieldData['elasticsearchType'] = 'string';
+                $fieldData['mysqlType'] = 'DateTime';
+                $fieldData['riakSolrSuffix'] = '_set';
+                $fieldData['multiValued'] = 'true';
                 break;
             case 'Uuid':
                 $fieldData['phpType'] = 'string';
                 $fieldData['elasticsearchType'] = 'string';
-                $fieldData['mysqlType'] = 'varchar';
                 $fieldData['solrType'] = '';
+                break;
+            case 'Uuid[]':
+                $fieldData['phpType'] = 'string[]';
+                $fieldData['phpSingularType'] = 'string';
+                $fieldData['elasticsearchType'] = 'string';
+                $fieldData['solrType'] = '';
+                $fieldData['riakSolrSuffix'] = '_set';
+                $fieldData['multiValued'] = 'true';
                 break;
             case 'Email':
                 $fieldData['phpType'] = 'string';
                 $fieldData['elasticsearchType'] = 'string';
-                $fieldData['mysqlType'] = 'varchar';
+                break;
+            case 'Email[]':
+                $fieldData['phpType'] = 'string[]';
+                $fieldData['phpSingularType'] = 'string';
+                $fieldData['elasticsearchType'] = 'string';
+                $fieldData['riakSolrSuffix'] = '_set';
+                $fieldData['multiValued'] = 'true';
                 break;
             case 'Counter':
                 $fieldData['phpType'] = 'int';
                 $fieldData['elasticsearchType'] = 'int';
-                $fieldData['mysqlType'] = 'int';
                 $fieldData['riakSolrSuffix'] = '_counter';
                 break;
             case 'bool':
                 $fieldData['phpType'] = 'bool';
                 $fieldData['elasticsearchType'] = 'boolean';
-                $fieldData['mysqlType'] = 'bool';
                 $fieldData['riakSolrSuffix'] = '_flag';
                 break;
             case 'string':
                 $fieldData['phpType'] = 'string';
                 $fieldData['elasticsearchType'] = 'string';
-                $fieldData['mysqlType'] = 'varchar';
                 break;
             case 'text':
                 $fieldData['phpType'] = 'string';
                 $fieldData['elasticsearchType'] = 'string';
-                $fieldData['mysqlType'] = 'text';
                 break;
             case 'int':
                 $fieldData['phpType'] = 'int';
                 $fieldData['elasticsearchType'] = 'integer';
-                $fieldData['mysqlType'] = 'int';
                 break;
             case 'float':
                 $fieldData['phpType'] = 'float';
                 $fieldData['elasticsearchType'] = 'float';
-                $fieldData['mysqlType'] = 'float';
                 break;
             case 'decimal':
                 $fieldData['phpType'] = 'float';
                 $fieldData['elasticsearchType'] = 'float';
-                $fieldData['mysqlType'] = 'decimal';
                 break;
             case 'enum':
                 $fieldData['phpType'] = 'int';
                 $fieldData['elasticsearchType'] = 'int';
-                $fieldData['mysqlType'] = 'int';
                 break;
             case 'set':
                 $fieldData['phpType'] = 'int[]';
                 $fieldData['phpSingularType'] = 'int';
                 $fieldData['elasticsearchType'] = 'int';
-                $fieldData['mysqlType'] = 'set';
                 $fieldData['multiValued'] = 'true';
                 $fieldData['riakSolrSuffix'] = '_set';
                 break;
@@ -450,14 +498,13 @@ class CreatorService
                 if(strpos($field->type, '[]') === strlen($field->type) - 2) {
                     $fieldData['phpSingularType'] = substr($field->type, 0, strlen($field->type) - 2);
                     $fieldData['elasticsearchType'] = $fieldData['phpSingularType'];
+                    $fieldData['riakSolrSuffix'] = '_set';
+                    $fieldData['multiValued'] = 'true';
                 }
                 else {
                     $fieldData['elasticsearchType'] = $field->type;
                 }
                 $fieldData['phpType'] = $field->type;
-                $fieldData['mysqlType'] = $field->type;
-                $fieldData['multiValued'] = 'true';
-                $fieldData['riakSolrSuffix'] = '_set';
         }
 
 

@@ -19,7 +19,7 @@ fields:
     riak:
         indexed: true
   - name: email
-    type: string
+    type: Email
     riak:
         indexed: true
   - name: website
@@ -52,7 +52,7 @@ fields:
     riak:
         indexed: true
   - name: created_by
-    type: string
+    type: Uuid
     riak:
         indexed: true
   - name: created_at

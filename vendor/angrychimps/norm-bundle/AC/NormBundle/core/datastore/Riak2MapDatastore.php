@@ -58,11 +58,10 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
         if(method_exists($obj, 'setUpdatedAt')) {
             $obj->setUpdatedAt(new \DateTime());
         }
-        $data = $this->getAsArray($obj);
-        $key = $this->getKeyAsString($this->getIdentifier($obj));
-        $data = json_encode($data);
 
         if($debug !== null) {
+            $key = $this->getKeyAsString($this->getIdentifier($obj));
+
             $arr = [];
             $arr['key'] = $key;
             $debug['updateObject'][] = $arr;

@@ -9,13 +9,9 @@ primary_keys:
 
 fields:
   - name: member_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: company_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: role
     type: enum
     values:

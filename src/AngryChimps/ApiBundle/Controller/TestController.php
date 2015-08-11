@@ -277,4 +277,16 @@ class TestController extends AbstractController
 
         return $this->responseService->success();
     }
+
+    protected function esMappingProps() {
+        /** @var DatastoreService $datastoreService */
+        $datastoreService = $this->container->get('ac_norm.datastore');
+
+        /** @var EsDocumentDatastore $ds */
+        $ds = $datastoreService->getDatastore('es_ds');
+
+        $props = $ds->getMappingProperties('location');
+
+        return $this->responseService->success($props);
+    }
 }

@@ -10,8 +10,10 @@
         "state": "CA",
         "zip": 94114,
         "phone": "(415) 555-1213",
-        "lat": 37.762822,
-        "lon": -122.437239
+        "location": {
+          "lat": 37.762822,
+          "lon": -122.437239
+        }
       },
       "is_mobile": true,
       "mobile_radius_miles": 2.5,

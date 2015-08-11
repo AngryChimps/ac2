@@ -91,7 +91,6 @@ class NormSetupCommand extends ContainerAwareCommand
                             $props[$field['name']] = [
                                 'type' => $field['elasticsearchType'],
                                 'include_in_all' => $field['includeInAll'],
-//                                'index_name' => $field['indexName'],
                             ];
                         }
                         echo "Defining Elasticsearch Mapping for datastore: " . $datastore['name'] . ", entity: " . $entityData['name'] . "\n";

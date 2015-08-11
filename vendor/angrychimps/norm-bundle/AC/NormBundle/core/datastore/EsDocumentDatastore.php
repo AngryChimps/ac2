@@ -110,24 +110,6 @@ class EsDocumentDatastore extends AbstractElasticsearchDatastore {
         }
     }
 
-    protected function getAsArray($obj) {
-        $arr = [];
-
-        foreach($this->infoService->getFieldNames($this->infoService->getEntityName(get_class($obj))) as $field) {
-            $func = 'get' . ucfirst(Utils::field2property($field));
-            $value = $obj->$func();
-
-            if($value instanceof \DateTime) {
-                $arr[$field] = $value->format('c');
-            }
-            elseif(is_object($value)) {
-                
-            }
-        }
-
-        return $arr;
-    }
-
     public function getKeyAsString($primaryKeys) {
         foreach($primaryKeys as &$primaryKey) {
             if($primaryKey instanceof \DateTime) {
@@ -228,16 +210,10 @@ class EsDocumentDatastore extends AbstractElasticsearchDatastore {
         $type->delete();
     }
 
-    public function defineMapping($typeName, $properties) {
-//        //Create the index
-//        $this->index->create(
-//            [
-//                'number_of_shards' => 4,
-//                'number_of_replicas' => 1,
-//            ],
-//            true
-//        );
-//
+    public function defineMapping($typeName) {
+        //Create properties array
+        $props = $this->getMappingProperties($typeName);
+
         //Create a type
         $elasticaType = $this->index->getType($typeName);
 
@@ -247,8 +223,73 @@ class EsDocumentDatastore extends AbstractElasticsearchDatastore {
         $mapping->setParam('index_analyzer', 'default');
         $mapping->setParam('search_analyzer', 'default');
 
-        $mapping->setProperties($properties);
+        $mapping->setProperties($props);
         $mapping->send();
+    }
+
+    public function getMappingProperties($entity) {
+        $props = [];
+        $fields = $this->infoService->getFieldNames($entity);
+        $types = $this->infoService->getFieldTypes($entity);
+
+        for($i = 0; $i < count($fields); $i++) {
+            $props[$fields[$i]] = $this->getMappingPropertiesForField($types[$i]);
+        }
+
+        return $props;
+    }
+
+    protected function getMappingPropertiesForSubclass($subclassType) {
+        $subclassName = $this->infoService->getSubclassName($subclassType);
+        $props = [];
+        $fields = $this->infoService->getSubclassFieldNames($subclassName);
+        $types = $this->infoService->getSubclassFieldTypes($subclassName);
+
+        for($i = 0; $i < count($fields); $i++) {
+            $props[$fields[$i]] = $this->getMappingPropertiesForField($types[$i]);
+        }
+
+        return $props;
+    }
+
+    protected function getMappingPropertiesForField($type) {
+        switch (rtrim($type, '[]')) {
+            case 'Uuid':
+            case 'Email':
+                return ['type' => 'string', 'index' => 'not_analyzed'];
+
+            case 'Location':
+                return ['type' => 'geo_point'];
+
+            case 'string':
+            case 'text':
+            case 'Time':
+                return ['type' => 'string'];
+
+            case 'int':
+            case 'Counter':
+            case 'enum':
+                return ['type' => 'integer'];
+
+            case 'bool':
+                return ['type' => 'boolean'];
+
+            case 'float':
+            case 'double':
+            case 'Currency':
+            case 'decimal':
+                return ['type' => 'float'];
+
+            case 'Date':
+            case 'DateTime':
+                return ['type' => 'date'];
+
+            case 'set':
+                return ['type' => 'float'];
+
+            default:
+                return ['type' => 'object', 'properties' => $this->getMappingPropertiesForSubclass($type)];
+        }
     }
 
     public function createIndex($shards, $replicas) {

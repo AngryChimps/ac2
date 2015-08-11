@@ -8,12 +8,10 @@ primary_keys:
 
 fields:
   - name: id
-    type: string
+    type: Uuid
     auto_generate: true
   - name: member_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: device_type
     type: enum
     values:

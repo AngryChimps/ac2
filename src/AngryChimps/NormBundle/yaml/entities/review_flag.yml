@@ -8,16 +8,12 @@ primary_keys:
 
 fields:
   - name: id
-    type: string
+    type: Uuid
     auto_generate: true
   - name: review_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: author_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: reason
     type: enum
     values:
@@ -29,7 +25,7 @@ fields:
         - InappropriateContent
         - Other
   - name: body
-    type: string
+    type: text
     riak:
         indexed: true
   - name: status

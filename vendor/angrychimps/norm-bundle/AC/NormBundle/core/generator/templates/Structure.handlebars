@@ -24,6 +24,7 @@
 
         $structure['entities']['{{name}}']['primaryKeyFieldNames'] = {{{primaryKeyFieldNamesString}}};
         $structure['entities']['{{name}}']['primaryKeyPropertyNames'] = {{{primaryKeyPropertyNamesString}}};
+        $structure['entities']['{{name}}']['primaryKeyTypes'] = {{{primaryKeyTypesString}}};
         $structure['entities']['{{name}}']['autoIncrementField'] = '{{autoIncrementField}}';
         $structure['entities']['{{name}}']['autoIncrementProperty'] = '{{autoIncrementProperty}}';
         $structure['entities']['{{name}}']['autoGenerateField'] = '{{autoGenerateField}}';
@@ -32,7 +33,9 @@
         $structure['entities']['{{name}}']['propertyNames'] = {{{propertyNamesString}}};
         $structure['entities']['{{name}}']['fieldTypes'] = {{{fieldTypesString}}};
         $structure['entities']['{{name}}']['apiPublicFields'] = {{{apiPublicFieldsString}}};
+        $structure['entities']['{{name}}']['apiPublicFieldTypes'] = {{{apiPublicFieldTypesString}}};
         $structure['entities']['{{name}}']['apiPrivateFields'] = {{{apiPrivateFieldsString}}};
+        $structure['entities']['{{name}}']['apiPrivateFieldTypes'] = {{{apiPrivateFieldTypesString}}};
         $structure['entities']['{{name}}']['apiHiddenButSettableFields'] = {{{apiHiddenButSettableFields}}};
 
         $structure['classes']['{{objectName}}']['name'] = '{{name}}';
@@ -47,6 +50,10 @@
     {{#each subclasses}}
         $structure['subclasses']['{{name}}']['name'] = '{{name}}';
         $structure['subclasses']['{{name}}']['objectName'] = '{{objectName}}';
+        $structure['subclasses']['{{name}}']['objectName'] = '{{objectName}}';
+        $structure['subclasses']['{{name}}']['fieldNames'] = {{{fieldNamesString}}};
+        $structure['subclasses']['{{name}}']['fieldTypes'] = {{{fieldTypesString}}};
+
         $structure['classes']['{{objectName}}']['name'] = '{{name}}';
 
     {{/each}}

@@ -300,15 +300,7 @@ abstract class NormCrudService
 
         $pkArray = [];
         for($i = 0; $i < count($tableInfo['primaryKeyPropertyNames']); $i++) {
-            if($tableInfo['fieldTypes'][$i] === 'DateTime') {
-                $pkArray[] = $obj->$tableInfo['primaryKeyPropertyNames'][$i]->format('Y-m-d H:i:s');
-            }
-            elseif($tableInfo['fieldTypes'][$i] === 'Date') {
-                $pkArray[] = $obj->$tableInfo['primaryKeyPropertyNames'][$i]->format('Y-m-d');
-            }
-            else {
-                $pkArray[] = $obj->$tableInfo['primaryKeyPropertyNames'][$i];
-            }
+            $pkArray[] = $this->getApiFieldValue($obj->$tableInfo['primaryKeyPropertyNames'][$i], $tableInfo['fieldTypes'][$i]);
         }
 
         return implode('|', $pkArray);
@@ -323,11 +315,13 @@ abstract class NormCrudService
         }
         else {
             $entityName = $this->infoService->getEntityName(get_class($obj));
-            $fields = $this->infoService->getApiPublicFields($entityName);
+            $publicFields = $this->infoService->getApiPublicFields($entityName);
+            $publicFieldTypes = $this->infoService->getApiPublicFieldTypes($entityName);
 
-            foreach ($fields as $field) {
-                $func = 'get' . ucfirst(Utils::field2property($field));
-                $arr[$field] = $obj->$func();
+            for($i = 0; $i < count($publicFields); $i++) {
+                $func = 'get' . ucfirst(Utils::field2property($publicFields[$i]));
+                $value = $obj->$func();
+                $arr[$publicFields[$i]] = $this->getApiFieldValue($value, $publicFieldTypes[$i]);
             }
         }
         return $arr;
@@ -342,12 +336,22 @@ abstract class NormCrudService
         }
         else {
             $entityName = $this->infoService->getEntityName(get_class($obj));
-            $fields = array_merge($this->infoService->getApiPrivateFields($entityName),
-                $this->infoService->getApiPublicFields($entityName));
+            $publicFields = $this->infoService->getApiPublicFields($entityName);
+            $publicFieldTypes = $this->infoService->getApiPublicFieldTypes($entityName);
 
-            foreach ($fields as $field) {
-                $func = 'get' . ucfirst(Utils::field2property($field));
-                $arr[$field] = $obj->$func();
+            for($i = 0; $i < count($publicFields); $i++) {
+                $func = 'get' . ucfirst(Utils::field2property($publicFields[$i]));
+                $value = $obj->$func();
+                $arr[$publicFields[$i]] = $this->getApiFieldValue($value, $publicFieldTypes[$i]);
+            }
+
+            $privateFields = $this->infoService->getApiPrivateFields($entityName);
+            $privateFieldTypes = $this->infoService->getApiPrivateFieldTypes($entityName);
+
+            for($i = 0; $i < count($privateFields); $i++) {
+                $func = 'get' . ucfirst(Utils::field2property($privateFields[$i]));
+                $value = $obj->$func();
+                $arr[$privateFields[$i]] = $this->getApiFieldValue($value, $privateFieldTypes[$i]);
             }
         }
 
@@ -355,27 +359,64 @@ abstract class NormCrudService
     }
 
     public function getAsArray($obj) {
-        $entityName = $this->infoService->getEntityName(get_class($obj));
-        $fields = $this->infoService->getFieldNames($entityName);
         $arr = [];
-
-        if($this->isCollection($obj) || is_array($obj)) {
+        if(is_array($obj) || strpos(get_class($obj), 'Collection') > 0) {
             foreach($obj as $object) {
                 $arr[] = $this->getAsArray($object);
             }
         }
         else {
-            foreach ($fields as $field) {
-                $func = 'get' . ucfirst(Utils::field2property($field));
+            $entityName = $this->infoService->getEntityName(get_class($obj));
+            $allFields = $this->infoService->getFieldNames($entityName);
+            $allTypes = $this->infoService->getFieldTypes($entityName);
+
+            for($i = 0; $i < count($allFields); $i++) {
+                $func = 'get' . ucfirst(Utils::field2property($allFields[$i]));
                 $value = $obj->$func();
-                if (is_object($value)) {
-                    $arr[$field] = (array)$value;
-                } else {
-                    $arr[$field] = $value;
-                }
+                $arr[$allFields[$i]] = $this->getApiFieldValue($value, $allTypes[$i]);
             }
         }
 
         return $arr;
+    }
+
+    protected function getApiFieldValue($val, $type) {
+        if($val === null) {
+            return null;
+        }
+        $type = ltrim($type, '\\');
+        switch($type) {
+            case 'Date':
+            case 'DateTime':
+                return $val->format('c');
+
+            case 'Date[]':
+            case 'DateTime[]':
+                $arr = [];
+                foreach($val as $value) {
+                    $arr[] = $value->format('c');
+                }
+                return $arr;
+
+            case 'Location':
+                list($lat, $lon) = explode(',', $val);
+                return ['lat' => (float) $lat, 'lon' => (float) $lon];
+
+            case 'Location[]':
+                $arr = [];
+                foreach($val as $value) {
+                    list($lat, $lon) = explode(',', $value);
+                    $arr[] = ['lat' => (float) $lat, 'lon' => (float) $lon];
+                }
+                return $arr;
+
+            default:
+                if(is_object($val)) {
+                    return (array) $val;
+                }
+                else {
+                    return $val;
+                }
+        }
     }
 }

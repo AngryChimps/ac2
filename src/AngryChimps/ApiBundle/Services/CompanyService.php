@@ -37,8 +37,7 @@ class CompanyService extends AbstractRestService {
     {
         $geoAddr = $this->geolocationService->lookupAddress($data['billing_address']['street1'],
                    $data['billing_address']['zip']);
-        $data['billing_address']['lat'] = $geoAddr->lat;
-        $data['billing_address']['lon'] = $geoAddr->lon;
+        $data['billing_address']['location'] = $geoAddr->lat . ', ' . $geoAddr->lon;
 
         /** @var Company $company */
         $company = parent::post($endpoint, $data, $additionalData);
@@ -57,8 +56,7 @@ class CompanyService extends AbstractRestService {
     {
         $geoAddr = $this->geolocationService->lookupAddress($data['billing_address']['street1'],
             $data['billing_address']['zip']);
-        $data['billing_address']['lat'] = $geoAddr->lat;
-        $data['billing_address']['lon'] = $geoAddr->lon;
+        $data['billing_address']['location'] = $geoAddr->lat . ', ' . $geoAddr->lon;
 
         return parent::patch($obj, $data);
     }

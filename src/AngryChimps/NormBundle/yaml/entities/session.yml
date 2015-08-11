@@ -10,17 +10,13 @@ fields:
   - name: id
     type: string
   - name: user_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: browser_hash
     type: string
     riak:
         indexed: true
   - name: device_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: created_at
     type: DateTime
 

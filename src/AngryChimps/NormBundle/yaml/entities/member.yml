@@ -76,7 +76,7 @@ fields:
     riak:
         indexed: true
   - name: blocked_company_ids
-    type: string[]
+    type: Uuid[]
   - name: created_at
     type: DateTime
     riak:

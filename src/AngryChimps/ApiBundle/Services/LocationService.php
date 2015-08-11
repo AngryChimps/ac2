@@ -88,7 +88,6 @@ class LocationService extends AbstractRestService {
             $data['address']['zip']);
         $data['address']['city'] = $geoAddr->city;
         $data['address']['state'] = $geoAddr->state;
-        $data['address']['lat'] = $geoAddr->lat;
-        $data['address']['lon'] = $geoAddr->lon;
+        $data['address']['location'] = $geoAddr->lat . ', ' . $geoAddr->lon;
     }
 }

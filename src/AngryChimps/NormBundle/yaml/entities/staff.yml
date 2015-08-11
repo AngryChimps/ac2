@@ -11,13 +11,9 @@ fields:
     type: Uuid
     auto_generate: true
   - name: company_id
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: location_ids
-    type: string[]
-    riak:
-        indexed: true
+    type: Uuid[]
   - name: email
     type: Email
     validations:
@@ -39,7 +35,7 @@ fields:
   - name: education
     type: string
   - name: description
-    type: string
+    type: text
   - name: photo
     type: string
   - name: status
@@ -51,9 +47,7 @@ fields:
     riak:
         indexed: true
   - name: created_by
-    type: string
-    riak:
-        indexed: true
+    type: Uuid
   - name: created_at
     type: DateTime
     riak:
