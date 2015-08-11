@@ -289,7 +289,16 @@ class {{objectNameWithoutNamespace}} {
         {{#if typeIsSubclass}}
             $this->{{propertyName}} = new {{type}}($data['{{name}}']);
         {{else}}
-            $this->{{propertyName}} = $data['{{name}}'];
+            {{#if isDateTime}}
+                $this->{{propertyName}} = $data['{{name}}']->format('c');
+            {{else}}
+                {{#if isLocation}}
+                    list($lat, $lon) = explode(',', $data['{{name}}']);
+                    $this->{{propertyName}} = ['lat' => (float) $lat, 'lon' => (float) $lon];
+                {{else}}
+                    $this->{{propertyName}} = $data['{{name}}'];
+                {{/if}}
+            {{/if}}
         {{/if}}
         {{/each}}
         }

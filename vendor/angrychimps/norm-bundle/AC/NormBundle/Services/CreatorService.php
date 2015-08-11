@@ -370,6 +370,7 @@ class CreatorService
         $fieldData['indexName'] = $field->indexName;
         $fieldData['usesRiak2'] = isset($entityOrSubclassData['driver']) && ($entityOrSubclassData['driver'] === 'riak2');
         $fieldData['isDateTime'] = false;
+        $fieldData['isLocation'] = false;
         $fieldData['multiValued'] = 'false';
         $fieldData['riakSolrSuffix'] = '_register';
         $fieldData['riakIndexed'] = $field->riakIndexed ? 'true' : 'false';
@@ -383,6 +384,7 @@ class CreatorService
             case 'Location':
                 $fieldData['phpType'] = 'string';
                 $fieldData['elasticsearchType'] = 'geo_point';
+                $fieldData['isLocation'] = true;
                 break;
             case 'Location[]':
                 $fieldData['phpType'] = 'string[]';
