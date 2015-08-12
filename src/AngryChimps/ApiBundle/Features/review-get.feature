@@ -16,4 +16,6 @@ Feature: review-get
     And The response contains a field named "payload.review.id"
     And The value of the "payload.review.id" field returned is of type "string"
     And The string length of the "payload.review.id" field is "40"
+    And The response fields are shown in the documentation for the "review" entity "get" method
+    And No undocumented fields are returned in the response for the "review" entity "get" method
     And Finally, I clean up my objects

@@ -238,4 +238,116 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     {
         $this->getData($arg1 . '/' . $this->getVariable($arg2), $arg3);
     }
+
+    /**
+     * @Then The response fields are shown in the documentation for the :arg1 entity :arg2 method
+     */
+    public function theResponseFieldsAreShownInTheDocumentationForTheEntityMethod($arg1, $arg2)
+    {
+        $documentedResponse = $this->getSampleResponseArray($arg1, $arg2);
+
+        foreach($this->getPayloadArray() as $entityName => $entityData) {
+            if(!isset($documentedResponse['payload'][$entityName])) {
+                throw new \Exception('Documentation does not have a payload object named ' . $entityName);
+            }
+
+            foreach($entityData as $fieldName => $val) {
+                if(gettype($documentedResponse['payload'][$entityName][$fieldName]) !== gettype($val)) {
+                    throw new \Exception('The payload object ' . $entityName . ' field ' . $fieldName . "doesn't match the documented type");
+                }
+                if(gettype($val) === 'array') {
+                    $isSubclass = false;
+                    foreach($val as $value) {
+                        if(is_array($value)) {
+                            $isSubclass = true;
+                        }
+                    }
+                    if($isSubclass) {
+                        $this->ensureDocumentedArrayMatchesReturnedArray($val, $documentedResponse['payload'][$entityName][$fieldName]);
+                    }
+                    else {
+                        if(gettype($val[0]) !== gettype($documentedResponse['payload'][$entityName][$fieldName][0])) {
+                            throw new \Exception('The payload object ' . $entityName . ' field ' . $fieldName . "'s values types don't match the documented types");
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    protected function ensureDocumentedArrayMatchesReturnedArray(array $returned, array $documented) {
+       foreach($returned as $key => $val) {
+           if(!isset($documented[$key])) {
+               throw new \Exception('The documented array is missing field: ' . $key);
+           }
+           if(gettype($val) !== gettype($documented[$key])) {
+               throw new \Exception('The documented array has a different type for field: ' . $key);
+           }
+           if(is_array($val)) {
+               foreach($val as $value) {
+                   if(is_array($value)) {
+                       $this->ensureDocumentedArrayMatchesReturnedArray($val, $documented[$key]);
+                   }
+               }
+           }
+       }
+    }
+
+    /**
+     * @Then No undocumented fields are returned in the response for the :arg1 entity :arg2 method
+     */
+    public function noUndocumentedFieldsAreReturnedInTheResponseForTheEntityMethod($arg1, $arg2)
+    {
+        $documentedResponse = $this->getSampleResponseArray($arg1, $arg2);
+        $payloadArray = $this->getPayloadArray();
+
+        foreach($documentedResponse['payload'] as $entityName => $entityData) {
+            if(!isset($payloadArray[$entityName])) {
+                throw new \Exception('Response is missing payload object: ' . $entityName);
+            }
+
+            foreach($entityData as $fieldName => $val) {
+                if(gettype($payloadArray[$entityName][$fieldName]) !== gettype($val)) {
+                    throw new \Exception('The payload object ' . $entityName . ' field ' . $fieldName . "doesn't match the documented type");
+                }
+                if(gettype($val) === 'array') {
+                    $isSubclass = false;
+                    foreach($val as $value) {
+                        if(is_array($value)) {
+                            $isSubclass = true;
+                        }
+                    }
+                    if($isSubclass) {
+                        $this->ensureReturnedArrayMatchesDocumentedArray($payloadArray[$entityName][$fieldName], $val);
+                    }
+                    else {
+                        if(gettype($val[0]) !== gettype($payloadArray[$entityName][$fieldName][0])) {
+                            throw new \Exception('The payload object ' . $entityName . ' field ' . $fieldName . "'s values types don't match the documented types");
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    protected function ensureReturnedArrayMatchesDocumentedArray(array $returned, array $documented) {
+        foreach($documented as $key => $val) {
+            if(!isset($returned[$key])) {
+                throw new \Exception('The returned array is missing field: ' . $key);
+            }
+            if(gettype($val) !== gettype($returned[$key])) {
+                throw new \Exception('The returned array has a different type for field: ' . $key);
+            }
+            if(is_array($val)) {
+                foreach($val as $value) {
+                    if(is_array($value)) {
+                        $this->ensureReturnedArrayMatchesDocumentedArray($val, $documented[$key]);
+                    }
+                }
+            }
+        }
+    }
+
 }

@@ -15,4 +15,6 @@ Feature: staff-get
     And The response contains a field named "payload.staff.id"
     And The value of the "payload.staff.id" field returned is of type "string"
     And The string length of the "payload.staff.id" field is "40"
+    And The response fields are shown in the documentation for the "staff" entity "get" method
+    And No undocumented fields are returned in the response for the "staff" entity "get" method
     And Finally, I clean up my objects

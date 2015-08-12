@@ -73,4 +73,3 @@ api_private_fields:
   - email
   - plan
   - billing_address
-  - status

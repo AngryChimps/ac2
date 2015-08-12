@@ -15,4 +15,6 @@ Feature: member-get
     And The response contains a field named "payload.member.email"
     And The value of the "payload.member.email" field returned is of type "string"
     And The string length of the "payload.member.email" field is greater than zero
+    And The response fields are shown in the documentation for the "member" entity "get" method
+    And No undocumented fields are returned in the response for the "member" entity "get" method
     And Finally, I clean up my objects

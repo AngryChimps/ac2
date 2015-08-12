@@ -27,7 +27,7 @@
         400,
         500
       ],
-      "walk-ins": true,
+      "walk_ins": true,
       "emergencies": false,
       "animals": [
         100,

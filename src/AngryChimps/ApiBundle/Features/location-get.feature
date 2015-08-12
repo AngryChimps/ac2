@@ -17,4 +17,6 @@ Feature: location-get
     And The response contains a field named "payload.location.id"
     And The value of the "payload.location.id" field returned is of type "string"
     And The string length of the "payload.location.id" field is "40"
+    And The response fields are shown in the documentation for the "location" entity "get" method
+    And No undocumented fields are returned in the response for the "location" entity "get" method
     And Finally, I clean up my objects

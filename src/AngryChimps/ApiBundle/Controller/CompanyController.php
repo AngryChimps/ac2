@@ -36,6 +36,7 @@ class CompanyController extends AbstractRestController
     {
         return $this->getPostResponse('company',
             [
+                'plan' => Company::BASIC_PLAN,
                 'created_by' => $this->getAuthenticatedUser()->getId(),
                 'status' => Company::PARTIALLY_CONFIGURED_STATUS,
             ]

@@ -122,7 +122,13 @@ class AbstractFeatureContext
 
     protected function getSampleRequestArray($endpoint, $method) {
         $json = file_get_contents(__DIR__ . '/../../../../../../src/AngryChimps/ApiSampleBundle/apis/' . $endpoint
-            . '/' . $method . '/input.json');
+            . '/' . strtolower($method) . '/input.json');
+        return json_decode($json, true);
+    }
+
+    protected function getSampleResponseArray($endpoint, $method) {
+        $json = file_get_contents(__DIR__ . '/../../../../../../src/AngryChimps/ApiSampleBundle/apis/' . $endpoint
+            . '/' . strtolower($method) . '/output.json');
         return json_decode($json, true);
     }
 

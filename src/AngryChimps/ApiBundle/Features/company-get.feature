@@ -13,4 +13,6 @@ Feature: company-get
     And The response contains a field named "payload.company.id"
     And The value of the "payload.company.id" field returned is of type "string"
     And The string length of the "payload.company.id" field is "40"
+    And The response fields are shown in the documentation for the "company" entity "get" method
+    And No undocumented fields are returned in the response for the "company" entity "get" method
     And Finally, I clean up my objects

@@ -69,9 +69,8 @@ api_public_fields:
 
 api_private_fields:
   - email
-  - status
+  - location_ids
 
 api_hidden_but_settable_fields:
   - role
   - company_id
-  - location_ids

@@ -3,6 +3,7 @@
 namespace AngryChimps\ApiBundle\Controller;
 
 use AC\NormBundle\services\InfoService;
+use AngryChimps\ApiBundle\Services\MemberService;
 use AngryChimps\ApiBundle\Services\StaffService;
 use AngryChimps\GeoBundle\services\GeolocationService;
 use Norm\Company;
