@@ -4,8 +4,8 @@
     "lon": -122.43436,
     "animal": 200,
     "mobile_location": false,
-    "emergency": false,
-    "walk_in": true,
+    "emergency": true,
+    "walk_in": false,
     "limit": 10,
     "offset": 0
   }

@@ -27,6 +27,8 @@ fields:
         - Length:
             min: 2
             max: 25
+  - name: company_name
+    type: string
   - name: is_mobile
     type: bool
     riak:
@@ -37,12 +39,27 @@ fields:
     type: string[]
   - name: services
     type: int[]
+  - name: walk_ins
+    type: bool
+  - name: emergencies
+    type: bool
   - name: animals
     type: int[]
   - name: address
     type: \Norm\Address
   - name: hours
     type: \Norm\Hours
+  - name: rating_count
+    type: Counter
+    riak:
+        indexed: true
+  - name: rating_total
+    type: Counter
+  - name: rating_avg
+    type: float
+    default: 0
+    riak:
+        indexed: true
   - name: status
     type: enum
     values:
@@ -73,6 +90,8 @@ api_public_fields:
   - animals
   - address
   - hours
+  - walk_ins
+  - emergencies
 
 api_private_fields:
   - status

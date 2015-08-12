@@ -121,12 +121,46 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
 
         $map = $result->getDatatype();
 
+        if($map === null) {
+            return false;
+        }
+
         $obj->setRiakMap($map);
 
         return true;
     }
 
+    public function search($entityName, $query, $limit, $offset, &$debug)
+    {
+        if($debug) {
+            $debug['query'] = $query;
+        }
+
+        $indexName = $this->getPrefixedIndexName($entityName);
+
+        if($limit !== null) {
+            $search = Search::builder()
+                ->withQuery($query)
+                ->withIndex($indexName)
+                ->withNumRows($limit)
+                ->withStart($offset)
+                ->build();
+        }
+        else {
+            $search = Search::builder()
+                ->withQuery($query)
+                ->withIndex($indexName)
+                ->withStart($offset)
+                ->build();
+        }
+        return $this->riakClient->execute($search);
+    }
+
     public function populateObjectByQuery($obj, $query, $limit, $offset, &$debug) {
+        if($debug) {
+            $debug['query'] = $query;
+        }
+
         $entityName = $this->infoService->getEntityName(get_class($obj));
         $indexName = $this->getPrefixedIndexName($entityName);
 
@@ -171,6 +205,10 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
     }
 
     public function populateCollectionByQuery(\ArrayObject $coll, $query, $limit, $offset, &$debug) {
+        if($debug) {
+            $debug['query'] = $query;
+        }
+
         $tableInfo = $this->infoService->getTableInfo(get_class($coll));
         $indexName = $this->getPrefixedIndexName($this->infoService->getEntityName(get_class($coll)));
 
@@ -212,6 +250,10 @@ class Riak2MapDatastore extends AbstractRiak2Datastore {
     }
 
     public function getQueryResultsCount($className, $query, &$debug) {
+        if($debug) {
+            $debug['query'] = $query;
+        }
+
         $indexName = $this->getPrefixedIndexName($this->infoService->getEntityName($className));
 
         $search = Search::builder()

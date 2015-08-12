@@ -62,10 +62,10 @@ ac_norm:
               - host: "10.1.10.102"
                 port: 8087
                 http_port: 8098
-            prefix: __norm_local_43_
+            prefix: __norm_local_47_
         es_ds:
             driver: "elasticsearch"
-            index_name: ac_local_43
+            index_name: ac_local_47
             default_analyzer: english
             shards: 4
             replicas: 1

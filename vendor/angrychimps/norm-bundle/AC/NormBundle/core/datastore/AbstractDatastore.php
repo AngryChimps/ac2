@@ -24,6 +24,7 @@ abstract class AbstractDatastore {
     public abstract function populateCollectionByPks($coll, $pks, &$debug);
     public abstract function populateCollectionByQuery(\ArrayObject $coll, $query, $limit, $offset, &$debug);
     public abstract function getQueryResultsCount($className, $query, &$debug);
+    public abstract function search($entityName, $query, $limit, $offset, &$debug);
 
 
     public function __construct(InfoService $infoService, LoggerInterface $loggerService) {
@@ -78,96 +79,125 @@ abstract class AbstractDatastore {
         }
     }
 
-    protected function getMapValues($obj, $arr)
+    protected function getMapValues($obj, $arr, $isPropertyIndexed = false)
     {
+        if((is_array($arr) || $this->isCollection($obj)) && empty($arr)) {
+            return [];
+        }
+
+        if($isPropertyIndexed) {
+            $fieldIndexedArray = [];
+            foreach($arr as $key => $val) {
+                $fieldIndexedArray[Utils::property2field($key)] = $val;
+            }
+        }
+        else {
+            $fieldIndexedArray = $arr;
+        }
+
+
         $mapValues = [];
         $class = get_class($obj);
         $tableInfo = $this->infoService->getTableInfo($class);
 
-        if((is_array($arr) || $this->isCollection($obj)) && empty($arr)) {
-            return [];
-        }
         for($i = 0; $i < count($tableInfo['fieldNames']); $i++) {
             $fieldName = $tableInfo['fieldNames'][$i];
             $propertyName = $tableInfo['propertyNames'][$i];
             $fieldType = $tableInfo['fieldTypes'][$i];
 
-            if(!isset($arr[$fieldName])){
+            if(!isset($fieldIndexedArray[$fieldName])){
                 continue;
             }
 
             switch($tableInfo['fieldTypes'][$i]) {
                 case 'string':
-                case 'Location':
                 case 'Uuid':
                 case 'Email':
                 case 'Time':
                 case 'text':
-                    $mapValues[$propertyName] = $arr[$fieldName];
+                    $mapValues[$propertyName] = $fieldIndexedArray[$fieldName];
                     break;
+
                 case 'int':
                 case 'Counter':
                 case 'enum':
-                    $mapValues[$propertyName] = (int) $arr[$fieldName];
+                    $mapValues[$propertyName] = (int) $fieldIndexedArray[$fieldName];
                     break;
+
                 case 'bool':
-                    $mapValues[$propertyName] = (bool) $arr[$fieldName];
+                    $mapValues[$propertyName] = (bool) $fieldIndexedArray[$fieldName];
                     break;
+
                 case 'float':
                 case 'double':
                 case 'Currency':
                 case 'decimal':
-                    $mapValues[$propertyName] = (float) $arr[$fieldName];
+                    $mapValues[$propertyName] = (float) $fieldIndexedArray[$fieldName];
                     break;
+
                 case 'Date':
                 case 'DateTime':
-                    $mapValues[$propertyName] = new \DateTime($arr[$fieldName]);
+                    $mapValues[$propertyName] = new \DateTime($fieldIndexedArray[$fieldName]);
                     break;
+
                 case 'int[]':
                 case 'Counter[]':
                 case 'enum[]':
-                    if(!is_array($arr[$fieldName])) {
-                        $arr[$fieldName] = [$arr[$fieldName]];
+                    if(!is_array($fieldIndexedArray[$fieldName])) {
+                        $fieldIndexedArray[$fieldName] = [$fieldIndexedArray[$fieldName]];
                     }
                     $mapValues[$propertyName] = [];
-                    foreach($arr[$fieldName] as $val) {
+                    foreach($fieldIndexedArray[$fieldName] as $val) {
                         $mapValues[$propertyName][] = (int) $val;
                     }
                     break;
+
                 case 'float[]':
                 case 'double[]':
                 case 'set':
-                    if(!is_array($arr[$fieldName])) {
-                        $arr[$fieldName] = [$arr[$fieldName]];
+                    if(!is_array($fieldIndexedArray[$fieldName])) {
+                        $fieldIndexedArray[$fieldName] = [$fieldIndexedArray[$fieldName]];
                     }
                     $mapValues[$propertyName] = [];
-                    foreach($arr[$fieldName] as $val) {
+                    foreach($fieldIndexedArray[$fieldName] as $val) {
                         $mapValues[$propertyName][] = (float) $val;
                     }
                     break;
+
                 case 'string[]':
                 case 'Time[]':
-                    if(!is_array($arr[$fieldName])) {
-                        $arr[$fieldName] = [$arr[$fieldName]];
+                    if(!is_array($fieldIndexedArray[$fieldName])) {
+                        $fieldIndexedArray[$fieldName] = [$fieldIndexedArray[$fieldName]];
                     }
-                    $mapValues[$propertyName] = array_values($arr[$fieldName]);
+                    $mapValues[$propertyName] = array_values($fieldIndexedArray[$fieldName]);
                     break;
+
                 case 'Date[]':
                 case 'DateTime[]':
-                    if(!is_array($arr[$fieldName])) {
-                        $arr[$fieldName] = [$arr[$fieldName]];
+                    if(!is_array($fieldIndexedArray[$fieldName])) {
+                        $fieldIndexedArray[$fieldName] = [$fieldIndexedArray[$fieldName]];
                     }
-                    foreach($arr[$obj->$fieldName] as $val) {
+                    foreach($fieldIndexedArray[$obj->$fieldName] as $val) {
                         $mapValues[$propertyName][] = new \DateTime($val);
                     }
                     break;
+
+                case 'Location':
+                    if(is_array($fieldIndexedArray[$fieldName])) {
+                        $mapValues[$propertyName] = implode(', ', $fieldIndexedArray[$fieldName]);
+                    }
+                    else {
+                        $mapValues[$propertyName] = $fieldIndexedArray[$fieldName];
+                    }
+                    break;
+
                 default:
                     if(class_exists($fieldType)) {
-                        $obj = new $fieldType($arr[$fieldName]);
+                        $obj = new $fieldType($fieldIndexedArray[$fieldName]);
                         $mapValues[$propertyName] = $obj;
                     }
                     else {
-                        $mapValues[$propertyName] = $arr[$fieldName];
+                        $mapValues[$propertyName] = $fieldIndexedArray[$fieldName];
                     }
             }
         }

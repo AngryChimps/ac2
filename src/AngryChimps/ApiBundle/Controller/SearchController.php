@@ -26,22 +26,28 @@ class SearchController extends AbstractController
     }
 
     public function indexPostAction() {
+        //Check to see if the token/member_id is valid
+        if($debug = $this->sessionService->checkToken()) {
+            return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
+        }
+
         $payload = $this->getPayload();
-        $text = isset($payload['text']) ? $payload['text'] : null;
-        $categories = isset($payload['categories']) ? $payload['categories'] : null;
 
         $lat = isset($payload['lat']) ? $payload['lat'] : null;
         $lon = isset($payload['lon']) ? $payload['lon'] : null;
-        $radius = isset($payload['radius_miles']) ? $payload['radius_miles'] : null;
-        $consumerTravels = isset($payload['consumer_travels']) ? $payload['consumer_travels'] : null;
-        $startingAt = isset($payload['starting_at']) ? new \DateTime($payload['starting_at']) : null;
-        $endingAt = isset($payload['ending_at']) ? new \DateTime($payload['ending_at']) : null;
-        $sort = isset($payload['sort']) ? $payload['sort'] : null;
+        $animal = isset($payload['animal']) ? $payload['animal'] : null;
+        $mobileLocation = isset($payload['mobile_location']) ? $payload['mobile_location'] : null;
+        $emergency = isset($payload['emergency']) ? $payload['emergency'] : null;
+        $walkIn = isset($payload['walk_in']) ? $payload['walk_in'] : null;
         $limit = isset($payload['limit']) ? $payload['limit'] : 10;
         $offset = isset($payload['offset']) ? $payload['offset'] : 0;
 
-        $results = $this->searchService->search($text, $categories, $lat, $lon, $radius, $consumerTravels,
-            $startingAt, $endingAt, $sort, $limit, $offset);
+        if($lat === null || $lon === null) {
+            return $this->responseService->failure(400, ResponseService::LAT_AND_LON_REQUIRED);
+        }
+
+        $results = $this->searchService->search($lat, $lon, $mobileLocation,
+            $animal, $emergency, $walkIn, $limit, $offset);
 
         return $this->responseService->success($results);
     }

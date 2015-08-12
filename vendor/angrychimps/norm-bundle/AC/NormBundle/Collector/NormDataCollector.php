@@ -79,33 +79,40 @@ class NormDataCollector extends DataCollector {
         return $this->startQuery($data);
     }
 
-    public function startReadByQueryQuery($class, $query, $limit, $offset, $datastoreName) {
+    public function startReadByQueryQuery($class, $limit, $offset, $datastoreName) {
         $data = [];
         $data['className'] = $class;
         $data['method'] = 'READ BY QUERY';
-        $data['query'] = $query;
         $data['limit'] = $limit;
         $data['offset'] = $offset;
         $data['datastoreName'] = $datastoreName;
         return $this->startQuery($data);
     }
 
-    public function startReadCollectionByQueryQuery($class, $query, $limit, $offset, $datastoreName) {
+    public function startReadCollectionByQueryQuery($class, $limit, $offset, $datastoreName) {
         $data = [];
         $data['className'] = $class;
         $data['method'] = 'READ BY QUERY';
-        $data['query'] = $query;
         $data['limit'] = $limit;
         $data['offset'] = $offset;
         $data['datastoreName'] = $datastoreName;
         return $this->startQuery($data);
     }
 
-    public function startCountByQueryQuery($class, $query, $datastoreName) {
+    public function startCountByQueryQuery($class,$datastoreName) {
         $data = [];
         $data['className'] = $class;
         $data['method'] = 'COUNT BY QUERY';
-        $data['query'] = $query;
+        $data['datastoreName'] = $datastoreName;
+        return $this->startQuery($data);
+    }
+
+    public function startSearchQuery($class,  $limit, $offset, $datastoreName) {
+        $data = [];
+        $data['className'] = $class;
+        $data['method'] = 'QUERY';
+        $data['limit'] = $limit;
+        $data['offset'] = $offset;
         $data['datastoreName'] = $datastoreName;
         return $this->startQuery($data);
     }

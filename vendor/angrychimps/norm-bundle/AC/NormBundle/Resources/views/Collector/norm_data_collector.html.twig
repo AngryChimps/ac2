@@ -103,6 +103,12 @@ iVBORw0KGgoAAAANSUhEUgAAACoAAAAeCAQAAADwIURrAAAACXBIWXMAAAsTAAALEwEAmpwYAAADGGlD
                         <td><pre>{{ query.query }}</pre></td>
                     </tr>
                 {% endif %}
+                {% if query.queryArray is defined %}
+                    <tr>
+                        <td>Query</td>
+                        <td><pre>{{ query.queryArray|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td>
+                    </tr>
+                {% endif %}
                 {% if query.limit is defined %}
                     <tr>
                         <td>Limit</td>

@@ -7,9 +7,12 @@
         "company_name": "Brentwood Animal Hospital",
         "photo": "ci/1758343.jpg",
         "rating": 3.5,
-        "distance": 0.110812197285,
-        "lat": "37.7618163",
-        "lon": "-122.4350885"
+        "rating_count": 3,
+        "distance_miles": 0.110812197285,
+        "location": {
+          "lat": "37.7618163",
+          "lon": "-122.4350885"
+        }
       }
     ]
   }

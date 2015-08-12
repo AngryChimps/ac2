@@ -147,6 +147,15 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
     }
 
     /**
+     * @When I send a :arg1 message to the :arg2 api
+     */
+    public function iSendAMessageToTheApi($arg1, $arg2)
+    {
+        $func = $arg1 . 'Data';
+        $this->$func($arg2);
+    }
+
+    /**
      * @Then The value of the :arg1 field is :arg2
      */
     public function theValueOfTheFieldIs($arg1, $arg2)
@@ -350,4 +359,12 @@ class FeatureContext extends AbstractFeatureContext implements Context, SnippetA
         }
     }
 
+    /**
+     * @When I search for locations
+     */
+    public function iSearchForLocations()
+    {
+        $this->requestArray = $this->getSampleRequestArray('search', 'post');
+        $this->postData('search');
+    }
 }

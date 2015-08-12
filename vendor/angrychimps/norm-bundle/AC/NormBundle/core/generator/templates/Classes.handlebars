@@ -81,6 +81,9 @@ class {{objectNameWithoutNamespace}} {
     }
     public function set{{propertyNameCapitalized}}($value)
     {
+    {{#if isCastable}}
+        $value = ({{phpType}}) $value;
+    {{/if}}
         $this->mapValues['{{propertyName}}'] = $value;
     {{#if usesRiak2}}
         {{#if isDateTime}}
@@ -195,7 +198,7 @@ class {{objectNameWithoutNamespace}} {
     }
     public function set{{propertyNameCapitalized}}($value)
     {
-        $this->mapValues['{{propertyName}}'] = (bool) $value;
+        $this->mapValues['{{propertyName}}'] = (int) $value;
         $this->getRiakStoreMapBuilder()->updateCounter('{{name}}', $value);
     }
     public function increment{{propertyNameCapitalized}}($delta)
@@ -216,6 +219,11 @@ class {{objectNameWithoutNamespace}} {
         }
         return $this->mapValues['{{propertyName}}'];
     }
+    public function set{{propertyNameCapitalized}}($value)
+    {
+        $this->mapValues['{{propertyName}}'] = (float) $value;
+        $this->getRiakStoreMapBuilder()->updateCounter('{{name}}', $value * 100);
+    }
     public function increment{{propertyNameCapitalized}}($delta)
     {
         if(!isset($this->mapValues['{{propertyName}}'])) {
@@ -232,7 +240,7 @@ class {{objectNameWithoutNamespace}} {
         $this->riakStoreMapBuilder = StoreMap::builder();
     {{/if}}
     {{#each defaults}}
-        {{{statement}}}
+        {{{this}}}
     {{/each}}
     }
 
@@ -252,6 +260,8 @@ class {{objectNameWithoutNamespace}} {
     }
 
     public function setRiakMap(RiakMap $map) {
+        $this->mapValues = [];
+        $this->riakStoreMapBuilder = StoreMap::builder();
         $this->riakMap = $map;
         $this->hasRiakMap = true;
     }

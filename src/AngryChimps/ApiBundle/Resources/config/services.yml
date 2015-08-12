@@ -98,6 +98,7 @@ services:
             - "@ac_norm.info"
             - "@angry_chimps_api.company"
             - "@angry_chimps_api.member"
+            - "@angry_chimps_api.location"
     angry_chimps_api.service:
         class: "%angry_chimps_api.service.class%"
         arguments:
@@ -153,7 +154,6 @@ services:
         class: "%angry_chimps_api.search.class%"
         arguments:
             - "@ac_norm.norm"
-            - "@angry_chimps_api.calendar"
     angry_chimps_api.company_media:
         class: "%angry_chimps_api.company_media.class%"
         arguments:
@@ -296,7 +296,11 @@ services:
 
     angry_chimps_api.search.controller:
             class:     "%angry_chimps_api.controller.search.class%"
-            arguments: ["@request_stack", "@angry_chimps_api.session", "@angry_chimps_api.response", "@angry_chimps_api.search"]
+            arguments:
+                - "@request_stack"
+                - "@angry_chimps_api.session"
+                - "@angry_chimps_api.response"
+                - "@angry_chimps_api.search"
 
     angry_chimps_api.company_media.controller:
             class:     "%angry_chimps_api.controller.company_media.class%"

@@ -70,15 +70,21 @@ class EsDocumentDatastore extends AbstractElasticsearchDatastore {
 
     public function updateObject($obj, &$debug)
     {
-        $tableInfo = $this->infoService->getTableInfo(get_class($obj));
-
         //Deal with times if necessary
         if(property_exists($obj, 'updatedAt')) {
             $obj->updatedAt = new \DateTime();
         }
 
+        if($debug !== null) {
+            $key = $this->getKeyAsString($this->getIdentifier($obj));
+            $arr = [];
+            $arr['key'] = $key;
+            $debug['updateObject'][] = $arr;
+            $this->loggerService->info('Updating object: ' . json_encode($debug));
+        }
+
         $data = $this->getAsArray($obj);
-        $type = $this->index->getType($tableInfo['name']);
+        $type = $this->index->getType($this->infoService->getEntityName(get_class($obj)));
         $doc = new Document($this->getIdentifier($obj), $data);
         $type->addDocument($doc);
         $type->getIndex()->refresh();
@@ -166,31 +172,87 @@ class EsDocumentDatastore extends AbstractElasticsearchDatastore {
 //    }
 
     /**
-     * @param $tableName
-     * @param $query
+     * @param $entityName
+     * @param $query Query
      * @param int $limit
      * @param int $offset
+     * @param array $debug
      * @return \Elastica\ResultSet
      */
-    public function search($tableName, $query, $limit = 10, $offset = 0)
+    public function search($entityName, $query, $limit, $offset, &$debug)
     {
-//        $query = new Builder($query);
-//        $query = new Query($query->toArray());
+        $query->setFrom($offset);
+        $query->setSize($limit);
+
+        if($debug) {
+            $debug['queryArray'] = $query->getQuery();
+        }
+
         $search = new Search($this->client);
         $resultSet = $search->addIndex($this->index->getName())
-                            ->addType($tableName)
+                            ->addType($entityName)
                             ->search($query);
         return $resultSet;
     }
 
     public function populateObjectByQuery($obj, $query, $limit, $offset, &$debug)
     {
-        throw new \Exception("Method not implemented");
+        $query->setFrom($offset);
+        $query->setSize($limit);
+
+        if($debug) {
+            $debug['queryArray'] = $query->getQuery();
+        }
+
+        $entityName = $this->infoService->getEntityName(get_class($obj));
+        $search = new Search($this->client);
+        $resultSet = $search->addIndex($this->index->getName())
+            ->addType($entityName)
+            ->search($query);
+
+        if($resultSet->getTotalHits() === 0) {
+            return false;
+        }
+        if($resultSet->getTotalHits() > 1) {
+            throw new \Exception('Query returned more than one result');
+        }
+
+        foreach($resultSet->getResults() as $result) {
+            $sourceArray = $result->getSource();
+            $obj->setRiakMap($this->getMapValues($obj, $sourceArray));
+        }
+
+        return true;
     }
 
     public function populateCollectionByQuery(\ArrayObject $coll, $query, $limit, $offset, &$debug)
     {
-        throw new \Exception("Method not implemented");
+        $query->setFrom($offset);
+        $query->setSize($limit);
+
+        if($debug) {
+            $debug['queryArray'] = $query->getQuery();
+        }
+
+        $entityName = $this->infoService->getEntityName(get_class($coll));
+        $singularClassName = $this->infoService->getClassName($entityName);
+        $search = new Search($this->client);
+        $resultSet = $search->addIndex($this->index->getName())
+            ->addType($entityName)
+            ->search($query);
+
+        if($resultSet->getTotalHits() === 0) {
+            return false;
+        }
+
+        foreach($resultSet->getResults() as $result) {
+            $obj = new $singularClassName();
+            $sourceArray = $result->getSource();
+            $obj->setRiakMap($this->getMapValues($obj, $sourceArray));
+            $coll[$this->getIdentifier($obj)] = $obj;
+        }
+
+        return true;
     }
 
 //    public function publish($indexName, $identifier, array $data)

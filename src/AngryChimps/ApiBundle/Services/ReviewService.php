@@ -6,6 +6,7 @@ namespace AngryChimps\ApiBundle\Services;
 use AC\NormBundle\services\InfoService;
 use AngryChimps\GeoBundle\services\GeolocationService;
 use Norm\Company;
+use Norm\Location;
 use Norm\Member;
 use Norm\MemberCompany;
 use Norm\Review;
@@ -21,12 +22,16 @@ class ReviewService extends AbstractRestService {
     /** @var MemberService */
     protected $memberService;
 
+    /** @var LocationService */
+    protected $locationService;
+
     public function __construct(ValidatorInterface $validator, NormService $norm, InfoService $infoService,
-        CompanyService $companyService, MemberService $memberService) {
+        CompanyService $companyService, MemberService $memberService, LocationService $locationService) {
         parent::__construct($norm, $infoService, $validator);
 
         $this->companyService = $companyService;
         $this->memberService = $memberService;
+        $this->locationService = $locationService;
     }
 
     /**
@@ -41,6 +46,28 @@ class ReviewService extends AbstractRestService {
     public function getMultipleByLocation($locationId, $count) {
         return $this->norm->getReviewsByLocation($locationId, $count);
     }
+
+    public function post($endpoint, $data, $additionalData = [])
+    {
+        /** @var Review $review */
+        $review = parent::post($endpoint, $data, $additionalData);
+
+        /** @var Location $location */
+        $location = $this->locationService->get('location', $review->getLocationId());
+        $location->incrementRatingCount(1);
+        $location->incrementRatingTotal($review->getRating());
+        $location->setRatingAvg($location->getRatingTotal() / $location->getRatingCount());
+        $this->norm->update($location);
+
+        /** @var Company $company */
+        $company = $this->companyService->get('company', $location->getCompanyId());
+        $company->incrementRatingCount(1);
+        $company->incrementRatingTotal($review->getRating());
+        $company->setRatingAvg($company->getRatingTotal() / $company->getRatingCount());
+        $this->norm->update($company);
+
+    }
+
 
     public function get($endpoint, $id)
     {

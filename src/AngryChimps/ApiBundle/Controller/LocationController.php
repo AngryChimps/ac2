@@ -68,11 +68,7 @@ class LocationController extends AbstractRestController
             $allData = ['location' => $this->locationService->getApiPublicArray($location)];
         }
 
-        //Add in walk-in and emergency status
-        $allData['location']['walk_ins'] = in_array(2500, $location->getServices());
-        $allData['location']['emergencies'] = in_array(700, $location->getServices());
-
-        //Get company data
+         //Get company data
         if($this->request->get('company') !== null) {
             /** @var Company $company */
             $company = $this->companyService->get('company', $location->getCompanyId());
@@ -111,24 +107,52 @@ class LocationController extends AbstractRestController
 
     public function indexPostAction()
     {
+        //Make sure that the walk_ins and emergencies fields are not set here
+        $payload = $this->getPayload();
+        if(isset($payload['walk_ins']) || isset($payload['emergencies'])) {
+            return $this->responseService->failure(400, ResponseService::UNKNOWN_POST_DATA_FIELD, null,
+                'walk_ins and emergencies are not valid POST fields, use the services array instead');
+        }
+
         //Make sure the member owns the company
         $company_id = $this->getPayload()['company_id'];
+
+        /** @var Company $company */
         $company = $this->companyService->get('company', $company_id);
         if(!$this->companyService->isOwner($company, $this->getAuthenticatedUser())) {
             return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
         }
 
-        return $this->getPostResponse('location',
-            [
-                'created_by' => $this->getAuthenticatedUser()->getId(),
-                'status' => Location::PARTIALLY_CONFIGURED_STATUS,
-            ]
-        );
+        $additionalData = [
+            'company_name' => $company->getName(),
+            'created_by' => $this->getAuthenticatedUser()->getId(),
+            'status' => Location::PARTIALLY_CONFIGURED_STATUS,
+        ];
+
+        if(isset($payload['services'])) {
+            $additionalData['walk_ins'] = in_array(2500, $payload['services']);
+            $additionalData['emergencies'] = in_array(700, $payload['services']);
+        }
+
+        return $this->getPostResponse('location', $additionalData);
     }
 
     public function indexPatchAction($id)
     {
-        return $this->getPatchResponse('location', $id);
+        //Make sure that the walk_ins and emergencies fields are not set here
+        $payload = $this->getPayload();
+        if(isset($payload['walk_ins']) || isset($payload['emergencies'])) {
+            return $this->responseService->failure(400, ResponseService::UNKNOWN_POST_DATA_FIELD, null,
+                'walk_ins and emergencies are not valid POST fields, use the services array instead');
+        }
+
+        $additionalData = [];
+        if(isset($payload['services'])) {
+            $additionalData['walk_ins'] = in_array(2500, $payload['services']);
+            $additionalData['emergencies'] = in_array(700, $payload['services']);
+        }
+
+        return $this->getPatchResponse('location', $id, $additionalData);
     }
 
     public function indexDeleteAction($id)

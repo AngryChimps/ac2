@@ -380,11 +380,13 @@ class CreatorService
         $fieldData['riakSolrSuffix'] = '_register';
         $fieldData['riakIndexed'] = $field->riakIndexed ? 'true' : 'false';
         $fieldData['elasticsearchIndexed'] = $field->elasticsearchIndexed ? 'true' : 'false';
+        $fieldData['isCastable'] = false;
         switch($field->type) {
             case 'Currency':
                 $fieldData['phpType'] = 'float';
                 $fieldData['elasticsearchType'] = 'float';
                 $fieldData['riakSolrSuffix'] = '_counter';
+                $fieldData['isCastable'] = true;
                 break;
             case 'Location':
                 $fieldData['phpType'] = 'string';
@@ -464,11 +466,13 @@ class CreatorService
                 $fieldData['phpType'] = 'int';
                 $fieldData['elasticsearchType'] = 'int';
                 $fieldData['riakSolrSuffix'] = '_counter';
+                $fieldData['isCastable'] = true;
                 break;
             case 'bool':
                 $fieldData['phpType'] = 'bool';
                 $fieldData['elasticsearchType'] = 'boolean';
                 $fieldData['riakSolrSuffix'] = '_flag';
+                $fieldData['isCastable'] = true;
                 break;
             case 'string':
                 $fieldData['phpType'] = 'string';
@@ -481,18 +485,22 @@ class CreatorService
             case 'int':
                 $fieldData['phpType'] = 'int';
                 $fieldData['elasticsearchType'] = 'integer';
+                $fieldData['isCastable'] = true;
                 break;
             case 'float':
                 $fieldData['phpType'] = 'float';
                 $fieldData['elasticsearchType'] = 'float';
+                $fieldData['isCastable'] = true;
                 break;
             case 'decimal':
                 $fieldData['phpType'] = 'float';
                 $fieldData['elasticsearchType'] = 'float';
+                $fieldData['isCastable'] = true;
                 break;
             case 'enum':
                 $fieldData['phpType'] = 'int';
                 $fieldData['elasticsearchType'] = 'int';
+                $fieldData['isCastable'] = true;
                 break;
             case 'set':
                 $fieldData['phpType'] = 'int[]';
@@ -521,16 +529,97 @@ class CreatorService
 
         //Set defaults
         if($field->default !== null) {
-            $entityOrSubclassData['defaults'][] = array('statement' => '$this->set' . $fieldData['propertyNameCapitalized'] .
-                '( ' . $field->default . ');');
+            switch($field->type) {
+                case 'int':
+                case 'Counter':
+                    $entityOrSubclassData['defaults'][] = '$this->set' . $fieldData['propertyNameCapitalized'] .
+                        '( ' . (int) $field->default . ');';
+                    break;
+
+                case 'enum':
+                    $entityOrSubclassData['defaults'][] = '$this->set' . $fieldData['propertyNameCapitalized'] .
+                        '( ' . Utils::camel2TrainCase($field->default) . '_' . Utils::camel2TrainCase($field->name) . ');';
+                    break;
+
+                case 'bool':
+                    $entityOrSubclassData['defaults'][] = '$this->set' . $fieldData['propertyNameCapitalized'] .
+                        '( ' . (bool) $field->default . ');';
+                    break;
+
+                case 'DateTime':
+                case 'Date':
+                    $entityOrSubclassData['defaults'][] = '$this->set' . $fieldData['propertyNameCapitalized'] .
+                        '( new \DateTime("' . $field->default . '"));';
+                    break;
+
+                case 'float':
+                case 'double':
+                case 'decimal':
+                case 'Currency':
+                    $entityOrSubclassData['defaults'][] = '$this->set' . $fieldData['propertyNameCapitalized'] .
+                        '( ' . (float) $field->default . ');';
+                    break;
+
+                case 'int[]':
+                case 'Counter[]':
+                case 'enum[]':
+                    $defaultStr = '$this->set' . $fieldData['propertyNameCapitalized'] . '( [ ';
+                    foreach($field->default as $default) {
+                        $defaultStr .= (int) $default . ', ';
+                    }
+                    $defaultStr .= ' ] );';
+                    $entityOrSubclassData['defaults'][] = $defaultStr;
+                    break;
+
+                case 'float[]':
+                case 'double[]':
+                case 'set':
+                    $defaultStr = '$this->set' . $fieldData['propertyNameCapitalized'] . '( [ ';
+                    foreach($field->default as $default) {
+                        $defaultStr .= (float) $default . ', ';
+                    }
+                    $defaultStr .= ' ] );';
+                    $entityOrSubclassData['defaults'][] = $defaultStr;
+                    break;
+
+                case 'string[]':
+                case 'Time[]':
+                    $defaultStr = '$this->set' . $fieldData['propertyNameCapitalized'] . '( [ ';
+                    foreach($field->default as $default) {
+                        $defaultStr .= $default . ', ';
+                    }
+
+                    $defaultStr .= ' ] );';
+                    $entityOrSubclassData['defaults'][] = $defaultStr;
+                    break;
+
+                case 'Date[]':
+                case 'DateTime[]':
+                    $defaultStr = '$this->set' . $fieldData['propertyNameCapitalized'] . '( [ ';
+                    foreach($field->default as $default) {
+                        $defaultStr .= 'new \DateTime("' . $default . '"), ';
+                    }
+
+                    $defaultStr .= ' ] );';
+                    $entityOrSubclassData['defaults'][] = $defaultStr;
+                    break;
+
+                default:
+                    $entityOrSubclassData['defaults'][] = '$this->set' . $fieldData['propertyNameCapitalized'] .
+                        '(' . $field->default . ');';
+            }
         }
         elseif(strpos($field->type, 'Collection') === strlen($field->type) - 10) {
-            $entityOrSubclassData['defaults'][] = array('statement' => '$this->set' . $fieldData['propertyNameCapitalized'] .
-                '(new ' . $field->type . ');');
+            $entityOrSubclassData['defaults'][] = '$this->set' . $fieldData['propertyNameCapitalized'] .
+                '(new ' . $field->type . ');';
         }
         elseif(isset($entityOrSubclassData['autoGenerateField']) && $entityOrSubclassData['autoGenerateField'] === $field->name) {
-            $entityOrSubclassData['defaults'][] = array('statement' => '$this->set' . $fieldData['propertyNameCapitalized'] .
-                '(sha1(microtime(true) . bin2hex(openssl_random_pseudo_bytes(16))));');
+            $entityOrSubclassData['defaults'][] = '$this->set' . $fieldData['propertyNameCapitalized'] .
+                '(sha1(microtime(true) . bin2hex(openssl_random_pseudo_bytes(16))));';
+        }
+        elseif($field->type === 'Counter') {
+            $entityOrSubclassData['defaults'][] = '$this->set' . $fieldData['propertyNameCapitalized'] .
+                '(0);';
         }
 
         return $fieldData;

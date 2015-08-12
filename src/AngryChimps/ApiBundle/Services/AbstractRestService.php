@@ -64,7 +64,7 @@ abstract class AbstractRestService
         return $obj;
     }
 
-    public function patch($obj, $data) {
+    public function patch($obj, $data, array $additionalData = []) {
         foreach($data as $field => $value) {
             $this->setField($obj, $field, $value);
         }
@@ -73,6 +73,10 @@ abstract class AbstractRestService
 
         if(count($errors) > 0) {
             return false;
+        }
+
+        foreach($additionalData as $field => $value) {
+            $this->setField($obj, $field, $value);
         }
 
         $this->norm->update($obj);

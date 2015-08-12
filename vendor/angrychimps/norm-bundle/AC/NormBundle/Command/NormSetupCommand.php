@@ -17,6 +17,7 @@ class NormSetupCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
+        parent::configure();
         $this
             ->setName('norm:setup')
             ->setDescription('Setup all datastores')
@@ -94,7 +95,7 @@ class NormSetupCommand extends ContainerAwareCommand
                             ];
                         }
                         echo "Defining Elasticsearch Mapping for datastore: " . $datastore['name'] . ", entity: " . $entityData['name'] . "\n";
-                        $ds->defineMapping($entityData['name'], $props);
+                        $ds->defineMapping($entityData['name']);
                         break;
                 }
             }

@@ -56,13 +56,13 @@ class LocationService extends AbstractRestService {
         return $location;
     }
 
-    public function patch($endpoint, $data)
+    public function patch($endpoint, $data, array $additionalData = [])
     {
         //Add geo data
         $this->addGeoData($data);
 
         /** @var Location $location*/
-        $location = parent::patch($endpoint, $data);
+        $location = parent::patch($endpoint, $data, $additionalData);
 
         return $location;
     }

@@ -79,7 +79,7 @@ abstract class NormCrudService
         }
     }
 
-    public function update($obj)
+    public function update($obj, $dsName = null)
     {
         if ($this->debug) {
             $debug = $this->dataCollector->startUpdateQuery($obj);
@@ -90,13 +90,30 @@ abstract class NormCrudService
 
         //Get datastore
         $class = get_class($obj);
-        $ds = $this->datastoreService->getDatastore($this->infoService->getPrimaryDatastoreName($class));
+        if($dsName === null) {
+            $ds = $this->datastoreService->getDatastore($this->infoService->getPrimaryDatastoreName($class));
+        }
+        else {
+            $ds = $this->datastoreService->getDatastore($dsName);
+        }
 
         if($this->isCollection($obj)) {
             $ds->updateCollection($obj, $debug);
         }
         else {
             $ds->updateObject($obj, $debug);
+        }
+
+        //Create tasks for secondary datastores
+        foreach($this->infoService->getSecondaryDatastoreNames($class) as $dsName) {
+//            $task = new NormCreateObjectTask($obj, $this, $dsName);
+            $ds = $this->datastoreService->getDatastore($dsName);
+            if($this->isCollection($obj)) {
+                $ds->updateCollection($obj, $debug);
+            }
+            else {
+                $ds->updateObject($obj, $debug);
+            }
         }
 
         //Store debugging data
@@ -212,7 +229,7 @@ abstract class NormCrudService
 
         //Setup Debugging
         if ($this->debug) {
-            $debug = $this->dataCollector->startReadByQueryQuery($className, $query, $limit, $offset, $datastoreName);
+            $debug = $this->dataCollector->startReadByQueryQuery($className, $limit, $offset, $datastoreName);
         }
         else {
             $debug = null;
@@ -255,7 +272,7 @@ abstract class NormCrudService
 
         //Setup Debugging
         if ($this->debug) {
-            $debug = $this->dataCollector->startReadCollectionByQueryQuery($className, $query, $limit, $offset, $datastoreName);
+            $debug = $this->dataCollector->startReadCollectionByQueryQuery($className, $limit, $offset, $datastoreName);
         }
         else {
             $debug = null;
@@ -280,7 +297,7 @@ abstract class NormCrudService
 
         //Setup Debugging
         if ($this->debug) {
-            $debug = $this->dataCollector->startCountByQueryQuery($className, $query, $datastoreName);
+            $debug = $this->dataCollector->startCountByQueryQuery($className, $datastoreName);
         }
         else {
             $debug = null;
@@ -288,6 +305,31 @@ abstract class NormCrudService
 
         $ds = $this->datastoreService->getDatastore($datastoreName);
         $count = $ds->getQueryResultsCount($className, $query, $debug);
+
+        if ($this->debug) {
+            $this->dataCollector->endQuery($debug, $count);
+        }
+
+        return $count;
+    }
+
+    public function search($entityName, $query, $limit, $offset, $datastoreName = null) {
+        $className = $this->infoService->getClassName($entityName);
+
+        if($datastoreName === null) {
+            $datastoreName = $this->infoService->getPrimaryDatastoreName($className);
+        }
+
+        //Setup Debugging
+        if ($this->debug) {
+            $debug = $this->dataCollector->startSearchQuery($className, $limit, $offset, $datastoreName);
+        }
+        else {
+            $debug = null;
+        }
+
+        $ds = $this->datastoreService->getDatastore($datastoreName);
+        $count = $ds->search($entityName, $query, $limit, $offset, $debug);
 
         if ($this->debug) {
             $this->dataCollector->endQuery($debug, $count);

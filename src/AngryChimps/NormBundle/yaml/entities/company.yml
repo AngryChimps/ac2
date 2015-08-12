@@ -67,9 +67,9 @@ fields:
 api_public_fields:
   - id
   - name
-  - website
 
 api_private_fields:
   - email
+  - website
   - plan
   - billing_address

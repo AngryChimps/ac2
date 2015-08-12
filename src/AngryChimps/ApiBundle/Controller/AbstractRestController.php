@@ -96,7 +96,7 @@ abstract class AbstractRestController extends AbstractController {
         return $this->responseService->success([$pluralEntityName => $arr]);
     }
 
-    public function getPatchResponse($entityName, $id) {
+    public function getPatchResponse($entityName, $id, array $additionalData = []) {
         //Check to see if the token/member_id is valid
         if($debug = $this->sessionService->checkToken()) {
             return $this->responseService->failure(400, ResponseService::INVALID_SESSION_INFORMATION, null, $debug);
@@ -124,7 +124,7 @@ abstract class AbstractRestController extends AbstractController {
             return $this->responseService->failure(403, ResponseService::USER_NOT_AUTHORIZED);
         }
 
-        $obj = $this->restService->patch($obj, $payload);
+        $obj = $this->restService->patch($obj, $payload, $additionalData);
 
         if($obj === FALSE) {
             return $this->responseService->failure(400, ResponseService::VALIDATION_ERROR);

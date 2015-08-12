@@ -72,7 +72,7 @@ fields:
         indexed: true
   - name: last_activity_date
     type: Date
-    default: "new \\DateTime()"
+    default: now
     riak:
         indexed: true
   - name: blocked_company_ids

@@ -36,6 +36,11 @@ class NormService extends NormBaseService {
             'location_id_register:' . $locationId, $count);
     }
 
+    public function getLocationsByCompany($companyId, $count = null) {
+        return $this->getCollectionByQuery($this->infoService->getClassName('location') . 'Collection',
+            'company_id_register:' . $companyId, $count);
+    }
+
     public function getReviewCountByLocation($locationId) {
         return $this->getCountByQuery($this->infoService->getClassName('review') . 'Collection',
             'location_id_register:' . $locationId);

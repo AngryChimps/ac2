@@ -27,6 +27,7 @@ class ResponseService {
     const UNKNOWN_ENTITY_TYPE = 'UnknownEntityType';
     const MEDIA_NOT_ATTACHED = 'MediaNotAttached';
     const MISSING_LOCATION_ID_OR_COMPANY_ID = 'MissingLocationIdOrCompanyId';
+    const LAT_AND_LON_REQUIRED = 'LatAndLonRequired';
 
     /** @var Request  */
     protected $request;

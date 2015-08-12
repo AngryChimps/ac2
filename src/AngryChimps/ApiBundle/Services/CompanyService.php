@@ -52,15 +52,28 @@ class CompanyService extends AbstractRestService {
         return $company;
     }
 
-    public function patch($obj, $data)
+    public function patch($obj, $data, array $additionalData = [])
     {
         $geoAddr = $this->geolocationService->lookupAddress($data['billing_address']['street1'],
             $data['billing_address']['zip']);
         $data['billing_address']['location'] = $geoAddr->lat . ', ' . $geoAddr->lon;
 
-        return parent::patch($obj, $data);
+        $originalCompanyName = $obj->getName();
+
+        if(parent::patch($obj, $data, $additionalData) !== false) {
+            if($obj->getName() !== $originalCompanyName) {
+                $locations = $this->getLocations($obj->getId());
+                foreach($locations as $location) {
+                    $location->setCompanyName($obj->getName());
+                    $this->norm->update($location);
+                }
+            }
+        }
     }
 
+    protected function getLocations($companyId) {
+        return $this->norm->getLocationsByCompany($companyId);
+    }
 
     public function getRole($memberId, $companyId) {
         $obj = $this->norm->getMemberCompany([$memberId, $companyId]);
