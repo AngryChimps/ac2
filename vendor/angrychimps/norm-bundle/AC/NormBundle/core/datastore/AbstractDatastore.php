@@ -61,11 +61,16 @@ abstract class AbstractDatastore {
                     return $obj->format('c');
                 }
                 else {
-                    $arr = [];
-                    foreach ($obj as $key => $val) {
-                        $arr[Utils::property2field($key)] = $this->getAsArray($val);
+                    if($this->infoService->isSubclass(get_class($obj))) {
+                        return $obj->getAsArray();
                     }
-                    return $arr;
+                    else {
+                        $arr = [];
+                        foreach ($obj->getMapValues() as $key => $val) {
+                            $arr[Utils::property2field($key)] = $this->getAsArray($val);
+                        }
+                        return $arr;
+                    }
                 }
 
             default:

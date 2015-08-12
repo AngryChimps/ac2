@@ -263,7 +263,12 @@ class CreatorService
                 }
             }
 
-            $entityData['secondayDatastoreNamesString'] = '["' . implode('", "', $secondaryDatastoreNames) . '"]';
+            $entityData['secondaryDatastoreNamesString'] = '[';
+            foreach($secondaryDatastoreNames as $dsName) {
+                $entityData['secondaryDatastoreNamesString'] .= "'$dsName',";
+            }
+            $entityData['secondaryDatastoreNamesString'] = rtrim($entityData['secondaryDatastoreNamesString'], ',');
+            $entityData['secondaryDatastoreNamesString'] .= ']';
 
             switch($entityData['primaryDatastore']['method']) {
                 case 'riak2_map':

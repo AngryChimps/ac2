@@ -68,8 +68,8 @@ class InfoService {
      public function isSubclass($className) {
         $className = ltrim($className, '\\');
 
-        return isset(self::$structure['clases'][$className])
-            && isset(self::$structure['subclasses'][self::$structure['clases'][$className]]);
+        return isset(self::$structure['classes'][$className])
+            && isset(self::$structure['subclasses'][self::$structure['classes'][$className]['name']]);
     }
 
     public function getSubclassName($className) {

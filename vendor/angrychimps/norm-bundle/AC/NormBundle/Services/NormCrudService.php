@@ -63,7 +63,14 @@ abstract class NormCrudService
 
         //Create tasks for secondary datastores
         foreach($this->infoService->getSecondaryDatastoreNames($class) as $dsName) {
-            $task = new NormCreateObjectTask($obj, $this, $dsName);
+//            $task = new NormCreateObjectTask($obj, $this, $dsName);
+            $ds = $this->datastoreService->getDatastore($dsName);
+            if($this->isCollection($obj)) {
+                $ds->createCollection($obj, $debug);
+            }
+            else {
+                $ds->createObject($obj, $debug);
+            }
         }
 
         //Store debugging data

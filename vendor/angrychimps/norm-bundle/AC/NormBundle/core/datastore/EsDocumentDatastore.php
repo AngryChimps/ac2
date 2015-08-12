@@ -111,6 +111,9 @@ class EsDocumentDatastore extends AbstractElasticsearchDatastore {
     }
 
     public function getKeyAsString($primaryKeys) {
+        if(!is_array($primaryKeys)) {
+            $primaryKeys = [$primaryKeys];
+        }
         foreach($primaryKeys as &$primaryKey) {
             if($primaryKey instanceof \DateTime) {
                 $primaryKey = $primaryKey->format('c');
