@@ -2,6 +2,7 @@
   "payload": {
     "company_id": "8735d4d56d7655bc49a7b20de523da97",
     "name": "Main Clinic",
+    "description": "By far the best veterinarian in the city",
     "address": {
       "street1": "230 Dolores Street",
       "street2": "Suite 212",

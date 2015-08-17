@@ -1,6 +1,7 @@
 {
   "payload": {
     "name": "Main Clinic",
+    "description": "By far the best veterinarian in the city",
     "address": {
       "street1": "230 Dolores Street",
       "street2": "Suite 212",

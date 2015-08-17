@@ -66,6 +66,7 @@ class ReviewService extends AbstractRestService {
         $company->setRatingAvg($company->getRatingTotal() / $company->getRatingCount());
         $this->norm->update($company);
 
+        return $review;
     }
 
 

@@ -27,6 +27,8 @@ fields:
         - Length:
             min: 2
             max: 25
+  - name: description
+    type: text
   - name: company_name
     type: string
   - name: is_mobile
@@ -83,6 +85,7 @@ api_public_fields:
   - id
   - staff_ids
   - name
+  - description
   - is_mobile
   - mobile_radius_miles
   - photos
