@@ -1,10 +1,24 @@
 parameters:
     angry_chimps_sample.generator.class: AngryChimps\SampleBundle\services\GeneratorService
+    angry_chimps_sample.region.class: AngryChimps\SampleBundle\services\RegionService
+    angry_chimps_sample.media.class: AngryChimps\SampleBundle\services\MediaService
+    angry_chimps_sample.company.class: AngryChimps\SampleBundle\services\CompanyService
+    angry_chimps_sample.location.class: AngryChimps\SampleBundle\services\LocationService
 
 
     angry_chimps_sample.default.controller.class: AngryChimps\SampleBundle\Controller\DefaultController
+    angry_chimps_sample.region.controller.class: AngryChimps\SampleBundle\Controller\RegionController
+    angry_chimps_sample.media.controller.class: AngryChimps\SampleBundle\Controller\MediaController
+    angry_chimps_sample.company.controller.class: AngryChimps\SampleBundle\Controller\CompanyController
+    angry_chimps_sample.location.controller.class: AngryChimps\SampleBundle\Controller\LocationController
 
 services:
+    angry_chimps_sample.cors.listener:
+        class: AngryChimps\SampleBundle\EventListener\CorsListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest , priority: 100}
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: -100}
+
     angry_chimps_sample.generator:
         class: "%angry_chimps_sample.generator.class%"
         arguments:
@@ -13,6 +27,66 @@ services:
             - "%angry_chimps_sample.base_url%"
             - "@ac_norm.norm"
 
+    angry_chimps_sample.region:
+        class: "%angry_chimps_sample.region.class%"
+        arguments:
+            - "@angry_chimps_guzzle.guzzle"
+            - "%angry_chimps_sample.session_header_name%"
+            - "%angry_chimps_sample.base_url%"
+            - "@ac_norm.norm"
+
+    angry_chimps_sample.media:
+        class: "%angry_chimps_sample.media.class%"
+        arguments:
+            - "@angry_chimps_guzzle.guzzle"
+            - "%angry_chimps_sample.session_header_name%"
+            - "%angry_chimps_sample.base_url%"
+            - "@ac_norm.norm"
+
+    angry_chimps_sample.company:
+        class: "%angry_chimps_sample.company.class%"
+        arguments:
+            - "@angry_chimps_guzzle.guzzle"
+            - "%angry_chimps_sample.session_header_name%"
+            - "%angry_chimps_sample.base_url%"
+            - "@ac_norm.norm"
+
+    angry_chimps_sample.location:
+        class: "%angry_chimps_sample.location.class%"
+        arguments:
+            - "@angry_chimps_guzzle.guzzle"
+            - "%angry_chimps_sample.session_header_name%"
+            - "%angry_chimps_sample.base_url%"
+            - "@ac_norm.norm"
+
     angry_chimps_sample.default.controller:
         class: "%angry_chimps_sample.default.controller.class%"
-        arguments: ["@angry_chimps_sample.generator"]
+        arguments:
+            - "@angry_chimps_sample.generator"
+
+    angry_chimps_sample.region.controller:
+        class: "%angry_chimps_sample.region.controller.class%"
+        arguments:
+            - "@request_stack"
+            - "@angry_chimps_api.response"
+
+    angry_chimps_sample.media.controller:
+        class: "%angry_chimps_sample.media.controller.class%"
+        arguments:
+            - "@request_stack"
+            - "@angry_chimps_api.response"
+            - "@angry_chimps_sample.media"
+
+    angry_chimps_sample.company.controller:
+        class: "%angry_chimps_sample.company.controller.class%"
+        arguments:
+            - "@request_stack"
+            - "@angry_chimps_api.response"
+            - "@angry_chimps_sample.company"
+
+    angry_chimps_sample.location.controller:
+        class: "%angry_chimps_sample.location.controller.class%"
+        arguments:
+            - "@request_stack"
+            - "@angry_chimps_api.response"
+            - "@angry_chimps_sample.location"

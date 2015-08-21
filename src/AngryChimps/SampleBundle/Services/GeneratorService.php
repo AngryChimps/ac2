@@ -65,14 +65,11 @@ class GeneratorService {
 
                 foreach($arr['steps'] as $step) {
                     switch($step['name']) {
-                        case 'session-get':
-                            $this->doSessionGetStep();
+                        case 'session-post':
+                            $this->doSessionPostStep();
                             break;
-                        case 'signup-registerProviderAd':
-                            $this->doSignupRegisterProviderAd($step['payload']);
-                            break;
-                        case 'signup-registerProviderCompany':
-                            $this->doSignupRegisterProviderCompany($step['payload']);
+                        case 'member-post':
+                            $this->doMemberPostStep();
                             break;
                         case 'signup-uploadFirstAdPhoto':
                             $this->doSignupUploadFirstAdPhoto($step['filename']);
@@ -88,10 +85,14 @@ class GeneratorService {
         }
     }
 
-    protected function doSessionGetStep() {
+    protected function doSessionPostStep() {
         $response = $this->getData('session');
         $arr = $response->json();
         $this->sessionId = $arr['payload']['session_id'];
+    }
+
+    protected function doMemberPostStep() {
+
     }
 
     protected function doSignupRegisterProviderAd($payload) {

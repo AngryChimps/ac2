@@ -58,6 +58,7 @@ class ResponseService {
         $this->loggerService->info(json_encode(array('success_response' => $viewData)));
 
         $view = $this->getView($viewData, 200);
+        $view->setHeader('Access-Control-Allow-Origin', '*.angrychimps.com');
         return $this->handleView($view);
     }
 

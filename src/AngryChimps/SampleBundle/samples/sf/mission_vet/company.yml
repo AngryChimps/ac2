@@ -1,0 +1,14 @@
+id: mission_vet
+region_id: sf
+member:
+    first: Julie3
+    last: Larkin
+    email: mph-julie@angrychimps.com
+    photo: logo
+name: 'Mission Pet Hospital'
+email: mph@angrychimps.com
+website: www.missionpet.com
+billing_address:
+    street1: '720 Valencia St'
+    zip: 94110
+    phone: 415.552.1969

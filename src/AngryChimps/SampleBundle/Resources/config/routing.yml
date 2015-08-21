@@ -11,3 +11,92 @@ angry_chimps_sample_reset:
     methods: ["GET"]
     defaults:
         _controller: angry_chimps_sample.default.controller:resetAction
+
+#region
+angry_chimps_sample_region_get_all:
+    path:   /region
+    methods: ["GET", "OPTIONS"]
+    defaults:
+        _controller: angry_chimps_sample.region.controller:indexGetAllAction
+
+#media
+angry_chimps_sample_media_post:
+    path:   /media/{region}/{companyShortName}
+    methods: ["GET"]
+    defaults:
+        _controller: angry_chimps_sample.region.controller:indexGetAllAction
+
+angry_chimps_sample_media_get:
+    path:   /media/{region}/{companyShortName}/{name}
+    methods: ["GET"]
+    defaults:
+        _controller: angry_chimps_sample.media.controller:indexGetAction
+
+angry_chimps_sample_media_delete:
+    path:   /media/{region}/{companyShortName}/{name}
+    methods: ["DELETE"]
+    defaults:
+        _controller: angry_chimps_sample.media.controller:indexDeleteAction
+
+#company
+angry_chimps_sample_company_get:
+    path:   /company/{region}/{companyShortName}
+    methods: ["GET"]
+    defaults:
+        _controller: angry_chimps_sample.company.controller:indexGetAction
+
+angry_chimps_sample_company_get_all:
+    path:   /company/{region}
+    methods: ["GET"]
+    defaults:
+        _controller: angry_chimps_sample.company.controller:indexGetAllAction
+
+angry_chimps_sample_company_post:
+    path:   /company/{region}/{companyShortName}
+    methods: ["POST"]
+    defaults:
+        _controller: angry_chimps_sample.company.controller:indexPostAction
+
+angry_chimps_sample_company_put:
+    path:   /company/{region}/{companyShortName}
+    methods: ["PUT"]
+    defaults:
+        _controller: angry_chimps_sample.company.controller:indexPutAction
+
+angry_chimps_sample_company_delete:
+    path:   /company/{region}/{companyShortName}
+    methods: ["DELETE"]
+    defaults:
+        _controller: angry_chimps_sample.company.controller:indexDeleteAction
+
+#location
+angry_chimps_sample_location_get:
+    path:   /location/{region}/{companyShortName}/{locationShortName}
+    methods: ["GET"]
+    defaults:
+        _controller: angry_chimps_sample.location.controller:indexGetAction
+
+angry_chimps_sample_location_get_all:
+    path:   /location/{region}/{companyShortName}
+    methods: ["GET"]
+    defaults:
+        _controller: angry_chimps_sample.location.controller:indexGetAllAction
+
+angry_chimps_sample_location_post:
+    path:   /location/{region}/{companyShortName}/{locationShortName}
+    methods: ["POST"]
+    defaults:
+        _controller: angry_chimps_sample.location.controller:indexPostAction
+
+angry_chimps_sample_location_put:
+    path:   /location/{region}/{companyShortName}/{locationShortName}
+    methods: ["PUT"]
+    defaults:
+        _controller: angry_chimps_sample.location.controller:indexPutAction
+
+angry_chimps_sample_location_delete:
+    path:   /location/{region}/{companyShortName}/{locationShortName}
+    methods: ["DELETE"]
+    defaults:
+        _controller: angry_chimps_sample.location.controller:indexDeleteAction
+

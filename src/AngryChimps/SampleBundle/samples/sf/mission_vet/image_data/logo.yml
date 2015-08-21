@@ -1,0 +1,7 @@
+name: logo
+filename: logo.png
+cropping:
+  topx:
+  bottomx:
+  topy:
+  bottomy:

@@ -6,8 +6,6 @@
     "billing_address": {
       "street1": "230 Dolores Street",
       "street2": "Suite 212",
-      "city": "San Francisco",
-      "state": "CA",
       "zip": 94114,
       "phone": "(415) 555-1213"
     },
