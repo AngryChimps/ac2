@@ -60,7 +60,7 @@ ac_norm:
             driver: riak2
             servers:
               -
-                host: "127.0.0.1"
+                host: "10.1.10.102"
                 port: 8087
                 http_port: 8098
             prefix: __norm_dev_16_
