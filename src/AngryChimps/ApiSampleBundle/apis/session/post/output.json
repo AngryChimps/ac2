@@ -1,5 +1,7 @@
 {
   "payload": {
-    "session_id": "$2y$10$IGT/kLq/YCDbeRnk7PSp1ubXYvE49oUgcAUEctz0ZzZgbO/WK.2HK"
+    "session": {
+      "id": "$2y$10$IGT/kLq/YCDbeRnk7PSp1ubXYvE49oUgcAUEctz0ZzZgbO/WK.2HK"
+    }
   }
 }

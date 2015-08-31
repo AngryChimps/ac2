@@ -11,4 +11,6 @@ Feature: member-post
     And The response contains a field named "payload.member.id"
     And The value of the "payload.member.id" field returned is of type "string"
     And The string length of the "payload.member.id" field is "40"
+    And The response fields are shown in the documentation for the "member" entity "post" method
+    And No undocumented fields are returned in the response for the "member" entity "post" method
     And Finally, I clean up my objects
