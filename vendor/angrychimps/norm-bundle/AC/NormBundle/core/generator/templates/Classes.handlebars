@@ -245,7 +245,7 @@ class {{objectNameWithoutNamespace}} {
     }
 
     {{#if usesRiak2}}
-    /** @returns StoreMapBuilder */
+    /** @return StoreMapBuilder */
     public function getRiakStoreMapBuilder() {
         return $this->riakStoreMapBuilder;
     }
@@ -254,7 +254,7 @@ class {{objectNameWithoutNamespace}} {
         $this->riakStoreMapBuilder = $storeMapBuilder;
     }
 
-    /** @returns RiakMap */
+    /** @return RiakMap */
     public function getRiakMap() {
         return $this->riakMap;
     }

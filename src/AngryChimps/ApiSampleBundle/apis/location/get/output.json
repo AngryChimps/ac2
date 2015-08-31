@@ -77,7 +77,7 @@
     },
     "staff": {
       "count": 2,
-      "results": [
+      "staff": [
         {
           "id": "lsjsdflkjsfljsdflkjsf",
           "first": "Bob",
@@ -92,7 +92,7 @@
     },
     "reviews": {
       "count": 23,
-      "results": [
+      "reviews": [
         {
           "payload": {
             "id": "sldjfsljflkjfdso0i82osslfsj",

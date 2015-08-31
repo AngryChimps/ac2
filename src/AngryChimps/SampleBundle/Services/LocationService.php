@@ -37,7 +37,7 @@ class LocationService
         $arr = [];
         while(false !== ($file = readdir($fh))) {
             if($file != '.' && $file != '..') {
-                $arr[] = $file;
+                $arr[] = substr($file, 0, strlen($file) - 4);
             }
         }
 

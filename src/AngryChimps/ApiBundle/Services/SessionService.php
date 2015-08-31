@@ -111,6 +111,10 @@ class SessionService extends AbstractRestService {
     public function getSessionUser() {
         $sessionToken = $this->request->headers->get($this->sessionHeaderName);
 
+        if($sessionToken === null) {
+            return null;
+        }
+
         $session = $this->norm->getSession($sessionToken);
 
         if($session->getUserId() === null) {

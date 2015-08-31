@@ -15,12 +15,9 @@ class ACNormBundle extends Bundle
      */
     public function boot()
     {
-       spl_autoload_register(function($class) {
-            if(strpos($class, $this->container->getParameter('ac_norm.namespace')) === 0) {
-                require_once(__DIR__ . '/../../../../../app/cache/'
-                    . $this->container->get('kernel')->getEnvironment() . '/norm/classes.php');
-            }
-        });
+        //We always need classes.php, so just load it at boot
+        require_once(__DIR__ . '/../../../../../app/cache/'
+            . $this->container->get('kernel')->getEnvironment() . '/norm/classes.php');
 
         //Set up autoloader for cached services
         spl_autoload_register(function ($class) {

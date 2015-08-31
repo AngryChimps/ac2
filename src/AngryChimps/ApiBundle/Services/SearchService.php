@@ -91,7 +91,7 @@ class SearchService
             $resultArray['distance_miles'] = $this->calculateDistance($lat, $lon, $sourceArray['address']['location']['lat'],
                 $sourceArray['address']['location']['lon']);
 
-            $arr['results'][] = $resultArray;
+            $arr['search_results'][] = $resultArray;
         }
 
         return $arr;

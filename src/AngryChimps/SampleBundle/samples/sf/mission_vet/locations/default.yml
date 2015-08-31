@@ -1,3 +1,4 @@
+id: default
 name: default
 description: This is one of the best vets you will find
 is_mobile: false
@@ -10,6 +11,7 @@ animals:
   - 2000
 address:
   street1: '720 Valencia St'
+  street2:
   zip: 94110
   phone: 415.552.1969
 hours:

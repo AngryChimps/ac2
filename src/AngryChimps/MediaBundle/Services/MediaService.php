@@ -5,6 +5,7 @@ namespace AngryChimps\MediaBundle\Services;
 
 use AngryChimps\ApiBundle\Services\AbstractRestService;
 use Aws\S3\S3Client;
+use Imagine\Image\Point;
 use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use Imagine\Image\Box;
 use Imagine\Imagick\Imagine;
@@ -28,19 +29,49 @@ class MediaService {
         return false;
     }
 
-    public function post($media)
+    public function post($media, $topX = null, $topY = null, $bottomX = null, $bottomY = null)
     {
         $filesystem = $this->filesystemMap->get('media_fs');
         $content = file_get_contents($media->getRealPath());
-//        $extension = $file->getClientOriginalExtension();
+        $extension = $media->getClientOriginalExtension();
         $imagine = new \Imagine\Imagick\Imagine();
         $img = $imagine->load($content);
-        $jpg = $img->get('jpg');
+
+        if($topX !== null) {
+            $width = $bottomX - $topX;
+            $height = $bottomY - $topY;
+            $img->crop(new Point($topX, $topY), new Box($width, $height));
+        }
+
+        $newImage = $img->get($extension);
         $filename = sha1(microtime(true) . bin2hex(openssl_random_pseudo_bytes(16)));
 
-        $filesystem->write($filename . '.jpg', $jpg);
+        $filesystem->write($filename . '.' . $extension, $newImage);
 
-        return $filename . '.jpg';
+        return $filename . '.' . $extension;
+    }
+
+    public function post_local($filename, $topX = null, $topY = null, $bottomX = null, $bottomY = null)
+    {
+        $filesystem = $this->filesystemMap->get('media_fs');
+        $imagine = new \Imagine\Imagick\Imagine();
+        $content = file_get_contents($filename);
+        $parts = explode('.', basename($filename));
+        $extension = $parts[count($parts) - 1];
+        $img = $imagine->load($content);
+
+        if($topX !== null) {
+            $width = $bottomX - $topX;
+            $height = $bottomY - $topY;
+            $img->crop(new Point($topX, $topY), new Box($width, $height));
+        }
+
+        $newImage = $img->get($extension);
+        $filename = sha1(microtime(true) . bin2hex(openssl_random_pseudo_bytes(16)));
+
+        $filesystem->write($filename . '.' . $extension, $newImage);
+
+        return $filename . '.' . $extension;
     }
 
 

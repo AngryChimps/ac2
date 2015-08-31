@@ -10,5 +10,6 @@ email: mph@angrychimps.com
 website: www.missionpet.com
 billing_address:
     street1: '720 Valencia St'
+    street2:
     zip: 94110
     phone: 415.552.1969

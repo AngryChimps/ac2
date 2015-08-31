@@ -4,6 +4,7 @@ parameters:
     angry_chimps_sample.media.class: AngryChimps\SampleBundle\services\MediaService
     angry_chimps_sample.company.class: AngryChimps\SampleBundle\services\CompanyService
     angry_chimps_sample.location.class: AngryChimps\SampleBundle\services\LocationService
+    angry_chimps_sample.publish.class: AngryChimps\SampleBundle\services\PublishService
 
 
     angry_chimps_sample.default.controller.class: AngryChimps\SampleBundle\Controller\DefaultController
@@ -11,6 +12,7 @@ parameters:
     angry_chimps_sample.media.controller.class: AngryChimps\SampleBundle\Controller\MediaController
     angry_chimps_sample.company.controller.class: AngryChimps\SampleBundle\Controller\CompanyController
     angry_chimps_sample.location.controller.class: AngryChimps\SampleBundle\Controller\LocationController
+    angry_chimps_sample.publish.controller.class: AngryChimps\SampleBundle\Controller\PublishController
 
 services:
     angry_chimps_sample.cors.listener:
@@ -59,6 +61,17 @@ services:
             - "%angry_chimps_sample.base_url%"
             - "@ac_norm.norm"
 
+    angry_chimps_sample.publish:
+        class: "%angry_chimps_sample.publish.class%"
+        arguments:
+            - "@angry_chimps_media.media"
+            - "@angry_chimps_api.member"
+            - "@angry_chimps_api.session"
+            - "@angry_chimps_api.company"
+            - "@angry_chimps_api.location"
+            - "@angry_chimps_api.staff"
+
+#controllers
     angry_chimps_sample.default.controller:
         class: "%angry_chimps_sample.default.controller.class%"
         arguments:
@@ -90,3 +103,10 @@ services:
             - "@request_stack"
             - "@angry_chimps_api.response"
             - "@angry_chimps_sample.location"
+
+    angry_chimps_sample.publish.controller:
+        class: "%angry_chimps_sample.publish.controller.class%"
+        arguments:
+            - "@request_stack"
+            - "@angry_chimps_api.response"
+            - "@angry_chimps_sample.publish"

@@ -83,7 +83,7 @@ class LocationController extends AbstractRestController
             $staffData = ['staff' =>
                                 [
                                     'count' => $totalStaffCount,
-                                    'results' => $this->staffService->getApiPublicArray($staffArray)
+                                    'staff' => $this->staffService->getApiPublicArray($staffArray)
                                 ]
                          ];
             $allData = array_merge($allData, $staffData);
@@ -96,7 +96,7 @@ class LocationController extends AbstractRestController
             $reviewData = ['reviews' =>
                 [
                     'count' => $totalReviewCount,
-                    'results' => $this->reviewService->getApiPublicArray($reviewArray)
+                    'reviews' => $this->reviewService->getApiPublicArray($reviewArray)
                 ]
             ];
             $allData = array_merge($allData, $reviewData);

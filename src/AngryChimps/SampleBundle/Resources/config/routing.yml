@@ -12,6 +12,14 @@ angry_chimps_sample_reset:
     defaults:
         _controller: angry_chimps_sample.default.controller:resetAction
 
+#publish
+angry_chimps_sample_publish_get:
+    path:   /publish/{region}/{companyShortName}
+    methods: ["GET"]
+    defaults:
+        _controller: angry_chimps_sample.publish.controller:indexGetAction
+
+
 #region
 angry_chimps_sample_region_get_all:
     path:   /region

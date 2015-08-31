@@ -66,7 +66,9 @@ class MediaController extends AbstractController
             return $this->responseService->failure(400, ResponseService::MEDIA_NOT_ATTACHED);
         }
 
-        $filename = $this->mediaService->post($media);
-        return $this->responseService->success(array('payload' => array('media' => ['id' => $filename])));
+        $filename = $this->mediaService->post($media, $this->request->query->get('top_x'),
+            $this->request->query->get('top_y'), $this->request->query->get('bottom_x'),
+            $this->request->query->get('bottom_y'));
+        return $this->responseService->success(array('media' => ['id' => $filename]));
     }
 }

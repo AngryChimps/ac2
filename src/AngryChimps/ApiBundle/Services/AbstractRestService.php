@@ -94,7 +94,7 @@ abstract class AbstractRestService
     }
 
     protected function setField($obj, $fieldName, $value) {
-        $func = 'set' . Utils::field2property($fieldName);
+        $func = 'set' . ucfirst(Utils::field2property($fieldName));
         $obj->$func($value);
     }
 
