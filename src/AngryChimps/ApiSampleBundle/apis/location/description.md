@@ -2,3 +2,5 @@ Note that walk-ins and emergencies are listed as services as well as individual 
 methods, you should only supply the services array (supplying the flags will result in an error).
 GET requests will return both the list of services as well as the flags (which will always match
 the services).
+
+The company_id field is required on POST and should not be submitted in a PATCH request (it is immutable).

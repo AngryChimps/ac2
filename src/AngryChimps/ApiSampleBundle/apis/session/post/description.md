@@ -6,3 +6,5 @@ For the device_type, use the following values:
     Mobile Web - 2
     Android - 3
     iOS - 4
+
+The device_type field is required.

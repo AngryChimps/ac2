@@ -1,0 +1,1 @@
+The location_id and rating are required fields.
